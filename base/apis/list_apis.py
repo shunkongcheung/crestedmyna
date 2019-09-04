@@ -1,4 +1,3 @@
-from base.serializers.list_serializer import MyListViewBaseSerializer
 from django.utils import timezone
 from rest_framework.generics import ListAPIView
 from rest_framework.serializers import (
