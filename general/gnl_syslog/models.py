@@ -6,8 +6,8 @@ from django.db import models
 
 class SystemLog(MyBaseModel):
     LVL_DEBUG = ('DEBUG', 'Debug')
-    LVL_INFO = ('DEBUG', 'Info')
-    LVL_ERROR = ('DEBUG', 'Error')
+    LVL_INFO = ('INFO', 'Info')
+    LVL_ERROR = ('ERROR', 'Error')
     LVL_CHOCIES = [LVL_DEBUG, LVL_INFO, LVL_ERROR, ]
 
     level = models.CharField(max_length=64,
