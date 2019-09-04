@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+from django.utils import timezone
 from .settings_loc import (
     SECRET_KEY,
     DEBUG,
@@ -23,20 +24,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = '3c^+1l3#m31s@+^67m+9l7ypi=h3f_m!x98-*j_o+e8s4*)b=d'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-
-# ALLOWED_HOSTS = []
-
-
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,10 +34,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # custom application -----------------------------------
-    # 'base.apps.BaseConfig',
-    # 'general.apps.GeneralConfig',
+    'base.apps.BaseConfig',
+    'general.apps.GeneralConfig',
 
     # external libraries -----------------------------------
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -80,19 +69,25 @@ TEMPLATES = [
     },
 ]
 
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': timezone.timedelta(seconds=3600*24*365),
+    "JWT_ALLOW_REFRESH": True
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'base.pagination.MyPageNumberPagination',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
+
 WSGI_APPLICATION = 'backend.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
