@@ -10,12 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-# from .settings_loc import (
-#     SECRET_KEY,
-#     DEBUG,
-#     ALLOWED_HOSTS,
-#     DATABASES,
-# )
+from .settings_loc import (
+    SECRET_KEY,
+    DEBUG,
+    ALLOWED_HOSTS,
+    DATABASES,
+)
 
 import os
 
@@ -26,13 +26,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
-# # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '3c^+1l3#m31s@+^67m+9l7ypi=h3f_m!x98-*j_o+e8s4*)b=d'
+# SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = '3c^+1l3#m31s@+^67m+9l7ypi=h3f_m!x98-*j_o+e8s4*)b=d'
 
-# # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -44,6 +44,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # custom application -----------------------------------
+    # 'base.apps.BaseConfig',
+    # 'general.apps.GeneralConfig',
+
+    # external libraries -----------------------------------
 ]
 
 MIDDLEWARE = [
@@ -80,12 +86,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Password validation
