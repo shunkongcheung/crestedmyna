@@ -22,6 +22,8 @@ class MyListViewBaseSerializer(ModelSerializer):
 
 class MyListAPIView(ListAPIView, MyBaseAPIView):
     fields = ['name', ]
+    search_fields = ['name', ]
+    filter_fields = ['name', ]
 
     def get_serializer_class(self, *args, **kwargs):
         model_fields = ['id', ] + self.fields
