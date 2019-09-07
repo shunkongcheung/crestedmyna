@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'base.apps.BaseConfig',
     'general.apps.GeneralConfig',
     'journal.apps.JournalConfig',
+    'stock.apps.StockConfig',
 
     # external libraries -----------------------------------
     'django_filters',
