@@ -72,29 +72,6 @@ TEMPLATES = [
     },
 ]
 
-SHELL_PLUS = "ipython"
-
-JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': timezone.timedelta(seconds=3600*24*365),
-    "JWT_ALLOW_REFRESH": True
-}
-
-REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend',
-        'rest_framework.filters.SearchFilter',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_PAGINATION_CLASS': 'base.pagination.MyPageNumberPagination',
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ),
-}
-
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
@@ -135,3 +112,27 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# extra settings ------------------------------------------------------
+SHELL_PLUS = "ipython"
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': timezone.timedelta(seconds=3600*24*365),
+    "JWT_ALLOW_REFRESH": True
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'base.pagination.MyPageNumberPagination',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
