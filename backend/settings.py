@@ -72,6 +72,8 @@ TEMPLATES = [
     },
 ]
 
+SHELL_PLUS = "ipython"
+
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': timezone.timedelta(seconds=3600*24*365),
     "JWT_ALLOW_REFRESH": True
