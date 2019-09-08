@@ -16,6 +16,7 @@ from .settings_loc import (
     DEBUG,
     ALLOWED_HOSTS,
     DATABASES,
+    IS_DEVELOPMENT,
 )
 
 import os
@@ -136,3 +137,4 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ),
 }
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")

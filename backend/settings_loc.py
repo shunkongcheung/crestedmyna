@@ -18,3 +18,6 @@ DATABASES = {
         'PORT': '5433'
     }
 }
+
+# extra settings ---------------------------------------
+IS_DEVELOPMENT = True
