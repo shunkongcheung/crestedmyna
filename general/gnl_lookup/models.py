@@ -5,6 +5,6 @@ from django.db import models
 
 
 class LookUp(MyBaseModel):
-    catagory = models.CharField(max_length=126)
+    catagory = models.CharField(max_length=128)
     lookup_value = models.TextField()
     is_public = models.BooleanField(default=False)
