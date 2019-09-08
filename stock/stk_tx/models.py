@@ -11,8 +11,10 @@ class StockTx(MyBaseModel):
     TX_TYPES = [TX_BUY, TX_SELL,  # TX_DIVIDEND,
                 ]
 
-    stock_master = models.ForeignKey(
-        'stock.StockMaster', on_delete=models.CASCADE)
+    stock_master = models.ForeignKey('stock.StockMaster',
+                                     on_delete=models.CASCADE,
+                                     related_name='stock_txs'
+                                     )
     tx_type = models.CharField(max_length=64, choices=TX_TYPES)
     share_count = models.IntegerField()
     price = models.FloatField()
