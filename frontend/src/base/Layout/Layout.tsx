@@ -7,10 +7,10 @@ interface ILayoutProps {
 }
 function Layout({ children }: ILayoutProps) {
   return (
-    <>
-      <NavDrawer />
-      {children}
-    </>
+    <div id="outer-container">
+      <NavDrawer pageWrapId="page-wrap" outerContainerId="outer-container" />
+      <main id="page-wrap">{children}</main>
+    </div>
   );
 }
 

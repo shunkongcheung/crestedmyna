@@ -1,5 +1,12 @@
-.container {
-  display: flex;
-  justify-content: center;
-  width: 250px;
+.navItem {
+  color: #b8b7ad;
+  border: 0;
+  cursor: pointer;
+  display: block !important;
+  outline: none;
+  padding: 1em;
+  text-decoration: none;
+}
+.navItem:hover {
+  color: #c94e50;
 }
