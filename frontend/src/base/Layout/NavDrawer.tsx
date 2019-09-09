@@ -1,9 +1,8 @@
 import React, { memo } from "react";
 import { push as Menu } from "react-burger-menu";
-import { MdHome, MdShowChart, MdEvent } from "react-icons/md";
 import PropTypes from "prop-types";
 
-import classNames from "./NavDrawer.module.css";
+import NavDrawerItem from "./NavDrawerItem";
 
 const menuStyles = {
   bmBurgerButton: {
@@ -14,7 +13,8 @@ const menuStyles = {
     top: "36px"
   },
   bmBurgerBars: {
-    background: "#373a47"
+    background: "#373a47",
+    outline: "none"
   },
   bmBurgerBarsHover: {
     background: "#a90000"
@@ -60,18 +60,9 @@ function NavDrawer({ pageWrapId, outerContainerId }: INavDrawerProps) {
       outerContainerId={outerContainerId}
       styles={menuStyles}
     >
-      <a id="home" className={classNames.navItem} href="/">
-        <MdHome className={classNames.navItemIcon} />
-        <span className={classNames.navItemTitle}>Home</span>
-      </a>
-      <a id="stock" className={classNames.navItem} href="/stock">
-        <MdShowChart className={classNames.navItemIcon} />
-        <span className={classNames.navItemTitle}>Stock</span>
-      </a>
-      <a id="journal" className={classNames.navItem} href="/journal">
-        <MdEvent className={classNames.navItemIcon} />
-        <span className={classNames.navItemTitle}>Journal</span>
-      </a>
+      <NavDrawerItem navName="home" />
+      <NavDrawerItem navName="stock" />
+      <NavDrawerItem navName="journal" />
     </Menu>
   );
 }

@@ -12,6 +12,10 @@
   color: #c94e50;
 }
 
+.navItemFocus {
+  color: #e94e80;
+}
+
 .navItemIcon {
   padding-right: 0.5rem;
 }
