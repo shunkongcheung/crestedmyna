@@ -1,8 +1,9 @@
 import React, { memo } from "react";
 import { push as Menu } from "react-burger-menu";
+import { MdHome, MdShowChart, MdEvent } from "react-icons/md";
 import PropTypes from "prop-types";
 
-import classes from "./NavDrawer.module.css";
+import classNames from "./NavDrawer.module.css";
 
 const menuStyles = {
   bmBurgerButton: {
@@ -23,7 +24,7 @@ const menuStyles = {
     width: "24px"
   },
   bmCross: {
-    background: "#bdc3c7"
+    display: "none"
   },
   bmMenuWrap: {
     position: "fixed",
@@ -39,10 +40,9 @@ const menuStyles = {
   },
   bmItemList: {
     color: "#b8b7ad",
-    padding: "0.8em"
-  },
-  bmItem: {
-    display: "inline-block"
+    paddingLeft: "3rem",
+    paddingRight: "3rem",
+    paddingTop: "0.8rem"
   },
   bmOverlay: {
     background: "rgba(0, 0, 0, 0.3)"
@@ -60,16 +60,18 @@ function NavDrawer({ pageWrapId, outerContainerId }: INavDrawerProps) {
       outerContainerId={outerContainerId}
       styles={menuStyles}
     >
-      <a id="home" className={classes.navItem} href="/">
-				<Home
+      <a id="home" className={classNames.navItem} href="/">
+        <MdHome className={classNames.navItemIcon} />
+        <span className={classNames.navItemTitle}>Home</span>
       </a>
-      <a id="about" className={classes.navItem} href="/about">
-        About
+      <a id="stock" className={classNames.navItem} href="/stock">
+        <MdShowChart className={classNames.navItemIcon} />
+        <span className={classNames.navItemTitle}>Stock</span>
       </a>
-      <a id="contact" className={classes.navItem} href="/contact">
-        Contact
+      <a id="journal" className={classNames.navItem} href="/journal">
+        <MdEvent className={classNames.navItemIcon} />
+        <span className={classNames.navItemTitle}>Journal</span>
       </a>
-      <div className={classes.navItem}>Settings</div>
     </Menu>
   );
 }

@@ -1,12 +1,17 @@
 .navItem {
-  color: #b8b7ad;
+  align-items: center;
   border: 0;
+  color: #b8b7ad;
   cursor: pointer;
-  display: block !important;
+  display: flex !important;
   outline: none;
   padding: 1em;
   text-decoration: none;
 }
 .navItem:hover {
   color: #c94e50;
+}
+
+.navItemIcon {
+  padding-right: 0.5rem;
 }
