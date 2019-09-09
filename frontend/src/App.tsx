@@ -1,5 +1,6 @@
 import React, { lazy, Suspense, useMemo } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 import classNames from "./App.module.css";
 
@@ -18,7 +19,18 @@ function RouteTable() {
 
 const App: React.FC = () => {
   const renderedFallback = useMemo(() => {
-    return <span>hihi</span>;
+    return (
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <ScaleLoader color="#e94e80" loading />
+      </div>
+    );
   }, []);
   return (
     <div className={classNames.app}>
