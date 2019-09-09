@@ -8,47 +8,47 @@ from rest_framework.serializers import (
 )
 
 
-def update_images(instance, image_values):
-    image_ids = list(map(lambda x: x['id'], image_values))
+def update_medias(instance, media_values):
+    media_ids = list(map(lambda x: x['id'], media_values))
 
-    # archive removed images
-    archive_images = instance.images\
-        .exclude(id__in=image_ids)
-    archive_images.update(enable=False)
+    # archive removed medias
+    archive_medias = instance.medias\
+        .exclude(id__in=media_ids)
+    archive_medias.update(enable=False)
 
     # claer all relations
-    instance.images.clear()
+    instance.medias.clear()
 
     # add back new relations
-    images = MediaMaster.objects.filter(id__in=image_ids,
+    medias = MediaMaster.objects.filter(id__in=media_ids,
                                         enable=True,
                                         created_by=instance.created_by
                                         )
-    for image in images:
-        instance.images.add(image)
+    for media in medias:
+        instance.medias.add(media)
 
 
-class JournalMasterImageSerializer(Serializer):
+class JournalMasterMediaSerializer(Serializer):
     id = IntegerField()
     access_url = CharField(read_only=True)
 
 
 class JournalMasterSerializer(MyBaseSerializer):
-    images = JournalMasterImageSerializer(many=True)
+    medias = JournalMasterMediaSerializer(many=True)
 
     def to_internal_value(self, data):
-        data['images'] = list(map(lambda x: {'id': x}, data['images']))
+        data['medias'] = list(map(lambda x: {'id': x}, data.get('medias', [])))
         ret = super().to_internal_value(data)
         return ret
 
     def create(self, validated_data):
-        images = validated_data.pop('images')
+        medias = validated_data.pop('medias')
         ret = super().create(validated_data)
-        update_images(ret, images)
+        update_medias(ret, medias)
         return ret
 
     def update(self, instance, validated_data):
-        images = validated_data.pop('images')
-        update_images(instance, images)
+        medias = validated_data.pop('medias')
+        update_medias(instance, medias)
         ret = super().update(instance, validated_data)
         return ret
