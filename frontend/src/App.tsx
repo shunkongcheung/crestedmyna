@@ -2,18 +2,21 @@ import React, { lazy, Suspense, useMemo } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
+import Layout from "./base/Layout/Layout";
 import FourOFour from "./base/Utils/FourOFour";
 
 import classNames from "./App.module.css";
 
 // routes -----------------------------------------------
 const HomeContainer = lazy(() => import("./home/HomeContainer"));
+const JournalContainer = lazy(() => import("./journal/JournalContainer"));
 
 // routes -----------------------------------------------
 
 function RouteTable() {
   return (
     <Switch>
+      <Route path="/journal" component={JournalContainer} />
       <Route path="/" exact component={HomeContainer} />
       <Route path="/" component={FourOFour} />
     </Switch>
@@ -23,16 +26,18 @@ function RouteTable() {
 const App: React.FC = () => {
   const renderedFallback = useMemo(() => {
     return (
-      <div
-        style={{
-          height: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
-        <ScaleLoader color="#e94e80" loading />
-      </div>
+      <Layout>
+        <div
+          style={{
+            height: "100vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <ScaleLoader color="#e94e80" loading />
+        </div>
+      </Layout>
     );
   }, []);
   return (
