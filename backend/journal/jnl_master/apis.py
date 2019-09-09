@@ -10,7 +10,7 @@ from .serializers import JournalMasterSerializer
 
 
 class JournalMasterCreateAPIView(MyCreateAPIView):
-    fields = ['name', 'location', 'description', 'images']
+    fields = ['name', 'location', 'description', 'medias']
     model = JournalMaster
     serializer_class = JournalMasterSerializer
 
@@ -20,6 +20,6 @@ class JournalMasterListAPIView(MyListAPIView):
 
 
 class JournalMasterObjectAPIView(MyObjectAPIView):
-    fields = ['name', 'location', 'description', 'images']
+    fields = ['name', 'location', 'description', 'medias']
     model = JournalMaster
     serializer_class = JournalMasterSerializer
