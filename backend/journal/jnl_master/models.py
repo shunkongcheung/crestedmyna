@@ -7,4 +7,4 @@ from django.db import models
 class JournalMaster(MyBaseModel):
     location = models.CharField(max_length=512)
     description = models.TextField(blank=True)
-    images = models.ManyToManyField('general.MediaMaster')
+    images = models.ManyToManyField('general.MediaMaster', blank=True)
