@@ -28,7 +28,7 @@ function NavDrawerItem({ navName }: INavDrawerItemProps) {
   const href = useMemo(
     () => {
       if (navName === "home") return "/";
-      return `/${navName}/list/`;
+      return `/${navName}/`;
     },
     [navName]
   );
