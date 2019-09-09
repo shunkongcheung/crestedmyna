@@ -25,11 +25,48 @@ function NavDrawerItem({ navName }: INavDrawerItemProps) {
     },
     [navName]
   );
-  const href = `/${navName}/list/`;
+  const href = useMemo(
+    () => {
+      if (navName === "home") return "/";
+      return `/${navName}/list/`;
+    },
+    [navName]
+  );
+
+  const isActive = useMemo(
+    () => {
+      const { pathname } = window.location;
+      if (navName === "home" && pathname === "/") return true;
+      return pathname.includes(navName);
+    },
+    [navName]
+  );
+
+  const navItemFinalClassName = useMemo(
+    () => `${isActive ? classNames.navItemActive : ""} ${classNames.navItem}`,
+    [isActive]
+  );
+
+  const title = useMemo(
+    () => {
+      switch (navName) {
+        case "home":
+          return "Home";
+        case "stock":
+          return "Stock";
+        case "journal":
+          return "Journal";
+        default:
+          return "Opps! Something went wrong";
+      }
+    },
+    [navName]
+  );
+
   return (
-    <a id={navName} className={classNames.navItem} href={href}>
+    <a id={navName} className={navItemFinalClassName} href={href}>
       {createElement(iconClass, { className: classNames.navItemIcon })}
-      <span className={classNames.navItemTitle}>Home</span>
+      <span className={classNames.navItemTitle}>{title}</span>
     </a>
   );
 }
