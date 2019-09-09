@@ -12,7 +12,7 @@ def update_images(instance, image_values):
     image_ids = list(map(lambda x: x['id'], image_values))
 
     # archive removed images
-    archive_images = instance.images.filter(enable=True)\
+    archive_images = instance.images\
         .exclude(id__in=image_ids)
     archive_images.update(enable=False)
 
@@ -20,7 +20,10 @@ def update_images(instance, image_values):
     instance.images.clear()
 
     # add back new relations
-    images = MediaMaster.objects.filter(id__in=image_ids, enable=True)
+    images = MediaMaster.objects.filter(id__in=image_ids,
+                                        enable=True,
+                                        created_by=instance.created_by
+                                        )
     for image in images:
         instance.images.add(image)
 
@@ -32,6 +35,11 @@ class JournalMasterImageSerializer(Serializer):
 
 class JournalMasterSerializer(MyBaseSerializer):
     images = JournalMasterImageSerializer(many=True)
+
+    def to_internal_value(self, data):
+        data['images'] = list(map(lambda x: {'id': x}, data['images']))
+        ret = super().to_internal_value(data)
+        return ret
 
     def create(self, validated_data):
         images = validated_data.pop('images')
