@@ -1,7 +1,7 @@
 import React, { memo } from "react";
+import { Link } from "react-router-dom";
 
 import classes from "./FourOFour.module.css";
-
 
 function FourOFour() {
   return (
@@ -15,9 +15,9 @@ function FourOFour() {
           </h1>
         </div>
         <h2>The page you requested could not found</h2>
-        <a className={classes.homeAnchor} href="/">
+        <Link className={classes.homeAnchor} to="/">
           Home
-        </a>
+        </Link>
       </div>
     </div>
   );
