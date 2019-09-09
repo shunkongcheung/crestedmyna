@@ -2,6 +2,8 @@ import React, { lazy, Suspense, useMemo } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
+import FourOFour from "./base/Utils/FourOFour";
+
 import classNames from "./App.module.css";
 
 // routes -----------------------------------------------
@@ -12,7 +14,8 @@ const HomeContainer = lazy(() => import("./home/HomeContainer"));
 function RouteTable() {
   return (
     <Switch>
-      <Route path="/" component={HomeContainer} />
+      <Route path="/" exact component={HomeContainer} />
+      <Route path="/" component={FourOFour} />
     </Switch>
   );
 }
