@@ -1,5 +1,6 @@
 import React, { createElement, memo, useMemo } from "react";
 import { MdHome, MdShowChart, MdEvent } from "react-icons/md";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import classNames from "./NavDrawerItem.module.css";
@@ -64,10 +65,10 @@ function NavDrawerItem({ navName }: INavDrawerItemProps) {
   );
 
   return (
-    <a id={navName} className={navItemFinalClassName} href={href}>
+    <Link id={navName} className={navItemFinalClassName} to={href}>
       {createElement(iconClass, { className: classNames.navItemIcon })}
       <span className={classNames.navItemTitle}>{title}</span>
-    </a>
+    </Link>
   );
 }
 
