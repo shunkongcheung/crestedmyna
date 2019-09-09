@@ -1,18 +1,32 @@
-import React from "react";
+import React, { lazy, Suspense, useMemo } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
 import classNames from "./App.module.css";
 
-import Layout from "./base/Layout/Layout";
+// routes -----------------------------------------------
+const HomeContainer = lazy(() => import("./home/HomeContainer"));
+
+// routes -----------------------------------------------
+
+function RouteTable() {
+  return (
+    <Switch>
+      <Route path="/" component={HomeContainer} />
+    </Switch>
+  );
+}
 
 const App: React.FC = () => {
+  const renderedFallback = useMemo(() => {
+    return <span>hihi</span>;
+  }, []);
   return (
     <div className={classNames.app}>
-      <Layout>
-        <header className={classNames.appHeader}>
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-        </header>
-      </Layout>
+      <Router>
+        <Suspense fallback={renderedFallback}>
+          <RouteTable />
+        </Suspense>
+      </Router>
     </div>
   );
 };
