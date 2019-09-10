@@ -11,11 +11,11 @@
   text-decoration: none;
 }
 .navItem:hover {
-  color: $secondaryColor;
+  color: $primaryColor;
 }
 
 .navItemActive {
-  color: $primaryColor;
+  color: $secondaryColor;
 }
 
 .navItemIcon {
