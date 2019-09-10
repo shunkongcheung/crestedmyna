@@ -9,9 +9,10 @@
   outline: none;
   padding: 1em;
   text-decoration: none;
-}
-.navItem:hover {
-  color: $primaryColor;
+
+	&:hover {
+		color: $primaryColor;
+	}
 }
 
 .navItemActive {
