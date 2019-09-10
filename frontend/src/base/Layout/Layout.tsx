@@ -6,16 +6,21 @@ import NavDrawer from "./NavDrawer";
 
 interface ILayoutProps {
   children: ReactNode;
+  unAuth?: boolean;
 }
-function Layout({ children }: ILayoutProps) {
+function Layout({ children, unAuth = false }: ILayoutProps) {
   const headerHeight = 70;
   return (
     <div id="outer-container">
-      <NavDrawer
-        headerHeight={headerHeight}
-        pageWrapId="page-wrap"
-        outerContainerId="outer-container"
-      />
+      {unAuth ? (
+        undefined
+      ) : (
+        <NavDrawer
+          headerHeight={headerHeight}
+          pageWrapId="page-wrap"
+          outerContainerId="outer-container"
+        />
+      )}
       <main id="page-wrap">
         <Header headerHeight={headerHeight} />
         {children}
@@ -25,7 +30,8 @@ function Layout({ children }: ILayoutProps) {
 }
 
 Layout.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
+  unAuth: PropTypes.bool
 };
 
 export default memo(Layout);
