@@ -1,3 +1,4 @@
+@import "../../variables.scss";
 .bannerContainer {
   position: relative;
   height: 180px;
@@ -7,6 +8,7 @@
   position: absolute;
   left: 50%;
   top: 50%;
+  display: flex;
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -17,7 +19,7 @@
   text-transform: uppercase;
 }
 .bannerZero {
-  color: #d93e70;
+  color: $primaryColor;
 }
 .containerInner {
   position: absolute;
@@ -38,7 +40,7 @@
 }
 .containerOuter {
   position: relative;
-  height: 100vh;
+  height: 80vh;
 }
 
 .homeAnchor {
