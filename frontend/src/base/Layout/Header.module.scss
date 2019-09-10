@@ -1,0 +1,31 @@
+@import "../../variables.scss";
+
+.container {
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 0 0 1.5rem #ddd;
+  border-bottom: 0.5px #ccc solid;
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.siteName {
+  color: $primaryColor;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-left: 90px;
+  margin-right: auto;
+}
+
+.rightCtrl {
+  margin-right: 2rem;
+  color: $primaryColor;
+	cursor:pointer;
+}
+
+.registerCtrl{
+	@extend .rightCtrl;
+	border: 1px $secondaryColor solid;
+	border-radius:0.2rem;
+	padding:0.5rem 1rem;;
+}
