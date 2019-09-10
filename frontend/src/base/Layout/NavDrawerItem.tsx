@@ -3,7 +3,7 @@ import { MdHome, MdShowChart, MdEvent } from "react-icons/md";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import classNames from "./NavDrawerItem.module.css";
+import classNames from "./NavDrawerItem.module.scss";
 
 type TNavName = "home" | "stock" | "journal";
 interface INavDrawerItemProps {
