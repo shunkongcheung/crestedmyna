@@ -8,6 +8,7 @@ import FourOFour from "./base/Utils/FourOFour";
 import classNames from "./App.module.css";
 
 // routes -----------------------------------------------
+const AuthContainer = lazy(() => import("./base/Auth/AuthContainer"));
 const HomeContainer = lazy(() => import("./home/HomeContainer"));
 const JournalContainer = lazy(() => import("./journal/JournalContainer"));
 
@@ -17,6 +18,7 @@ function RouteTable() {
   return (
     <Switch>
       <Route path="/journal" component={JournalContainer} />
+      <Route path="/auth" component={AuthContainer} />
       <Route path="/" exact component={HomeContainer} />
       <Route path="/" component={FourOFour} />
     </Switch>
