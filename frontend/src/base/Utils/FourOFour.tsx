@@ -4,18 +4,16 @@ import { animated, useTrail } from "react-spring";
 
 import Layout from "../Layout/Layout";
 
+import CenterArea from "./CenterArea";
 import classes from "./FourOFour.module.scss";
 
 const items = [4, 0, 4];
 const config = { mass: 5, tension: 2000, friction: 200 };
+const from = { opacity: 0, x: 20 };
+const trailSetting = { config, opacity: 1, x: 0, from };
 
 function FourOFour() {
-  const trail = useTrail(items.length, {
-    config,
-    opacity: 1,
-    x: 0,
-    from: { opacity: 0, x: 20 }
-  });
+  const trail = useTrail(items.length, trailSetting);
   const transform = useCallback(
     x => x.interpolate((x: number) => `translate3d(0,${x}px,0)`),
     []
@@ -37,17 +35,15 @@ function FourOFour() {
   );
   return (
     <Layout>
-      <div className={classes.containerOuter}>
-        <div className={classes.containerInner}>
-          <div className={classes.bannerContainer}>
-            <h1 className={classes.banner404}>{rendered404}</h1>
-          </div>
-          <h2>The page you requested could not found</h2>
-          <Link className={classes.homeAnchor} to="/">
-            Home
-          </Link>
+      <CenterArea>
+        <div className={classes.bannerContainer}>
+          <h1 className={classes.banner404}>{rendered404}</h1>
         </div>
-      </div>
+        <h2>The page you requested could not found</h2>
+        <Link className={classes.homeAnchor} to="/">
+          Home
+        </Link>
+      </CenterArea>
     </Layout>
   );
 }
