@@ -1,0 +1,21 @@
+@import "../../variables.scss";
+
+.btn{
+  color: white;
+  font-weight: 500;
+}
+
+.btnPrimary {
+	@extend .btn;
+  background-color: $primaryColor;
+  &:hover {
+    background-color: $secondaryColor;
+  }
+}
+.btnSecondary {
+	@extend .btn;
+  background-color: $tertiaryColor;
+  &:hover {
+    background-color: $quaternaryColor;
+  }
+}
