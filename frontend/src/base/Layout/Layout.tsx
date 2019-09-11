@@ -23,6 +23,7 @@ function Layout({ children, unAuth = false }: ILayoutProps) {
       )}
       <main id="page-wrap">
         <Header headerHeight={headerHeight} />
+        <div style={{ marginTop: headerHeight }} />
         {children}
       </main>
     </div>
