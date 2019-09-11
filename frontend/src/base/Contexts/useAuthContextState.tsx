@@ -1,50 +1,60 @@
 import { useCallback, useEffect, useState, useMemo } from "react";
 
+const defaultUserInfo = {
+  id: -1,
+  username: "",
+  email: "",
+  firstName: "string",
+  lastName: ""
+};
+
 function useAuthContextState() {
   const tokenStorageName = useMemo(() => "aSdFlKjQeRpIouSadfLnZxv", []);
   const [token, setToken] = useState("");
-  const [userInfo, setUserInfo] = useState({
-    id: -1,
-    username: "",
-    email: "",
-    firstName: "string",
-    lastName: ""
-  });
+  const [userInfo, setUserInfo] = useState(defaultUserInfo);
+  const [expireAt, setExpireAt] = useState("");
 
-  useEffect(
-    () => {
-      const storedToken = localStorage.getItem(tokenStorageName);
-      if (storedToken) setToken(storedToken);
-    },
-    [tokenStorageName]
-  );
-
-  const setUserInfoFromToken = useCallback(token => {
+  const setUserInfoAndExpireAtFromToken = useCallback(token => {
     const splitted = token.split(".");
     if (splitted.length === 3) {
       const tokenContent = splitted[1];
-      const tokenUserInfo = JSON.parse(atob(tokenContent));
+      const tokenInfo = JSON.parse(atob(tokenContent));
       const userInfo = {
-        id: tokenUserInfo.user_id,
-        email: tokenUserInfo.email,
-        username: tokenUserInfo.username,
-        firstName: tokenUserInfo.first_name,
-        lastName: tokenUserInfo.last_name
+        id: tokenInfo.user_id,
+        email: tokenInfo.email,
+        username: tokenInfo.username,
+        firstName: tokenInfo.first_name,
+        lastName: tokenInfo.last_name
       };
       setUserInfo(userInfo);
+
+      const date = new Date(0);
+      date.setUTCSeconds(tokenInfo.exp);
+      setExpireAt(date.toString());
+    } else {
+      setUserInfo(defaultUserInfo);
+      setExpireAt("");
     }
   }, []);
 
   const handleTokenChange = useCallback(
     (token: string) => {
       setToken(token);
-      setUserInfoFromToken(token);
+      setUserInfoAndExpireAtFromToken(token);
       localStorage.setItem(tokenStorageName, token);
     },
-    [tokenStorageName, setUserInfoFromToken]
+    [tokenStorageName, setUserInfoAndExpireAtFromToken]
   );
 
-  return { handleTokenChange, token, userInfo };
+  useEffect(
+    () => {
+      const storedToken = localStorage.getItem(tokenStorageName);
+      if (storedToken) handleTokenChange(storedToken);
+    },
+    [tokenStorageName, handleTokenChange]
+  );
+
+  return { expireAt, handleTokenChange, token, userInfo };
 }
 
 export default useAuthContextState;
