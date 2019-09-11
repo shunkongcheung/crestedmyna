@@ -9,18 +9,11 @@ import SnackbarContent from "@material-ui/core/SnackbarContent";
 import classes from "./SnackBar.module.scss";
 
 interface ISnackBarProps {
-  /* horizontal?: "left" | "center" | "right"; */
   message?: string;
-  /* vertical?: "top" | "bottom"; */
   type?: "error" | "warning" | "info";
 }
 
-function SnackBar({
-  /* horizontal = "right", */
-  message,
-  /* vertical = "bottom", */
-  type = "info"
-}: ISnackBarProps) {
+function SnackBar({ message, type = "info" }: ISnackBarProps) {
   const [open, setOpen] = useState(false);
   const handleClose = useCallback(() => setOpen(false), []);
   const className = useMemo(
@@ -36,12 +29,7 @@ function SnackBar({
     },
     [type]
   );
-  useEffect(
-    () => {
-      if (message) setOpen(true);
-    },
-    [message]
-  );
+  useEffect(() => setOpen(message ? true : false), [message]);
 
   return (
     <MiSnackbar
@@ -70,7 +58,5 @@ function SnackBar({
 
 SnackBar.propTypes = {
   message: PropTypes.string
-  /* horizontal: PropTypes.oneOf(["left", "right", "center"]), */
-  /* vertical: PropTypes.oneOf(["top", "bottom"]) */
 };
 export default memo(SnackBar);

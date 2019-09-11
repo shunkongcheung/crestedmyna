@@ -1,7 +1,7 @@
 import { useCallback, useContext } from "react";
 import { History } from "history";
 
-import AuthContext from "./AuthContext";
+import AuthContext from "../Contexts/AuthContext";
 import useEditState from "../Fetches/useEditState";
 
 function useLoginViewState(history: History) {

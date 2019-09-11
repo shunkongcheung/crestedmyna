@@ -4,7 +4,7 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 
 import Layout from "./base/Layout/Layout";
 import FourOFour from "./base/Utils/FourOFour";
-import GlobalContexts from "./base/Utils/GlobalContexts";
+import GlobalContexts from "./base/Contexts/GlobalContexts";
 
 import classNames from "./App.module.css";
 

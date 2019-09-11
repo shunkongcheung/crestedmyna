@@ -1,7 +1,7 @@
-import { useCallback, useContext, useMemo } from "react";
+import { useCallback, useContext  } from "react";
 import { stringify } from "query-string";
 
-import AuthContext from "../Auth/AuthContext";
+import AuthContext from "../Contexts/AuthContext";
 
 function useFetchState<IRetDataType = object, IFetchDataType = IRetDataType>() {
   type TMethod = "GET" | "PUT" | "POST" | "DELETE";

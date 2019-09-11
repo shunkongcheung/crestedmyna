@@ -2,7 +2,7 @@ import { useCallback, useContext } from "react";
 import { FormikProps } from "formik";
 
 import useFetchState from "./useFetchState";
-import SnackBarContext from "../Utils/SnackBarContext";
+import SnackBarContext from "../Contexts/SnackBarContext";
 
 function useEditState<IRetDataType, IFetchDataType = IRetDataType>(
   isAuthenticated: boolean,

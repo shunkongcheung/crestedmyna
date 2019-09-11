@@ -1,8 +1,8 @@
 import React, { memo, ReactNode } from "react";
 import PropTypes from "prop-types";
 
-import useAuthContextState from "../Auth/useAuthContextState";
-import AuthContext from "../Auth/AuthContext";
+import useAuthContextState from "./useAuthContextState";
+import AuthContext from "./AuthContext";
 
 import useSnackBarContextState from "./useSnackBarContextState";
 import SnackBarContext from "./SnackBarContext";

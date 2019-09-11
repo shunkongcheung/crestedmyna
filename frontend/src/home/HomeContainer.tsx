@@ -1,11 +1,12 @@
 import React, { memo } from "react";
-import PropTypes from "prop-types";
+/* import PropTypes from "prop-types"; */
 
 import Layout from "../base/Layout/Layout";
 
 interface IHomeContainerProps {}
 
-function HomeContainer({  }: IHomeContainerProps) {
+/* function HomeContainer({  }: IHomeContainerProps) { */
+function HomeContainer() {
   return (
     <Layout>
       <div
