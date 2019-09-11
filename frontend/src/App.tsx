@@ -18,7 +18,7 @@ function RouteTable() {
   return (
     <Switch>
       <Route path="/journal" component={JournalContainer} />
-      <Route path="/auth" component={AuthContainer} />
+      <Route path="/uam" component={AuthContainer} />
       <Route path="/" exact component={HomeContainer} />
       <Route path="/" component={FourOFour} />
     </Switch>
