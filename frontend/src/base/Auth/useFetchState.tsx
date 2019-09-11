@@ -1,5 +1,7 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useContext, useMemo } from "react";
 import { stringify } from "query-string";
+
+import AuthContext from "./AuthContext";
 
 function useFetchState<IRetDataType = object, IFetchDataType = IRetDataType>() {
   type TMethod = "GET" | "PUT" | "POST" | "DELETE";
@@ -11,16 +13,11 @@ function useFetchState<IRetDataType = object, IFetchDataType = IRetDataType>() {
   }
   type TConcatRetDataType = IRetDataType & { error?: string };
 
-  const token = useMemo(() => {
-    return "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6InNodW4uY2hldW5nIiwiZXhwIjoxNTk5NzE4ODkyLCJlbWFpbCI6IiIsIm9yaWdfaWF0IjoxNTY4MTgyODkyfQ.RDPix9Zbui2DjsUfTLCV6nscF_ntPBjo-sV26ZpLf6s";
-  }, []);
+  const { token } = useContext(AuthContext);
 
   const getAuthorization = useCallback(
     (isAuthenticated: boolean) => {
-      if (!isAuthenticated) return "";
-      /* const token = localStorage.getItem(tokenStorageName); */
-      if (!token) return "";
-      return `JWT ${token}`;
+      return !isAuthenticated || !token ? "" : `JWT ${token}`;
     },
     [token]
   );
