@@ -5,7 +5,6 @@ import * as Yup from "yup";
 
 import InputeText from "../FormInputs/InputText";
 import Button from "../Utils/Button";
-import SnackBarContext from "../Utils/SnackBarContext"
 
 import classes from "./LoginViewForm.module.scss";
 
@@ -26,17 +25,6 @@ interface IFormikProps extends ILoginViewFormProps {
 function LoginViewForm(
   formikProps: ILoginViewFormProps & FormikProps<ILoginVal>
 ) {
-  const { handleSnackBarChange } = useContext(SnackBarContext);
-  const message = useMemo(
-    () => (formikProps.errors as { [x: string]: any }).non_field_errors,
-    [formikProps.errors]
-  );
-  useEffect(
-    () => {
-      handleSnackBarChange({ message, type: "error" });
-    },
-    [handleSnackBarChange, message]
-  );
   return (
     <form className={classes.container} onSubmit={formikProps.handleSubmit}>
       <div className={classes.content}>
