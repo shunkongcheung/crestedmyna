@@ -4,8 +4,9 @@ import PropTypes from "prop-types";
 import useAuthContextState from "../Auth/useAuthContextState";
 import AuthContext from "../Auth/AuthContext";
 
-import useMsgContextState from "./useMsgContextState";
-import MsgContext from "./MsgContext";
+import useSnackBarContextState from "./useSnackBarContextState";
+import SnackBarContext from "./SnackBarContext";
+import SnackBar from "./SnackBar";
 
 interface IGlobalContextsProps {
   children: ReactNode;
@@ -13,13 +14,14 @@ interface IGlobalContextsProps {
 
 function GlobalContexts({ children }: IGlobalContextsProps) {
   const tokenState = useAuthContextState();
-	const msgState = useMsgContextState()
+  const { msgInfo, handleSnackBarChange } = useSnackBarContextState();
   return (
-		<AuthContext.Provider value={tokenState}>
-		<MsgContext.Provider value={msgState}>
-			{children}
-		</MsgContext.Provider>
-		</AuthContext.Provider>
+    <AuthContext.Provider value={tokenState}>
+      <SnackBarContext.Provider value={{ handleSnackBarChange }}>
+        {children}
+        <SnackBar {...msgInfo} />
+      </SnackBarContext.Provider>
+    </AuthContext.Provider>
   );
 }
 
