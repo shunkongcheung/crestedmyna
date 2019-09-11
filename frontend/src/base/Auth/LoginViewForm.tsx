@@ -6,6 +6,8 @@ import * as Yup from "yup";
 import InputeText from "../FormInputs/InputText";
 import Button from "../Utils/Button";
 
+import classes from "./LoginViewForm.module.scss";
+
 interface ILoginVal {
   username: string;
   password: string;
@@ -20,23 +22,23 @@ interface IFormikProps extends ILoginViewFormProps {
 function LoginViewForm(
   formikProps: ILoginViewFormProps & FormikProps<ILoginVal>
 ) {
-  console.log("here....", formikProps);
   return (
-    <>
-      <div>
+    <div className={classes.container}>
+      <h1 className={classes.banner}>LOGIN</h1>
+      <div className={classes.inputTextDiv}>
         <InputeText {...formikProps} label="Username" name="username" />
       </div>
-      <div>
+      <div className={classes.inputTextDiv}>
         <InputeText {...formikProps} label="Password" name="password" isMask />
       </div>
-      <div>
+      <div className={classes.submitBtnDiv}>
         <Button
           handleClick={formikProps.handleSubmit}
           label="Submit"
           isSubmitting={formikProps.isSubmitting}
         />
       </div>
-    </>
+    </div>
   );
 }
 
