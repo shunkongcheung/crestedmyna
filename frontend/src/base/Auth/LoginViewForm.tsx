@@ -34,8 +34,9 @@ function LoginViewForm(
         <div className={classes.submitBtnDiv}>
           <Button
             handleClick={formikProps.handleSubmit}
-            label="Submit"
+            label="Login"
             isSubmitting={formikProps.isSubmitting}
+            varient="primary"
           />
         </div>
       </div>
