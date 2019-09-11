@@ -4,11 +4,14 @@ from rest_framework_jwt.views import (
     RefreshJSONWebToken,
 )
 
-from .serializers import AuthRegisterSerializer
+from .serializers import (
+    AuthRegisterSerializer,
+    AuthLoginSerializer,
+)
 
 
 class AuthLoginAPIView(ObtainJSONWebToken):
-    pass
+    serializer_class = AuthLoginSerializer
 
 
 class AuthRefreshAPIView(RefreshJSONWebToken):
