@@ -62,7 +62,6 @@ function useFetchState<IRetDataType = object, IFetchDataType = IRetDataType>() {
   }
   interface IResPacket {
     ok: boolean;
-    status: number;
     payload: TConcatRetDataType;
   }
   const makeRestfulFetch = useCallback(
@@ -89,7 +88,7 @@ function useFetchState<IRetDataType = object, IFetchDataType = IRetDataType>() {
         error?: string;
       };
 
-      return { ok: res.ok, status: res.status, payload };
+      return { ok: res.ok, payload };
     },
     [getAuthorization, getJsonParsedPayload, getRestfulBody, getQueryString]
   );
