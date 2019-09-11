@@ -4,6 +4,7 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 
 import Layout from "./base/Layout/Layout";
 import FourOFour from "./base/Utils/FourOFour";
+import GlobalContexts from "./base/Utils/GlobalContexts";
 
 import classNames from "./App.module.css";
 
@@ -44,11 +45,13 @@ const App: React.FC = () => {
   }, []);
   return (
     <div className={classNames.app}>
-      <Router>
-        <Suspense fallback={renderedFallback}>
-          <RouteTable />
-        </Suspense>
-      </Router>
+      <GlobalContexts>
+        <Router>
+          <Suspense fallback={renderedFallback}>
+            <RouteTable />
+          </Suspense>
+        </Router>
+      </GlobalContexts>
     </div>
   );
 };
