@@ -1,23 +1,21 @@
 import React, { memo } from "react";
-import PropTypes from "prop-types";
+import {RouteComponentProps} from "react-router-dom"
 
 import Layout from "../Layout/Layout";
-import classes from "./LoginView.module.scss";
+import CenterArea from "../Utils/CenterArea";
 
-interface ILoginViewProps {}
+import useLoginViewState from "./useLoginViewState";
+import LoginViewForm from "./LoginViewForm";
 
-function LoginView({  }: ILoginViewProps) {
+function LoginView({history}:RouteComponentProps) {
+  const { handleSubmit } = useLoginViewState(history);
   return (
-    <Layout unAuth>
-      <div className={classes.containerOuter}>
-				<div className={classes.containerInner}>
-
-
-				</div>
-      </div>
+    <Layout>
+      <CenterArea>
+        <LoginViewForm handleSubmit={handleSubmit} />
+      </CenterArea>
     </Layout>
   );
 }
 
-LoginView.propTypes = {};
 export default memo(LoginView);
