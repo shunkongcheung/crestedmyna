@@ -1,8 +1,8 @@
 from django.conf.urls import url, include
-# from .gnl_lookup import urls as gnl_lookup
+from .uam_auth import urls as uam_auth
 
-app_name = 'auth'
+app_name = 'uam'
 
 urlpatterns = [
-    # url(r'^gnl_lookup/', include(gnl_lookup)),
+    url(r'^uam_auth/', include(uam_auth)),
 ]
