@@ -1,2 +1,29 @@
-$primaryColor:#e94e80;
-$secondaryColor:#e94e50;
+$primaryColor: #e94e80;
+$secondaryColor: #e94e50;
+
+// $pc-media: 960px;
+$pads-media: 759px;
+$phone-media: 480px;
+$phones-media: 479px;
+
+/*把變數帶入mixin中，此mixin只就單純把media queries寫到我的mixin中，
+並且使用我上面設立的變數來調動media queries的width*/
+
+//電腦
+@mixin pc-width() {
+  @media all and (min-width: $pads-media) {
+    @content;
+  }
+}
+//小平板
+@mixin small-pad-width() {
+  @media all and (min-width: $phone-media) and (max-width: $pads-media) {
+    @content;
+  }
+}
+//手機
+@mixin phone-width() {
+  @media all and (max-width: $phones-media) {
+    @content;
+  }
+}
