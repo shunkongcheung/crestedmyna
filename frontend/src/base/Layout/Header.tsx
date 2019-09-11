@@ -9,9 +9,14 @@ import classes from "./Header.module.scss";
 
 interface IHeaderProps {
   headerHeight: number;
+  setIsDrawerOpen: (a: (b: boolean) => boolean) => void;
 }
 
-function Header({ headerHeight, history }: IHeaderProps & RouteComponentProps) {
+function Header({
+  headerHeight,
+  history,
+  setIsDrawerOpen
+}: IHeaderProps & RouteComponentProps) {
   const { expireAt, handleTokenChange } = useContext(AuthContext);
   const isLogined = useMemo(() => new Date(expireAt) >= new Date(), [expireAt]);
   const inStyle = useSpring({
@@ -33,7 +38,7 @@ function Header({ headerHeight, history }: IHeaderProps & RouteComponentProps) {
         SIGN OUT
       </span>
     ),
-    [inStyle, handleLogout]
+    [handleLogout]
   );
   const renderedUnAuthCtrl = useMemo(
     () => (
@@ -53,6 +58,14 @@ function Header({ headerHeight, history }: IHeaderProps & RouteComponentProps) {
       className={classes.container}
       style={{ height: headerHeight, ...inStyle }}
     >
+      <div
+        className={classes.burgerContainer}
+        onClick={() => setIsDrawerOpen(o => !o)}
+      >
+        <span className={classes.burgerBar} />
+        <span className={classes.burgerBar} />
+        <span className={classes.burgerBar} />
+      </div>
       <div className={classes.siteName}>DAILY</div>
       {isLogined ? renderedAuthCtrl : renderedUnAuthCtrl}
     </animated.div>
@@ -60,6 +73,7 @@ function Header({ headerHeight, history }: IHeaderProps & RouteComponentProps) {
 }
 
 Header.propTypes = {
-  headerHeight: PropTypes.number.isRequired
+  headerHeight: PropTypes.number.isRequired,
+  setIsDrawerOpen: PropTypes.func.isRequired
 };
 export default memo(withRouter(Header));

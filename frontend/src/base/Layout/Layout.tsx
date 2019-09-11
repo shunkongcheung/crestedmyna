@@ -1,4 +1,4 @@
-import React, { ReactNode, memo } from "react";
+import React, { ReactNode, memo, useState } from "react";
 import PropTypes from "prop-types";
 
 import Header from "./Header";
@@ -10,6 +10,7 @@ interface ILayoutProps {
 }
 function Layout({ children, unAuth = false }: ILayoutProps) {
   const headerHeight = 70;
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   return (
     <div id="outer-container">
       {unAuth ? (
@@ -17,12 +18,14 @@ function Layout({ children, unAuth = false }: ILayoutProps) {
       ) : (
         <NavDrawer
           headerHeight={headerHeight}
-          pageWrapId="page-wrap"
+          isDrawerOpen={isDrawerOpen}
           outerContainerId="outer-container"
+          pageWrapId="page-wrap"
+setIsDrawerOpen={setIsDrawerOpen}
         />
       )}
       <main id="page-wrap">
-        <Header headerHeight={headerHeight} />
+        <Header headerHeight={headerHeight} setIsDrawerOpen={setIsDrawerOpen} />
         <div style={{ marginTop: headerHeight }} />
         {children}
       </main>
