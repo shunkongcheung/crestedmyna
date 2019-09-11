@@ -39,6 +39,7 @@ function InputText({
       name={name}
       onBlur={handleBlur}
       onChange={handleChange}
+      style={{ width: "100%" }}
       value={inputValue || ""}
       type={type}
     />
