@@ -1,10 +1,11 @@
-import React, { memo } from "react";
+import React, { memo, useContext, useEffect, useMemo } from "react";
 import { withFormik, FormikProps } from "formik";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 
 import InputeText from "../FormInputs/InputText";
 import Button from "../Utils/Button";
+import SnackBarContext from "../Utils/SnackBarContext"
 
 import classes from "./LoginViewForm.module.scss";
 
@@ -16,29 +17,41 @@ interface ILoginVal {
 interface ILoginViewFormProps {}
 
 interface IFormikProps extends ILoginViewFormProps {
-  handleSubmit: (v: { [x: string]: any }, f: any) => Promise<any>;
+  handleSubmit: (
+    v: { username: string; password: string },
+    f: any
+  ) => Promise<any>;
 }
 
 function LoginViewForm(
   formikProps: ILoginViewFormProps & FormikProps<ILoginVal>
 ) {
+  const { handleSnackBarChange } = useContext(SnackBarContext);
+  const message = useMemo(
+    () => (formikProps.errors as { [x: string]: any }).non_field_errors,
+    [formikProps.errors]
+  );
+  useEffect(
+    () => {
+      handleSnackBarChange({ message, type: "error" });
+    },
+    [handleSnackBarChange, message]
+  );
   return (
-    <div className={classes.container}>
-      <h1 className={classes.banner}>LOGIN</h1>
-      <div className={classes.inputTextDiv}>
+    <form className={classes.container} onSubmit={formikProps.handleSubmit}>
+      <div className={classes.content}>
+        <h1 className={classes.banner}>LOGIN</h1>
         <InputeText {...formikProps} label="Username" name="username" />
-      </div>
-      <div className={classes.inputTextDiv}>
         <InputeText {...formikProps} label="Password" name="password" isMask />
+        <div className={classes.submitBtnDiv}>
+          <Button
+            handleClick={formikProps.handleSubmit}
+            label="Submit"
+            isSubmitting={formikProps.isSubmitting}
+          />
+        </div>
       </div>
-      <div className={classes.submitBtnDiv}>
-        <Button
-          handleClick={formikProps.handleSubmit}
-          label="Submit"
-          isSubmitting={formikProps.isSubmitting}
-        />
-      </div>
-    </div>
+    </form>
   );
 }
 
