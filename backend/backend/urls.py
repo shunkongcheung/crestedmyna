@@ -26,7 +26,8 @@ urlpatterns = [
     path('api/general/', include('general.urls')),
     path('api/journal/', include('journal.urls')),
     path('api/stock/', include('stock.urls')),
-    path('api/token/obtain/', obtain_jwt_token),
-    path('api/token/refresh/', refresh_jwt_token),
+    path('api/uam/', include('uam.urls')),
+    # path('api/token/obtain/', obtain_jwt_token),
+    # path('api/token/refresh/', refresh_jwt_token),
     path('admin/', admin.site.urls),
 ]
