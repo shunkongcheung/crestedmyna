@@ -17,7 +17,7 @@ function LinkBanner({ name, imageSrc, linkTo }: ILinkBannerProps) {
     <Link
       className={classes.link}
       to={linkTo}
-      onMouseEnter={() => set({ opacity: 0.1 })}
+      onMouseEnter={() => set({ opacity: 0 })}
       onMouseLeave={() => set({ opacity: 0.4 })}
     >
       <img className={classes.img} src={imageSrc} alt={linkTo} />
