@@ -1,4 +1,6 @@
 import React, { memo, ReactNode } from "react";
+import { withRouter } from "react-router-dom";
+import { History } from "history";
 import PropTypes from "prop-types";
 
 import useAuthContextState from "./useAuthContextState";
@@ -12,11 +14,12 @@ import MenuContext from "./MenuContext";
 
 interface IGlobalContextsProps {
   children: ReactNode;
+  history: History;
 }
 
-function GlobalContexts({ children }: IGlobalContextsProps) {
+function GlobalContexts({ children, history }: IGlobalContextsProps) {
   const tokenState = useAuthContextState();
-  const { msgInfo, handleSnackBarChange } = useSnackBarContextState();
+  const { msgInfo, handleSnackBarChange } = useSnackBarContextState(history);
   return (
     <AuthContext.Provider value={tokenState}>
       <SnackBarContext.Provider value={{ handleSnackBarChange }}>
@@ -32,4 +35,4 @@ function GlobalContexts({ children }: IGlobalContextsProps) {
 GlobalContexts.propTypes = {
   children: PropTypes.element.isRequired
 };
-export default memo(GlobalContexts);
+export default memo(withRouter(GlobalContexts));
