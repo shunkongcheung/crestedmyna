@@ -50,7 +50,11 @@ function Layout({ children }: ILayoutProps) {
 }
 
 Layout.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.array,
+    PropTypes.string
+  ]).isRequired
 };
 
 export default memo(Layout);
