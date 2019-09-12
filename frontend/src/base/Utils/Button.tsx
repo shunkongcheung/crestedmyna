@@ -39,7 +39,7 @@ function Button({
         </MiButton>
       );
     },
-    [isDisabled, handleClick, label]
+    [className, isDisabled, handleClick, label]
   );
 
   const renderedLoading = useMemo(() => {
