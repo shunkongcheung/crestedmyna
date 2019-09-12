@@ -1,19 +1,8 @@
 import React, { memo } from "react";
-
-import Layout from "../base/Layout/Layout";
+import HomeView from "./HomeView";
 
 function HomeContainer() {
-  return (
-    <Layout>
-      <div
-        style={{
-          fontSize: "calc(10px + 2vmin)"
-        }}
-      >
-        Hie i am home
-      </div>
-    </Layout>
-  );
+  return <HomeView />;
 }
 
 export default memo(HomeContainer);
