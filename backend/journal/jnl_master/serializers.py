@@ -1,4 +1,5 @@
 from base.serializers import MyBaseSerializer
+from rest_framework.exceptions import ValidationError
 from rest_framework.serializers import (
     CharField,
     IntegerField,
@@ -16,6 +17,14 @@ class JournalMasterMediaSerializer(Serializer):
 
 class JournalMasterSerializer(MyBaseSerializer):
     medias = JournalMasterMediaSerializer(many=True)
+
+    def validate(self, data):
+        start_at = data['start_at']
+        end_at = data['end_at']
+        if start_at > end_at:
+            raise ValidationError({
+                'end_at': 'Must be equal to or later than start at'
+            })
 
     def to_internal_value(self, data):
         data['medias'] = list(map(lambda x: {'id': x}, data.get('medias', [])))
