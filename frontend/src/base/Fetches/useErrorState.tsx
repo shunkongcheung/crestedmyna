@@ -23,7 +23,7 @@ function useErrorState(
   );
 
   const setErrorMsg = useCallback(
-    (payload: object, data: object = {}) => {
+    (payload: object, status: number, data: object = {}) => {
       const dataKeys = Object.keys(data);
       const nonFieldErrors: Array<string> = Object.entries(payload)
         .map(
@@ -33,7 +33,7 @@ function useErrorState(
         .filter(itm => itm !== "");
       const message = getErrorMsgFromArr(nonFieldErrors);
       if (snackLvl !== "none")
-        handleSnackBarChange({ message, type: snackLvl });
+        handleSnackBarChange({ message, type: snackLvl, status });
     },
     [
       getErrorMsgFromArr,
