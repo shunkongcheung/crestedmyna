@@ -34,7 +34,7 @@ function JournalDetailView({ history }: IJournalDetailViewProps) {
         </div>
       </div>
       <Carousel imageItems={medias} />
-      <div dangerouslySetInnerHTML={{ __html: description }} />
+      <div dangerouslySetInnerHTML={{ __html: description }} className={classes.desc}/>
     </Layout>
   );
 }
