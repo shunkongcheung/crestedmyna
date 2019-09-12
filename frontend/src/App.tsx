@@ -45,13 +45,13 @@ const App: React.FC = () => {
   }, []);
   return (
     <div className={classNames.app}>
-      <GlobalContexts>
-        <Router>
+      <Router>
+        <GlobalContexts>
           <Suspense fallback={renderedFallback}>
             <RouteTable />
           </Suspense>
-        </Router>
-      </GlobalContexts>
+        </GlobalContexts>
+      </Router>
     </div>
   );
 };
