@@ -12,6 +12,7 @@ from .utils import update_medias
 
 class JournalMasterMediaSerializer(Serializer):
     id = IntegerField()
+    name = CharField(read_only=True)
     access_url = CharField(read_only=True)
 
 
