@@ -34,9 +34,15 @@ function Calendar({
     const endAt = rangeArr[rangeArr.length - 1];
     return { startAt, endAt };
   }, []);
+
   const getStartEndFromObj = useCallback(rangeObj => {
     return { startAt: rangeObj.start, endAt: rangeObj.end };
   }, []);
+
+  const onSelectEvent = useCallback(event => handleEventClick(event.id), [
+    handleEventClick
+  ]);
+
   const onRangeChange = useCallback(
     range => {
       const { startAt, endAt } = Array.isArray(range)
@@ -46,19 +52,14 @@ function Calendar({
     },
     [getStartEndFromArr, getStartEndFromObj, handleRangeChange]
   );
-  const onDoubleClickEvent = useCallback(
-    event => {
-      handleEventClick(event.id);
-    },
-    [handleEventClick]
-  );
+
   return (
     <BCalendar
-      date={date}
+      defaultDate={date}
       events={events}
       localizer={localizer}
+      onSelectEvent={onSelectEvent}
       onRangeChange={onRangeChange}
-      onDoubleClickEvent={onDoubleClickEvent}
     />
   );
 }
