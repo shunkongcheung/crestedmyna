@@ -1,14 +1,17 @@
 import React, { memo } from "react";
-import { RouteComponentProps, Route, Switch } from "react-router-dom";
+import { RouteComponentProps, Switch, Route } from "react-router-dom";
 
+import JournalDetailView from "./JournalDetailView";
 import JournalListView from "./JournalListView";
+
 import FourOFour from "../base/Utils/FourOFour";
 
-function JournalContainer({ match }: RouteComponentProps) {
+function JournalContainer({ match: { url } }: RouteComponentProps) {
   return (
     <Switch>
-      <Route path={`${match.url}/`} exact component={JournalListView} />
-      <Route path="/" component={FourOFour} />
+      <Route path={`${url}/:id/`} exact component={JournalDetailView} />
+      <Route path={`${url}/`} exact component={JournalListView} />
+      <Route path="*" component={FourOFour} />
     </Switch>
   );
 }
