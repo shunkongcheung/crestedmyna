@@ -1,33 +1,23 @@
 import React, { memo } from "react";
-import PropTypes from "prop-types";
+import { History } from "history";
+
+import useJournalListViewState from "./useJournalListViewState";
 
 import Calendar from "../base/Utils/Calendar";
+import Layout from "../base/Layout/Layout";
 
-interface IEvent {
-  id: number;
-  title: string;
-  start: Date;
-  end: Date;
+interface IJournalListView {
+  history: History;
 }
-interface IJournalListViewProps {
-  events: Array<IEvent>;
-  handleRangeChange: (a: Date, b: Date) => any;
-}
-function JournalListView({ events, handleRangeChange }: IJournalListViewProps) {
+function JournalListView({ history }: IJournalListView) {
+  const listState = useJournalListViewState(history);
   return (
+    <Layout>
       <div style={{ height: "70vh" }}>
-        <Calendar
-          events={events}
-          handleEventClick={id => console.log(id)}
-          handleRangeChange={handleRangeChange}
-        />
+        <Calendar {...listState}  />
       </div>
+    </Layout>
   );
 }
-
-JournalListView.propTypes = {
-  events: PropTypes.array.isRequired,
-  handleRangeChange: PropTypes.func.isRequired
-};
 
 export default memo(JournalListView);

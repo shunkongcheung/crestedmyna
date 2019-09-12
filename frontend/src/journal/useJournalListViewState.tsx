@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
+import { History } from "history";
+
 import useListState from "../base/Fetches/useListState";
 
-function useJournalListViewState() {
+function useJournalListViewState(history: History) {
   interface IJournalMaster {
     id: number;
     name: string;
@@ -38,6 +40,14 @@ function useJournalListViewState() {
     },
     [fetchList]
   );
+
+  const handleEventClick = useCallback(
+    id => {
+      history.push(`/journal/${id}/`);
+    },
+    [history]
+  );
+
   useEffect(
     () => {
       handleRangeChange();
@@ -45,7 +55,7 @@ function useJournalListViewState() {
     [handleRangeChange]
   );
 
-  return { events, handleRangeChange };
+  return { events, handleRangeChange, handleEventClick };
 }
 
 export default useJournalListViewState;
