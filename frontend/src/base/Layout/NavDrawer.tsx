@@ -1,7 +1,8 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, useContext, useMemo } from "react";
 import { push as Menu } from "react-burger-menu";
 import PropTypes from "prop-types";
 
+import MenuContext from "../Contexts/MenuContext";
 import NavDrawerItem from "./NavDrawerItem";
 
 interface INavDrawerProps {
@@ -17,6 +18,7 @@ function NavDrawer({
   pageWrapId,
   outerContainerId
 }: INavDrawerProps) {
+  const { menu } = useContext(MenuContext);
   const menuStyles = useMemo(() => {
     return {
       bmBurgerButton: {
@@ -63,9 +65,10 @@ function NavDrawer({
       onStateChange={({ isOpen }) => setIsDrawerOpen(isOpen)}
       styles={menuStyles}
     >
-      <NavDrawerItem navName="home" />
-      <NavDrawerItem navName="stock" />
-      <NavDrawerItem navName="journal" />
+      <NavDrawerItem navName="HOME" />
+      {menu.map(menuItem => (
+        <NavDrawerItem navName={menuItem} />
+      ))}
     </Menu>
   );
 }

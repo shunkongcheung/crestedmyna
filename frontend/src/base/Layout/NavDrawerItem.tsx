@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import classNames from "./NavDrawerItem.module.scss";
 
-type TNavName = "home" | "stock" | "journal";
+type TNavName = "HOME" | "STOCK" | "JOURNAL";
 interface INavDrawerItemProps {
   navName: TNavName;
 }
@@ -14,11 +14,11 @@ function NavDrawerItem({ navName }: INavDrawerItemProps) {
   const iconClass = useMemo(
     () => {
       switch (navName) {
-        case "home":
+        case "HOME":
           return MdHome;
-        case "stock":
+        case "STOCK":
           return MdShowChart;
-        case "journal":
+        case "JOURNAL":
           return MdEvent;
         default:
           return MdHome;
@@ -28,8 +28,8 @@ function NavDrawerItem({ navName }: INavDrawerItemProps) {
   );
   const href = useMemo(
     () => {
-      if (navName === "home") return "/";
-      return `/${navName}/`;
+      if (navName === "HOME") return "/";
+      return `/${navName.toLowerCase()}/`;
     },
     [navName]
   );
@@ -37,8 +37,8 @@ function NavDrawerItem({ navName }: INavDrawerItemProps) {
   const isActive = useMemo(
     () => {
       const { pathname } = window.location;
-      if (navName === "home" && pathname === "/") return true;
-      return pathname.includes(navName);
+      if (navName === "HOME" && pathname === "/") return true;
+      return pathname.includes(navName.toLowerCase());
     },
     [navName]
   );
@@ -51,11 +51,11 @@ function NavDrawerItem({ navName }: INavDrawerItemProps) {
   const title = useMemo(
     () => {
       switch (navName) {
-        case "home":
+        case "HOME":
           return "Home";
-        case "stock":
+        case "STOCK":
           return "Stock";
-        case "journal":
+        case "JOURNAL":
           return "Journal";
         default:
           return "Opps! Something went wrong";
@@ -73,6 +73,6 @@ function NavDrawerItem({ navName }: INavDrawerItemProps) {
 }
 
 NavDrawerItem.propTypes = {
-  navName: PropTypes.oneOf<TNavName>(["home", "stock", "journal"]).isRequired
+  navName: PropTypes.oneOf<TNavName>(["HOME", "STOCK", "JOURNAL"]).isRequired
 };
 export default memo(NavDrawerItem);
