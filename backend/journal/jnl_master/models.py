@@ -8,3 +8,6 @@ class JournalMaster(MyBaseModel):
     location = models.CharField(max_length=512)
     description = models.TextField(blank=True)
     medias = models.ManyToManyField('general.MediaMaster', blank=True)
+
+    start_at = models.DateTimeField()
+    end_at = models.DateTimeField()

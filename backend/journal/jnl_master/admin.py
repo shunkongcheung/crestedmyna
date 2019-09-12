@@ -6,7 +6,7 @@ from .models import JournalMaster
 
 # Register your models here.
 class JournalMasterAdmin(MyBaseAdmin):
-    list_display = ['location', 'description', ]
+    list_display = ['location', 'description', 'start_at', 'end_at', ]
 
 
 admin.site.register(JournalMaster, JournalMasterAdmin)
