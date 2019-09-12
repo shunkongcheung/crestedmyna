@@ -30,8 +30,8 @@ function useEditState<IRetDataType, IFetchDataType = IRetDataType>(
         method
       });
       const { ok, payload } = ret;
-      if (!ok && formApis) {
-        formApis.setErrors(payload);
+      if (!ok ) {
+				if (formApis)formApis.setErrors(payload);
         setErrorMsg( payload as any, data as any);
       }
       return ret;
