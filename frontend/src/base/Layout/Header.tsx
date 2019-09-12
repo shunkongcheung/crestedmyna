@@ -52,19 +52,29 @@ function Header({
     ),
     []
   );
+
+  const renderedBurger = useMemo(
+    () => {
+      if (!isLogined) return <></>;
+      return (
+        <div
+          className={classes.burgerContainer}
+          onClick={() => setIsDrawerOpen(o => !o)}
+        >
+          <span className={classes.burgerBar} />
+          <span className={classes.burgerBar} />
+          <span className={classes.burgerBar} />
+        </div>
+      );
+    },
+    [isLogined, setIsDrawerOpen]
+  );
   return (
     <animated.div
       className={classes.container}
       style={{ height: headerHeight, ...inStyle }}
     >
-      <div
-        className={classes.burgerContainer}
-        onClick={() => setIsDrawerOpen(o => !o)}
-      >
-        <span className={classes.burgerBar} />
-        <span className={classes.burgerBar} />
-        <span className={classes.burgerBar} />
-      </div>
+      {renderedBurger}
       <Link className={classes.siteName} to="/">
         DAILY
       </Link>
