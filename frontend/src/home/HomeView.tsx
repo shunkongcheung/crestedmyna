@@ -45,7 +45,7 @@ function HomeView() {
 
   const renderBanner = useCallback(
     ({ x, ...rest }, index) => {
-      const key = `linkBanner-${index}`;
+      const key = "linkBanner-" + index;
       return (
         <animated.div
           className={classes.col6}
