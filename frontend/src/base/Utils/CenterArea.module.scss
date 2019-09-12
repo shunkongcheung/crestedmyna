@@ -1,21 +1,20 @@
-.containerInner {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+@import "../../variables.scss";
 
-  max-width: 767px;
-  width: 100%;
+.containerInner {
   line-height: 1.4;
   padding: 110px 40px;
   text-align: center;
   background: #eee;
   -webkit-box-shadow: 0 15px 15px -10px rgba(0, 0, 0, 0.1);
   box-shadow: 0 15px 15px -10px rgba(0, 0, 0, 0.1);
+
+  @include phone-width {
+    padding: 0px 0px;
+  }
 }
 .containerOuter {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   height: 80vh;
 }
