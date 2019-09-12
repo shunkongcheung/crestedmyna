@@ -26,15 +26,15 @@ function useJournalDetailViewState() {
   }
   interface IJournalMaster extends IJournalMasterBase {
     medias: Array<IMedia>;
-    end_at: Date;
-    start_at: Date;
+    endAt: Date;
+    startAt: Date;
   }
   const [journalMaster, setJournalMaster] = useState<IJournalMaster>({
     name: "",
     description: "",
     medias: [],
-    end_at: new Date(),
-    start_at: new Date()
+    endAt: new Date(),
+    startAt: new Date()
   });
 
   const initJournalMaster = useCallback(
@@ -54,8 +54,8 @@ function useJournalDetailViewState() {
           src: itm.access_url,
           name: itm.name
         })),
-        end_at: new Date(payload.end_at),
-        start_at: new Date(payload.start_at)
+        endAt: new Date(payload.end_at),
+        startAt: new Date(payload.start_at)
       };
       setJournalMaster(journalMaster);
     },
