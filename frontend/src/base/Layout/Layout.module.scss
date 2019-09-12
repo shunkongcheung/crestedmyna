@@ -9,6 +9,9 @@
   margin-right: auto;
 
   @include small-pad-width {
+    max-width: 90%;
+  }
+  @include phone-width {
     max-width: 95%;
   }
 }
