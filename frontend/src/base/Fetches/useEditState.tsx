@@ -1,8 +1,8 @@
-import { useCallback, useContext } from "react";
+import { useCallback } from "react";
 import { FormikProps } from "formik";
 
 import useFetchState from "./useFetchState";
-import SnackBarContext from "../Contexts/SnackBarContext";
+import useErrorState from "./useErrorState";
 
 function useEditState<IRetDataType, IFetchDataType = IRetDataType>(
   isAuthenticated: boolean,
@@ -11,49 +11,12 @@ function useEditState<IRetDataType, IFetchDataType = IRetDataType>(
 ) {
   type TFetchEditRet = IRetDataType & { error?: string };
   const { makeRestfulFetch } = useFetchState<IRetDataType, IFetchDataType>();
-  const { handleSnackBarChange } = useContext(SnackBarContext);
+  const { setErrorMsg } = useErrorState(snackLvl);
 
   interface IEditRet {
     ok: boolean;
     payload: TFetchEditRet;
   }
-
-  const getErrorMsgFromArr = useCallback((nonFieldErrors: Array<string>) => {
-    if (!nonFieldErrors.length) return "";
-    if (nonFieldErrors.length === 1) return nonFieldErrors[0];
-    return nonFieldErrors.join(", ");
-  }, []);
-
-  const getStringifiedErrorValue = useCallback(
-    value => {
-      if (typeof value === "string") return value;
-      if (Array.isArray(value)) return getErrorMsgFromArr(value);
-      if (value === null || value === undefined) return "";
-      return JSON.stringify(value);
-    },
-    [getErrorMsgFromArr]
-  );
-
-  const setErrorMsg = useCallback(
-    (data: object, payload: object) => {
-      const dataKeys = Object.keys(data);
-      const nonFieldErrors: Array<string> = Object.entries(payload)
-        .map(
-          ([key, value]) =>
-            key in dataKeys ? "" : getStringifiedErrorValue(value)
-        )
-        .filter(itm => itm !== "");
-      const message = getErrorMsgFromArr(nonFieldErrors);
-      if (snackLvl !== "none")
-        handleSnackBarChange({ message, type: snackLvl });
-    },
-    [
-      getErrorMsgFromArr,
-      getStringifiedErrorValue,
-      handleSnackBarChange,
-      snackLvl
-    ]
-  );
 
   const fetchEdit = useCallback(
     async (
@@ -69,7 +32,7 @@ function useEditState<IRetDataType, IFetchDataType = IRetDataType>(
       const { ok, payload } = ret;
       if (!ok && formApis) {
         formApis.setErrors(payload);
-        setErrorMsg(data as any, payload as any);
+        setErrorMsg( payload as any, data as any);
       }
       return ret;
     },
