@@ -28,8 +28,8 @@ function useListState<IResult = object>(
         method: "GET",
         queryParams
       });
-      const { ok, payload } = ret;
-      if (!ok) setErrorMsg(payload as any);
+      const { ok, status, payload } = ret;
+      if (!ok) setErrorMsg(payload as any, status);
       return ret;
     },
     [isAuthenticated, makeRestfulFetch, setErrorMsg]
