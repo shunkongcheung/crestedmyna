@@ -10,9 +10,10 @@ const localizer = momentLocalizer(moment);
 
 interface IEvent {
   id: number;
-  name: string;
-  start_at: Date;
-  end_at: Date;
+  title: string;
+  allDay?: boolean;
+  start: Date;
+  end: Date;
 }
 
 interface ICalendarProps {
@@ -26,13 +27,22 @@ function Calendar({
   handleEventClick,
   handleRangeChange
 }: ICalendarProps) {
+  const getStartEndFromArr = useCallback(rangeArr => {
+    const startAt = rangeArr[0];
+    const endAt = rangeArr[rangeArr.length - 1];
+    return { startAt, endAt };
+  }, []);
+  const getStartEndFromObj = useCallback(rangeObj => {
+    return { startAt: rangeObj.start, endAt: rangeObj.end };
+  }, []);
   const onRangeChange = useCallback(
     range => {
-      const startAt = range[0];
-      const endAt = range[range.length - 1];
+      const { startAt, endAt } = Array.isArray(range)
+        ? getStartEndFromArr(range)
+        : getStartEndFromObj(range);
       handleRangeChange(startAt, endAt);
     },
-    [handleRangeChange]
+    [getStartEndFromArr, getStartEndFromObj, handleRangeChange]
   );
   const onDoubleClickEvent = useCallback(
     event => {
@@ -46,9 +56,6 @@ function Calendar({
       events={events}
       onRangeChange={onRangeChange}
       onDoubleClickEvent={onDoubleClickEvent}
-      startAccessor="start_at"
-      endAccessor="end_at"
-      titleAccessor="name"
     />
   );
 }
