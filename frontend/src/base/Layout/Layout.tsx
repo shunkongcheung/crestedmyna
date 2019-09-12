@@ -1,10 +1,8 @@
-import React, { ReactNode, memo, useContext, useMemo, useState } from "react";
+import React, { ReactNode, memo, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 
 import Header from "./Header";
 import NavDrawer from "./NavDrawer";
-
-import AuthContext from "../Contexts/AuthContext";
 
 import classes from "./Layout.module.scss";
 
@@ -14,11 +12,9 @@ interface ILayoutProps {
 function Layout({ children }: ILayoutProps) {
   const headerHeight = 70;
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const { isLogined } = useContext(AuthContext);
 
   const renderedDrawer = useMemo(
     () => {
-      if (!isLogined) return <></>;
       return (
         <NavDrawer
           headerHeight={headerHeight}
