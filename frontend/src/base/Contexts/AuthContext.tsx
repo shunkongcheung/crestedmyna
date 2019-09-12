@@ -10,7 +10,7 @@ interface IAuthContext {
     firstName: string;
     lastName: string;
   };
-  expireAt: string;
+  isLogined: boolean;
 }
 const AuthContext = createContext<IAuthContext>({
   handleTokenChange: () => {},
@@ -22,6 +22,7 @@ const AuthContext = createContext<IAuthContext>({
     firstName: "",
     lastName: ""
   },
-  expireAt: ""
+isLogined: false,
+  
 });
 export default AuthContext;

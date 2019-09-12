@@ -54,7 +54,8 @@ function useAuthContextState() {
     [tokenStorageName, handleTokenChange]
   );
 
-  return { expireAt, handleTokenChange, token, userInfo };
+  const isLogined = useMemo(() => new Date(expireAt) >= new Date(), [expireAt]);
+  return { isLogined, handleTokenChange, token, userInfo };
 }
 
 export default useAuthContextState;

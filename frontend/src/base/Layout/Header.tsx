@@ -17,8 +17,7 @@ function Header({
   history,
   setIsDrawerOpen
 }: IHeaderProps & RouteComponentProps) {
-  const { expireAt, handleTokenChange } = useContext(AuthContext);
-  const isLogined = useMemo(() => new Date(expireAt) >= new Date(), [expireAt]);
+  const { isLogined, handleTokenChange } = useContext(AuthContext);
   const inStyle = useSpring({
     opacity: 1,
     from: { opacity: 0 }
