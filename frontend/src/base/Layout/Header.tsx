@@ -66,7 +66,9 @@ function Header({
         <span className={classes.burgerBar} />
         <span className={classes.burgerBar} />
       </div>
-      <div className={classes.siteName}>DAILY</div>
+      <Link className={classes.siteName} to="/">
+        DAILY
+      </Link>
       {isLogined ? renderedAuthCtrl : renderedUnAuthCtrl}
     </animated.div>
   );
