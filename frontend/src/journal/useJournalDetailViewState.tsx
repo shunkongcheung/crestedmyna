@@ -5,23 +5,29 @@ function useJournalDetailViewState() {
   interface IJournalMasterBase {
     name: string;
     description: string;
-    medias: Array<IMedia>;
+  }
+  interface IMediaRet {
+    id: number;
+    name: string;
+    access_url: string;
   }
   interface IJournalMasterRet extends IJournalMasterBase {
+    medias: Array<IMediaRet>;
     end_at: string;
     start_at: string;
-  }
-  interface IJournalMaster extends IJournalMasterBase {
-    end_at: Date;
-    start_at: Date;
   }
 
   const isAuthenticated = true;
   const { fetchDetail } = useDetailState<IJournalMasterRet>(isAuthenticated);
 
   interface IMedia {
-    id: number;
-    access_url: string;
+    src: string;
+    name: string;
+  }
+  interface IJournalMaster extends IJournalMasterBase {
+    medias: Array<IMedia>;
+    end_at: Date;
+    start_at: Date;
   }
   const [journalMaster, setJournalMaster] = useState<IJournalMaster>({
     name: "",
@@ -44,6 +50,10 @@ function useJournalDetailViewState() {
 
       const journalMaster: IJournalMaster = {
         ...payload,
+        medias: payload.medias.map(itm => ({
+          src: itm.access_url,
+          name: itm.name
+        })),
         end_at: new Date(payload.end_at),
         start_at: new Date(payload.start_at)
       };
