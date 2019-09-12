@@ -1,7 +1,8 @@
-import React, { memo, useCallback, useMemo } from "react";
+import React, { memo, useCallback, useContext, useMemo } from "react";
 import { animated, useTrail } from "react-spring";
 
 import Layout from "../base/Layout/Layout";
+import MenuContext from "../base/Contexts/MenuContext";
 
 import LinkBanner from "./LinkBanner";
 import journalBannerImg from "./images/journalBanner.jpg";
@@ -13,17 +14,29 @@ const from = { opacity: 0, x: 20 };
 const trailSetting = { config, opacity: 1, x: 0, from };
 
 function HomeView() {
+  const { menu } = useContext(MenuContext);
   const renderedBanners = useMemo(
-    () => [
-      <LinkBanner
-        name="JOURNAL"
-        imageSrc={journalBannerImg}
-        linkTo="/journal"
-      />,
-      <LinkBanner name="STOCK" imageSrc={stockBannerImg} linkTo="/stock" />
-    ],
-    []
+    () => {
+      const banners = [];
+      if (menu.includes("JOURNAL")) {
+        banners.push(
+          <LinkBanner
+            name="JOURNAL"
+            imageSrc={journalBannerImg}
+            linkTo="/journal"
+          />
+        );
+      }
+      if (menu.includes("STOCK")) {
+        banners.push(
+          <LinkBanner name="STOCK" imageSrc={stockBannerImg} linkTo="/stock" />
+        );
+      }
+      return banners;
+    },
+    [menu]
   );
+
   const trail = useTrail(renderedBanners.length, trailSetting);
   const transform = useCallback(
     x => x.interpolate((x: number) => `translate3d(0,${x}px,0)`),
