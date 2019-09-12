@@ -67,7 +67,7 @@ function NavDrawer({
     >
       <NavDrawerItem navName="HOME" />
       {menu.map(menuItem => (
-        <NavDrawerItem navName={menuItem} />
+        <NavDrawerItem key={menuItem} navName={menuItem} />
       ))}
     </Menu>
   );
