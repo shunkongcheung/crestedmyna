@@ -2,6 +2,7 @@ import { createContext } from "react";
 
 interface ISnackBarInfo {
   message?: string;
+	status:number;
   type: "info" | "warning" | "error";
 }
 interface ISnackBarContext {
