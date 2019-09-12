@@ -29,10 +29,10 @@ function useEditState<IRetDataType, IFetchDataType = IRetDataType>(
         isAuthenticated,
         method
       });
-      const { ok, payload } = ret;
+      const { ok,status, payload } = ret;
       if (!ok ) {
 				if (formApis)formApis.setErrors(payload);
-        setErrorMsg( payload as any, data as any);
+        setErrorMsg( payload as any,status, data as any);
       }
       return ret;
     },
