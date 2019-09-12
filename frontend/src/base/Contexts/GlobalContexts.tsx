@@ -8,6 +8,8 @@ import useSnackBarContextState from "./useSnackBarContextState";
 import SnackBarContext from "./SnackBarContext";
 import SnackBar from "./SnackBar";
 
+import MenuContext from "./MenuContext";
+
 interface IGlobalContextsProps {
   children: ReactNode;
 }
@@ -18,8 +20,10 @@ function GlobalContexts({ children }: IGlobalContextsProps) {
   return (
     <AuthContext.Provider value={tokenState}>
       <SnackBarContext.Provider value={{ handleSnackBarChange }}>
-        {children}
-        <SnackBar {...msgInfo} />
+        <MenuContext.Provider value={{ menu: ["JOURNAL", "STOCK"] }}>
+          {children}
+          <SnackBar {...msgInfo} />
+        </MenuContext.Provider>
       </SnackBarContext.Provider>
     </AuthContext.Provider>
   );
