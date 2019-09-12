@@ -1,0 +1,17 @@
+@import "../variables";
+
+.duration {
+  color: #666;
+  font-size: 13px;
+  text-align: end;
+  margin-left: auto;
+}
+
+.name {
+  color: $primaryColor;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+}
