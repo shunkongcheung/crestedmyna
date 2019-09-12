@@ -17,12 +17,14 @@ interface IEvent {
 }
 
 interface ICalendarProps {
+  date?: Date;
   events: Array<IEvent>;
   handleEventClick: (id: number) => any;
   handleRangeChange: (startAt: Date, endAt: Date) => any;
 }
 
 function Calendar({
+  date = new Date(),
   events,
   handleEventClick,
   handleRangeChange
@@ -52,8 +54,9 @@ function Calendar({
   );
   return (
     <BCalendar
-      localizer={localizer}
+      date={date}
       events={events}
+      localizer={localizer}
       onRangeChange={onRangeChange}
       onDoubleClickEvent={onDoubleClickEvent}
     />
@@ -61,6 +64,7 @@ function Calendar({
 }
 
 Calendar.propTypes = {
+  date: PropTypes.instanceOf(Date),
   events: PropTypes.array.isRequired,
   handleEventClick: PropTypes.func.isRequired,
   handleRangeChange: PropTypes.func.isRequired
