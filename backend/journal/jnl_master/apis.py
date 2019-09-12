@@ -3,25 +3,13 @@ from base.apis import (
     MyListAPIView,
     MyObjectAPIView,
 )
-from datetime import datetime
-from django.utils.formats import get_format
 from rest_framework.permissions import IsAdminUser
 
 from .models import JournalMaster
 from .serializers import JournalMasterSerializer
+from .utils import get_datetime_from_string
 
 fields = ['name', 'location', 'description', 'medias', 'start_at', 'end_at', ]
-
-
-def parse_date(date_str):
-    """Parse date from string by DATE_INPUT_FORMATS of current language"""
-    for item in get_format('DATE_INPUT_FORMATS'):
-        try:
-            return datetime.strptime(date_str, item).date()
-        except (ValueError, TypeError):
-            continue
-
-    return None
 
 
 class JournalMasterCreateAPIView(MyCreateAPIView):
@@ -36,8 +24,10 @@ class JournalMasterListAPIView(MyListAPIView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        date__lte = parse_date(self.request.query_params.get('date__lte'))
-        date__gte = parse_date(self.request.query_params.get('date__gte'))
+        date__lte = self.request.query_params.get('date__lte')
+        date__lte = get_datetime_from_string(date__lte)
+        date__gte = self.request.query_params.get('date__gte')
+        date__gte = get_datetime_from_string(date__gte)
 
         print(date__lte, date__gte)
         if not date__lte or not date__gte:
