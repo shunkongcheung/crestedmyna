@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { RouteComponentProps } from "react-router-dom";
 
-import Layout from "../Layout/Layout";
+import Layout from "../Layout";
 import CenterArea from "../Utils/CenterArea";
 
 import useRegisterViewState from "./useRegisterViewState";

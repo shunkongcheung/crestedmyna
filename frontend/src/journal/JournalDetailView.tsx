@@ -2,7 +2,7 @@ import React, { memo, useCallback } from "react";
 import { History } from "history";
 import PropTypes from "prop-types";
 
-import Layout from "../base/Layout/Layout";
+import Layout from "../base/Layout";
 import Carousel from "../base/Utils/Carousel";
 import useJournalDetailViewState from "./useJournalDetailViewState";
 

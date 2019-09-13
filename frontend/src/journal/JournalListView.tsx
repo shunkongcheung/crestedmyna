@@ -4,7 +4,7 @@ import { History } from "history";
 import useJournalListViewState from "./useJournalListViewState";
 
 import Calendar from "../base/Utils/Calendar";
-import Layout from "../base/Layout/Layout";
+import Layout from "../base/Layout";
 
 interface IJournalListView {
   history: History;

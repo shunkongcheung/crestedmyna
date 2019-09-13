@@ -2,7 +2,7 @@ import React, { memo, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { animated, useTrail } from "react-spring";
 
-import Layout from "../Layout/Layout";
+import Layout from "../Layout";
 
 import CenterArea from "./CenterArea";
 import classes from "./FourOFour.module.scss";
