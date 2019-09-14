@@ -4,7 +4,7 @@ import { RouteComponentProps, Switch, Route } from "react-router-dom";
 import JournalDetailView from "./JournalDetailView";
 import JournalListView from "./JournalListView";
 
-import FourOFour from "../base/Utils/FourOFour";
+import { FourOFour } from "../base/Utils";
 
 function JournalContainer({ match: { url } }: RouteComponentProps) {
   return (

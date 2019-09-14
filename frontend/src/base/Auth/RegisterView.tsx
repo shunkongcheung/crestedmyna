@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { RouteComponentProps } from "react-router-dom";
 
 import Layout from "../Layout";
-import CenterArea from "../Utils/CenterArea";
+import { CenterArea } from "../Utils";
 
 import useRegisterViewState from "./useRegisterViewState";
 import RegisterViewForm from "./RegisterViewForm";

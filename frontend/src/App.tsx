@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
 import Layout from "./base/Layout/Layout";
-import FourOFour from "./base/Utils/FourOFour";
+import { FourOFour } from "./base/Utils";
 import GlobalContexts from "./base/Contexts/GlobalContexts";
 
 import classNames from "./App.module.css";

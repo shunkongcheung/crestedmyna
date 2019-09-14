@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import * as Yup from "yup";
 
 import { InputeText } from "../FormInputs/InputText";
-import Button from "../Utils/Button";
+import { Button } from "../Utils";
 
 import classes from "./LoginViewForm.module.scss";
 
