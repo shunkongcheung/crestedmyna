@@ -2,8 +2,9 @@ import React, { memo, useMemo } from "react";
 import PropTypes from "prop-types";
 
 import { Carousel as RCarousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+
 import classes from "./Carousel.module.scss";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 interface IImageItem {
   src: string;

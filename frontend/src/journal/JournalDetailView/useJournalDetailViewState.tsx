@@ -1,5 +1,5 @@
 import { useCallback, useState, useEffect } from "react";
-import { useDetailState } from "../base/Fetches";
+import { useDetailState } from "../../base/Fetches";
 
 function useJournalDetailViewState() {
   interface IJournalMasterBase {

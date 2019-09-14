@@ -2,8 +2,9 @@ import React, { memo, useCallback } from "react";
 import { History } from "history";
 import PropTypes from "prop-types";
 
-import Layout from "../base/Layout";
-import Carousel from "../base/Utils/Carousel";
+import Layout from "../../base/Layout";
+
+import Carousel from "./Carousel";
 import useJournalDetailViewState from "./useJournalDetailViewState";
 
 import classes from "./JournalDetailView.module.scss";
@@ -34,7 +35,10 @@ function JournalDetailView({ history }: IJournalDetailViewProps) {
         </div>
       </div>
       <Carousel imageItems={medias} />
-      <div dangerouslySetInnerHTML={{ __html: description }} className={classes.desc}/>
+      <div
+        dangerouslySetInnerHTML={{ __html: description }}
+        className={classes.desc}
+      />
     </Layout>
   );
 }
