@@ -3,7 +3,7 @@ import { animated, useSpring } from "react-spring";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import AuthContext from "../Contexts/AuthContext";
+import { AuthContext } from "../Contexts";
 
 import classes from "./Header.module.scss";
 

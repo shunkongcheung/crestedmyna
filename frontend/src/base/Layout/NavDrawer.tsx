@@ -2,7 +2,7 @@ import React, { memo, useContext, useMemo } from "react";
 import { push as Menu } from "react-burger-menu";
 import PropTypes from "prop-types";
 
-import MenuContext from "../Contexts/MenuContext";
+import { MenuContext } from "../Contexts";
 import NavDrawerItem from "./NavDrawerItem";
 
 interface INavDrawerProps {
