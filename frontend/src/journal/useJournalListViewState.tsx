@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { History } from "history";
 
-import useListState from "../base/Fetches/useListState";
+import { useListState } from "../base/Fetches";
 
 function useJournalListViewState(history: History) {
   interface IJournalMaster {

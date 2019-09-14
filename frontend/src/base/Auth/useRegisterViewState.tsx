@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { History } from "history";
 
-import useEditState from "../Fetches/useEditState";
+import { useEditState } from "../Fetches";
 
 function useRegisterViewState(history: History) {
   interface IRet {}
