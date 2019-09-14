@@ -3,7 +3,7 @@ import { withFormik, FormikProps } from "formik";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 
-import InputeText from "../FormInputs/InputText";
+import { InputeText } from "../FormInputs";
 import Button from "../Utils/Button";
 
 import classes from "./LoginViewForm.module.scss";
