@@ -3,8 +3,8 @@ import { History } from "history";
 
 import useJournalListViewState from "./useJournalListViewState";
 
-import Calendar from "../base/Utils/Calendar";
-import Layout from "../base/Layout";
+import Calendar from "./Calendar";
+import Layout from "../..//base/Layout";
 
 interface IJournalListView {
   history: History;
@@ -14,7 +14,7 @@ function JournalListView({ history }: IJournalListView) {
   return (
     <Layout>
       <div style={{ height: "70vh" }}>
-        <Calendar {...listState}  />
+        <Calendar {...listState} />
       </div>
     </Layout>
   );
