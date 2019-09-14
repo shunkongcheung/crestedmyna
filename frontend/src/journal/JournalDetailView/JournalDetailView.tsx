@@ -1,4 +1,6 @@
-import React, { memo, useCallback } from "react";
+import React, { memo, useCallback, useMemo } from "react";
+import { Link } from "react-router-dom";
+import { MdModeEdit } from "react-icons/md";
 import { History } from "history";
 import PropTypes from "prop-types";
 
@@ -15,7 +17,30 @@ interface IJournalDetailViewProps {
 
 function JournalDetailView({ history }: IJournalDetailViewProps) {
   const { journalMaster } = useJournalDetailViewState();
-  const { name, medias, description, startAt, endAt } = journalMaster;
+  const {
+    name,
+    description,
+    endAt,
+    id,
+    location,
+    medias,
+    startAt
+  } = journalMaster;
+
+  const renderedName = useMemo(
+    () => {
+      const linkTo = `/journal/edit/${id}/`;
+      return (
+        <div className={classes.nameContainer}>
+          <h1 className={classes.name}> {name.toUpperCase()}</h1>
+          <Link className={classes.editLink} to={linkTo}>
+            <MdModeEdit />
+          </Link>
+        </div>
+      );
+    },
+    [id, name]
+  );
 
   const renderDate = useCallback((date: Date, desc: string) => {
     return (
@@ -28,12 +53,13 @@ function JournalDetailView({ history }: IJournalDetailViewProps) {
   return (
     <Layout>
       <div className={classes.titleRow}>
-        <h1 className={classes.name}>{name.toUpperCase()}</h1>
+        {renderedName}
         <div className={classes.duration}>
           {renderDate(startAt, "from")}
           {renderDate(endAt, "to")}
         </div>
       </div>
+      <h3 className={classes.location}>{location}</h3>
       <Carousel imageItems={medias} />
       <div
         dangerouslySetInnerHTML={{ __html: description }}

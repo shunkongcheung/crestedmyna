@@ -5,6 +5,8 @@ function useJournalDetailViewState() {
   interface IJournalMasterBase {
     name: string;
     description: string;
+		id:number;
+		location:string;
   }
   interface IMediaRet {
     id: number;
@@ -32,8 +34,10 @@ function useJournalDetailViewState() {
   const [journalMaster, setJournalMaster] = useState<IJournalMaster>({
     name: "",
     description: "",
-    medias: [],
     endAt: new Date(),
+		id:-1,
+		location:'',
+    medias: [],
     startAt: new Date()
   });
 
