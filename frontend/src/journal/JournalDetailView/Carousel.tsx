@@ -17,10 +17,11 @@ interface ICarouselProps {
 function Carousel({ imageItems }: ICarouselProps) {
   const renderedImageItems = useMemo(
     () =>
-      imageItems.map(itm => {
+      imageItems.map((itm, idx) => {
         const className = `legend ${classes.legend}`;
+        const key = `carosual-${idx}`;
         return (
-          <div>
+          <div key={key}>
             <img src={itm.src} alt="" />
             <p className={className}>{itm.name}</p>
           </div>
