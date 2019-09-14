@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 import MiButton from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import classes from "./Button.module.scss";
+import classes from "./SubmitButton.module.scss";
 
-interface IButtonProps {
+interface ISubmitButtonProps {
   handleClick: () => any;
   isDisabled?: boolean;
   isSubmitting: boolean;
@@ -14,13 +14,13 @@ interface IButtonProps {
   varient?: "primary" | "default";
 }
 
-function Button({
+function SubmitButton({
   handleClick,
   isDisabled,
   isSubmitting,
   label,
   varient='default'
-}: IButtonProps) {
+}: ISubmitButtonProps) {
   const className = useMemo(
     () => (varient === "primary" ? classes.btnPrimary : classes.btnSecondary),
     [varient]
@@ -49,11 +49,11 @@ function Button({
   return <>{isSubmitting ? renderedLoading : renderedButton}</>;
 }
 
-Button.propTypes = {
+SubmitButton.propTypes = {
   handleClick: PropTypes.func.isRequired,
   isDisabled: PropTypes.bool,
   isSubmitting: PropTypes.bool.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
   varient: PropTypes.oneOf(["primary", "default"])
 };
-export default memo(Button);
+export default memo(SubmitButton);

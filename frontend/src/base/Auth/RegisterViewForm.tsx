@@ -3,8 +3,8 @@ import { withFormik, FormikProps } from "formik";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 
-import { InputeText } from "../FormInputs";
-import { Button } from "../Utils";
+import { InputText } from "../FormInputs";
+import { SubmitButton } from "../Utils";
 
 import classes from "./LoginViewForm.module.scss";
 
@@ -29,19 +29,19 @@ function RegisterViewForm(
     <form className={classes.container} onSubmit={formikProps.handleSubmit}>
       <div className={classes.content}>
         <h1 className={classes.banner}>REGISTER</h1>
-        <InputeText {...formikProps} label="First name" name="first_name" />
-        <InputeText {...formikProps} label="Last name" name="last_name" />
-        <InputeText {...formikProps} label="Email" name="email" />
-        <InputeText {...formikProps} label="Username" name="username" />
-        <InputeText {...formikProps} label="Password" name="password" isMask />
-        <InputeText
+        <InputText {...formikProps} label="First name" name="first_name" />
+        <InputText {...formikProps} label="Last name" name="last_name" />
+        <InputText {...formikProps} label="Email" name="email" />
+        <InputText {...formikProps} label="Username" name="username" />
+        <InputText {...formikProps} label="Password" name="password" isMask />
+        <InputText
           {...formikProps}
           label="Password (again)"
           name="password_again"
           isMask
         />
         <div className={classes.submitBtnDiv}>
-          <Button
+          <SubmitButton
             handleClick={formikProps.handleSubmit}
             label="Register"
             isSubmitting={formikProps.isSubmitting}
