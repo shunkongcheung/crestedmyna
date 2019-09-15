@@ -52,7 +52,7 @@ function JournalEditViewForm({
   const { medias } = values;
 
   const handleAddMediaI = useCallback(
-    (id: number, file: File) => handleAddMedia(id, file, formikProps),
+    (name: string, file: File) => handleAddMedia(name, file, formikProps),
     [formikProps, handleAddMedia]
   );
   const handleDeleteMediaI = useCallback(
