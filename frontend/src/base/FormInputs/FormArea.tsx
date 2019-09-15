@@ -9,6 +9,7 @@ interface IFormAreaProps {
   banner: ReactNode;
   children: ReactNode;
   handleSubmit: () => any;
+	submitText?:string;
   isSubmitting: boolean;
   withPadding?: boolean;
 }
@@ -18,7 +19,8 @@ function FormArea({
   children,
   handleSubmit,
 	isSubmitting,
-	withPadding
+	withPadding,
+	submitText="SUBMIT"
 }: IFormAreaProps) {
   return (
     <CenterArea withPadding={withPadding}>
@@ -29,7 +31,7 @@ function FormArea({
           <div className={classes.submitBtnDiv}>
             <SubmitButton
               handleClick={handleSubmit}
-              label="Login"
+              label={submitText}
               isSubmitting={isSubmitting}
               varient="primary"
             />
@@ -45,6 +47,7 @@ FormArea.propTypes = {
   children: PropTypes.any.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
+submitText:PropTypes.string,
   withPadding: PropTypes.bool
 };
 export default memo(FormArea);
