@@ -26,6 +26,7 @@ class JournalMasterSerializer(MyBaseSerializer):
             raise ValidationError({
                 'end_at': 'Must be equal to or later than start at'
             })
+        return data
 
     def to_internal_value(self, data):
         data['medias'] = list(map(lambda x: {'id': x}, data.get('medias', [])))
