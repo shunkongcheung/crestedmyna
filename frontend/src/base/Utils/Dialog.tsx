@@ -1,7 +1,9 @@
-import React, { memo, ReactNode, useMemo } from "react";
+import React, { memo, ReactNode, useCallback, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 
 import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 import MiDialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -29,6 +31,18 @@ function Dialog({
   title,
   textContent
 }: IDialogProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmitI = useCallback(
+    async () => {
+      if (!handleSubmit) return;
+      setIsSubmitting(true);
+      await handleSubmit();
+      setIsSubmitting(false);
+    },
+    [handleSubmit]
+  );
+
   const renderedTextContent = useMemo(
     () => {
       if (!textContent) return <></>;
@@ -41,33 +55,55 @@ function Dialog({
     [textContent]
   );
 
+  const renderedCloseBtn = useMemo(
+    () => {
+      return (
+        <Button onClick={handleClose} color="primary">
+          {closeText}
+        </Button>
+      );
+    },
+    [closeText, handleClose]
+  );
+
   const renderedSubmitBtn = useMemo(
     () => {
       if (!handleSubmit) return;
       return (
-        <Button onClick={handleSubmit} color="primary" autoFocus>
+        <Button onClick={handleSubmitI} color="primary" autoFocus>
           {submitText}
         </Button>
       );
     },
-    [handleSubmit, submitText]
+    [handleSubmit, handleSubmitI, isSubmitting, submitText]
+  );
+
+  const renderedBtns = useMemo(
+    () => {
+      if (isSubmitting) return <CircularProgress />;
+      return (
+        <>
+          {renderedCloseBtn}
+          {renderedSubmitBtn}
+        </>
+      );
+    },
+    [isSubmitting, renderedCloseBtn, renderedSubmitBtn]
   );
 
   return (
     <MiDialog
       open={isOpen}
-      onClose={handleClose}
+      onClose={isSubmitting ? undefined : handleClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
-      <DialogContent>{renderedTextContent}</DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          {closeText}
-        </Button>
-        {renderedSubmitBtn}
-      </DialogActions>
+      <DialogContent>
+        {renderedTextContent}
+        {children}
+      </DialogContent>
+      <DialogActions>{renderedBtns}</DialogActions>
     </MiDialog>
   );
 }
