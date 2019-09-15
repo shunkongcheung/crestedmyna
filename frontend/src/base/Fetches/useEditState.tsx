@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import { FormikProps } from "formik";
 
-import useFetchState from "./useFetchState";
 import useErrorState from "./useErrorState";
+import useFetchState from "./useFetchState";
 
 function useEditState<IRetDataType, IFetchDataType = IRetDataType>(
   isAuthenticated: boolean,
@@ -29,10 +29,10 @@ function useEditState<IRetDataType, IFetchDataType = IRetDataType>(
         isAuthenticated,
         method
       });
-      const { ok,status, payload } = ret;
-      if (!ok ) {
-				if (formApis)formApis.setErrors(payload);
-        setErrorMsg( payload as any,status, data as any);
+      const { ok, status, payload } = ret;
+      if (!ok) {
+        if (formApis) formApis.setErrors(payload);
+        setErrorMsg(payload as any, status, data as any);
       }
       return ret;
     },
