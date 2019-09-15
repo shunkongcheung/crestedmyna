@@ -1,0 +1,37 @@
+@import "./variables.scss";
+
+.deleteBtn {
+  cursor: pointer;
+  box-shadow: 0 1rem 3rem #ccc;
+}
+
+.deleteContainer {
+  position: absolute;
+  display: flex;
+  justify-content: flex-end;
+  width: 95%;
+  left: 0rem;
+  top: 0.2rem;
+  color: #bbb;
+  font-size: 1.5rem;
+}
+
+.thumbnail {
+  @extend #contentRounded;
+  width: $itemSideLength;
+  height: $itemSideLength;
+  border: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.shadow {
+  @extend #contentRounded;
+  background: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(#{$itemSideLength} - 2px);
+  height: calc(#{$itemSideLength} - 2px);
+}
