@@ -52,6 +52,6 @@ InputDateTime.propTypes = {
   helperText: PropTypes.string,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(["date", "datetime", "time"]).isRequired
+  type: PropTypes.oneOf(["date", "datetime", "time"])
 };
 export default memo(InputDateTime);
