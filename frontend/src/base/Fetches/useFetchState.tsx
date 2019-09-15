@@ -1,7 +1,6 @@
-import { useCallback, useContext  } from "react";
+import { useCallback } from "react";
 import { stringify } from "query-string";
-
-import AuthContext from "../Contexts/AuthContext";
+import useFetchBaseState from "./useFetchBaseState";
 
 function useFetchState<IRetDataType = object, IFetchDataType = IRetDataType>() {
   type TMethod = "GET" | "PUT" | "POST" | "DELETE";
@@ -9,18 +8,11 @@ function useFetchState<IRetDataType = object, IFetchDataType = IRetDataType>() {
     ok: boolean;
     status: number;
     text: () => Promise<string>;
-    blob: () => Promise<any>;
   }
   type TConcatRetDataType = IRetDataType & { error?: string };
 
-  const { token } = useContext(AuthContext);
-
-  const getAuthorization = useCallback(
-    (isAuthenticated: boolean) => {
-      return !isAuthenticated || !token ? "" : `JWT ${token}`;
-    },
-    [token]
-  );
+  const bState = useFetchBaseState<IRetDataType>();
+  const { getAuthorization, getJsonParsedPayload } = bState;
 
   type TGetRestfulBody = (
     data: IFetchDataType,
@@ -44,16 +36,6 @@ function useFetchState<IRetDataType = object, IFetchDataType = IRetDataType>() {
     return `?${stringify(uParams)}`;
   }, []);
 
-  type TGetJsonParsedPayload = (r: IResBase) => Promise<TConcatRetDataType>;
-  const getJsonParsedPayload: TGetJsonParsedPayload = useCallback(async res => {
-    try {
-      const payloadString = await res.text();
-      return JSON.parse(payloadString) as TConcatRetDataType;
-    } catch (ex) {
-      return { error: ex.message } as TConcatRetDataType;
-    }
-  }, []);
-
   interface IFixedParams {
     data?: IFetchDataType;
     isAuthenticated?: boolean;
@@ -62,7 +44,7 @@ function useFetchState<IRetDataType = object, IFetchDataType = IRetDataType>() {
   }
   interface IResPacket {
     ok: boolean;
-		status:number;
+    status: number;
     payload: TConcatRetDataType;
   }
   const makeRestfulFetch = useCallback(
@@ -85,11 +67,9 @@ function useFetchState<IRetDataType = object, IFetchDataType = IRetDataType>() {
         body,
         method
       } as RequestInit);
-      const payload = (await getJsonParsedPayload(res)) as IRetDataType & {
-        error?: string;
-      };
+      const payload = await getJsonParsedPayload(res);
 
-      return { ok: res.ok, payload, status:res.status };
+      return { ok: res.ok, payload, status: res.status };
     },
     [getAuthorization, getJsonParsedPayload, getRestfulBody, getQueryString]
   );
