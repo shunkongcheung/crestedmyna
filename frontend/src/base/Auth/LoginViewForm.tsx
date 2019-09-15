@@ -3,7 +3,7 @@ import { withFormik, FormikProps } from "formik";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 
-import { FormArea, InputText } from "../FormInputs";
+import { FormArea, InputText } from "../Form";
 
 interface ILoginVal {
   username: string;

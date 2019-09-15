@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { FormikErrors, FormikProps } from "formik";
 
-function useFormInputsState(
+function useFormState(
   name: string,
   formikProps: FormikProps<{ [x: string]: any }>
 ) {
@@ -28,4 +28,4 @@ function useFormInputsState(
   return { inputError, inputValue };
 }
 
-export default useFormInputsState;
+export default useFormState;
