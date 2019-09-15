@@ -2,6 +2,9 @@ import React, { memo, ReactNode } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import PropTypes from "prop-types";
 
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+
 import useAuthContextState from "./useAuthContextState";
 import AuthContext from "./AuthContext";
 
@@ -25,7 +28,9 @@ function GlobalContexts({
     <AuthContext.Provider value={tokenState}>
       <SnackBarContext.Provider value={{ handleSnackBarChange }}>
         <MenuContext.Provider value={{ menu: ["JOURNAL", "STOCK"] }}>
+					<MuiPickersUtilsProvider utils={DateFnsUtils}>
           {children}
+					</MuiPickersUtilsProvider>
           <SnackBar {...msgInfo} />
         </MenuContext.Provider>
       </SnackBarContext.Provider>
