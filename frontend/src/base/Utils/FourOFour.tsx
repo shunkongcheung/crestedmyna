@@ -35,7 +35,7 @@ function FourOFour() {
   );
   return (
     <Layout>
-      <CenterArea>
+      <CenterArea withPadding>
         <div className={classes.bannerContainer}>
           <h1 className={classes.banner404}>{rendered404}</h1>
         </div>
