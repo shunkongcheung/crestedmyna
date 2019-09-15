@@ -27,6 +27,7 @@ function LoginViewForm(
       banner="LOGIN"
       handleSubmit={formikProps.handleSubmit}
       isSubmitting={formikProps.isSubmitting}
+      submitText="LOGIN"
       withPadding
     >
       <InputText {...formikProps} label="Username" name="username" />
