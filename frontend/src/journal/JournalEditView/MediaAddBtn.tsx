@@ -26,7 +26,8 @@ function MediaAddBtn({
   ...formikProps
 }: IMediaAddBtnProps & FormikProps<IMediaVal>) {
   // props ---------------------------------------------------------------
-  const { setFieldValue, values } = formikProps;
+  const { setFieldError, setFieldTouched, setFieldValue, values } = formikProps;
+  console.log(formikProps);
   // state ---------------------------------------------------------------
   const DEFAULT_X = 1;
   const [props, set] = useSpring(() => ({ x: 0 }));
@@ -35,11 +36,27 @@ function MediaAddBtn({
   // methods -------------------------------------------------------------
   const handleAddConfirm = useCallback(
     async () => {
-      await handleAddMedia("name", "hihi" as any);
+      const { media } = values;
+      if (!media || !media.name || !media.file) {
+        setFieldTouched("media.name" as any, true, false);
+        setFieldError("media.name", "Required");
+        return;
+      }
+      await handleAddMedia(values.media.name, values.media.file);
       setFieldValue("media", {});
       setIsDialogOpen(false);
+      setFieldError("media.name", "");
+      setFieldError("media.file", "");
     },
-    [handleAddMedia, setFieldValue]
+    [handleAddMedia, setFieldError, setFieldTouched, setFieldValue, values]
+  );
+  const handleDialogClose = useCallback(
+    () => {
+      setFieldError("media.name", "");
+      setFieldError("media.file", "");
+      setIsDialogOpen(false);
+    },
+    [setFieldError]
   );
   const handleFileDropped = useCallback(
     ([file]) => {
@@ -88,7 +105,7 @@ function MediaAddBtn({
       <Dialog
         closeText="Discard"
         handleSubmit={handleAddConfirm}
-        handleClose={() => setIsDialogOpen(false)}
+        handleClose={handleDialogClose}
         isOpen={isDialogOpen}
         submitText="Create"
         title="Add image"
