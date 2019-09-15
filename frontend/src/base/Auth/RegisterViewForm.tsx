@@ -27,6 +27,7 @@ function RegisterViewForm(
       banner="REGISTER"
       handleSubmit={formikProps.handleSubmit}
       isSubmitting={formikProps.isSubmitting}
+      submitText="REGISTER"
     >
       <InputText {...formikProps} label="First name" name="first_name" />
       <InputText {...formikProps} label="Last name" name="last_name" />
