@@ -1,7 +1,8 @@
 import React, { memo, ReactNode } from "react";
 import PropTypes from "prop-types";
 
-import { CenterArea, SubmitButton } from "../Utils";
+import { CenterArea } from "../Utils";
+import SubmitButton from "./SubmitButton";
 
 import classes from "./FormArea.module.scss";
 
@@ -9,7 +10,7 @@ interface IFormAreaProps {
   banner: ReactNode;
   children: ReactNode;
   handleSubmit: () => any;
-	submitText?:string;
+  submitText?: string;
   isSubmitting: boolean;
   withPadding?: boolean;
 }
@@ -18,9 +19,9 @@ function FormArea({
   banner,
   children,
   handleSubmit,
-	isSubmitting,
-	withPadding,
-	submitText="SUBMIT"
+  isSubmitting,
+  withPadding,
+  submitText = "SUBMIT"
 }: IFormAreaProps) {
   return (
     <CenterArea withPadding={withPadding}>
@@ -47,7 +48,7 @@ FormArea.propTypes = {
   children: PropTypes.any.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
-submitText:PropTypes.string,
+  submitText: PropTypes.string,
   withPadding: PropTypes.bool
 };
 export default memo(FormArea);
