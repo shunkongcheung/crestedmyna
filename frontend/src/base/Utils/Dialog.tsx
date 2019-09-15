@@ -100,8 +100,10 @@ function Dialog({
     >
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>
-        {renderedTextContent}
-        {children}
+        <div style={{ width: "50vw" }}>
+          {renderedTextContent}
+          {children}
+        </div>
       </DialogContent>
       <DialogActions>{renderedBtns}</DialogActions>
     </MiDialog>
