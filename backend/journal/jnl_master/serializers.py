@@ -32,6 +32,14 @@ class JournalMasterSerializer(MyBaseSerializer):
         ret = super().to_internal_value(data)
         return ret
 
+    def to_representation(self, data):
+        enabled_medias = data.medias.filter(enable=True)\
+            .values_list('id', flat=True)
+        ret = super().to_representation(data)
+        ret['medias'] = filter(lambda x: x['id'] in enabled_medias,
+                               ret['medias'])
+        return ret
+
     def create(self, validated_data):
         medias = validated_data.pop('medias')
         ret = super().create(validated_data)
