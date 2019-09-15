@@ -25,6 +25,7 @@
     "react-big-calendar": "^0.22.0",
     "react-burger-menu": "^2.6.11",
     "react-dom": "^16.9.0",
+    "react-dropzone": "^10.1.8",
     "react-icons": "^3.7.0",
     "react-responsive-carousel": "^3.1.50",
     "react-router-dom": "^5.0.1",
