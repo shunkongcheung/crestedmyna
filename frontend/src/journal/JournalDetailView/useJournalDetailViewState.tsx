@@ -1,12 +1,16 @@
 import { useCallback, useState, useEffect } from "react";
+
 import { useDetailState } from "../../base/Fetches";
+import { useGetIdOrCreateState } from "../../base/Utils";
 
 function useJournalDetailViewState() {
+  const journalMasterId = useGetIdOrCreateState(/journal\/(\w+)/);
+
   interface IJournalMasterBase {
     name: string;
     description: string;
-		id:number;
-		location:string;
+    id: number;
+    location: string;
   }
   interface IMediaRet {
     id: number;
@@ -35,20 +39,16 @@ function useJournalDetailViewState() {
     name: "",
     description: "",
     endAt: new Date(),
-		id:-1,
-		location:'',
+    id: -1,
+    location: "",
     medias: [],
     startAt: new Date()
   });
 
   const initJournalMaster = useCallback(
     async () => {
-      const { pathname } = window.location;
-      const matches = pathname.match(/journal\/(\w+)/);
-      if (!Array.isArray(matches) || matches.length <= 0) return;
-
-      const id = Number(matches[1]) as number;
-      const ret = await fetchDetail(`journal/jnl_master/${id}/`);
+      if (journalMasterId === "create") return;
+      const ret = await fetchDetail(`journal/jnl_master/${journalMasterId}/`);
       const { ok, payload } = ret;
       if (!ok) return;
 
@@ -63,7 +63,7 @@ function useJournalDetailViewState() {
       };
       setJournalMaster(journalMaster);
     },
-    [fetchDetail]
+    [fetchDetail, journalMasterId]
   );
 
   useEffect(
