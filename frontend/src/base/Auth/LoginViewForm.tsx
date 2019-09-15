@@ -3,10 +3,7 @@ import { withFormik, FormikProps } from "formik";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 
-import { InputText } from "../FormInputs";
-import { SubmitButton } from "../Utils";
-
-import classes from "./LoginViewForm.module.scss";
+import { FormArea, InputText } from "../FormInputs";
 
 interface ILoginVal {
   username: string;
@@ -26,21 +23,15 @@ function LoginViewForm(
   formikProps: ILoginViewFormProps & FormikProps<ILoginVal>
 ) {
   return (
-    <form className={classes.container} onSubmit={formikProps.handleSubmit}>
-      <div className={classes.content}>
-        <h1 className={classes.banner}>LOGIN</h1>
-        <InputText {...formikProps} label="Username" name="username" />
-        <InputText {...formikProps} label="Password" name="password" isMask />
-        <div className={classes.submitBtnDiv}>
-          <SubmitButton
-            handleClick={formikProps.handleSubmit}
-            label="Login"
-            isSubmitting={formikProps.isSubmitting}
-            varient="primary"
-          />
-        </div>
-      </div>
-    </form>
+    <FormArea
+      banner="LOGIN"
+      handleSubmit={formikProps.handleSubmit}
+      isSubmitting={formikProps.isSubmitting}
+      withPadding
+    >
+      <InputText {...formikProps} label="Username" name="username" />
+      <InputText {...formikProps} label="Password" name="password" isMask />
+    </FormArea>
   );
 }
 
