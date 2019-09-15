@@ -22,6 +22,13 @@ function useJournalListViewState(history: History) {
   }
   const [events, setEvents] = useState<Array<IEvent>>([]);
 
+  const handleAdd = useCallback(
+    () => {
+      history.push(`/journal/create/`);
+    },
+    [history]
+  );
+
   const handleRangeChange = useCallback(
     async (date__gte?: Date, date__lte?: Date) => {
       const queryParams = { date__gte, date__lte };
@@ -55,7 +62,7 @@ function useJournalListViewState(history: History) {
     [handleRangeChange]
   );
 
-  return { events, handleRangeChange, handleEventClick };
+  return { events, handleAdd, handleRangeChange, handleEventClick };
 }
 
 export default useJournalListViewState;
