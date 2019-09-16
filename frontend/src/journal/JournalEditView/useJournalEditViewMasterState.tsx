@@ -78,12 +78,15 @@ function useJournalEditViewMasterState(history: History) {
         start_at: data.startAt.toISOString(),
         medias: data.medias.map(itm => itm.id)
       };
-      const { ok } = await fetchEdit(
+      const {
+        ok,
+        payload: { id: editId }
+      } = await fetchEdit(
         `journal/jnl_master/${journalMasterId}/`,
         submitValues,
         formApis
       );
-      if (ok) history.push(`/journal/${journalMasterId}/`);
+      if (ok) history.push(`/journal/${editId}/`);
     },
     [fetchEdit, history, journalMasterId]
   );
