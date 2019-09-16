@@ -76,7 +76,10 @@ function JournalEditViewForm({
         handleDeleteMedia={handleDeleteMediaI}
         medias={medias}
       />
-      <DescField description={description} />
+      <DescField
+        setFieldValue={formikProps.setFieldValue}
+        description={description}
+      />
     </FormArea>
   );
 }
