@@ -27,11 +27,10 @@ function MediaAddBtn({
 }: IMediaAddBtnProps & FormikProps<IMediaVal>) {
   // props ---------------------------------------------------------------
   const { setFieldError, setFieldTouched, setFieldValue, values } = formikProps;
-  console.log(formikProps);
   // state ---------------------------------------------------------------
   const DEFAULT_X = 1;
   const [props, set] = useSpring(() => ({ x: 0 }));
-  const [isDialogOpen, setIsDialogOpen] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
   // methods -------------------------------------------------------------
   const handleAddConfirm = useCallback(
@@ -82,17 +81,11 @@ function MediaAddBtn({
       if (!file) return <></>;
 
       return (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            margin: "2rem auto"
-          }}
-        >
+        <div className={classes.previewContainer}>
           <img
             src={URL.createObjectURL(file)}
             alt=""
-            style={{ width: "50%" }}
+            className={classes.previewImg}
           />
         </div>
       );
