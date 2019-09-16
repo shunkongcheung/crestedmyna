@@ -112,7 +112,9 @@ function MediaAddBtn({
         textContent="Upload your image"
       >
         <div className={classes.fieldRow}>
-          <InputText {...formikProps} label="Description" name="media.name" />
+          <div style={{ width: "80%" }}>
+            <InputText {...formikProps} label="Description" name="media.name" />
+          </div>
           <DropZone onDrop={handleFileDropped}>
             {({ getRootProps, getInputProps }) => {
               return (
