@@ -1,5 +1,14 @@
 @import "../../variables";
 
+.container {
+  display: flex;
+  justify-content: center;
+}
+.carousel {
+  width: 100%;
+  max-width: 500px;
+}
+
 .legend {
   background-color: $primaryColor !important;
 }

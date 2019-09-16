@@ -29,7 +29,13 @@ function Carousel({ imageItems }: ICarouselProps) {
       }),
     [imageItems]
   );
-  return <RCarousel autoPlay>{renderedImageItems}</RCarousel>;
+  return (
+    <div className={classes.container}>
+      <div className={classes.carousel}>
+        <RCarousel autoPlay>{renderedImageItems}</RCarousel>
+      </div>
+    </div>
+  );
 }
 
 Carousel.propTypes = {
