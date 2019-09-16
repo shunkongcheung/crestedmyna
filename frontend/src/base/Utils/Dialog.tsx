@@ -75,7 +75,7 @@ function Dialog({
         </Button>
       );
     },
-    [handleSubmit, handleSubmitI,  submitText]
+    [handleSubmit, handleSubmitI, submitText]
   );
 
   const renderedBtns = useMemo(
@@ -100,7 +100,7 @@ function Dialog({
     >
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>
-        <div style={{ width: "50vw" }}>
+        <div style={{ width: "50vw", maxWidth: "600px" }}>
           {renderedTextContent}
           {children}
         </div>
