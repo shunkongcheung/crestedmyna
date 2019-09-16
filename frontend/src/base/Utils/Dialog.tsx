@@ -75,7 +75,7 @@ function Dialog({
         </Button>
       );
     },
-    [handleSubmit, handleSubmitI, isSubmitting, submitText]
+    [handleSubmit, handleSubmitI,  submitText]
   );
 
   const renderedBtns = useMemo(
