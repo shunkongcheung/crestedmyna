@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import * as Yup from "yup";
 
 import { FormArea, InputDateTime, InputText } from "../../base/Form";
+import DescField from "./DescField";
 import MediaField from "./MediaField";
 
 interface IMedia {
@@ -49,7 +50,7 @@ function JournalEditViewForm({
   ...formikProps
 }: IJournalEditViewFormProps & FormikProps<IFormikVal>) {
   const { values } = formikProps;
-  const { medias } = values;
+  const { description, medias } = values;
 
   const handleAddMediaI = useCallback(
     (name: string, file: File) => handleAddMedia(name, file, formikProps),
@@ -75,7 +76,7 @@ function JournalEditViewForm({
         handleDeleteMedia={handleDeleteMediaI}
         medias={medias}
       />
-      <InputText {...formikProps} label="Description" name="description" />
+      <DescField description={description} />
     </FormArea>
   );
 }
