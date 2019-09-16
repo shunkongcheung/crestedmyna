@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
+import { History } from "history";
 
 import { useDetailState, useEditState } from "../../base/Fetches";
 import { useGetIdOrCreateState } from "../../base/Utils";
 
-function useJournalEditViewMasterState() {
+function useJournalEditViewMasterState(history: History) {
   // props -------------------------------------------------
   const journalMasterId = useGetIdOrCreateState(/journal\/edit\/(\w+)/);
 
@@ -77,13 +78,14 @@ function useJournalEditViewMasterState() {
         start_at: data.startAt.toISOString(),
         medias: data.medias.map(itm => itm.id)
       };
-      fetchEdit(
+      const { ok } = await fetchEdit(
         `journal/jnl_master/${journalMasterId}/`,
         submitValues,
         formApis
       );
+      if (ok) history.push(`/journal/${journalMasterId}/`);
     },
-    [fetchEdit, journalMasterId]
+    [fetchEdit, history, journalMasterId]
   );
   const initJournalMaster = useCallback(
     async () => {
