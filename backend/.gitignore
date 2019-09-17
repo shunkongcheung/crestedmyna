@@ -2,5 +2,6 @@ db.sqlite3
 
 backend/settings_prod.py
 base/static/m
+base/templates
 static
 **/*.pyc
