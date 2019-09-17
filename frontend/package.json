@@ -42,7 +42,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build ",
+		"sync":"touch ../backend/base/static/empty.txt && rm -r ../backend/base/static/* && rsync -av build/index.html ../backend/base/templates/. && rsync -av --exclude='static' build/* ../backend/base/static/. && rsync -av build/static/* ../backend/base/static/.",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
