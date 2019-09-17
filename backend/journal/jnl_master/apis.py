@@ -29,7 +29,6 @@ class JournalMasterListAPIView(MyListAPIView):
         date__gte = self.request.query_params.get('date__gte')
         date__gte = get_datetime_from_string(date__gte)
 
-        print(date__lte, date__gte)
         if not date__lte or not date__gte:
             return queryset
 
