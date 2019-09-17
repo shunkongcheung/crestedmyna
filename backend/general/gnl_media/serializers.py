@@ -17,8 +17,5 @@ class MediaMasterSerializer(MyBaseSerializer):
         file_type = get_media_file_type(media_file)
 
         access_url = store_media_file(media_file, file_name, file_type)
-
-        data['name'], data['file_type'] = file_name, file_type
-        data['access_url'] = access_url
-
+        data['access_url'], data['file_type'] = access_url, file_type
         return data
