@@ -23,6 +23,7 @@ class StockProfileObjectAPIView(MyObjectAPIView):
             return None
         object, created = self.model.objects.get_or_create(
             created_by=user,
+            enable=True,
             defaults={'created_by': user, }
         )
         return object
