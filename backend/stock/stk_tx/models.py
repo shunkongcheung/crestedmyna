@@ -21,5 +21,6 @@ class StockTx(MyBaseModel):
 
     gross_value = models.FloatField()  # share_count * price
     trade_cost = models.FloatField()  # (0.001188888888888+0.002) * gross_value
+
     # tx_type == 'BUY' ? gross_value - trade_cost  : gross_value + trade_cost
     net_value = models.FloatField()
