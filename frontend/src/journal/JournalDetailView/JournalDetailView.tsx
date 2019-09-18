@@ -50,6 +50,12 @@ function JournalDetailView({ history }: IJournalDetailViewProps) {
       </div>
     );
   }, []);
+
+  const iframeArgs = {
+    title: "JournalDetail-iframe",
+    srcdoc: description,
+    className: classes.desc
+  };
   return (
     <Layout>
       <div className={classes.titleRow}>
@@ -61,10 +67,7 @@ function JournalDetailView({ history }: IJournalDetailViewProps) {
       </div>
       <h3 className={classes.location}>{location}</h3>
       <Carousel imageItems={medias} />
-      <div
-        dangerouslySetInnerHTML={{ __html: description }}
-        className={classes.desc}
-      />
+      <iframe {...iframeArgs} />
     </Layout>
   );
 }
