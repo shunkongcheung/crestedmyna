@@ -16,6 +16,9 @@ class MyBaseAPIView(GenericAPIView):
         model_fields = prepend_fields + self.fields + \
             self.read_only_fields + propend_fields
 
+        if not hasattr(self, 'model'):
+            return self.serializer_class
+
         class MyBaseViewSerializer(self.serializer_class):
             class Meta:
                 model = self.model
