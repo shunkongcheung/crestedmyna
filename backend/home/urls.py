@@ -1,6 +1,6 @@
 from django.conf.urls import url, include
 
-from .hme_weather.models import *
+from .hme_weather import urls as hme_weather
 
 app_name = 'home'
 

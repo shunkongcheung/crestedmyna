@@ -26,6 +26,7 @@ from rest_framework_jwt.views import (
 
 urlpatterns = [
     path('api/general/', include('general.urls')),
+    path('api/home/', include('home.urls')),
     path('api/journal/', include('journal.urls')),
     path('api/stock/', include('stock.urls')),
     path('api/uam/', include('uam.urls')),

@@ -1,23 +1,12 @@
 from django.conf.urls import url
-# from .apis import (
-#     ModelNameCreateAPIView,
-#     ModelNameListAPIView,
-#     ModelNameObjectAPIView,
-# )
+from .apis import WeatherInfoAPIView
 
-# app_name = 'app_name_val'
 
-# urlpatterns = [
-#     url(r'^create/$',
-#         ModelNameCreateAPIView.as_view(),
-#         name='app_name_val-api-create'
-#         ),
-#     url(r'^list/$',
-#         ModelNameListAPIView.as_view(),
-#         name='app_name_val-api-list'
-#         ),
-#     url(r'^(P<pk>[0-9]+)/$',
-#         ModelNameObjectAPIView.as_view(),
-#         name='app_name_val-api-object'
-#         ),
-# ]
+app_name = 'hme_weather'
+
+urlpatterns = [
+    url(r'^info/$',
+        WeatherInfoAPIView.as_view(),
+        name='hme_weather-api-info'
+        ),
+]

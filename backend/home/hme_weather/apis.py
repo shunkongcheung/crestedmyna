@@ -1,27 +1,9 @@
-from base.apis import (
-    MyCreateAPIView,
-    MyListAPIView,
-    MyObjectAPIView,
-)
-
-# from .models import ModelName
-# from .serializers import ModelNameSerializer
-
-fields = []
+from base.apis import MyCreateAPIView
+from .serializers import WeatherInfoSerializer
 
 
-class ModelNameCreateAPIView(MyCreateAPIView):
-    fields = fields
-    model = ModelName
-    # serializer_class = ModelNameSerializer
+class WeatherInfoAPIView(MyCreateAPIView):
+    serializer_class = WeatherInfoSerializer
 
-
-class ModelNameListAPIView(MyListAPIView):
-    fields = []
-    model = ModelName
-
-
-class ModelNameObjectAPIView(MyObjectAPIView):
-    fields = fields
-    model = ModelName
-    # serializer_class = ModelNameSerializer
+    def perform_create(self, serializer):
+        pass
