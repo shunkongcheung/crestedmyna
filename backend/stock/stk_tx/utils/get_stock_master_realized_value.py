@@ -23,17 +23,21 @@ def get_stock_master_realized_buy_net_value(stock_master,
                                        created_after,
                                        created_before
                                        )
-    buy_txs = stock_master.stock_txs.filter(**kwargs)
+    buy_txs = stock_master.stock_txs.filter(stock_master=stock_master,
+                                            **kwargs
+                                            )
 
     realized_buy_net_value = 0.0
     for buy_tx in buy_txs:
+        if sell_share_count <= 0:
+            return realized_buy_net_value
+
         if buy_tx.share_count > sell_share_count:
-            porata_buy_net_value = buy_tx.net_value / buy_tx.share_count \
-                * sell_share_count
+            porata_buy_net_value = buy_tx.net_value / buy_tx.share_count * sell_share_count
             return realized_buy_net_value + porata_buy_net_value
 
         sell_share_count -= buy_tx.share_count
-        realized_buy_net_value += buy_tx.net_value * buy_tx.share_count
+        realized_buy_net_value += buy_tx.net_value
 
     return realized_buy_net_value
 
@@ -51,8 +55,8 @@ def get_stock_master_realized_value(stock_master,
                                                      created_before
                                                      )
     buy_net_value = get_stock_master_realized_buy_net_value(stock_master,
-                                                            sell_net_value,
+                                                            sell_share_count,
                                                             created_after,
                                                             created_before
                                                             )
-    return buy_net_value - sell_net_value
+    return sell_net_value - buy_net_value
