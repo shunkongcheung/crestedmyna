@@ -6,11 +6,21 @@ from base.apis import (
 from rest_framework.permissions import IsAdminUser
 
 from .models import StockMaster
+from .serializers import StockMasterSerializer
+
+
+fields = ['stock_code', ]
+read_only_fields = ['name',
+                    'share_count',
+                    'market_price',
+                    'market_value',
+                    'realized_value', ]
 
 
 class StockMasterCreateAPIView(MyCreateAPIView):
-    fields = ['name', 'stock_code', 'industry', 'catagory', ]
+    fields = fields
     model = StockMaster
+    serializer_class = StockMasterSerializer
 
 
 class StockMasterListAPIView(MyListAPIView):
@@ -18,13 +28,7 @@ class StockMasterListAPIView(MyListAPIView):
 
 
 class StockMasterObjectAPIView(MyObjectAPIView):
-    fields = ['name', 'stock_code', 'industry', 'catagory', ]
-    read_only_fields = ['share_count',
-                        'market_price',
-                        'total_value',
-                        'realized_value', ]
+    fields = fields
+    read_only_fields = read_only_fields
     model = StockMaster
-
-    def get_object(self):
-        ret = super().get_object()
-        return ret
+    serializer_class = StockMasterSerializer
