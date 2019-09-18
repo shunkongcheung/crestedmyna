@@ -24,3 +24,7 @@ class StockMasterObjectAPIView(MyObjectAPIView):
                         'total_value',
                         'realized_value', ]
     model = StockMaster
+
+    def get_object(self):
+        ret = super().get_object()
+        return ret
