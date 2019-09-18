@@ -1,16 +1,7 @@
-from base.apis import (
-    MyCreateAPIView,
-    MyObjectAPIView,
-)
-
+from base.apis import MyObjectAPIView
 from .models import StockProfile
 
 fields = ['tx_static_cost', 'tx_proportion_cost']
-
-
-class StockProfileCreateAPIView(MyCreateAPIView):
-    fields = fields
-    model = StockProfile
 
 
 class StockProfileObjectAPIView(MyObjectAPIView):
