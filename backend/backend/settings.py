@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     # custom application -----------------------------------
     'base.apps.BaseConfig',
     'general.apps.GeneralConfig',
+    'home.apps.HomeConfig',
     'journal.apps.JournalConfig',
     'stock.apps.StockConfig',
     'uam.apps.UamConfig',
