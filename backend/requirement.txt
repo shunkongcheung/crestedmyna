@@ -22,6 +22,7 @@ Jinja2==2.10.1
 MarkupSafe==1.1.1
 more-itertools==5.0.0
 ndg-httpsclient==0.5.1
+newsapi-python==0.2.5
 numpy==1.17.2
 openapi-codec==1.3.2
 pandas==0.25.1
@@ -39,11 +40,11 @@ pyOpenSSL==19.0.0
 python-dateutil==2.8.0
 pytz==2019.2
 Quandl==3.4.8
-requests==2.22.0
+requests==2.21.0
 simplejson==3.16.0
 six==1.12.0
 sqlparse==0.3.0
 traitlets==4.3.2
 uritemplate==3.0.0
-urllib3==1.25.3
+urllib3==1.24.3
 wcwidth==0.1.7
