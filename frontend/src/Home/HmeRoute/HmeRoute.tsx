@@ -1,19 +1,19 @@
 import React, { memo, useCallback, useContext, useMemo } from "react";
 import { animated, useTrail } from "react-spring";
 
-import Layout from "../Base/Layout";
-import { MenuContext } from "../Base/Contexts";
+import Layout from "../../Base/Layout";
+import { MenuContext } from "../../Base/Contexts";
 
 import LinkBanner from "./LinkBanner";
 import journalBannerImg from "./images/journalBanner.jpg";
 import stockBannerImg from "./images/stockBanner.jpeg";
-import classes from "./HomeView.module.scss";
+import classes from "./HmeRoute.module.scss";
 
 const config = { mass: 5, tension: 2000, friction: 200 };
 const from = { opacity: 0, x: 20 };
 const trailSetting = { config, opacity: 1, x: 0, from };
 
-function HomeView() {
+function HmeRoute() {
   const { menu } = useContext(MenuContext);
   const renderedBanners = useMemo(
     () => {
@@ -66,4 +66,4 @@ function HomeView() {
   );
 }
 
-export default memo(HomeView);
+export default memo(HmeRoute);

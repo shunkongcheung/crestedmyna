@@ -10,7 +10,7 @@ import classNames from "./App.module.css";
 
 // routes -----------------------------------------------
 const AuthContainer = lazy(() => import("./Base/Auth/AuthContainer"));
-const HomeContainer = lazy(() => import("./home/HomeContainer"));
+const HomeContainer = lazy(() => import("./Home/HomeContainer"));
 const JournalContainer = lazy(() => import("./Journal/JournalContainer"));
 
 // routes -----------------------------------------------

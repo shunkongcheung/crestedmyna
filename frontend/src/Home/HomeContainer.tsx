@@ -1,8 +1,8 @@
 import React, { memo } from "react";
-import HomeView from "./HomeView";
+import HmeRoute from "./HmeRoute";
 
 function HomeContainer() {
-  return <HomeView />;
+  return <HmeRoute />;
 }
 
 export default memo(HomeContainer);
