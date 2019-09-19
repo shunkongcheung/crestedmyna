@@ -1,0 +1,10 @@
+@import "../../variables";
+.title {
+  color: $primaryColor;
+  font-weight: 700;
+  font-size: 4rem;
+}
+.headlines {
+  max-height: 50vh;
+  overflow-y: auto;
+}
