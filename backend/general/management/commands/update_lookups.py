@@ -6,8 +6,7 @@ from django.conf import settings
 from general.models import LookUp
 from general.gnl_syslog.utils import write_syslog
 
-
-from general.gnl_lookup.utils import get_lookups
+from .utils import get_lookups
 
 
 class Command(BaseCommand):
