@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'uam.apps.UamConfig',
 
     # external libraries -----------------------------------
+    'django_celery_beat',
     'django_filters',
     'rest_framework',
 ]
@@ -102,7 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -110,6 +111,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+TIME_ZONE = 'Asia/Hong_Kong'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -140,3 +142,10 @@ REST_FRAMEWORK = {
     ),
 }
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+
+CELERY_ENABLE_UTC = False
+CELERY_BROKER_URL = 'amqp://localhost:5672'
+CELERY_RESULT_BACKEND = 'amqp://localhost:5672'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
