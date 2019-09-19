@@ -67,3 +67,21 @@ sudo certbot --nginx
 ```
 source venv/bin/activate
 ```
+
+### 1.7 RABBITMQ
+```
+sudo apt-get update
+sudo apt-get upgrade
+
+# installing erl
+wget -O- https://packages.erlang-solutions.com/ubuntu/erlang_solutions.asc | sudo apt-key add -
+echo "deb https://packages.erlang-solutions.com/ubuntu bionic contrib" | sudo tee /etc/apt/sources.list.d/rabbitmq.list
+sudo apt update
+sudo apt -y install erlang
+
+# installation
+echo "deb https://dl.bintray.com/rabbitmq/debian xenial main" | sudo tee /etc/apt/sources.list.d/bintray.rabbitmq.list
+wget -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install -y rabbitmq-server
+```
