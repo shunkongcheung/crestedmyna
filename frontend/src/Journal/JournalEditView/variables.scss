@@ -1,0 +1,13 @@
+$itemSideLength: 90px;
+
+#contentRounded {
+  border-radius: 1rem;
+  border: 1px solid transparent;
+}
+
+.itemContainer {
+  display: inline-block;
+  float: left;
+  margin-right: 5px;
+  position: relative;
+}

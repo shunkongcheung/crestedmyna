@@ -1,0 +1,9 @@
+.container {
+  background: white;
+  display: flex;
+  padding: 1rem;
+  width: calc(100% - 2rem);
+  height: 500px;
+  overflow-y: auto;
+  margin: 1rem auto;
+}
