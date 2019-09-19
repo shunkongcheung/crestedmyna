@@ -8,6 +8,9 @@ import shutil
 class Command(BaseCommand):
     help = 'create sub application'
 
+    def add_arguments(self, parser):
+        parser.add_argument('path', nargs='+', type=str)
+
     def get_app_files(self):
         return [
             '__init__.py',
@@ -16,9 +19,6 @@ class Command(BaseCommand):
             'models.py',
             'urls.py',
         ]
-
-    def add_arguments(self, parser):
-        parser.add_argument('path', nargs='+', type=str)
 
     def handle(self, *args, **options):
         BASE_DIR = settings.BASE_DIR
