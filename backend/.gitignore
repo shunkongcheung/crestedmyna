@@ -4,4 +4,5 @@ backend/settings_prod.py
 base/static/m
 base/templates
 static
+celerybeat.pid
 **/*.pyc
