@@ -1,7 +1,6 @@
 import React, { memo, useCallback, useContext, useMemo } from "react";
 import { animated, useTrail } from "react-spring";
 
-import Layout from "../../Base/Layout";
 import { MenuContext } from "../../Base/Contexts";
 
 import LinkBanner from "./LinkBanner";
@@ -60,9 +59,7 @@ function HmeRoute() {
   );
 
   return (
-    <Layout>
       <div className={classes.row}>{trail.map(renderBanner)}</div>
-    </Layout>
   );
 }
 
