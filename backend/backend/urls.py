@@ -18,10 +18,28 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import TemplateView
 
+from rest_framework.views import APIView
+from rest_framework.exceptions import NotFound
 from rest_framework_jwt.views import (
     obtain_jwt_token,
     refresh_jwt_token,
 )
+
+
+class NotFoundView(APIView):
+    permission_classes = []
+
+    def get(self, request, *args, **kwargs):
+        raise NotFound()
+
+    def put(self, request, *args, **kwargs):
+        raise NotFound()
+
+    def post(self, request, *args, **kwargs):
+        raise NotFound()
+
+    def delete(self, request, *args, **kwargs):
+        raise NotFound()
 
 
 urlpatterns = [
@@ -30,8 +48,8 @@ urlpatterns = [
     path('api/journal/', include('journal.urls')),
     path('api/stock/', include('stock.urls')),
     path('api/uam/', include('uam.urls')),
-    # path('api/token/obtain/', obtain_jwt_token),
-    # path('api/token/refresh/', refresh_jwt_token),
+    url('api/*', NotFoundView.as_view()),
+
     path('admin/', admin.site.urls),
     url(r'^', TemplateView.as_view(template_name='index.html')),
 ]
