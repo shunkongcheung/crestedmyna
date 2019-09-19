@@ -27,3 +27,11 @@ class WeatherInfoSerializer(Serializer):
         longitude = data.get('longitude')
         weather_data = get_cur_weather(latitude, longitude)
         return {**data, **weather_data}
+
+    def to_representation(self, data):
+        ret = super().to_representation(data)
+        ret['temp'] = round(ret['temp'], 1)
+        ret['temp_min'] = round(ret['temp_min'], 1)
+        ret['temp_max'] = round(ret['temp_max'], 1)
+        ret['humidity'] = round(ret['humidity'], 1)
+        return ret
