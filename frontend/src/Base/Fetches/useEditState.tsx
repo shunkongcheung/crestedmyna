@@ -5,8 +5,8 @@ import useErrorState from "./useErrorState";
 import useFetchState from "./useFetchState";
 
 function useEditState<IRetDataType, IFetchDataType = IRetDataType>(
-  isAuthenticated: boolean,
-  method: "PUT" | "POST",
+  isAuthenticated: boolean = true,
+  method: "PUT" | "POST" = "POST",
   snackLvl: "none" | "info" | "warning" | "error" = "error"
 ) {
   type TFetchEditRet = IRetDataType & { error?: string };
