@@ -59,7 +59,10 @@ function HmeRoute() {
   );
 
   return (
+    <>
+      <div className={classes.title}>VISIT</div>
       <div className={classes.row}>{trail.map(renderBanner)}</div>
+    </>
   );
 }
 
