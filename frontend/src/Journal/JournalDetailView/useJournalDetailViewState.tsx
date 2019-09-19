@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect } from "react";
 
-import { useDetailState } from "../../base/Fetches";
-import { useGetIdOrCreateState } from "../../base/Utils";
+import { useDetailState } from "../../Base/Fetches";
+import { useGetIdOrCreateState } from "../../Base/Utils";
 
 function useJournalDetailViewState() {
   const journalMasterId = useGetIdOrCreateState(/journal\/(\w+)/);

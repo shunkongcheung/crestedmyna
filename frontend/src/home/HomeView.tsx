@@ -1,8 +1,8 @@
 import React, { memo, useCallback, useContext, useMemo } from "react";
 import { animated, useTrail } from "react-spring";
 
-import Layout from "../base/Layout";
-import { MenuContext } from "../base/Contexts";
+import Layout from "../Base/Layout";
+import { MenuContext } from "../Base/Contexts";
 
 import LinkBanner from "./LinkBanner";
 import journalBannerImg from "./images/journalBanner.jpg";

@@ -5,7 +5,7 @@ import { History } from "history";
 import useJournalListViewState from "./useJournalListViewState";
 
 import Calendar from "./Calendar";
-import Layout from "../..//base/Layout";
+import Layout from "../..//Base/Layout";
 
 import classes from "./JournalListView.module.scss";
 

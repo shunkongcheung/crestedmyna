@@ -5,7 +5,7 @@ import JournalDetailView from "./JournalDetailView";
 import JournalEditView from "./JournalEditView";
 import JournalListView from "./JournalListView";
 
-import { FourOFour } from "../base/Utils";
+import { FourOFour } from "../Base/Utils";
 
 function JournalContainer({ match: { url } }: RouteComponentProps) {
   return (

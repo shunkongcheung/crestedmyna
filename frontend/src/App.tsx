@@ -2,14 +2,14 @@ import React, { lazy, Suspense, useMemo } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ScaleLoader from "react-spinners/ScaleLoader";
 
-import Layout from "./base/Layout/Layout";
-import { FourOFour } from "./base/Utils";
-import GlobalContexts from "./base/Contexts/GlobalContexts";
+import Layout from "./Base/Layout/Layout";
+import { FourOFour } from "./Base/Utils";
+import GlobalContexts from "./Base/Contexts/GlobalContexts";
 
 import classNames from "./App.module.css";
 
 // routes -----------------------------------------------
-const AuthContainer = lazy(() => import("./base/Auth/AuthContainer"));
+const AuthContainer = lazy(() => import("./Base/Auth/AuthContainer"));
 const HomeContainer = lazy(() => import("./home/HomeContainer"));
 const JournalContainer = lazy(() => import("./Journal/JournalContainer"));
 

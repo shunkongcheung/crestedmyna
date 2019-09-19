@@ -3,7 +3,7 @@ import { withFormik, FormikProps } from "formik";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 
-import { FormArea, InputDateTime, InputText } from "../../base/Form";
+import { FormArea, InputDateTime, InputText } from "../../Base/Form";
 import DescField from "./DescField";
 import MediaField from "./MediaField";
 

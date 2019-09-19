@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { FormikProps } from "formik";
 
-import { useDeleteState, useFetchFormDataState } from "../../base/Fetches";
+import { useDeleteState, useFetchFormDataState } from "../../Base/Fetches";
 
 function useJournalEditViewMediaState() {
   const { fetchDelete } = useDeleteState();

@@ -3,7 +3,7 @@ import { animated, useSpring } from "react-spring";
 import { MdDelete } from "react-icons/md";
 import PropTypes from "prop-types";
 
-import { Dialog } from "../../base/Utils";
+import { Dialog } from "../../Base/Utils";
 
 import classes from "./MediaItem.module.scss";
 

@@ -4,7 +4,7 @@ import { MdModeEdit } from "react-icons/md";
 import { History } from "history";
 import PropTypes from "prop-types";
 
-import Layout from "../../base/Layout";
+import Layout from "../../Base/Layout";
 
 import Carousel from "./Carousel";
 import useJournalDetailViewState from "./useJournalDetailViewState";

@@ -1,8 +1,8 @@
 import React, { memo, useMemo } from "react";
 import { History } from "history";
 
-import Layout from "../../base/Layout";
-import { FormArea } from "../../base/Form";
+import Layout from "../../Base/Layout";
+import { FormArea } from "../../Base/Form";
 
 import JournalEditViewForm from "./JournalEditViewForm";
 import useJournalEditViewState from "./useJournalEditViewState";

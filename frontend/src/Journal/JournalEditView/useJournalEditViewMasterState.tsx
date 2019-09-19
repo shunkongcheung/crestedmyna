@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { History } from "history";
 
-import { useDetailState, useEditState } from "../../base/Fetches";
-import { useGetIdOrCreateState } from "../../base/Utils";
+import { useDetailState, useEditState } from "../../Base/Fetches";
+import { useGetIdOrCreateState } from "../../Base/Utils";
 
 function useJournalEditViewMasterState(history: History) {
   // props -------------------------------------------------

@@ -5,8 +5,8 @@ import { animated, useSpring } from "react-spring";
 import { FormikProps } from "formik";
 import PropTypes from "prop-types";
 
-import { InputText } from "../../base/Form";
-import { Dialog } from "../../base/Utils";
+import { InputText } from "../../Base/Form";
+import { Dialog } from "../../Base/Utils";
 
 import classes from "./MediaAddBtn.module.scss";
 
