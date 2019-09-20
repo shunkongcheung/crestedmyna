@@ -1,29 +1,34 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
+import { History } from "history";
 
 import useJournalCalendar from "./useJournalCalendar";
+import useJournalContent from "./useJournalContent";
 import useJournalDetail from "./useJournalDetail";
 import useJournalEdit from "./useJournalEdit";
 
-type TContentState = "detail" | "create" | "edit" | undefined;
+type TContentState = "detail" | "create" | "edit" | "list";
 
-function useJournalContainer() {
-  const [contentState, setContentState] = useState<TContentState>();
-
+function useJournalContainer(history: History) {
   const { events, handleRangeChange } = useJournalCalendar();
   const { journalMaster, fetchJournalMaster } = useJournalDetail();
-  const { handleAddMedia, handleDeleteMedia, handleSubmit } = useJournalEdit();
+  const { handleAddMedia, handleDeleteMedia, handleSubmit } = useJournalEdit(
+    history
+  );
+  const contentState = useJournalContent(history, fetchJournalMaster);
 
   // method ----------------------------------------------------
+  const handleDetailBack = useCallback(() => {
+    history.push(`/journal/list/`);
+  }, []);
   const handleCalendarClick = useCallback(
     (id?: number) => {
       if (id) {
-        fetchJournalMaster(id);
-        setContentState("detail");
+        history.push(`/journal/detail/${id}/`);
       } else {
-        setContentState("create");
+        history.push("/journal/create/");
       }
     },
-    [fetchJournalMaster]
+    [fetchJournalMaster, history]
   );
 
   // return ------------------------------------------------------
@@ -35,6 +40,14 @@ function useJournalContainer() {
     }),
     [events, handleCalendarClick, handleRangeChange]
   );
+	const detailState = useMemo(() => ({
+handleDetailBack,
+      journalMaster,
+	}), [
+handleDetailBack,
+      journalMaster,
+
+	])
   const editState = useMemo(
     () => ({
       journalMaster,
@@ -48,8 +61,8 @@ function useJournalContainer() {
   return {
     calendarState,
     contentState,
+detailState,
     editState,
-    journalMaster
   };
 }
 
