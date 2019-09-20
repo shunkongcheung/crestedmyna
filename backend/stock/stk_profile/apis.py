@@ -12,9 +12,5 @@ class StockProfileObjectAPIView(MyObjectAPIView):
         user = self.request.user
         if not user or user.is_anonymous:
             return None
-        object, created = self.model.objects.get_or_create(
-            created_by=user,
-            enable=True,
-            defaults={'created_by': user, }
-        )
+        object = self.model.objects.get(created_by=user, enable=True)
         return object
