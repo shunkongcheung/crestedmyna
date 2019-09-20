@@ -8,7 +8,7 @@ import Carousel from "./Carousel";
 import classes from "./JournalDetail.module.scss";
 
 interface IMedia {
-  src: string;
+  accessUrl: string;
   name: string;
 }
 interface IJournalDetail {

@@ -1,7 +1,6 @@
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState } from "react";
 
 import { useDetailState } from "../Base/Fetches";
-/* import { useGetIdOrCreateState } from "../../Base/Utils"; */
 
 interface IJournalMasterBase {
   name: string;
@@ -12,7 +11,8 @@ interface IJournalMasterBase {
 
 // state ----------------------------------------------
 interface IMedia {
-  src: string;
+  id: number;
+  accessUrl: string;
   name: string;
 }
 interface IJournalMaster extends IJournalMasterBase {
@@ -57,7 +57,8 @@ function useJournalDetailViewState() {
       const journalMaster: IJournalMaster = {
         ...payload,
         medias: payload.medias.map(itm => ({
-          src: itm.access_url,
+          id: itm.id,
+          accessUrl: itm.access_url,
           name: itm.name
         })),
         endAt: new Date(payload.end_at),

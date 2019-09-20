@@ -7,7 +7,7 @@ import classes from "./Carousel.module.scss";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 interface IImageItem {
-  src: string;
+  accessUrl: string;
   name: string;
 }
 interface ICarouselProps {
@@ -22,7 +22,7 @@ function Carousel({ imageItems }: ICarouselProps) {
         const key = `carosual-${idx}`;
         return (
           <div key={key}>
-            <img src={itm.src} alt="" />
+            <img src={itm.accessUrl} alt="" />
             <p className={className}>{itm.name}</p>
           </div>
         );
