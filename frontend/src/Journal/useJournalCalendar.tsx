@@ -1,33 +1,23 @@
 import { useCallback, useEffect, useState } from "react";
-import { History } from "history";
+import { useListState } from "../Base/Fetches";
 
-import { useListState } from "../../Base/Fetches";
+interface IEvent {
+  id: number;
+  title: string;
+  start: Date;
+  end: Date;
+}
+interface IEventRet {
+  id: number;
+  name: string;
+  allDay: false;
+  start_at: string;
+  end_at: string;
+}
 
-function useJournalListViewState(history: History) {
-  interface IJournalMaster {
-    id: number;
-    name: string;
-    allDay: false;
-    start_at: string;
-    end_at: string;
-  }
-  const isAuthenticated = true;
-  const { fetchList } = useListState<IJournalMaster>(isAuthenticated);
-
-  interface IEvent {
-    id: number;
-    title: string;
-    start: Date;
-    end: Date;
-  }
+function useJournalListViewState() {
+  const { fetchList } = useListState<IEventRet>();
   const [events, setEvents] = useState<Array<IEvent>>([]);
-
-  const handleAdd = useCallback(
-    () => {
-      history.push(`/journal/create/`);
-    },
-    [history]
-  );
 
   const handleRangeChange = useCallback(
     async (date__gte?: Date, date__lte?: Date) => {
@@ -48,13 +38,6 @@ function useJournalListViewState(history: History) {
     [fetchList]
   );
 
-  const handleEventClick = useCallback(
-    id => {
-      history.push(`/journal/${id}/`);
-    },
-    [history]
-  );
-
   useEffect(
     () => {
       handleRangeChange();
@@ -62,7 +45,7 @@ function useJournalListViewState(history: History) {
     [handleRangeChange]
   );
 
-  return { events, handleAdd, handleRangeChange, handleEventClick };
+  return { events, handleRangeChange };
 }
 
 export default useJournalListViewState;
