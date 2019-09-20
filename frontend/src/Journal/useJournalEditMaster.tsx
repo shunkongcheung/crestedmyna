@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { History } from "history";
 
 import { useEditState } from "../Base/Fetches";
 
@@ -22,7 +23,7 @@ interface IJournalMasterSubmit {
   start_at: string;
 }
 
-function useJournalEditViewMasterState() {
+function useJournalEditViewMasterState(history: History) {
   // state - fetch -----------------------------------------
   const { fetchEdit } = useEditState<IJournalMasterSubmit>();
 
@@ -39,15 +40,17 @@ function useJournalEditViewMasterState() {
         medias: data.medias.map(itm => itm.id)
       };
 
-      const suffix = !isNaN(data.id) && data.id > 0 ? data.id : "create";
+      const isContainsId = !isNaN(data.id) && data.id > 0;
+      const suffix = isContainsId ? data.id : "create";
+      const method = isContainsId ? "PUT" : "POST";
       const { ok, payload } = await fetchEdit(
         `journal/jnl_master/${suffix}/`,
         submitValues,
-        formApis
+        { formApis, method }
       );
-      return ok ? payload.id : undefined;
+      if (ok) history.push(`/journal/detail/${payload.id}/`);
     },
-    [fetchEdit]
+    [fetchEdit, history]
   );
 
   // return -------------------------------------------------
