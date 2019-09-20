@@ -16,13 +16,12 @@ function useLoginViewState(history: History) {
   const { handleTokenChange } = useContext(AuthContext);
 
   const isAuthenticated = false;
-  const method = "POST";
-  const { fetchEdit } = useEditState<IRet, IFetch>(isAuthenticated, method);
+  const { fetchEdit } = useEditState<IRet, IFetch>(isAuthenticated);
 
   const handleSubmit = useCallback(
-    async (values: IFetch, f: any) => {
+    async (values: IFetch, formApis: any) => {
       const url = "uam/uam_auth/login/";
-      const { ok, payload } = await fetchEdit(url, values, f);
+      const { ok, payload } = await fetchEdit(url, values, { formApis });
       if (ok) {
         handleTokenChange(payload.token);
         history.push("/");

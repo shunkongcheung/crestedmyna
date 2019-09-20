@@ -14,13 +14,12 @@ function useRegisterViewState(history: History) {
   }
 
   const isAuthenticated = false;
-  const method = "POST";
-  const { fetchEdit } = useEditState<IRet, IFetch>(isAuthenticated, method);
+  const { fetchEdit } = useEditState<IRet, IFetch>(isAuthenticated);
 
   const handleSubmit = useCallback(
-    async (values: IFetch, f: any) => {
+    async (values: IFetch, formApis: any) => {
       const url = "uam/uam_auth/register/";
-      const { ok } = await fetchEdit(url, values, f);
+      const { ok } = await fetchEdit(url, values, { formApis });
       if (ok) history.push("/uam/login/");
     },
     [fetchEdit, history]

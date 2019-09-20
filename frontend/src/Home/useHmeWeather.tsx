@@ -34,12 +34,10 @@ interface ICoord {
 }
 
 function useHmeWeather() {
-  const isAuthenticated = true;
-  const method = "POST";
   const { fetchEdit } = useEditState<
     IHmeWeatherFetchRet,
     IHmeWeatherFetchSubmit
-  >(isAuthenticated, method);
+  >();
 
   const [weatherState, setWeatherState] = useState<IHmeWeatherState>({
     dataTime: new Date(),
