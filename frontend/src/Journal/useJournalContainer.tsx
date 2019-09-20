@@ -10,11 +10,19 @@ type TContentState = "detail" | "create" | "edit" | "list";
 
 function useJournalContainer(history: History) {
   const { events, handleRangeChange } = useJournalCalendar();
-  const { journalMaster, fetchJournalMaster } = useJournalDetail();
+  const {
+    journalMaster,
+    fetchJournalMaster,
+    resetJournalMaster
+  } = useJournalDetail();
   const { handleAddMedia, handleDeleteMedia, handleSubmit } = useJournalEdit(
     history
   );
-  const contentState = useJournalContent(history, fetchJournalMaster);
+  const contentState = useJournalContent(
+    history,
+    fetchJournalMaster,
+    resetJournalMaster
+  );
 
   // method ----------------------------------------------------
   const handleDetailBack = useCallback(

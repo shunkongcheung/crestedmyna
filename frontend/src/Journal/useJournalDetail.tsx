@@ -36,17 +36,24 @@ interface IJournalMasterRet extends IJournalMasterBase {
 function useJournalDetailViewState() {
   /* const journalMasterId = useGetIdOrCreateState(/journal\/(\w+)/); */
 
+  const getDefaultJournalMaster = useCallback(
+    () => ({
+      name: "",
+      description: "",
+      endAt: new Date(),
+      id: -1,
+      location: "",
+      medias: [],
+      startAt: new Date()
+    }),
+    []
+  );
+
   const { fetchDetail } = useDetailState<IJournalMasterRet>();
 
-  const [journalMaster, setJournalMaster] = useState<IJournalMaster>({
-    name: "",
-    description: "",
-    endAt: new Date(),
-    id: -1,
-    location: "",
-    medias: [],
-    startAt: new Date()
-  });
+  const [journalMaster, setJournalMaster] = useState<IJournalMaster>(
+    getDefaultJournalMaster()
+  );
 
   const fetchJournalMaster = useCallback(
     async (journalMasterId: number) => {
@@ -69,7 +76,14 @@ function useJournalDetailViewState() {
     [fetchDetail]
   );
 
-  return { journalMaster, fetchJournalMaster };
+  const resetJournalMaster = useCallback(
+    () => {
+      setJournalMaster(getDefaultJournalMaster());
+    },
+    [getDefaultJournalMaster]
+  );
+
+  return { journalMaster, fetchJournalMaster, resetJournalMaster };
 }
 
 export default useJournalDetailViewState;

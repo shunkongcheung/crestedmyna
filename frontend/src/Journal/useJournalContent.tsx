@@ -1,9 +1,10 @@
-import { useCallback, useEffect,  useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { History } from "history";
 
 function useJournalContent(
   history: History,
-  fetchJournalMaster: (id: number) => any
+  fetchJournalMaster: (id: number) => any,
+  resetJournalMaster: () => any
 ) {
   type TContentState = "detail" | "edit" | "list";
   const [contentState, setContentState] = useState<TContentState>("list");
@@ -28,9 +29,12 @@ function useJournalContent(
       else if (pathname.includes("edit"))
         fetchJournalMasterFromPathname(pathname, "edit");
       else if (pathname.includes("create")) setContentState("edit");
-      else setContentState("list");
+      else {
+        setContentState("list");
+        resetJournalMaster();
+      }
     },
-    [fetchJournalMasterFromPathname]
+    [fetchJournalMasterFromPathname, resetJournalMaster]
   );
 
   useEffect(
