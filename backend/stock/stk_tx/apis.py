@@ -12,7 +12,7 @@ from .utils import (
 )
 
 
-fields = ['stock_master', 'tx_type', 'share_count', 'price', ]
+fields = ['stock_master', 'tx_type', 'tx_at', 'share_count', 'price', ]
 
 
 class StockTxCreateAPIView(MyCreateAPIView):
