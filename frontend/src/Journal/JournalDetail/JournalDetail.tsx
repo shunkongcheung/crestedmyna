@@ -1,42 +1,49 @@
 import React, { memo, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { MdModeEdit } from "react-icons/md";
+import { MdKeyboardArrowLeft, MdModeEdit } from "react-icons/md";
 import PropTypes from "prop-types";
 
 import Carousel from "./Carousel";
 
-import classes from "./JournalDetail.module.scss";
+import classNames from "./JournalDetail.module.scss";
 
 interface IMedia {
   accessUrl: string;
   name: string;
 }
 interface IJournalDetail {
-  name: string;
-  description: string;
-  endAt: Date;
-  id: number;
-  location: string;
-  medias: Array<IMedia>;
-  startAt: Date;
+  handleDetailBack: () => any;
+  journalMaster: {
+    name: string;
+    description: string;
+    endAt: Date;
+    id: number;
+    location: string;
+    medias: Array<IMedia>;
+    startAt: Date;
+  };
 }
 
-function JournalDetail({
-  name,
-  description,
-  endAt,
-  id,
-  location,
-  medias,
-  startAt
-}: IJournalDetail) {
+function JournalDetail({ handleDetailBack, journalMaster }: IJournalDetail) {
+  const {
+    name,
+    description,
+    endAt,
+    id,
+    location,
+    medias,
+    startAt
+  } = journalMaster;
   const renderedName = useMemo(
     () => {
       const linkTo = `/journal/edit/${id}/`;
       return (
-        <div className={classes.nameContainer}>
-          <h1 className={classes.name}> {name.toUpperCase()}</h1>
-          <Link className={classes.editLink} to={linkTo}>
+        <div className={classNames.nameContainer}>
+          <div className={classNames.backBtn} onClick={handleDetailBack}>
+            <MdKeyboardArrowLeft />
+          </div>
+          <h1 className={classNames.name}> {name.toUpperCase()}</h1>
+          <Link className={classNames.editLink} to={linkTo}>
             <MdModeEdit />
           </Link>
         </div>
@@ -54,35 +61,36 @@ function JournalDetail({
     );
   }, []);
 
-  const iframeArgs = {
-    title: "JournalDetail-iframe",
-    srcdoc: description,
-    className: classes.desc
-  };
   return (
     <>
-      <div className={classes.titleRow}>
+      <div className={classNames.titleRow}>
         {renderedName}
-        <div className={classes.duration}>
+        <div className={classNames.duration}>
           {renderDate(startAt, "from")}
           {renderDate(endAt, "to")}
         </div>
       </div>
-      <h3 className={classes.location}>{location}</h3>
+      <h3 className={classNames.location}>{location}</h3>
       <Carousel imageItems={medias} />
-      <iframe {...iframeArgs} title="journal-detail" />
+      <iframe
+        className={classNames.desc}
+        srcDoc={description}
+        title="JournalDetail-iframe"
+      />
     </>
   );
 }
 
 JournalDetail.propTypes = {
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  endAt: PropTypes.instanceOf(Date).isRequired,
-  id: PropTypes.number.isRequired,
-  location: PropTypes.string.isRequired,
-  medias: PropTypes.array.isRequired,
-  startAt: PropTypes.instanceOf(Date).isRequired
+  journalMaster: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    endAt: PropTypes.instanceOf(Date).isRequired,
+    id: PropTypes.number.isRequired,
+    location: PropTypes.string.isRequired,
+    medias: PropTypes.array.isRequired,
+    startAt: PropTypes.instanceOf(Date).isRequired
+  }).isRequired
 };
 
 export default memo(JournalDetail);

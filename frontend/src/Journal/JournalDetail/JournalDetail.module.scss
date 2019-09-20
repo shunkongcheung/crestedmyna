@@ -1,5 +1,13 @@
 @import "../../variables";
 
+.backBtn {
+  border: 0;
+  color: $secondaryColor;
+  cursor: pointer;
+  display: flex;
+  font-size: 2rem;
+}
+
 .desc {
   border: 0px;
   margin-bottom: 30vh;
@@ -15,6 +23,7 @@
 
 .location {
   margin-top: 0;
+  margin-left: 2.3rem;
   color: $quaternaryColor;
 }
 
