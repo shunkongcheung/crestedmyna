@@ -15,6 +15,8 @@ class StockTx(MyBaseModel):
                                      on_delete=models.CASCADE,
                                      related_name='stock_txs'
                                      )
+    tx_date = models.DateTimeField()
+
     tx_type = models.CharField(max_length=64, choices=TX_TYPES)
     share_count = models.IntegerField()
     price = models.FloatField()
