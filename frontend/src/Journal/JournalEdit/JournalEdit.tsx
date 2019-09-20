@@ -52,9 +52,14 @@ function JournalEdit({
   journalMaster,
   handleSubmit
 }: IJournalEditProps) {
-  const isLoading = useMemo(() => !journalMaster || journalMaster.id === -1, [
-    journalMaster
-  ]);
+  const isLoading = useMemo(
+    () => {
+      const isContainData = !journalMaster || journalMaster.id === -1;
+      const isCreate = window.location.pathname.includes("create");
+      return !isContainData && !isCreate;
+    },
+    [journalMaster]
+  );
   const renderedLoading = useMemo(
     () => {
       if (!isLoading) return <></>;
