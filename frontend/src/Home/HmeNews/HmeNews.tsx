@@ -19,7 +19,11 @@ interface IHmeNewsProps {
 
 function HmeNews({ headlines }: IHmeNewsProps) {
   const renderedHeadlines = useMemo(
-    () => headlines.map(headline => <Headline {...headline} />),
+    () =>
+      headlines.map((headline, idx) => {
+        const key = `Headline-${idx}`;
+        return <Headline {...headline} key={key} />;
+      }),
     [headlines]
   );
   return (
