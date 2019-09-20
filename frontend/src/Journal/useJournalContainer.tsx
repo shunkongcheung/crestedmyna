@@ -1,35 +1,32 @@
-import { useCallback, useRef, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import useJournalCalendar from "./useJournalCalendar";
 import useJournalDetail from "./useJournalDetail";
+import useJournalEdit from "./useJournalEdit";
 
-interface IPageScrollerRef {
-  goToPage: (p: number) => any;
-}
 type TContentState = "detail" | "create" | "edit" | undefined;
 
 function useJournalContainer() {
   const [contentState, setContentState] = useState<TContentState>();
-  const pageScrollerRef = useRef<IPageScrollerRef>();
 
   const { events, handleRangeChange } = useJournalCalendar();
   const { journalMaster, fetchJournalMaster } = useJournalDetail();
+  const { handleAddMedia, handleDeleteMedia, handleSubmit } = useJournalEdit();
 
+  // method ----------------------------------------------------
   const handleCalendarClick = useCallback(
     (id?: number) => {
-      if (!pageScrollerRef.current) return;
-
       if (id) {
         fetchJournalMaster(id);
         setContentState("detail");
       } else {
         setContentState("create");
       }
-      pageScrollerRef.current.goToPage(1);
     },
     [fetchJournalMaster]
   );
 
+  // return ------------------------------------------------------
   const calendarState = useMemo(
     () => ({
       events,
@@ -38,12 +35,21 @@ function useJournalContainer() {
     }),
     [events, handleCalendarClick, handleRangeChange]
   );
+  const editState = useMemo(
+    () => ({
+      journalMaster,
+      handleAddMedia,
+      handleDeleteMedia,
+      handleSubmit
+    }),
+    [journalMaster, handleAddMedia, handleDeleteMedia, handleSubmit]
+  );
 
   return {
     calendarState,
     contentState,
-    journalMaster,
-    pageScrollerRef
+    editState,
+    journalMaster
   };
 }
 

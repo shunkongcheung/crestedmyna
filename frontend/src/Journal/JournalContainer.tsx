@@ -1,21 +1,30 @@
 import React, { memo } from "react";
-import { RouteComponentProps, Switch, Route } from "react-router-dom";
 
-import JournalDetailView from "./JournalDetailView";
-import JournalEditView from "./JournalEditView";
-import JournalListView from "./JournalListView";
+import JournalDetail from "./JournalDetail";
+import JournalEdit from "./JournalEdit";
+import JournalCalendar from "./JournalCalendar";
 
-import { FourOFour } from "../Base/Utils";
+import useJournalContainer from "./useJournalContainer";
 
-function JournalContainer({ match: { url } }: RouteComponentProps) {
+import Layout from "../Base/Layout";
+
+interface IPageScrollerRef {
+  goToPage: (p: number) => any;
+}
+function JournalContainer() {
+  const {
+    contentState,
+    calendarState,
+    journalMaster,
+    editState
+  } = useJournalContainer();
+
   return (
-    <Switch>
-      <Route path={`${url}/create/`} exact component={JournalEditView} />
-      <Route path={`${url}/edit/:id/`} exact component={JournalEditView} />
-      <Route path={`${url}/:id/`} exact component={JournalDetailView} />
-      <Route path={`${url}/`} exact component={JournalListView} />
-      <Route path="*" component={FourOFour} />
-    </Switch>
+    <Layout>
+      <JournalCalendar {...calendarState} />
+      <JournalDetail {...journalMaster} />
+      <JournalEdit {...editState} />
+    </Layout>
   );
 }
 

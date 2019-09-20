@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { FormikProps } from "formik";
 
-import { useDeleteState, useFetchFormDataState } from "../../Base/Fetches";
+import { useDeleteState, useFetchFormDataState } from "../Base/Fetches";
 
-function useJournalEditViewMediaState() {
+function useJournalEditMedia() {
   const { fetchDelete } = useDeleteState();
   const { makeFormDataFetch } = useFetchFormDataState();
 
@@ -45,7 +45,6 @@ function useJournalEditViewMediaState() {
         id: payload.id
       };
       const nMedias = [media, ...medias];
-      console.log("here....", nMedias);
       setFieldValue("medias", nMedias);
     },
     [makeFormDataFetch]
@@ -55,4 +54,4 @@ function useJournalEditViewMediaState() {
   return { handleAddMedia, handleDeleteMedia };
 }
 
-export default useJournalEditViewMediaState;
+export default useJournalEditMedia;
