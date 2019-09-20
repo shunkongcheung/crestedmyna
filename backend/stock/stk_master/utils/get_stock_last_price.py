@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 from stock.utils.get_quandl import get_quandl
 
 import json
-import pandas as pd
 
 
 def get_start_date_str():
