@@ -7,7 +7,7 @@ interface IHeadline {
   description: string;
   publishAt: Date;
   title: string;
-  thumbnail: string;
+  thumbnail?: string;
   url: string;
 }
 interface INewsState {
@@ -20,7 +20,7 @@ interface IHeadlineRet {
   description: string;
   publish_at: string;
   title: string;
-  thumbnail: string;
+  thumbnail?: string;
   url: string;
 }
 interface IFetchRet {

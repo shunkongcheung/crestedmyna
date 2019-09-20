@@ -7,4 +7,11 @@
 .headlines {
   max-height: 50vh;
   overflow-y: auto;
+
+  @include phone-width {
+    max-height: 80vh;
+  }
+  @include small-pad-width {
+    max-height: 80vh;
+  }
 }

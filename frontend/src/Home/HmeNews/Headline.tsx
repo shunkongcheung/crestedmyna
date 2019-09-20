@@ -9,13 +9,13 @@ interface IHeadlineProps {
   description: string;
   publishAt: Date;
   title: string;
-  thumbnail: string;
+  thumbnail?: string;
   url: string;
 }
 
-function Headline({ author, title, thumbnail }: IHeadlineProps) {
+function Headline({ author, title, thumbnail, url }: IHeadlineProps) {
   const [style, set] = useSpring(() => ({ opacity: 0.5 }));
-  const [isImgLoaded, setIsImgLoaded] = useState(false);
+  const [isImgLoaded, setIsImgLoaded] = useState(!thumbnail);
 
   const renderedContent = useMemo(
     () => {
@@ -29,20 +29,22 @@ function Headline({ author, title, thumbnail }: IHeadlineProps) {
     [title, isImgLoaded]
   );
   return (
-    <div
-      className={classNames.container}
-      onMouseEnter={() => set({ opacity: 0.2 })}
-      onMouseLeave={() => set({ opacity: 0.5 })}
-    >
-      <img
-        className={classNames.thumbnail}
-        src={thumbnail}
-        alt=""
-        onLoad={() => setIsImgLoaded(true)}
-      />
-      <animated.div className={classNames.shadow} style={style} />
-      {renderedContent}
-    </div>
+    <a href={url} target="__blank">
+      <div
+        className={classNames.container}
+        onMouseEnter={() => set({ opacity: 0.2 })}
+        onMouseLeave={() => set({ opacity: 0.5 })}
+      >
+        <img
+          className={classNames.thumbnail}
+          src={thumbnail}
+          alt=""
+          onLoad={() => setIsImgLoaded(true)}
+        />
+        <animated.div className={classNames.shadow} style={style} />
+        {renderedContent}
+      </div>
+    </a>
   );
 }
 
@@ -51,7 +53,7 @@ Headline.propTypes = {
   description: PropTypes.string.isRequired,
   publishAt: PropTypes.instanceOf(Date).isRequired,
   title: PropTypes.string.isRequired,
-  thumbnail: PropTypes.string.isRequired,
+  thumbnail: PropTypes.string,
   url: PropTypes.string.isRequired
 };
 export default memo(Headline);

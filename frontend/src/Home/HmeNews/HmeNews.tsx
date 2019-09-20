@@ -9,7 +9,7 @@ interface IHeadline {
   description: string;
   publishAt: Date;
   title: string;
-  thumbnail: string;
+  thumbnail?: string;
   url: string;
 }
 
