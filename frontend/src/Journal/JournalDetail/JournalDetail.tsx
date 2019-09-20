@@ -1,32 +1,35 @@
 import React, { memo, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { MdModeEdit } from "react-icons/md";
-import { History } from "history";
 import PropTypes from "prop-types";
 
-import Layout from "../../Base/Layout";
-
 import Carousel from "./Carousel";
-import useJournalDetailViewState from "./useJournalDetailViewState";
 
-import classes from "./JournalDetailView.module.scss";
+import classes from "./JournalDetail.module.scss";
 
-interface IJournalDetailViewProps {
-  history: History;
+interface IMedia {
+  src: string;
+  name: string;
+}
+interface IJournalDetail {
+  name: string;
+  description: string;
+  endAt: Date;
+  id: number;
+  location: string;
+  medias: Array<IMedia>;
+  startAt: Date;
 }
 
-function JournalDetailView({ history }: IJournalDetailViewProps) {
-  const { journalMaster } = useJournalDetailViewState();
-  const {
-    name,
-    description,
-    endAt,
-    id,
-    location,
-    medias,
-    startAt
-  } = journalMaster;
-
+function JournalDetail({
+  name,
+  description,
+  endAt,
+  id,
+  location,
+  medias,
+  startAt
+}: IJournalDetail) {
   const renderedName = useMemo(
     () => {
       const linkTo = `/journal/edit/${id}/`;
@@ -57,7 +60,7 @@ function JournalDetailView({ history }: IJournalDetailViewProps) {
     className: classes.desc
   };
   return (
-    <Layout>
+    <>
       <div className={classes.titleRow}>
         {renderedName}
         <div className={classes.duration}>
@@ -67,12 +70,19 @@ function JournalDetailView({ history }: IJournalDetailViewProps) {
       </div>
       <h3 className={classes.location}>{location}</h3>
       <Carousel imageItems={medias} />
-      <iframe {...iframeArgs} />
-    </Layout>
+      <iframe {...iframeArgs} title="journal-detail" />
+    </>
   );
 }
 
-JournalDetailView.propTypes = {
-  history: PropTypes.object.isRequired
+JournalDetail.propTypes = {
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  endAt: PropTypes.instanceOf(Date).isRequired,
+  id: PropTypes.number.isRequired,
+  location: PropTypes.string.isRequired,
+  medias: PropTypes.array.isRequired,
+  startAt: PropTypes.instanceOf(Date).isRequired
 };
-export default memo(JournalDetailView);
+
+export default memo(JournalDetail);
