@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from stock.models import StockProfile
 from rest_framework.serializers import ModelSerializer
 
 
@@ -15,4 +16,10 @@ class AuthRegisterSerializer(ModelSerializer):
         instance = super().create(data)
         instance.set_password(data['password'])
         instance.save()
+
+        stock_profile = StockProfile.objects.create(created_by=instance,
+                                                    name=instance.username
+                                                    )
+        stock_profile.save()
+
         return instance
