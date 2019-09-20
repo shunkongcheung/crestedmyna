@@ -3,7 +3,7 @@ import { useEditState } from "../Base/Fetches";
 
 // store values ---------------------------------
 interface IHeadline {
-  author: string;
+  author?: string;
   description: string;
   publishAt: Date;
   title: string;
@@ -16,7 +16,7 @@ interface INewsState {
 
 // fetch values ---------------------------------
 interface IHeadlineRet {
-  author: string;
+  author?: string;
   description: string;
   publish_at: string;
   title: string;

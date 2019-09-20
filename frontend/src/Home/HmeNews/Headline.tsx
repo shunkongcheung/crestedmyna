@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import classNames from "./Headline.module.scss";
 
 interface IHeadlineProps {
-  author: string;
+  author?: string;
   description: string;
   publishAt: Date;
   title: string;
@@ -47,7 +47,7 @@ function Headline({ author, title, thumbnail }: IHeadlineProps) {
 }
 
 Headline.propTypes = {
-  author: PropTypes.string.isRequired,
+  author: PropTypes.string,
   description: PropTypes.string.isRequired,
   publishAt: PropTypes.instanceOf(Date).isRequired,
   title: PropTypes.string.isRequired,

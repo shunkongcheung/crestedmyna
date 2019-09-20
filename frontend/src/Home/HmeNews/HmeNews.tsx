@@ -5,7 +5,7 @@ import Headline from "./Headline";
 import classNames from "./HmeNews.module.scss";
 
 interface IHeadline {
-  author: string;
+  author?: string;
   description: string;
   publishAt: Date;
   title: string;
