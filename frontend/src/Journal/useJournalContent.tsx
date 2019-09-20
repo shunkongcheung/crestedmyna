@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect,  useState } from "react";
 import { History } from "history";
 
 function useJournalContent(
@@ -33,12 +33,16 @@ function useJournalContent(
     [fetchJournalMasterFromPathname]
   );
 
-  useEffect(() => {
-    const unlisten = history.listen(setContentStateOnHistoryChange);
-    return () => {
-      unlisten();
-    };
-  });
+  useEffect(
+    () => {
+      const unlisten = history.listen(setContentStateOnHistoryChange);
+      setContentStateOnHistoryChange(window.location);
+      return () => {
+        unlisten();
+      };
+    },
+    [history, setContentStateOnHistoryChange]
+  );
 
   return contentState;
 }
