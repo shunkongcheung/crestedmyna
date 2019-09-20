@@ -28,7 +28,7 @@ class Command(BaseCommand):
         for file_name in self.get_app_files():
             to_path = os.path.join(to_dir_path, file_name)
             from_path = os.path.join(BASE_DIR,
-                                     'base/management/commands/utils',
+                                     'base/management/commands/sub_app_templates',
                                      file_name
                                      )
             shutil.copy(from_path, to_path)
