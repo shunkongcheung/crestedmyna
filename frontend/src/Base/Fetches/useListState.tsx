@@ -4,7 +4,7 @@ import useErrorState from "./useErrorState";
 import useFetchState from "./useFetchState";
 
 function useListState<IResult = object>(
-  isAuthenticated: boolean,
+  isAuthenticated: boolean = true,
   snackLvl: "none" | "info" | "warning" | "error" = "error"
 ) {
   interface IFetchDataType {
