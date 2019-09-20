@@ -6,9 +6,9 @@ import useFetchState from "./useFetchState";
 
 function useEditState<IRetDataType, IFetchDataType = IRetDataType>(
   isAuthenticated: boolean = true,
-  method: "PUT" | "POST" = "POST",
   snackLvl: "none" | "info" | "warning" | "error" = "error"
 ) {
+  type IMethod = "POST" | "PUT";
   type TFetchEditRet = IRetDataType & { error?: string };
   const { makeRestfulFetch } = useFetchState<IRetDataType, IFetchDataType>();
   const { setErrorMsg } = useErrorState(snackLvl);
@@ -22,8 +22,12 @@ function useEditState<IRetDataType, IFetchDataType = IRetDataType>(
     async (
       url: string,
       data: IFetchDataType,
-      formApis?: FormikProps<IRetDataType>
+      params?: {
+        method?: IMethod;
+        formApis?: FormikProps<IRetDataType>;
+      }
     ): Promise<IEditRet> => {
+      const { method = "POST", formApis } = params || {};
       const ret = await makeRestfulFetch(url, {
         data,
         isAuthenticated,
@@ -36,7 +40,7 @@ function useEditState<IRetDataType, IFetchDataType = IRetDataType>(
       }
       return ret;
     },
-    [isAuthenticated, makeRestfulFetch, method, setErrorMsg]
+    [isAuthenticated, makeRestfulFetch, setErrorMsg]
   );
 
   return { fetchEdit };
