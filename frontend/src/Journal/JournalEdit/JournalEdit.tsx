@@ -1,6 +1,7 @@
 import React, { memo, useMemo } from "react";
 import { FormikProps } from "formik";
 
+import { FormArea } from "../../Base/Form";
 import JournalEditForm from "./JournalEditForm";
 
 interface IMedia {
@@ -51,9 +52,26 @@ function JournalEdit({
   journalMaster,
   handleSubmit
 }: IJournalEditProps) {
+  const isLoading = useMemo(() => !journalMaster || journalMaster.id === -1, [
+    journalMaster
+  ]);
+  const renderedLoading = useMemo(
+    () => {
+      if (!isLoading) return <></>;
+      return (
+        <FormArea
+          banner="Journal"
+          children={<></>}
+          handleSubmit={() => {}}
+          isSubmitting={true}
+        />
+      );
+    },
+    [isLoading]
+  );
   const renderedForm = useMemo(
     () => {
-      if (!journalMaster) return <></>;
+      if (isLoading) return <></>;
       return (
         <JournalEditForm
           {...journalMaster}
@@ -63,10 +81,15 @@ function JournalEdit({
         />
       );
     },
-    [handleAddMedia, handleDeleteMedia, handleSubmit, journalMaster]
+    [handleAddMedia, handleDeleteMedia, handleSubmit, isLoading, journalMaster]
   );
 
-  return <>{renderedForm}</>;
+  return (
+    <>
+      {renderedForm}
+      {renderedLoading}
+    </>
+  );
 }
 
 export default memo(JournalEdit);
