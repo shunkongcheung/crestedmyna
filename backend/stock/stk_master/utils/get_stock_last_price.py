@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
-
-from .get_quandl import get_quandl
+from stock.utils.get_quandl import get_quandl
 
 import json
 import pandas as pd

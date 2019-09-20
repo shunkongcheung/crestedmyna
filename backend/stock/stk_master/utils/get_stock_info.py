@@ -1,4 +1,4 @@
-from .get_quandl import get_quandl
+from stock.utils.get_quandl import get_quandl
 
 
 def get_stock_info(stock_code):
