@@ -49,7 +49,7 @@ function JournalDetail({ handleDetailBack, journalMaster }: IJournalDetail) {
         </div>
       );
     },
-    [id, name]
+    [handleDetailBack, id, name]
   );
 
   const renderDate = useCallback((date: Date, desc: string) => {

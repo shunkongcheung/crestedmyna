@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 
 import Tabs, { TabPane } from "rc-tabs";
 import TabContent from "rc-tabs/lib/TabContent";
-import ScrollableInkTabBar from "rc-tabs/lib/ScrollableInkTabBar";
 
 import JournalDetail from "./JournalDetail";
 import JournalEdit from "./JournalEdit";

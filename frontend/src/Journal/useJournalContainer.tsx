@@ -17,9 +17,13 @@ function useJournalContainer(history: History) {
   const contentState = useJournalContent(history, fetchJournalMaster);
 
   // method ----------------------------------------------------
-  const handleDetailBack = useCallback(() => {
-    history.push(`/journal/list/`);
-  }, []);
+  const handleDetailBack = useCallback(
+    () => {
+      history.push(`/journal/list/`);
+    },
+    [history]
+  );
+
   const handleCalendarClick = useCallback(
     (id?: number) => {
       if (id) {
@@ -28,7 +32,7 @@ function useJournalContainer(history: History) {
         history.push("/journal/create/");
       }
     },
-    [fetchJournalMaster, history]
+    [history]
   );
 
   // return ------------------------------------------------------
@@ -40,14 +44,13 @@ function useJournalContainer(history: History) {
     }),
     [events, handleCalendarClick, handleRangeChange]
   );
-	const detailState = useMemo(() => ({
-handleDetailBack,
-      journalMaster,
-	}), [
-handleDetailBack,
-      journalMaster,
-
-	])
+  const detailState = useMemo(
+    () => ({
+      handleDetailBack,
+      journalMaster
+    }),
+    [handleDetailBack, journalMaster]
+  );
   const editState = useMemo(
     () => ({
       journalMaster,
@@ -61,8 +64,8 @@ handleDetailBack,
   return {
     calendarState,
     contentState,
-detailState,
-    editState,
+    detailState,
+    editState
   };
 }
 
