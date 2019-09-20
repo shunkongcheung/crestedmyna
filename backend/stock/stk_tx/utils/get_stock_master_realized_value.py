@@ -5,10 +5,10 @@ from .get_stock_tx_basic_filter import get_stock_tx_basic_filter
 from .get_stock_master_share_count_by_type import get_stock_master_share_count_by_type
 
 
-def get_stock_master_sold_net_value(stock_master, created_after, created_before):
+def get_stock_master_sold_net_value(stock_master, tx_after, tx_before):
     kwargs = get_stock_tx_basic_filter(StockTx.TX_SELL[0],
-                                       created_after,
-                                       created_before
+                                       tx_after,
+                                       tx_before
                                        )
 
     return stock_master.stock_txs.filter(**kwargs)\
@@ -17,11 +17,11 @@ def get_stock_master_sold_net_value(stock_master, created_after, created_before)
 
 def get_stock_master_realized_buy_net_value(stock_master,
                                             sell_share_count,
-                                            created_after,
-                                            created_before):
+                                            tx_after,
+                                            tx_before):
     kwargs = get_stock_tx_basic_filter(StockTx.TX_BUY[0],
-                                       created_after,
-                                       created_before
+                                       tx_after,
+                                       tx_before
                                        )
     buy_txs = stock_master.stock_txs.filter(stock_master=stock_master,
                                             **kwargs
@@ -43,20 +43,20 @@ def get_stock_master_realized_buy_net_value(stock_master,
 
 
 def get_stock_master_realized_value(stock_master,
-                                    created_after=None,
-                                    created_before=None):
+                                    tx_after=None,
+                                    tx_before=None):
     sell_share_count = get_stock_master_share_count_by_type(stock_master,
                                                             StockTx.TX_SELL[0],
-                                                            created_after,
-                                                            created_before
+                                                            tx_after,
+                                                            tx_before
                                                             )
     sell_net_value = get_stock_master_sold_net_value(stock_master,
-                                                     created_after,
-                                                     created_before
+                                                     tx_after,
+                                                     tx_before
                                                      )
     buy_net_value = get_stock_master_realized_buy_net_value(stock_master,
                                                             sell_share_count,
-                                                            created_after,
-                                                            created_before
+                                                            tx_after,
+                                                            tx_before
                                                             )
     return sell_net_value - buy_net_value
