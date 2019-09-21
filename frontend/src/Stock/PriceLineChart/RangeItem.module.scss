@@ -1,0 +1,11 @@
+@import "../../variables";
+.container {
+  color: #ccc;
+  cursor: pointer;
+  font-size: 0.7rem;
+  margin: auto auto;
+}
+
+.selected {
+  color: $primaryColor;
+}
