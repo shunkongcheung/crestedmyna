@@ -23,7 +23,7 @@ class StockTxCreateAPIView(MyCreateAPIView):
 
 
 class StockTxListAPIView(MyListAPIView):
-    fields = fields
+    fields = fields + ['gross_value', 'trade_cost', 'net_value', ]
     model = StockTx
 
     def get_queryset(self):
