@@ -35,4 +35,11 @@
   height: 2rem;
   width: 30vw;
   margin-left: auto;
+
+  @include small-pad-width {
+    width: 70vw;
+  }
+  @include phone-width {
+    width: 70vw;
+  }
 }
