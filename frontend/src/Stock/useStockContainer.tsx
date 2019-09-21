@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useMemo } from "react";
+
 import useStockPrices from "./useStockPrices";
+import useStockMasters from "./useStockMasters";
 
 function useStockContainer() {
   const { fetchStockPrices, stockPricesState } = useStockPrices();
+  const { stockMastersState } = useStockMasters();
 
   useEffect(
     () => {
@@ -26,7 +29,7 @@ function useStockContainer() {
     [stockPricesState, handleRangeSelected]
   );
 
-  return { priceLineChartState };
+  return { priceLineChartState, stockMastersState };
 }
 
 export default useStockContainer;
