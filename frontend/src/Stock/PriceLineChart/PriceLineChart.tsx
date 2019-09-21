@@ -1,23 +1,45 @@
-import React, { memo } from "react";
+import React, { memo, useCallback, useState, useMemo } from "react";
+import moment from "moment";
 import PropTypes from "prop-types";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { Line } from "react-chartjs-2";
+
+import RangeItem from "./RangeItem";
+import classNames from "./PriceLineChart.module.scss";
 
 interface IPrice {
   date: Date;
   nominalPrice: number;
 }
+type TRange = "week" | "month" | "year" | "5years";
 interface IPriceLineChartProps {
+  handleRangeSelected: (r: TRange) => any;
+  isLoading: boolean;
   prices: Array<IPrice>;
+  range: TRange;
 }
 
-function PriceLineChart({ prices }: IPriceLineChartProps) {
-  return (
-    <div>
-      <div />
+function PriceLineChart({
+  handleRangeSelected,
+  isLoading,
+  prices,
+  range
+}: IPriceLineChartProps) {
+  const renderedLoading = useMemo(
+    () => (
+      <div className={classNames.loadingContainer}>
+        <CircularProgress color="secondary" style={{ margin: "0.5rem" }} />
+      </div>
+    ),
+    []
+  );
+
+  const renderedChart = useMemo(
+    () => (
       <Line
         data={{
-          labels: prices.map(itm => itm.date.toLocaleString()),
+          labels: prices.map(itm => moment(itm.date).format("YYYY-MM-DD")),
           datasets: [
             {
               fill: false,
@@ -29,18 +51,56 @@ function PriceLineChart({ prices }: IPriceLineChartProps) {
             }
           ]
         }}
+        height={350}
         options={{ legend: { position: "bottom" } }}
       />
+    ),
+    [prices]
+  );
+
+  const renderedContent = useMemo(
+    () => (isLoading ? renderedLoading : renderedChart),
+    [isLoading, renderedChart, renderedLoading]
+  );
+
+  return (
+    <div>
+      {renderedContent}
+      <div className={classNames.rangeContainer}>
+        <RangeItem
+          handleRangeSelected={handleRangeSelected}
+          name="week"
+          selectedRange={range}
+        />
+        <RangeItem
+          handleRangeSelected={handleRangeSelected}
+          name="month"
+          selectedRange={range}
+        />
+        <RangeItem
+          handleRangeSelected={handleRangeSelected}
+          name="year"
+          selectedRange={range}
+        />
+        <RangeItem
+          handleRangeSelected={handleRangeSelected}
+          name="5years"
+          selectedRange={range}
+        />
+      </div>
     </div>
   );
 }
 
 PriceLineChart.propTypes = {
+  handleRangeSelected: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   prices: PropTypes.arrayOf(
     PropTypes.shape({
       date: PropTypes.instanceOf(Date).isRequired,
       nominalPrice: PropTypes.number.isRequired
     })
-  ).isRequired
+  ).isRequired,
+  range: PropTypes.oneOf(["week", "month", "year", "5years"]).isRequired
 };
 export default memo(PriceLineChart);
