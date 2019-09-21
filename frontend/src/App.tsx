@@ -12,6 +12,7 @@ import classNames from "./App.module.css";
 const AuthContainer = lazy(() => import("./Base/Auth/AuthContainer"));
 const HomeContainer = lazy(() => import("./Home/HomeContainer"));
 const JournalContainer = lazy(() => import("./Journal/JournalContainer"));
+const StockContainer = lazy(() => import("./Stock/StockContainer"));
 
 // routes -----------------------------------------------
 
@@ -19,6 +20,7 @@ function RouteTable() {
   return (
     <Switch>
       <Route path="/journal" component={JournalContainer} />
+      <Route path="/stock" component={StockContainer} />
       <Route path="/uam" component={AuthContainer} />
       <Route path="/" exact component={HomeContainer} />
       <Route path="/" component={FourOFour} />

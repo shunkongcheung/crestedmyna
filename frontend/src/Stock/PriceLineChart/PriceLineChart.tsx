@@ -37,23 +37,25 @@ function PriceLineChart({
 
   const renderedChart = useMemo(
     () => (
-      <Line
-        data={{
-          labels: prices.map(itm => moment(itm.date).format("YYYY-MM-DD")),
-          datasets: [
-            {
-              fill: false,
-              label: "Nominal price",
-              backgroundColor: "rgba(233,78,128,1)",
-              borderColor: "rgba(233,78,128,1)",
-              pointBorderColor: "rgba(233,78,128,1)",
-              data: prices.map(itm => itm.nominalPrice)
-            }
-          ]
-        }}
-        height={350}
-        options={{ legend: { position: "bottom" } }}
-      />
+      <div className={classNames.chartContainer}>
+        <Line
+          data={{
+            labels: prices.map(itm => moment(itm.date).format("YYYY-MM-DD")),
+            datasets: [
+              {
+                fill: false,
+                label: "Nominal price",
+                backgroundColor: "rgba(233,78,128,1)",
+                borderColor: "rgba(233,78,128,1)",
+                pointBorderColor: "rgba(233,78,128,1)",
+                data: prices.map(itm => itm.nominalPrice)
+              }
+            ]
+          }}
+          height={250}
+          options={{ legend: { position: "bottom" } }}
+        />
+      </div>
     ),
     [prices]
   );
@@ -64,7 +66,7 @@ function PriceLineChart({
   );
 
   return (
-    <div>
+    <>
       {renderedContent}
       <div className={classNames.rangeContainer}>
         <RangeItem
@@ -88,7 +90,7 @@ function PriceLineChart({
           selectedRange={range}
         />
       </div>
-    </div>
+    </>
   );
 }
 
