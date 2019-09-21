@@ -1,0 +1,92 @@
+@import "../../variables";
+
+.container {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem auto;
+}
+
+#everything {
+  @include small-pad-width {
+    font-size: 0.9rem !important;
+  }
+  @include phone-width {
+    font-size: 0.8rem !important;
+  }
+}
+
+.iconFull {
+  @extend #everything;
+  color: #7d80d8;
+}
+.iconEmpty {
+  @extend #everything;
+  color: $primaryColor;
+}
+
+.iconContainer {
+  font-size: 1.5rem;
+  @extend #everything;
+}
+
+#column {
+  @extend #everything;
+  margin-left: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.txType {
+  @extend #everything;
+  width: 5%;
+}
+.newValue {
+  @extend #column;
+  width: 10%;
+}
+
+.netValue {
+  @extend #column;
+  width: 10%;
+}
+.shareCount {
+  @extend #column;
+  width: 5%;
+}
+.price {
+  @extend #column;
+  width: 5%;
+}
+.grossValue {
+  @extend #column;
+  width: 10%;
+}
+.tradeCost {
+  @extend #column;
+  width: 10%;
+}
+.txAt {
+  @extend #column;
+  width: 20%;
+}
+
+/*---------------------  HEADER --------------------- */
+.headerContainer {
+  @extend .container;
+  margin-top: 2rem;
+  font-weight: 700;
+  color: $primaryColor;
+}
+.txTypeHeader {
+  @extend #everything;
+  width: 10%;
+}
+.txAtHeaderTxt {
+  margin-left: auto;
+}
+.setting {
+  color: #777;
+  cursor: pointer;
+  margin-left: auto;
+}
+/*---------------------  HEADER --------------------- */
