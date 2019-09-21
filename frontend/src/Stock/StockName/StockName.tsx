@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useState } from "react";
+import React, { memo, useCallback, useMemo, useState } from "react";
 import { MdFilterList } from "react-icons/md";
 import { animated, useSpring } from "react-spring";
 import PropTypes from "prop-types";
@@ -8,7 +8,7 @@ import SearchField from "./SearchField";
 import classNames from "./StockName.module.scss";
 
 interface IStockNameProps {
-  handleStockSearch: (search:string) => any;
+  handleStockSearch: (search: string) => any;
   handleStockMasterChange: (id: number) => any;
   isLoading: boolean;
   stockMasters: Array<{ name: string; id: number }>;
@@ -34,10 +34,24 @@ function StockName({
     }),
     [style]
   );
+  const handleStockMasterChangeI = useCallback(
+    id => {
+      setIsSearching(false);
+      return handleStockMasterChange(id);
+    },
+    [handleStockMasterChange]
+  );
+
+  const handleStockSearchI = useCallback(
+    stockCode => {
+      setIsSearching(false);
+      return handleStockSearch(stockCode);
+    },
+    [handleStockSearch]
+  );
 
   return (
     <div className={classNames.container}>
-      <div className={classNames.content}>
         <div className={classNames.displayNameContainer}>
           <div className={classNames.displayName}>{stockName}</div>
           <div
@@ -50,13 +64,12 @@ function StockName({
         <div className={classNames.searchFieldContainer}>
           <animated.div style={searchFieldStyle}>
             <SearchField
-              handleStockSearch={handleStockSearch}
-              handleStockMasterChange={handleStockMasterChange}
+              handleStockSearch={handleStockSearchI}
+              handleStockMasterChange={handleStockMasterChangeI}
               stockMasters={stockMasters}
             />
           </animated.div>
         </div>
-      </div>
     </div>
   );
 }

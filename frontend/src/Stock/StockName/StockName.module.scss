@@ -2,9 +2,7 @@
 
 .container {
   display: flex;
-}
-.content {
-  margin-left: auto;
+  flex-direction: column;
 }
 
 .displayName {
@@ -15,6 +13,7 @@
 .displayNameContainer {
   display: flex;
   align-items: center;
+  margin-left: auto;
 }
 
 #displayBtn {
@@ -34,4 +33,6 @@
   display: flex;
   justify-content: flex-end;
   height: 2rem;
+  width: 30vw;
+  margin-left: auto;
 }
