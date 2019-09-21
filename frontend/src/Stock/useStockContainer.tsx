@@ -21,6 +21,22 @@ function useStockContainer() {
     [fetchStockPrices, stockMaster]
   );
 
+  const handleStockMasterChange = useCallback(
+    async stockMasterId => {
+      const stockMaster = await fetchStockMaster(stockMasterId);
+      if (!stockMaster) return;
+      fetchStockPrices(stockMaster.stockCode, "week");
+    },
+    [fetchStockMaster, fetchStockPrices]
+  );
+  const handleStockSearch = useCallback(
+    async stockCode => {
+      const nStockMaster = await createStockMaster(stockCode);
+      if (nStockMaster) fetchStockPrices(stockCode, "week");
+    },
+    [createStockMaster, fetchStockPrices]
+  );
+
   const initStockMaster = useCallback(
     async () => {
       if (!Array.isArray(stockMasters) || !stockMasters.length) return;
@@ -55,12 +71,12 @@ function useStockContainer() {
       isLoading: stockMastersState.isLoading || stockMasterState.isLoading,
       stockName: stockMaster.name,
       stockMasters: stockMasters,
-      handleStockMasterChange: fetchStockMaster,
-      handleStockSearch: createStockMaster
+      handleStockMasterChange,
+      handleStockSearch
     }),
     [
-      createStockMaster,
-      fetchStockMaster,
+      handleStockMasterChange,
+      handleStockSearch,
       stockMaster,
       stockMasterState.isLoading,
       stockMastersState.isLoading,

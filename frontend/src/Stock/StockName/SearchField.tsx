@@ -24,10 +24,11 @@ function SearchField({
   const onValueChange = useCallback(
     async value => {
       if (!value) return;
-      if (typeof value === "number") handleStockMasterChange(value);
+      const existing = stockMasters.find(itm => itm.id === value);
+      if (existing) handleStockMasterChange(value);
       if (typeof value === "string") handleStockSearch(value);
     },
-    [handleStockMasterChange, handleStockSearch]
+    [handleStockMasterChange, handleStockSearch, stockMasters]
   );
   return (
     <div style={{ marginTop: "0.5rem" }}>
