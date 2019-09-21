@@ -5,9 +5,9 @@ import PropTypes from "prop-types";
 import CreatableSelect from "react-select/creatable";
 
 interface IInputSelectProps {
-  choices: Array<{ name: string; id: number }>;
+  choices: Array<{ name: string; id: any }>;
   name: string;
-  onValueChange: (value: number | string) => any;
+	onValueChange?: (value: number | string) => any;
 }
 
 interface ISelectValue {
