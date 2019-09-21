@@ -1,5 +1,6 @@
 from base.apis import (
     MyCreateAPIView,
+    MyListAPIView,
     MyObjectAPIView,
 )
 from rest_framework.permissions import IsAdminUser
@@ -19,6 +20,18 @@ class StockTxCreateAPIView(MyCreateAPIView):
     fields = fields
     model = StockTx
     serializer_class = StockTxSerializer
+
+
+class StockTxListAPIView(MyListAPIView):
+    fields = fields
+    model = StockTx
+
+    def get_queryset(self):
+        return StockTx.objects.filter(
+            enable=True,
+            created_by=self.request.user,
+            stock_master=self.kwargs['stock_master']
+        )
 
 
 class StockTxObjectAPIView(MyObjectAPIView):
