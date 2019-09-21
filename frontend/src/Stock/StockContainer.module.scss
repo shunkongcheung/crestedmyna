@@ -11,7 +11,7 @@
   }
 }
 
-#colDiv {
+#colContainer {
   width: 50%;
 
   @include small-pad-width {
@@ -22,10 +22,33 @@
   }
 }
 
-.lineChartDiv {
-  @extend #colDiv;
+.lineChartContainer {
+  @extend #colContainer;
 }
 
-.infoDiv {
-  @extend #colDiv;
+.rightContainer {
+  @extend #colContainer;
+  display: flex;
+  flex-direction: column;
+}
+
+.infoContainer {
+  margin-top: auto;
+
+  margin-left: 2rem;
+  @include small-pad-width {
+    margin-left: inherit;
+  }
+  @include phone-width {
+    margin-left: inherit;
+  }
+}
+
+.nameContainer {
+  @include small-pad-width {
+    margin-top: 1rem;
+  }
+  @include phone-width {
+    margin-top: 1rem;
+  }
 }

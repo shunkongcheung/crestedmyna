@@ -52,7 +52,7 @@ function useStockContainer() {
   );
   const stockNameState = useMemo(
     () => ({
-      isLoading: stockMastersState.isLoading,
+      isLoading: stockMastersState.isLoading || stockMasterState.isLoading,
       stockName: stockMaster.name,
       stockMasters: stockMasters,
       handleStockMasterChange: fetchStockMaster,
@@ -62,12 +62,23 @@ function useStockContainer() {
       createStockMaster,
       fetchStockMaster,
       stockMaster,
+      stockMasterState.isLoading,
       stockMastersState.isLoading,
       stockMasters
     ]
   );
+  const stockInfoState = useMemo(
+    () => ({
+      stockCode: stockMaster.stockCode,
+      shareCount: stockMaster.shareCount,
+      marketPrice: stockMaster.marketPrice,
+      marketValue: stockMaster.marketValue,
+      realizedValue: stockMaster.realizedValue
+    }),
+    [stockMaster]
+  );
 
-  return { priceLineChartState, stockNameState };
+  return { priceLineChartState, stockInfoState, stockNameState };
 }
 
 export default useStockContainer;
