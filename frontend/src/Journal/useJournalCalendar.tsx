@@ -38,6 +38,10 @@ function useJournalListViewState() {
     [fetchList]
   );
 
+	const insertEvent = useCallback((event:IEvent) => {
+		setEvents(oEvents => [...oEvents, event]);
+	}, [])
+
   useEffect(
     () => {
       handleRangeChange();
@@ -45,7 +49,7 @@ function useJournalListViewState() {
     [handleRangeChange]
   );
 
-  return { events, handleRangeChange };
+  return { events, handleRangeChange, insertEvent };
 }
 
 export default useJournalListViewState;

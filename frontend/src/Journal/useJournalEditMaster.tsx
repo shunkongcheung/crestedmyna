@@ -3,6 +3,13 @@ import { History } from "history";
 
 import { useEditState } from "../Base/Fetches";
 
+interface IEvent {
+  id: number;
+  title: string;
+  start: Date;
+  end: Date;
+}
+
 interface IJournalMaster {
   name: string;
   description: string;
@@ -23,7 +30,10 @@ interface IJournalMasterSubmit {
   start_at: string;
 }
 
-function useJournalEditViewMasterState(history: History) {
+function useJournalEditMaster(
+  history: History,
+  insertEvent: (event: IEvent) => any
+) {
   // state - fetch -----------------------------------------
   const { fetchEdit } = useEditState<IJournalMasterSubmit>();
 
@@ -48,13 +58,22 @@ function useJournalEditViewMasterState(history: History) {
         submitValues,
         { formApis, method }
       );
-      if (ok) history.push(`/journal/detail/${payload.id}/`);
+      if (!ok) return;
+      history.push(`/journal/detail/${payload.id}/`);
+      if (!isContainsId) {
+        insertEvent({
+          id: payload.id,
+          title: payload.name,
+          start: new Date(payload.start_at),
+          end: new Date(payload.end_at)
+        });
+      }
     },
-    [fetchEdit, history]
+    [fetchEdit, history, insertEvent]
   );
 
   // return -------------------------------------------------
   return { handleSubmit };
 }
 
-export default useJournalEditViewMasterState;
+export default useJournalEditMaster;

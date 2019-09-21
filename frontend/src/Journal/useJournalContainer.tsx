@@ -9,14 +9,15 @@ import useJournalEdit from "./useJournalEdit";
 type TContentState = "detail" | "create" | "edit" | "list";
 
 function useJournalContainer(history: History) {
-  const { events, handleRangeChange } = useJournalCalendar();
+  const { events, handleRangeChange, insertEvent } = useJournalCalendar();
   const {
     journalMaster,
     fetchJournalMaster,
     resetJournalMaster
   } = useJournalDetail();
   const { handleAddMedia, handleDeleteMedia, handleSubmit } = useJournalEdit(
-    history
+		history,
+		insertEvent
   );
   const contentState = useJournalContent(
     history,
