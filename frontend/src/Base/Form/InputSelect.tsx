@@ -30,8 +30,9 @@ function InputSelect({
   const handleSelectChange = useCallback(
     (newValue: any, actionMeta: any) => {
       setSelectValue(newValue);
-      setFieldValue(name, newValue.value);
-      if (onValueChange) onValueChange(newValue.value);
+      const value = newValue ? newValue.value : "";
+      setFieldValue(name, value);
+      if (onValueChange) onValueChange(value);
     },
     [name, onValueChange, setFieldValue]
   );
@@ -64,7 +65,7 @@ InputSelect.propTypes = {
       id: PropTypes.number
     })
   ).isRequired,
-	name: PropTypes.string.isRequired,
-onValueChange:PropTypes.func,
+  name: PropTypes.string.isRequired,
+  onValueChange: PropTypes.func
 };
 export default memo(InputSelect);
