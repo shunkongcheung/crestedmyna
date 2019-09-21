@@ -12,7 +12,7 @@ urlpatterns = [
         StockTxCreateAPIView.as_view(),
         name='stk_tx-api-create'
         ),
-    url(r'^/delete/(?P<pk>[0-9]+)/$',
+    url(r'^delete/(?P<pk>[0-9]+)/$',
         StockTxObjectAPIView.as_view(),
         name='stk_tx-api-object'
         ),
