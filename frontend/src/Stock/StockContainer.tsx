@@ -5,6 +5,7 @@ import Layout from "../Base/Layout";
 import PriceLineChart from "./PriceLineChart";
 import StockInfo from "./StockInfo";
 import StockName from "./StockName";
+import StockTxTable from "./StockTxTable";
 
 import useStockContainer from "./useStockContainer";
 
@@ -14,6 +15,7 @@ function StockContainer() {
   const {
     stockInfoState,
     stockNameState,
+    stockTxTableState,
     priceLineChartState
   } = useStockContainer();
   return (
@@ -31,6 +33,7 @@ function StockContainer() {
           </div>
         </div>
       </div>
+      <StockTxTable {...stockTxTableState} />
     </Layout>
   );
 }

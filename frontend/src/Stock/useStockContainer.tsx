@@ -3,6 +3,9 @@ import { useCallback, useEffect, useMemo } from "react";
 import useStockPrices from "./useStockPrices";
 import useStockMaster from "./useStockMaster";
 import useStockMasters from "./useStockMasters";
+import useStockTxAdd from "./useStockTxAdd";
+import useStockTxs from "./useStockTxs";
+import useStockProfile from "./useStockProfile";
 
 function useStockContainer() {
   const { fetchStockPrices, stockPricesState } = useStockPrices();
@@ -11,9 +14,18 @@ function useStockContainer() {
     stockMasterState,
     fetchStockMaster
   } = useStockMaster();
+  const { fetchStockTxs, stockTxsState } = useStockTxs();
+  const { stockProfileState, handleStockProfileChange } = useStockProfile();
+
   const { stockMastersState } = useStockMasters();
   const { stockMasters } = stockMastersState;
   const { stockMaster } = stockMasterState;
+
+  const { handleAddTx } = useStockTxAdd(
+    stockMaster.id,
+    fetchStockTxs,
+    fetchStockMaster
+  );
 
   // methods ------------------------------------------------
   const handleRangeSelected = useCallback(
@@ -25,14 +37,17 @@ function useStockContainer() {
     async stockMasterId => {
       const stockMaster = await fetchStockMaster(stockMasterId);
       if (!stockMaster) return;
-      fetchStockPrices(stockMaster.stockCode, "week");
+      return Promise.all([
+        fetchStockPrices(stockMaster.stockCode, "week"),
+        fetchStockTxs(stockMaster.id, 1)
+      ]);
     },
-    [fetchStockMaster, fetchStockPrices]
+    [fetchStockMaster, fetchStockPrices, fetchStockTxs]
   );
   const handleStockSearch = useCallback(
     async stockCode => {
       const nStockMaster = await createStockMaster(stockCode);
-      if (nStockMaster) fetchStockPrices(stockCode, "week");
+      if (nStockMaster) return fetchStockPrices(stockCode, "week");
     },
     [createStockMaster, fetchStockPrices]
   );
@@ -44,9 +59,18 @@ function useStockContainer() {
       const firstStockMaster = stockMasters[0];
       const nStockMaster = await fetchStockMaster(firstStockMaster.id);
       if (!nStockMaster) return;
-      fetchStockPrices(nStockMaster.stockCode, "week");
+      return Promise.all([
+        fetchStockPrices(nStockMaster.stockCode, "week"),
+        fetchStockTxs(nStockMaster.id, 1)
+      ]);
     },
-    [fetchStockMaster, fetchStockPrices, stockMasters, stockMaster]
+    [
+      fetchStockMaster,
+      fetchStockPrices,
+      fetchStockTxs,
+      stockMasters,
+      stockMaster
+    ]
   );
 
   // lice cycle ------------------------------------------------
@@ -93,8 +117,25 @@ function useStockContainer() {
     }),
     [stockMaster]
   );
+  const stockTxTableState = useMemo(
+    () => ({
+      isTxsLoading: stockTxsState.isLoading,
+      isProfileLoading: stockProfileState.isLoading,
+      page: stockTxsState.page,
+      stockTxs: stockTxsState.stockTxs,
+      handleAddTx,
+      handleStockProfileChange,
+      stockProfile: stockProfileState.stockProfile
+    }),
+    [handleAddTx, handleStockProfileChange, stockTxsState, stockProfileState]
+  );
 
-  return { priceLineChartState, stockInfoState, stockNameState };
+  return {
+    priceLineChartState,
+    stockInfoState,
+    stockNameState,
+    stockTxTableState
+  };
 }
 
 export default useStockContainer;
