@@ -2,6 +2,7 @@ import React, { memo, useCallback, useMemo, useState } from "react";
 import { MdFilterList } from "react-icons/md";
 import { animated, useSpring } from "react-spring";
 import PropTypes from "prop-types";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import SearchField from "./SearchField";
 
@@ -24,7 +25,7 @@ function StockName({
 }: IStockNameProps) {
   const [isSearching, setIsSearching] = useState(false);
   const style = useSpring({
-    x: isSearching ? 1 : 0
+    x: isSearching && !isLoading ? 1 : 0
   });
   const searchFieldStyle = useMemo(
     () => ({
@@ -50,26 +51,34 @@ function StockName({
     [handleStockSearch]
   );
 
+  const renderedStockName = useMemo(
+    () => {
+      if (!isLoading) return stockName;
+      return <CircularProgress color="secondary" />;
+    },
+    [isLoading, stockName]
+  );
+
   return (
     <div className={classNames.container}>
-        <div className={classNames.displayNameContainer}>
-          <div className={classNames.displayName}>{stockName}</div>
-          <div
-            className={classNames.displayFilterBtn}
-            onClick={() => setIsSearching(oVal => !oVal)}
-          >
-            <MdFilterList />
-          </div>
+      <div className={classNames.displayNameContainer}>
+        <div className={classNames.displayName}>{renderedStockName}</div>
+        <div
+          className={classNames.displayFilterBtn}
+          onClick={() => setIsSearching(oVal => !oVal)}
+        >
+          <MdFilterList />
         </div>
-        <div className={classNames.searchFieldContainer}>
-          <animated.div style={searchFieldStyle}>
-            <SearchField
-              handleStockSearch={handleStockSearchI}
-              handleStockMasterChange={handleStockMasterChangeI}
-              stockMasters={stockMasters}
-            />
-          </animated.div>
-        </div>
+      </div>
+      <div className={classNames.searchFieldContainer}>
+        <animated.div style={searchFieldStyle}>
+          <SearchField
+            handleStockSearch={handleStockSearchI}
+            handleStockMasterChange={handleStockMasterChangeI}
+            stockMasters={stockMasters}
+          />
+        </animated.div>
+      </div>
     </div>
   );
 }
