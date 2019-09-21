@@ -19,6 +19,7 @@ read_only_fields = ['name',
 
 class StockMasterCreateAPIView(MyCreateAPIView):
     fields = fields
+    read_only_fields = read_only_fields
     model = StockMaster
     serializer_class = StockMasterSerializer
 
