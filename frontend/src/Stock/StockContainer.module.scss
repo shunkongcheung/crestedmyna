@@ -1,0 +1,31 @@
+@import "../variables";
+
+.row {
+  display: flex;
+
+  @include small-pad-width {
+    display: inherit;
+  }
+  @include phone-width {
+    display: inherit;
+  }
+}
+
+#colDiv {
+  width: 50%;
+
+  @include small-pad-width {
+    width: 100%;
+  }
+  @include phone-width {
+    width: 100%;
+  }
+}
+
+.lineChartDiv {
+  @extend #colDiv;
+}
+
+.infoDiv {
+  @extend #colDiv;
+}
