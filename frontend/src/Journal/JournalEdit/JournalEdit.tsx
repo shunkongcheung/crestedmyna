@@ -54,7 +54,7 @@ function JournalEdit({
 }: IJournalEditProps) {
   const isLoading = useMemo(
     () => {
-      const isContainData = !journalMaster || journalMaster.id === -1;
+      const isContainData = journalMaster && journalMaster.id !== -1;
       const isCreate = window.location.pathname.includes("create");
       return !isContainData && !isCreate;
     },
