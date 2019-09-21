@@ -18,6 +18,20 @@ function useEditState<IRetDataType, IFetchDataType = IRetDataType>(
     payload: TFetchEditRet;
   }
 
+  const getErrorsWithCammalCase = useCallback(errors => {
+    const cammalErrors: { [x: string]: any } = {};
+    Object.keys(errors).map(key => {
+      cammalErrors[key] = errors[key];
+
+      const newKey = key.replace(/_([a-z])/g, function(m, w) {
+        return w.toUpperCase();
+      });
+      cammalErrors[newKey] = errors[key];
+      return null;
+    });
+    return cammalErrors;
+  }, []);
+
   const fetchEdit = useCallback(
     async (
       url: string,
@@ -35,12 +49,13 @@ function useEditState<IRetDataType, IFetchDataType = IRetDataType>(
       });
       const { ok, status, payload } = ret;
       if (!ok) {
-        if (formApis) formApis.setErrors(payload);
+        if (formApis)
+          formApis.setErrors(getErrorsWithCammalCase(payload) as any);
         setErrorMsg(payload as any, status, data as any);
       }
       return ret;
     },
-    [isAuthenticated, makeRestfulFetch, setErrorMsg]
+    [getErrorsWithCammalCase, isAuthenticated, makeRestfulFetch, setErrorMsg]
   );
 
   return { fetchEdit };
