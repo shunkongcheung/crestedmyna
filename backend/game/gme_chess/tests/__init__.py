@@ -1,3 +1,4 @@
 from .test_get_next_positions_for_cannon import ChessGetCannonNextPositionTestCase
 from .test_get_next_positions_for_castle import ChessGetCastleNextPositionTestCase
 from .test_get_next_positions_for_general import ChessGetGeneralNextPositionTestCase
+from .test_get_next_positions_for_horse import ChessGetHorseNextPositionTestCase
