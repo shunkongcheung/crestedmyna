@@ -3,6 +3,7 @@ from .apis import (
     ChessInitialBoardAPIView,
     ChessJudgeWinnerAPIView,
     ChessMakeMoveAPIView,
+    ChessMoveRequestMasterObjectAPIView,
     ChessValidMovesAPIView,
 )
 
@@ -19,6 +20,10 @@ urlpatterns = [
         ),
     url(r'^make_move/$',
         ChessMakeMoveAPIView.as_view(),
+        name='gme_chess-api-mak_move'
+        ),
+    url(r'^move_request_master/(?P<pk>[0-9]+)/$',
+        ChessMoveRequestMasterObjectAPIView.as_view(),
         name='gme_chess-api-mak_move'
         ),
     url(r'^valid_moves/$',

@@ -10,6 +10,8 @@ from .serializers import (
     ChessValidMovesSerializer,
 )
 
+from .models import ChessMoveRequestMaster
+
 from game.gme_chess.utils import (
     get_initial_board,
     get_hash_from_board,
@@ -42,6 +44,16 @@ class ChessMakeMoveAPIView(MyCreateAPIView):
 
     def perform_create(self, data):
         pass
+
+
+class ChessMoveRequestMasterObjectAPIView(MyObjectAPIView):
+    http_method = ['get', ]
+    fields = ['from_board',
+              'to_board',
+              'projected_child_count',
+              'calculated_child_count',
+              ]
+    model = ChessMoveRequestMaster
 
 
 class ChessValidMovesAPIView(MyCreateAPIView):
