@@ -10,10 +10,11 @@ class ChessMoveRequestMaster(MyBaseModel):
     to_board = models.CharField(max_length=90, blank=True)
     projected_child_count = models.PositiveIntegerField()
 
-    '''
-    related_names:
-        board_calculate_masters
-    '''
+    @property
+    def calculated_child_count(self):
+        return self.board_calculate_masters\
+            .filter(is_calculated=True)\
+            .count()
 
 
 class ChessBoardResultMaster(MyBaseModel):
