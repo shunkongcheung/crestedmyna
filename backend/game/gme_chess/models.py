@@ -33,3 +33,4 @@ class ChessBoardCalculateMaster(MyBaseModel):
         on_delete=models.CASCADE,
         related_name='children',
     )
+    level = models.PositiveIntegerField()
