@@ -1,6 +1,5 @@
-from .get_is_piece_empty import get_is_piece_empty
-from .get_is_piece_friendly import get_is_piece_friendly
-from .get_is_position_in_bound import get_is_position_in_bound
+from .get_is_position_empty import get_is_position_empty
+from .get_is_position_steppable import get_is_position_steppable
 
 
 def get_next_positions_for_horse(board, piece_position):
@@ -17,7 +16,7 @@ def get_next_positions_for_horse(board, piece_position):
 
 
 def get_horse_next_positions_on_direction(board,  dir, pos):
-    if(not get_is_horse_check_position_empty(board, dir, pos)):
+    if(not get_is_position_empty(board, dir, pos)):
         return []
 
     target_one = (
@@ -31,27 +30,27 @@ def get_horse_next_positions_on_direction(board,  dir, pos):
     cur_piece = board[pos[0]][pos[1]]
 
     next_positions = []
-    if get_is_horse_target_steppable(board, cur_piece, target_one):
+    if get_is_position_steppable(board, cur_piece, target_one):
         next_positions.append(target_one)
 
-    if get_is_horse_target_steppable(board, cur_piece, target_two):
+    if get_is_position_steppable(board, cur_piece, target_two):
         next_positions.append(target_two)
 
     return next_positions
 
 
-def get_is_horse_check_position_empty(board, dir, pos):
-    check_pos = (pos[0] + dir[0], pos[1] + dir[1])
-    if not get_is_position_in_bound(check_pos):
-        return False
+# def get_is_horse_check_position_empty(board, dir, pos):
+#     check_pos = (pos[0] + dir[0], pos[1] + dir[1])
+#     if not get_is_position_in_bound(check_pos):
+#         return False
 
-    check_piece = board[check_pos[0]][check_pos[1]]
-    return get_is_piece_empty(check_piece)
+#     check_piece = board[check_pos[0]][check_pos[1]]
+#     return get_is_piece_empty(check_piece)
 
 
-def get_is_horse_target_steppable(board, cur_piece, target_pos):
-    if (not get_is_position_in_bound(target_pos)):
-        return False
+# def get_is_horse_target_steppable(board, cur_piece, target_pos):
+#     if (not get_is_position_in_bound(target_pos)):
+#         return False
 
-    target_piece = board[target_pos[0]][target_pos[1]]
-    return not get_is_piece_friendly(cur_piece, target_piece)
+#     target_piece = board[target_pos[0]][target_pos[1]]
+#     return not get_is_piece_friendly(cur_piece, target_piece)
