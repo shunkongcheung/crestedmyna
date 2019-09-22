@@ -10,9 +10,14 @@ from .models import (
 
 # Register your models here.
 class ChessBoardCalculateMasterAdmin(MyBaseAdmin):
-    list_display = ['board', 'move_request_master', 'parent', ]
+    list_display = ['board',
+                    'level',
+                    'score',
+                    'move_request_master',
+                    'parent',
+                    ]
     list_filter = []
-    search_fields = ['board', ]
+    search_fields = ['board', 'move_request_master__from_board', ]
 
 
 class ChessBoardResultMasterAdmin(MyBaseAdmin):
