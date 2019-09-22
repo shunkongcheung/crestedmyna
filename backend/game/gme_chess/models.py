@@ -21,7 +21,6 @@ class ChessBoardResultMaster(MyBaseModel):
 
 
 class ChessBoardCalculateMaster(MyBaseModel):
-    board = models.CharField(max_length=90)
     move_request_master = models.ForeignKey(
         ChessMoveRequestMaster,
         on_delete=models.CASCADE,
@@ -33,4 +32,8 @@ class ChessBoardCalculateMaster(MyBaseModel):
         on_delete=models.CASCADE,
         related_name='children',
     )
+
     level = models.PositiveIntegerField()
+
+    board = models.CharField(max_length=90)
+    score = models.IntegerField()
