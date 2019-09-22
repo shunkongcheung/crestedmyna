@@ -12,6 +12,11 @@ from game.gme_chess.utils import (
 from game.gme_chess.utils.prefixes import CHS_EMPTY
 
 from general.gnl_syslog.utils import write_syslog
+from general.models import SystemLog
+
+from .update_calculate_master_with_best_score import (
+    update_calculate_master_with_best_score,
+)
 
 
 @shared_task
@@ -23,16 +28,27 @@ def create_calculate_children_masters(board_calculate_master_id,
         id=board_calculate_master_id
     )
 
-    def return_method():
-        # TODO: trigger backward calculation
-        return None if is_backward else None
-
-    def w_debug(message):
-        if not is_debug:
+    def w_debug(message, is_error=False):
+        if not is_debug and not is_error:
             return
-        name, user = 'create_calculate_children_masters', calculate_master.created_by
-        message = f'{calculate_master.id}: {message}. [{calculate_master.board}]'
-        return write_syslog(name, message, user)
+        name = 'create_calculate_children_masters'
+        level, user = calculate_master.level, calculate_master.created_by
+        message = f'{calculate_master.id}({level}): {message}. [{calculate_master.board}]'
+        level = SystemLog.LVL_ERROR[0]if is_error else SystemLog.LVL_DEBUG[0]
+        return write_syslog(name, message, user, level)
+
+    def return_method():
+        if not is_backward:
+            return
+
+        if not calculate_master.parent:
+            w_debug('i am level 0 but i dont have a parent')
+            return
+
+        return update_calculate_master_with_best_score.apply_async((
+            calculate_master.parent.id,
+            is_debug,
+        ))
 
     board = get_board_from_hash(calculate_master.board)
     winner, score = get_board_winner_and_score(board)
