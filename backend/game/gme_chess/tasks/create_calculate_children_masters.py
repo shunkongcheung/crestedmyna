@@ -41,6 +41,7 @@ def create_calculate_children_masters(board_calculate_master_id,
     # get winner. if exist return score
     if winner != CHS_EMPTY or cur_level == 0:
         calculate_master.score = score
+        calculate_master.is_calculated = True
         calculate_master.save()
         w_debug(f'early finish. {winner} {cur_level} {score}')
 
