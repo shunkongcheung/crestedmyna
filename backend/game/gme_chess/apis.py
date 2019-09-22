@@ -51,6 +51,7 @@ class ChessMoveRequestMasterObjectAPIView(MyObjectAPIView):
     fields = ['from_board',
               'to_board',
               'projected_child_count',
+              'total_child_count',
               'calculated_child_count',
               ]
     model = ChessMoveRequestMaster
