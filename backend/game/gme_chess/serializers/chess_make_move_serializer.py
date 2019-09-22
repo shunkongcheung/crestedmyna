@@ -11,8 +11,8 @@ from game.models import (
 )
 from game.gme_chess.utils import (
     get_board_from_hash,
+    get_board_winner_and_score,
     get_next_boards,
-    get_winner,
 )
 from game.gme_chess.utils.prefixes import CHS_EMPTY
 
@@ -72,7 +72,7 @@ class ChessMakeMoveSerializer(Serializer):
 
     def validate_from_board(self, board_hash):
         board = get_board_from_hash(board_hash)
-        winner = get_winner(board)
+        winner, _score = get_board_winner_and_score(board)
         if winner != CHS_EMPTY:
             raise ValidationError('there is a winner to the board')
         return board_hash
