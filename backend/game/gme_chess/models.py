@@ -1,4 +1,5 @@
 from base.models import MyBaseModel
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
 # Create your models here.
@@ -17,7 +18,7 @@ class ChessMoveRequestMaster(MyBaseModel):
 
 class ChessBoardResultMaster(MyBaseModel):
     from_board = models.CharField(max_length=90)
-    to_board = models.CharField(max_length=90)
+    to_boards = ArrayField(models.CharField(max_length=90))
 
 
 class ChessBoardCalculateMaster(MyBaseModel):

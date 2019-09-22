@@ -22,7 +22,7 @@ class ChessBoardCalculateMasterAdmin(MyBaseAdmin):
 
 
 class ChessBoardResultMasterAdmin(MyBaseAdmin):
-    list_display = ['from_board', 'to_board', ]
+    list_display = ['from_board', 'to_boards', ]
     list_filter = []
     search_fields = ['from_board', ]
 
