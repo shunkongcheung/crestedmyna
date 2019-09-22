@@ -17,8 +17,8 @@ from game.gme_chess.utils import (
     get_next_boards,
 )
 from game.gme_chess.utils.prefixes import CHS_EMPTY
-
 from general.gnl_lookup.utils import get_lookup_value
+from random import randint
 
 
 def get_calculate_master(move_request_master):
@@ -38,7 +38,9 @@ def get_result_master_to_board(from_board, user):
     try:
         result_master = ChessBoardResultMaster.objects\
             .get(from_board=from_board)
-        return result_master.to_board
+        to_boards = result_master.to_boards
+        desire_index = randint(0, len(to_boards) - 1)
+        return to_boards[desire_index]
 
     except ChessBoardResultMaster.DoesNotExist:
         return None
@@ -90,8 +92,6 @@ class ChessMakeMoveSerializer(Serializer):
         # create a request
         move_request_master = get_move_request_master(from_board, self.user)
         calculate_master = get_calculate_master(move_request_master)
-        is_debug = True
-        create_calculate_children_masters.apply_async(
-            (calculate_master.id, False, is_debug))
+        create_calculate_children_masters.apply_async((calculate_master.id, ))
         data['chess_move_request_master'] = move_request_master
         return data
