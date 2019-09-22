@@ -29,7 +29,6 @@ def get_calculate_master(move_request_master):
         parent=None,
         level=calculate_level,
         board=move_request_master.from_board,
-        score=0,
         created_by=move_request_master.created_by
     )
     return calculate_master
