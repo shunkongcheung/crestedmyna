@@ -13,10 +13,11 @@ class ChessBoardCalculateMasterAdmin(MyBaseAdmin):
     list_display = ['board',
                     'level',
                     'score',
+                    'is_calculated',
                     'move_request_master',
                     'parent',
                     ]
-    list_filter = []
+    list_filter = ['is_calculated', ]
     search_fields = ['board', 'move_request_master__from_board', ]
 
 

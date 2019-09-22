@@ -36,4 +36,5 @@ class ChessBoardCalculateMaster(MyBaseModel):
     level = models.PositiveIntegerField()
 
     board = models.CharField(max_length=90)
-    score = models.IntegerField()
+    score = models.IntegerField(default=0)
+    is_calculated = models.BooleanField(default=False)
