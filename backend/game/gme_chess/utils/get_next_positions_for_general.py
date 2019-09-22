@@ -1,6 +1,7 @@
 from .get_is_piece_empty import get_is_piece_empty
 from .get_is_piece_friendly import get_is_piece_friendly
 from .get_is_position_in_bound import get_is_position_in_bound
+from .get_is_position_in_palace import get_is_position_in_palace
 from .prefixes import CHS_GENERAL
 
 
@@ -15,7 +16,7 @@ def get_next_positions_for_general(board, piece_position):
             piece_position[0] + direction[0],
             piece_position[1] + direction[1],
         )
-        in_bound = get_general_in_bound(cur_piece, next_pos)
+        in_bound = get_is_position_in_palace(cur_piece, next_pos)
         if (in_bound):
             next_piece = board[next_pos[0]][next_pos[1]]
             if not get_is_piece_friendly(cur_piece, next_piece):
@@ -51,10 +52,10 @@ def get_general_fly_position(board, piece_position):
     return [cur_pos]
 
 
-def get_general_in_bound(cur_piece, next_position):
-    left, width, height = 3, 3, 3
-    top = 0 if cur_piece.isupper() else 7
+# def get_general_in_bound(cur_piece, next_position):
+#     left, width, height = 3, 3, 3
+#     top = 0 if cur_piece.isupper() else 7
 
-    return get_is_position_in_bound(
-        next_position, left=left, top=top, width=width, height=height
-    )
+#     return get_is_position_in_bound(
+#         next_position, left=left, top=top, width=width, height=height
+#     )
