@@ -5,6 +5,7 @@ from base.apis import (
 
 from .serializers import (
     ChessInitialBoardSerializer,
+    ChessJudgeWinnerSerializer,
     ChessValidMovesSerializer,
 )
 
@@ -22,6 +23,13 @@ class ChessInitialBoardAPIView(MyObjectAPIView):
         return {
             'board': get_hash_from_board(get_initial_board())
         }
+
+
+class ChessJudgeWinnerAPIView(MyCreateAPIView):
+    serializer_class = ChessJudgeWinnerSerializer
+
+    def perform_create(self, data):
+        pass
 
 
 class ChessValidMovesAPIView(MyCreateAPIView):
