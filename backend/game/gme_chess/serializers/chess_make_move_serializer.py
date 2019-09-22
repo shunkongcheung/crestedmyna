@@ -6,9 +6,11 @@ from rest_framework.serializers import (
 )
 
 from game.models import (
+    ChessBoardCalculateMaster,
     ChessBoardResultMaster,
     ChessMoveRequestMaster,
 )
+from game.gme_chess.tasks import create_calculate_children_masters
 from game.gme_chess.utils import (
     get_board_from_hash,
     get_board_winner_and_score,
@@ -17,6 +19,20 @@ from game.gme_chess.utils import (
 from game.gme_chess.utils.prefixes import CHS_EMPTY
 
 from general.gnl_lookup.utils import get_lookup_value
+
+
+def get_calculate_master(move_request_master):
+    calculate_level = int(get_lookup_value('CHESS_CALCULATE_LEVEL'))
+    calculate_master = ChessBoardCalculateMaster.objects.create(
+        name=move_request_master.from_board,
+        move_request_master=move_request_master,
+        parent=None,
+        level=calculate_level,
+        board=move_request_master.from_board,
+        score=0,
+        created_by=move_request_master.created_by
+    )
+    return calculate_master
 
 
 def get_result_master_to_board(from_board, user):
@@ -29,21 +45,21 @@ def get_result_master_to_board(from_board, user):
         return None
 
 
-def get_request_master(from_board, user):
+def get_move_request_master(from_board, user):
     calculate_level = int(get_lookup_value('CHESS_CALCULATE_LEVEL'))
     from_board_arr = get_board_from_hash(from_board)
     next_moves_len = len(get_next_boards(from_board_arr))
     projected_child_count = pow(next_moves_len, calculate_level)
 
-    request_master = ChessMoveRequestMaster.objects.create(
+    move_request_master = ChessMoveRequestMaster.objects.create(
         name=from_board,
         from_board=from_board,
         to_board='',
         projected_child_count=projected_child_count,
         created_by=user
     )
-    request_master.save()
-    return request_master
+    move_request_master.save()
+    return move_request_master
 
 
 class ChessMakeMoveSerializer(Serializer):
@@ -73,6 +89,10 @@ class ChessMakeMoveSerializer(Serializer):
             return data
 
         # create a request
-        data['chess_move_request_master'] = get_request_master(
-            from_board, self.user)
+        move_request_master = get_move_request_master(from_board, self.user)
+        calculate_master = get_calculate_master(move_request_master)
+        is_debug = True
+        create_calculate_children_masters.apply_async(
+            (calculate_master.id, False, is_debug))
+        data['chess_move_request_master'] = move_request_master
         return data
