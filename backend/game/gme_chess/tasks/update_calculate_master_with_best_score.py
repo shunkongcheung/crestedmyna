@@ -7,6 +7,11 @@ from game.models import (
     ChessBoardResultMaster,
     ChessMoveRequestMaster,
 )
+from game.gme_chess.utils import (
+    get_board_from_hash,
+    get_flipped_board,
+    get_hash_from_board,
+)
 from general.gnl_syslog.utils import write_syslog
 from random import randint
 
@@ -77,7 +82,10 @@ def update_calculate_master_with_best_score(calculate_master_id,
 
 
 def create_result_master(calculate_master, desired_children):
-    to_boards = [desired_child.board for desired_child in desired_children]
+    to_boards = [
+        get_flipped_board_hash(desired_child.board)
+        for desired_child in desired_children
+    ]
     return ChessBoardResultMaster.objects.create(
         name=calculate_master.board,
         from_board=calculate_master.board,
@@ -94,7 +102,13 @@ def get_desired_children(children_masters, best_score):
 def get_desired_board(desire_children, is_random):
     desire_count = desire_children.count()
     desire_index = randint(0, desire_count - 1) if is_random else 0
-    return desire_children[desire_index].board
+    return get_flipped_board_hash(desire_children[desire_index].board)
+
+
+def get_flipped_board_hash(board_hash):
+    board = get_board_from_hash(board_hash)
+    flipped_board = get_flipped_board(board)
+    return get_hash_from_board(flipped_board)
 
 
 def update_request_master(request_master, desired_board):
