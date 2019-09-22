@@ -64,7 +64,6 @@ def create_calculate_children_masters(board_calculate_master_id,
             move_request_master=calculate_master.move_request_master,
             parent=calculate_master,
             level=next_level,
-            score=0,
             created_by=calculate_master.created_by
         )
         for next_board_hash in next_board_hashes
