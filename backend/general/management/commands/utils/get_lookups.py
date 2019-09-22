@@ -17,9 +17,9 @@ def get_lookups():
 
     return [
         {
-            'name': 'STOCK_API_KEY',
-            'catagory': 'STOCK',
-            'lookup_value': 'Wsy-3nr4y7M7356JWx61',
+            'name': 'CHESS_CALCULATE_LEVEL',
+            'catagory': 'GAME',
+            'lookup_value': 4,
         },
         {
             'name': 'HOST_NAME',
@@ -35,5 +35,10 @@ def get_lookups():
             'name': 'NEWS_API_KEY',
             'catagory': 'HOME',
             'lookup_value': 'f26e679d4a184a0aa5e5b2684610e323',
+        },
+        {
+            'name': 'STOCK_API_KEY',
+            'catagory': 'STOCK',
+            'lookup_value': 'Wsy-3nr4y7M7356JWx61',
         },
     ]
