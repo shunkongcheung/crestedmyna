@@ -15,9 +15,9 @@ class ChessMoveRequestMaster(MyBaseModel):
     '''
 
 
-# class ChessBoardResultMaster(MyBaseModel):
-#     from_board = models.CharField(max_length=90)
-#     to_board = models.CharField(max_length=90)
+class ChessBoardResultMaster(MyBaseModel):
+    from_board = models.CharField(max_length=90)
+    to_board = models.CharField(max_length=90)
 
 # class ChessBoardCalculateMaster(MyBaseModel):
 #     board = models.CharField(max_length=90)
