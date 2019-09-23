@@ -74,7 +74,7 @@ def update_calculate_master_with_best_score(calculate_master_id,
     update_request_master(calculate_master.move_request_master, desired_board)
     create_result_master(calculate_master, desired_children)
     if not is_debug:
-        delete_calculate_masters(calculate_master.move_request_master)
+        disable_calculate_masters(calculate_master.move_request_master)
     w_debug(f'finished')
 
 
@@ -92,8 +92,8 @@ def get_best_score(scores, is_upper_side):
     return max(scores) if is_upper_side else min(scores)
 
 
-def delete_calculate_masters(request_master):
-    request_master.board_calculate_masters.all().delete()
+def disable_calculate_masters(request_master):
+    request_master.board_calculate_masters.all().update(enable=False)
 
 
 def get_desired_children(children_masters, best_score):
