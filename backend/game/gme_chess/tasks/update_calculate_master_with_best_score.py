@@ -97,7 +97,7 @@ def delete_calculate_masters(request_master):
 
 
 def get_desired_children(children_masters, best_score):
-    desire_children = children_masters.filter(score=-best_score)
+    desire_children = children_masters.filter(score=best_score)
     return desire_children
 
 
