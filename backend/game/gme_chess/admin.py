@@ -12,6 +12,7 @@ from .models import (
 class ChessBoardCalculateMasterAdmin(MyBaseAdmin):
     list_display = ['board',
                     'level',
+                    'is_upper_side',
                     'score',
                     'is_calculated',
                     'move_request_master',
