@@ -5,7 +5,6 @@ from game.models import ChessBoardCalculateMaster
 from game.gme_chess.utils import (
     get_board_from_hash,
     get_board_winner_and_score,
-    get_flipped_board,
     get_hash_from_board,
     get_next_boards,
 )
@@ -22,10 +21,11 @@ from .update_calculate_master_with_best_score import (
 @shared_task
 def create_calculate_children_masters(board_calculate_master_id,
                                       is_backward=True,
-                                      is_debug=True
+                                      is_debug=False
                                       ):
     calculate_master = ChessBoardCalculateMaster.objects\
         .get(id=board_calculate_master_id)
+    is_upper_side = calculate_master.is_upper_side
 
     def w_debug(message, is_error=False):
         if not is_debug and not is_error:
@@ -33,7 +33,8 @@ def create_calculate_children_masters(board_calculate_master_id,
 
         name, board = 'create_calculate_children_masters', calculate_master.board
         level, user = calculate_master.level, calculate_master.created_by
-        message = f'{calculate_master.id}({level}): {message}. [{board}]'
+        message = f'{calculate_master.id}({level})[{is_upper_side}]:' +\
+            f' {message}. [{board}]'
         level = SystemLog.LVL_ERROR[0] if is_error else SystemLog.LVL_DEBUG[0]
         return write_syslog(name, message, user, level)
 
@@ -64,16 +65,15 @@ def create_calculate_children_masters(board_calculate_master_id,
     w_debug(f'get next boards. {cur_level}')
 
     # get all possible move of current board
-    next_board_and_hashes = []
-    for next_unflipped_board in get_next_boards(board):
-        next_board = get_flipped_board(next_unflipped_board)
-        next_board_and_hashes\
-            .append((next_board, get_hash_from_board(next_board),))
+    next_board_and_hashes = [
+        (next_board, get_hash_from_board(next_board),)
+        for next_board in get_next_boards(board, is_upper_side)
+    ]
 
     w_debug(f'next boards count: {len(next_board_and_hashes)}')
 
     # store to database
-    next_level = cur_level - 1
+    next_level, next_upper_side = cur_level - 1, not is_upper_side
     temp_calculate_masters, is_next_level_calculated = [], next_level == 0
     for (next_board, next_board_hash) in next_board_and_hashes:
         winner, score = get_board_winner_and_score(next_board)
@@ -84,6 +84,7 @@ def create_calculate_children_masters(board_calculate_master_id,
                 move_request_master=calculate_master.move_request_master,
                 parent=calculate_master,
                 is_calculated=is_next_level_calculated or winner != CHS_EMPTY,
+                is_upper_side=next_upper_side,
                 score=score,
                 level=next_level,
                 created_by=calculate_master.created_by
