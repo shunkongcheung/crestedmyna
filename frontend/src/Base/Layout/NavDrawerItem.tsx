@@ -77,6 +77,7 @@ function NavDrawerItem({ navName }: INavDrawerItemProps) {
 }
 
 NavDrawerItem.propTypes = {
-  navName: PropTypes.oneOf<TNavName>(["HOME", "STOCK", "JOURNAL"]).isRequired
+  navName: PropTypes.oneOf<TNavName>(["HOME", "GAME", "STOCK", "JOURNAL"])
+    .isRequired
 };
 export default memo(NavDrawerItem);
