@@ -1,3 +1,4 @@
+from django.utils import timezone
 from general.gnl_syslog.models import SystemLog
 
 
@@ -10,7 +11,8 @@ def write_syslog(name,
 
     if is_print:
         created_by_name = created_by.username
-        print(f'[{level}] {name} ({created_by_name}) -- {message} --')
+        print(
+            f'{timezone.now()}[{level}]: {name} ({created_by_name}) -- {message} --')
 
     return SystemLog.objects.create(
         name=name,
