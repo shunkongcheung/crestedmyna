@@ -85,3 +85,11 @@ wget -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | sudo apt-ke
 sudo apt-get update
 sudo apt-get install -y rabbitmq-server
 ```
+
+### 1.8 USER SETUP
+```
+# login as root
+adduser shun
+usermod -aG sudo shun
+rsync --archive --chown=shun:shun ~/.ssh /home/shun
+```
