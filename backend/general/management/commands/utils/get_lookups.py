@@ -41,4 +41,9 @@ def get_lookups():
             'catagory': 'STOCK',
             'lookup_value': 'Wsy-3nr4y7M7356JWx61',
         },
+        {
+            'name': 'GOOGLE_API_KEY',
+            'catagory': 'ANY',
+            'lookup_value': 'AIzaSyDhjvrMl0y7zIIJPoQKHCrIg47JxyzjhUI',
+        },
     ]
