@@ -1,11 +1,11 @@
 import React, { createElement, memo, useMemo } from "react";
-import { MdHome, MdShowChart, MdEvent } from "react-icons/md";
+import { MdGames, MdHome, MdShowChart, MdEvent } from "react-icons/md";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import classNames from "./NavDrawerItem.module.scss";
 
-type TNavName = "HOME" | "STOCK" | "JOURNAL";
+type TNavName = "HOME" | "GAME" | "STOCK" | "JOURNAL";
 interface INavDrawerItemProps {
   navName: TNavName;
 }
@@ -16,6 +16,8 @@ function NavDrawerItem({ navName }: INavDrawerItemProps) {
       switch (navName) {
         case "HOME":
           return MdHome;
+        case "GAME":
+          return MdGames;
         case "STOCK":
           return MdShowChart;
         case "JOURNAL":
@@ -53,6 +55,8 @@ function NavDrawerItem({ navName }: INavDrawerItemProps) {
       switch (navName) {
         case "HOME":
           return "Home";
+        case "GAME":
+          return "Game";
         case "STOCK":
           return "Stock";
         case "JOURNAL":
