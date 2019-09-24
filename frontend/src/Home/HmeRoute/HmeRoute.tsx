@@ -5,6 +5,7 @@ import { MenuContext } from "../../Base/Contexts";
 
 import LinkBanner from "./LinkBanner";
 import journalBannerImg from "./images/journalBanner.jpg";
+import gameBannerImg from "./images/gameBanner.jpeg";
 import stockBannerImg from "./images/stockBanner.jpeg";
 import classes from "./HmeRoute.module.scss";
 
@@ -29,6 +30,11 @@ function HmeRoute() {
       if (menu.includes("STOCK")) {
         banners.push(
           <LinkBanner name="STOCK" imageSrc={stockBannerImg} linkTo="/stock" />
+        );
+      }
+      if (menu.includes("GAME")) {
+        banners.push(
+          <LinkBanner name="GAME" imageSrc={gameBannerImg} linkTo="/game" />
         );
       }
       return banners;
