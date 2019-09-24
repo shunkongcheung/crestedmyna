@@ -1,5 +1,10 @@
 from base.utils import get_admin_user
+
+from datetime import datetime
+
+from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
+
 from general.gnl_syslog.utils import write_syslog
 from general.gnl_lookup.utils import get_lookup_value
 
@@ -26,12 +31,20 @@ def generator():
         for next_board in next_boards
     ]
     generate_from_board_hashes(next_board_hashes, 0)
+    create_dump_file()
     idx = 1
 
     while True:
         next_board_hashes = get_to_board_hashes_of_results()
         generate_from_board_hashes(next_board_hashes, idx)
+        create_dump_file()
         idx = idx + 1
+
+
+def create_dump_file():
+    now_time_str = datetime.now().strftime('%Y-%m-%d_%H_%M')
+    with open(f'chess_board_result_master_{now_time_str}.json', 'w') as f:
+        call_command('dumpdata', 'game.ChessBoardResultMaster', stdout=f)
 
 
 def get_to_board_hashes_of_results():
