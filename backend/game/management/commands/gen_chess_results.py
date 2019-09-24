@@ -4,12 +4,17 @@ from general.gnl_syslog.utils import write_syslog
 from general.gnl_lookup.utils import get_lookup_value
 
 from game.gme_chess.utils import (
-    get_board_from_hash,
     get_initial_board,
     get_hash_from_board,
     get_next_boards,
 )
-import requests
+from game.gme_chess.serializers import ChessMakeMoveSerializer
+from game.gme_chess.tasks import create_calculate_children_masters
+from game.models import (
+    ChessMoveRequestMaster,
+    ChessBoardResultMaster,
+)
+
 import time
 
 
@@ -20,57 +25,76 @@ def generator():
         get_hash_from_board(next_board)
         for next_board in next_boards
     ]
+    generate_from_board_hashes(next_board_hashes, 0)
+    idx = 1
 
-    total = len(next_board_hashes)
-    write_debug(f'total: {total}')
+    while True:
+        next_board_hashes = get_to_board_hashes_of_results()
+        generate_from_board_hashes(next_board_hashes, idx)
+        idx = idx + 1
 
-    for idx, next_board_hash in enumerate(next_board_hashes):
-        exist, move_request_master_id = request_for_board(next_board_hash)
-        if exist:
-            write_debug(f'{idx}/{total} existed: {next_board_hash}')
-        else:
-            write_debug(
-                f'{idx}/{total} {move_request_master_id}: {next_board_hash}')
+
+def get_to_board_hashes_of_results():
+    board_hashes = []
+    result_masters = ChessBoardResultMaster.objects.all()
+    for result_master in result_masters:
+        board_hashes += result_master.to_boards
+
+    return board_hashes
+
+
+def generate_from_board_hashes(board_hashes, round_idx):
+    total = len(board_hashes)
+    write_debug(f'starting round {round_idx} with {total}')
+
+    for idx, board_hash in enumerate(board_hashes):
+        exist, move_request_master_id = request_for_board(board_hash)
+
+        debug_msg = f'{round_idx:5} [{idx}/{total}] existed: {board_hash}'
+        if not exist:
+            debug_msg = f'{round_idx:5} [{idx}/{total}] {move_request_master_id}: {board_hash}'
+        write_debug(debug_msg)
+
+        if not exist:
             wait_for_request_to_be_done(move_request_master_id)
 
 
-def get_headers_and_host_name():
-    host_name = get_lookup_value('HOST_NAME')
-    jwt_token = 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjAwNzA2NzUxLCJlbWFpbCI6IiIsIm9yaWdfaWF0IjoxNTY5MTcwNzUxLCJmaXJzdF9uYW1lIjoiIiwibGFzdF9uYW1lIjoiIn0.HRWRXdQ7d4rh8M1G6Psnaxul3OJL3P4jBmDLtV28f4M'
-    if host_name.startswith('https:'):
-        jwt_token = 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6InNodW4uY2hldW5nIiwiZXhwIjoxNjAwNDE1NzI0LCJlbWFpbCI6InNodW5rb25nY2hldW5nQGdtYWlsLmNvbSIsIm9yaWdfaWF0IjoxNTY4ODc5NzI0LCJmaXJzdF9uYW1lIjoic2h1biBrb25nIiwibGFzdF9uYW1lIjoiY2hldW5nIn0.8wQfUOSGg3edfpTQKfHXo9by_QJwIGgfHWYsqwG_XXQ'
-
-    headers = {'Authorization': jwt_token, 'Content-Type': 'application/json'}
-    return headers, host_name
-
-
 def request_for_board(board_hash):
-    headers, host_name = get_headers_and_host_name()
-    url = f'{host_name}/api/game/gme_chess/make_move/'
-    data = {'from_board': board_hash}
+    data = {'from_board': board_hash, }
+    serializer = ChessMakeMoveSerializer(data=data, user=get_admin_user())
+    serializer.is_valid(raise_exception=True)
 
-    response = requests.post(url=url, headers=headers, json=data)
-    payload = response.json()
-    if response.status_code < 200 or response.status_code >= 300:
-        raise Exception(payload)
+    validated_data = serializer.validated_data
+    to_board = validated_data.get('to_board')
+    if to_board:
+        return True, None
 
-    if payload.get('to_board'):
-        return True, 'already exist'
-
-    return False, payload['chess_move_request_master']
+    return False, validated_data['chess_move_request_master'].id
 
 
 def wait_for_request_to_be_done(move_request_master_id):
-    headers, host_name = get_headers_and_host_name()
-    url = f'{host_name}/api/game/gme_chess/move_request_master/{move_request_master_id}/'
     while True:
-        response = requests.get(url=url, headers=headers)
-        payload = response.json()
-        if response.status_code < 200 or response.status_code >= 300:
-            pass
-        elif payload.get('to_board'):
+        move_request_master = ChessMoveRequestMaster.objects\
+            .get(id=move_request_master_id)
+        if move_request_master.to_board:
             return
+        write_debug(f'{move_request_master.id} pending...')
         time.sleep(20)
+
+        move_request_master = ChessMoveRequestMaster.objects\
+            .get(id=move_request_master_id)
+
+        if move_request_master.total_child_count == 1:
+            write_debug(f'{move_request_master.id} trigger again...')
+            calculate_master = move_request_master\
+                .board_calculate_masters\
+                .first()
+            create_calculate_children_masters\
+                .apply_async((calculate_master.id,))
+
+        if move_request_master.total_child_count == 0:
+            write_debug(f'{move_request_master.id} shit ?!...')
+            return
 
 
 def write_debug(message):
