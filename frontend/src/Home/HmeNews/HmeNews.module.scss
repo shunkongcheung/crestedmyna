@@ -9,7 +9,7 @@
   overflow-y: auto;
 
   @include phone-width {
-    max-height: 80vh;
+    max-height: 60vh;
   }
   @include small-pad-width {
     max-height: 80vh;
