@@ -1,0 +1,31 @@
+@import "../../variables";
+.container {
+  position: relative;
+  width: 70vw;
+  height: 70vh;
+}
+
+#toSideBtn {
+  position: absolute;
+  top: 0;
+  width: 20px;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.toLeftBtn {
+  @extend #toSideBtn;
+  left: 0;
+}
+
+.toRightBtn {
+  @extend #toSideBtn;
+  right: 0;
+}
