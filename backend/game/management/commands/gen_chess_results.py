@@ -9,10 +9,14 @@ from general.gnl_syslog.utils import write_syslog
 from general.gnl_lookup.utils import get_lookup_value
 
 from game.gme_chess.utils import (
+    get_board_from_hash,
+    get_board_winner_and_score,
     get_initial_board,
     get_hash_from_board,
     get_next_boards,
 )
+from game.gme_chess.utils.prefixes import CHS_EMPTY
+
 from game.gme_chess.serializers import ChessMakeMoveSerializer
 from game.gme_chess.tasks import create_calculate_children_masters
 from game.models import (
@@ -61,6 +65,14 @@ def generate_from_board_hashes(board_hashes, round_idx):
     write_debug(f'starting round {round_idx} with {total}')
 
     for idx, board_hash in enumerate(board_hashes):
+        board = get_board_from_hash(board_hash)
+        winner, _ = get_board_winner_and_score(board)
+        if winner != CHS_EMPTY:
+            debug_msg = f'{round_idx:5} [{idx}/{total}] ' +\
+                'had a winner {winner} {board_hash}'
+            write_debug(debug_msg)
+            continue
+
         exist, move_request_master_id = request_for_board(board_hash)
 
         debug_msg = f'{round_idx:5} [{idx}/{total}] existed: {board_hash}'
