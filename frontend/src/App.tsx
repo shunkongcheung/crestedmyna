@@ -10,6 +10,7 @@ import classNames from "./App.module.css";
 
 // routes -----------------------------------------------
 const AuthContainer = lazy(() => import("./Base/Auth/AuthContainer"));
+const GameContainer = lazy(() => import("./Game/GameContainer"));
 const HomeContainer = lazy(() => import("./Home/HomeContainer"));
 const JournalContainer = lazy(() => import("./Journal/JournalContainer"));
 const StockContainer = lazy(() => import("./Stock/StockContainer"));
@@ -20,6 +21,7 @@ function RouteTable() {
   return (
     <Switch>
       <Route path="/journal" component={JournalContainer} />
+      <Route path="/game" component={GameContainer} />
       <Route path="/stock" component={StockContainer} />
       <Route path="/uam" component={AuthContainer} />
       <Route path="/" exact component={HomeContainer} />
