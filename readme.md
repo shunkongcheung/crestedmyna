@@ -17,6 +17,10 @@ sudo apt-get install python3.7 nginx git python3-pip libpq-dev postgresql
 sudo pip3 install virtualenv uwsgi
 sudo apt install unzip
 
+# timezone
+cd /usr/share/zoneinfo
+tzselect
+
 ```
 
 ## 1.3 DATABASE
