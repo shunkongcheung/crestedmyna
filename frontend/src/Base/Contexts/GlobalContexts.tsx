@@ -27,7 +27,7 @@ function GlobalContexts({
   return (
     <AuthContext.Provider value={tokenState}>
       <SnackBarContext.Provider value={{ handleSnackBarChange }}>
-        <MenuContext.Provider value={{ menu: ["JOURNAL", "STOCK"] }}>
+        <MenuContext.Provider value={{ menu: ["JOURNAL",'GAME', "STOCK"] }}>
 					<MuiPickersUtilsProvider utils={DateFnsUtils}>
           {children}
 					</MuiPickersUtilsProvider>

@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-type TFunction = "JOURNAL" | "STOCK";
+type TFunction = "JOURNAL" | "GAME" | "STOCK";
 interface IMenuContext {
   menu: Array<TFunction>;
 }
