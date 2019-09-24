@@ -80,12 +80,13 @@ def update_calculate_master_with_best_score(calculate_master_id,
 
 def create_result_master(calculate_master, desired_children):
     to_boards = [desired_child.board for desired_child in desired_children]
-    return ChessBoardResultMaster.objects.create(
+    obj, created = ChessBoardResultMaster.objects.update_or_create(
         name=calculate_master.board,
         from_board=calculate_master.board,
         to_boards=to_boards,
         created_by=calculate_master.created_by
     )
+    return obj
 
 
 def get_best_score(scores, is_upper_side):
