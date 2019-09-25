@@ -1,3 +1,4 @@
+from base.utils import get_admin_user
 from game.gme_chess.models import (
     ChessBoardCalculateMaster,
     ChessBoardResultMaster,
