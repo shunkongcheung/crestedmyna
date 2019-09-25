@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from .apis import (
+    ChessCeleryTaskAPIView,
     ChessInitialBoardAPIView,
     ChessJudgeWinnerAPIView,
     ChessMakeMoveAPIView,
@@ -10,6 +11,10 @@ from .apis import (
 app_name = 'gme_chess'
 
 urlpatterns = [
+    url(r'^celery_task/$',
+        ChessCeleryTaskAPIView.as_view(),
+        name='gme_chess-api-celery_task'
+        ),
     url(r'^initial_board/$',
         ChessInitialBoardAPIView.as_view(),
         name='gme_chess-api-initial_board'

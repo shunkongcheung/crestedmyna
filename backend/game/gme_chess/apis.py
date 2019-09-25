@@ -4,6 +4,7 @@ from base.apis import (
 )
 
 from .serializers import (
+    ChessCeleryTaskSerializer,
     ChessInitialBoardSerializer,
     ChessJudgeWinnerSerializer,
     ChessMakeMoveSerializer,
@@ -16,6 +17,13 @@ from game.gme_chess.utils import (
     get_initial_board,
     get_hash_from_board,
 )
+
+
+class ChessCeleryTaskAPIView(MyCreateAPIView):
+    serializer_class = ChessCeleryTaskSerializer
+
+    def perform_create(self, data):
+        pass
 
 
 class ChessInitialBoardAPIView(MyObjectAPIView):

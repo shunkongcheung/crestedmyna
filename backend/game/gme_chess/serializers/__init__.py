@@ -1,3 +1,4 @@
+from .chess_celery_task_serializer import ChessCeleryTaskSerializer
 from .chess_initial_board_serializer import ChessInitialBoardSerializer
 from .chess_judge_winner_serializer import ChessJudgeWinnerSerializer
 from .chess_make_move_serializer import ChessMakeMoveSerializer
