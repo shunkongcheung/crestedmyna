@@ -17,32 +17,24 @@ from game.gme_chess.utils import (
 )
 from game.gme_chess.utils.prefixes import CHS_EMPTY
 
-from game.gme_chess.serializers import ChessMakeMoveSerializer
+from game.gme_chess.serializers.chess_make_move_serializer import (
+    create_calculate_master,
+    get_move_request_master,
+)
 from game.gme_chess.tasks import create_calculate_children_masters
 from game.models import (
-    ChessMoveRequestMaster,
+    ChessBoardCalculateMaster,
     ChessBoardResultMaster,
 )
 
-import time
-
 
 def generator():
-    initial_board = get_initial_board()
-    next_boards = get_next_boards(initial_board, is_upper_side=False)
-    next_board_hashes = [
-        get_hash_from_board(next_board)
-        for next_board in next_boards
-    ]
-    generate_from_board_hashes(next_board_hashes, 0)
-    create_dump_file()
-    idx = 1
+    initial_next_board_hashes = get_to_board_hashes_from_initial_board()
+    result_next_board_hashes = get_to_board_hashes_from_results()
 
-    while True:
-        next_board_hashes = get_to_board_hashes_of_results()
-        generate_from_board_hashes(next_board_hashes, idx)
-        create_dump_file()
-        idx = idx + 1
+    next_board_hashes = initial_next_board_hashes + result_next_board_hashes
+    generate_calculate_masters_from_board_hashes(next_board_hashes)
+    create_dump_file()
 
 
 def create_dump_file():
@@ -51,7 +43,17 @@ def create_dump_file():
         call_command('dumpdata', 'game.ChessBoardResultMaster', stdout=f)
 
 
-def get_to_board_hashes_of_results():
+def get_to_board_hashes_from_initial_board():
+    initial_board = get_initial_board()
+    initial_next_boards = get_next_boards(initial_board, is_upper_side=False)
+    initial_next_board_hashes = [
+        get_hash_from_board(initial_next_board)
+        for initial_next_board in initial_next_boards
+    ]
+    return initial_next_board_hashes
+
+
+def get_to_board_hashes_from_results():
     board_hashes = []
     result_masters = ChessBoardResultMaster.objects.all()
     for result_master in result_masters:
@@ -60,66 +62,61 @@ def get_to_board_hashes_of_results():
     return board_hashes
 
 
-def generate_from_board_hashes(board_hashes, round_idx):
+def generate_calculate_masters_from_board_hashes(board_hashes):
     total = len(board_hashes)
-    write_debug(f'starting round {round_idx} with {total}')
+    write_debug(f'starting {total}')
+    top_level = get_lookup_value('CHESS_CALCULATE_LEVEL')
 
     for idx, board_hash in enumerate(board_hashes):
         board = get_board_from_hash(board_hash)
         winner, _ = get_board_winner_and_score(board)
         if winner != CHS_EMPTY:
-            debug_msg = f'{round_idx:5} [{idx}/{total}] ' +\
-                'had a winner {winner} {board_hash}'
-            write_debug(debug_msg)
+            write_debug(f'[{idx}/{total}] had a winner {winner} {board_hash}')
+            print()
             continue
 
-        exist, move_request_master_id = request_for_board(board_hash)
+        create_msg, calculate_master =\
+            get_created_calculate_master(board_hash, top_level)
+        write_debug(f'[{idx}/{total}]: {create_msg} {board_hash}')
 
-        debug_msg = f'{round_idx:5} [{idx}/{total}] existed: {board_hash}'
-        if not exist:
-            debug_msg = f'{round_idx:5} [{idx}/{total}] {move_request_master_id}: {board_hash}'
-        write_debug(debug_msg)
+        if not calculate_master is None:
+            perform_calculation(calculate_master)
 
-        if not exist:
-            wait_for_request_to_be_done(move_request_master_id)
-
-
-def request_for_board(board_hash):
-    data = {'from_board': board_hash, }
-    serializer = ChessMakeMoveSerializer(data=data, user=get_admin_user())
-    serializer.is_valid(raise_exception=True)
-
-    validated_data = serializer.validated_data
-    to_board = validated_data.get('to_board')
-    if to_board:
-        return True, None
-
-    return False, validated_data['chess_move_request_master'].id
+        print()
 
 
-def wait_for_request_to_be_done(move_request_master_id):
-    while True:
-        move_request_master = ChessMoveRequestMaster.objects\
-            .get(id=move_request_master_id)
-        if move_request_master.to_board:
-            return
-        write_debug(f'{move_request_master.id} pending...')
-        time.sleep(20)
+def get_created_calculate_master(board_hash, top_level):
+    exist_result_master = ChessBoardResultMaster.objects\
+        .filter(from_board=board_hash, enable=True)\
+        .first()
 
-        move_request_master = ChessMoveRequestMaster.objects\
-            .get(id=move_request_master_id)
+    if not exist_result_master is None:
+        return f'Has result ({exist_result_master.id})', None
 
-        if move_request_master.total_child_count == 1:
-            write_debug(f'{move_request_master.id} trigger again...')
-            calculate_master = move_request_master\
-                .board_calculate_masters\
-                .first()
-            create_calculate_children_masters\
-                .apply_async((calculate_master.id,))
+    exist_calculate_master = ChessBoardCalculateMaster.objects\
+        .filter(board=board_hash, enable=True, level=top_level)\
+        .first()
 
-        if move_request_master.total_child_count == 0:
-            write_debug(f'{move_request_master.id} shit ?!...')
-            return
+    if not exist_calculate_master is None:
+        return f'Has calculate ({exist_calculate_master.id})', None
+
+    move_request_master = get_move_request_master(board_hash, get_admin_user())
+    calculate_master = create_calculate_master(move_request_master)
+    create_msg = f'Created ({calculate_master.id})'
+    return create_msg, calculate_master
+
+
+def perform_calculation(root_calculate_master):
+    async_task = create_calculate_children_masters\
+        .apply_async((root_calculate_master.id,))
+    board_hash = root_calculate_master.board
+
+    write_debug(f'{root_calculate_master.id} created {async_task.id}')
+
+    calculated_count = ChessBoardCalculateMaster.objects\
+        .filter(is_calculated=True).count()
+    all_count = ChessBoardCalculateMaster.objects\
+        .filter(is_calculated=True).count()
 
 
 def write_debug(message):
