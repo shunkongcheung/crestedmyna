@@ -1,8 +1,8 @@
 from base.utils import get_admin_user
 from general.gnl_syslog.utils import write_syslog
-from general.gnl_syslog.utils import write_syslog
 from general.gnl_lookup.utils import get_lookup_value
 
+from game.models import ChessBoardCalculateMaster
 from game.gme_chess.tasks import create_calculate_children_masters
 from game.gme_chess.utils import (
     get_board_from_hash,
