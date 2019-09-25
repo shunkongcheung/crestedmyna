@@ -1,14 +1,21 @@
 @import "../../variables";
+
+$btnWidth: 2rem;
+
 .container {
   position: relative;
-  width: 70vw;
+  width: 100%;
   height: 70vh;
+}
+
+.ctrlBtns {
+  display: flex;
 }
 
 #toSideBtn {
   position: absolute;
   top: 0;
-  width: 20px;
+  width: $btnWidth;
   height: 100%;
 
   display: flex;
@@ -28,4 +35,11 @@
 .toRightBtn {
   @extend #toSideBtn;
   right: 0;
+}
+
+.tabContainer {
+  margin-left: $btnWidth;
+  margin-right: $btnWidth;
+  width: 100%;
+  height: 100%;
 }
