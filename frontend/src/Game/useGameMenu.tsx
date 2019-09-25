@@ -1,28 +1,55 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo,  useState } from "react";
+import { History } from "history";
 
 type TGame = "chess" | "sudoku" | "2048";
 
-function useGameMenu() {
+function useGameMenu(history: History) {
   const games: Array<TGame> = useMemo(() => ["chess", "sudoku", "2048"], []);
   const [selectedGameIdx, setSelectedGame] = useState(0);
-  const prevScroll = useRef(0);
 
-  const handleMenuScroll = useCallback(
-    e => {
-      const { scrollLeft } = e.target;
-      if (prevScroll.current > scrollLeft)
+  const handleMenuChange = useCallback(
+    (toSide: 'left'| 'right') => {
+      if (toSide === 'left')
         setSelectedGame(oIdx => {
-          return oIdx > 0 ? oIdx - 1 : oIdx;
+          const ret = oIdx > 0 ? oIdx - 1 : oIdx;
+          if (ret !== oIdx) history.push(`/game/${games[ret]}/`);
+          return ret;
         });
-      if (prevScroll.current < scrollLeft)
+      if (toSide === 'right')
         setSelectedGame(oIdx => {
-          return oIdx < games.length - 1 ? oIdx + 1 : oIdx;
+          const ret = oIdx < games.length - 1 ? oIdx + 1 : oIdx;
+          if (ret !== oIdx) history.push(`/game/${games[ret]}/`);
+          return ret;
         });
+    },
+    [history, games]
+  );
+
+  const handleHistoryChange = useCallback(
+    location => {
+      const { pathname } = location;
+      const matching = pathname.match(/game\/(\w+)/);
+      if (!Array.isArray(matching) || !matching.length) return;
+      const gameName: TGame = matching[1];
+      const index = games.indexOf(gameName);
+      setSelectedGame(index);
     },
     [games]
   );
+
+  useEffect(
+    () => {
+      const unlisten = history.listen(handleHistoryChange);
+      handleHistoryChange(window.location);
+      return () => {
+        unlisten();
+      };
+    },
+    [handleHistoryChange, history]
+  );
+
   return {
-    handleMenuScroll,
+    handleMenuChange,
     selectedGame: games[selectedGameIdx]
   };
 }

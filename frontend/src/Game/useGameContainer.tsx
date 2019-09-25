@@ -1,7 +1,8 @@
 import useGameMenu from "./useGameMenu";
+import { History } from 'history'
 
-function useGameContainer() {
-  const menuState = useGameMenu();
+function useGameContainer(history:History) {
+  const menuState = useGameMenu(history);
   return { menuState };
 }
 
