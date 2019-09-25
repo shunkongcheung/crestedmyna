@@ -1,4 +1,4 @@
-# 1 SETTING UP AWS
+# 1 SETTING UP SERVER
 
 ## 1.1 looking for buntu instance
 ```https://www.youtube.com/watch?v=Xlp9G137-MI&t=638s```
@@ -96,4 +96,18 @@ sudo apt-get install -y rabbitmq-server
 adduser shun
 usermod -aG sudo shun
 rsync --archive --chown=shun:shun ~/.ssh /home/shun
+```
+
+######################################################################
+2.0 ROUTINE
+
+### 2.1 DATABASE BACKUP
+```
+### once
+sudo chown postgres.postgres /usr/local/casualapp/db_backups
+
+
+### everytime
+sudo su postgres
+pg_dump -U postgres -F t casualapp_db > /usr/local/casualapp/db_backups/20190925.tar
 ```
