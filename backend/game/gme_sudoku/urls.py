@@ -1,23 +1,18 @@
 from django.conf.urls import url
-# from .apis import (
-#     ModelNameCreateAPIView,
-#     ModelNameListAPIView,
-#     ModelNameObjectAPIView,
-# )
+from .apis import (
+    SudokuInitialBoardSerializerAPIView,
+    SudokuGameRecordMasterObjectAPIView,
+)
 
 app_name = 'gme_sudoku'
 
 urlpatterns = [
-    #     url(r'^create/$',
-    #         ModelNameCreateAPIView.as_view(),
-    #         name='app_name_val-api-create'
-    #         ),
-    #     url(r'^list/$',
-    #         ModelNameListAPIView.as_view(),
-    #         name='app_name_val-api-list'
-    #         ),
-    #     url(r'^(P<pk>[0-9]+)/$',
-    #         ModelNameObjectAPIView.as_view(),
-    #         name='app_name_val-api-object'
-    #         ),
+    url(r'^initial_board/$',
+        SudokuInitialBoardSerializerAPIView.as_view(),
+        name='gme_sudoku-api-initial_board'
+        ),
+    url(r'^game_record/$',
+        SudokuGameRecordMasterObjectAPIView.as_view(),
+        name='gme_sudoku-api-object'
+        ),
 ]
