@@ -7,9 +7,19 @@ from game.gme_chess.serializers.chess_make_move_serializer import (
     create_calculate_master,
     get_move_request_master,
 )
+from game.gme_chess.utils import (
+    get_board_from_hash,
+    get_board_winner_and_score,
+)
+from game.gme_chess.utils.prefixes import CHS_EMPTY
 
 
 def get_created_calculate_master(board_hash, top_level):
+    board = get_board_from_hash(board_hash)
+    winner, _ = get_board_winner_and_score(board)
+    if winner != CHS_EMPTY:
+        return f'has a winner {winner}', None
+
     exist_result_master = ChessBoardResultMaster.objects\
         .filter(from_board=board_hash, enable=True)\
         .first()
