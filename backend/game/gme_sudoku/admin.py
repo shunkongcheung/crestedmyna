@@ -9,9 +9,8 @@ class SudokuGameRecordMasterAdmin(MyBaseAdmin):
     list_display = ['current_board',
                     'start_board',
                     'used_second',
-                    'is_finished',
                     ]
-    list_filter = ['is_finished', ]
+    list_filter = []
     search_fields = ['current_board', ]
 
 
