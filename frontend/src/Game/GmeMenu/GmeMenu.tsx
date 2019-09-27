@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from "react";
+import React, { memo, ReactNode, useCallback } from "react";
 import { animated } from "react-spring";
 import PropTypes from "prop-types";
 
@@ -13,10 +13,15 @@ type TGame = "chess" | "sudoku" | "2048";
 
 interface IGmeMenuProps {
   handleMenuChange: (s: "left" | "right") => any;
+  renderedSudoku: ReactNode;
   selectedGame: TGame;
 }
 
-function GmeMenu({ handleMenuChange, selectedGame }: IGmeMenuProps) {
+function GmeMenu({
+  handleMenuChange,
+  renderedSudoku,
+  selectedGame
+}: IGmeMenuProps) {
   const [
     toLeftStyle,
     handleMouseEnterOrPressLeft,
@@ -52,13 +57,14 @@ function GmeMenu({ handleMenuChange, selectedGame }: IGmeMenuProps) {
         renderTabContent={() => <TabContent />}
       >
         <TabPane tab="tab list" key="chess">
-          chess
+          <div className={classNames.tabContainer}>chess</div>
+          
         </TabPane>
         <TabPane tab="tab detail" key="sudoku">
-          sudoku
+          <div className={classNames.tabContainer}>{renderedSudoku}</div>
         </TabPane>
         <TabPane tab="tab edit" key="2048">
-          2048
+          <div className={classNames.tabContainer}>2048</div>
         </TabPane>
       </Tabs>
       <animated.div
@@ -90,6 +96,7 @@ function GmeMenu({ handleMenuChange, selectedGame }: IGmeMenuProps) {
 
 GmeMenu.propTypes = {
   handleMenuChange: PropTypes.func.isRequired,
-  selectedGame: PropTypes.oneOf<TGame>(["chess", "sudoku", "2048"]).isRequired
+  selectedGame: PropTypes.oneOf<TGame>(["chess", "sudoku", "2048"]).isRequired,
+  renderedSudoku: PropTypes.element.isRequired
 };
 export default memo(GmeMenu);

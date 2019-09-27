@@ -38,8 +38,8 @@ $btnWidth: 2rem;
 }
 
 .tabContainer {
-  margin-left: $btnWidth;
+  margin-left: calc(#{$btnWidth} / 2);
   margin-right: $btnWidth;
-  width: 100%;
+  width: calc(100% - #{$btnWidth});
   height: 100%;
 }
