@@ -45,12 +45,15 @@ class SudokuInitialBoardSerializer(Serializer):
         ('difficult', 'Difficult'),
     ])
 
-    sudoku_board = CharField(read_only=True)
+    start_board = CharField(read_only=True)
+    solution_board = CharField(read_only=True)
 
     def validate(self, data):
         difficulty = data['difficulty']
         random_board = get_random_board()
+        data['solution_board'] = get_hash_from_board(random_board)
+
         empty_space_count = get_empty_space_count(difficulty)
         empty_spaces_in_board(random_board, empty_space_count)
-        data['sudoku_board'] = get_hash_from_board(random_board)
+        data['start_board'] = get_hash_from_board(random_board)
         return data
