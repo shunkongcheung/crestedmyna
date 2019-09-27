@@ -1,0 +1,30 @@
+@import "../../variables";
+.container {
+  width: 100%;
+  border: 2px solid $primaryColor;
+}
+
+.numInput {
+  border: 0;
+  outline: none;
+  height: 90%;
+
+  width: 70%;
+  @include small-pad-width {
+    width: 60%;
+  }
+
+  @include phone-width {
+    width: 50%;
+  }
+}
+
+.row {
+  display: flex;
+  height: 2rem;
+}
+.cell {
+  text-align: center;
+  width: calc(100% / 9);
+  border: 1px solid $primaryColor;
+}

@@ -1,0 +1,21 @@
+@import "../../variables";
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+
+  width: 30rem;
+  max-width: 500px;
+  @include small-pad-width {
+    width: 23rem;
+  }
+  @include phone-width {
+    width: 12rem;
+  }
+}
+.title {
+  font-weight: 700;
+  font-size: 2rem;
+  color: $primaryColor;
+  margin-bottom: 1rem;
+}
