@@ -23,6 +23,6 @@ class SudokuGameRecordMasterObjectAPIView(MyObjectAPIView):
     model = SudokuGameRecordMaster
 
     def get_object(self):
-        object, created = self.models.objects\
+        object, created = self.model.objects\
             .get_or_create(created_by=self.request.user, enable=True)
         return object
