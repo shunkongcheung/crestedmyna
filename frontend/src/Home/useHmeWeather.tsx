@@ -57,8 +57,14 @@ function useHmeWeather() {
       navigator.geolocation.getCurrentPosition(
         (position: { coords: ICoord }) => {
           const { coords } = position;
+          console.log(coords);
           return resolve(coords);
-        }
+        },
+        () =>
+          resolve({
+            latitude: 22.427175797385132,
+            longitude: 114.2111181483327
+          })
       );
     });
   }, []);
