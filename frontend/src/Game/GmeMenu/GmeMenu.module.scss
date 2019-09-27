@@ -1,11 +1,12 @@
 @import "../../variables";
 
 $btnWidth: 2rem;
+$paneHeight: 70vh;
 
 .container {
   position: relative;
   width: 100%;
-  height: 70vh;
+  height: $paneHeight;
 }
 
 .ctrlBtns {
@@ -35,6 +36,10 @@ $btnWidth: 2rem;
 .toRightBtn {
   @extend #toSideBtn;
   right: 0;
+}
+
+.tabPane {
+  height: $paneHeight;
 }
 
 .tabContainer {

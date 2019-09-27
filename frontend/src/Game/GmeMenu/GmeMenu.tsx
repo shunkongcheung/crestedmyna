@@ -56,14 +56,13 @@ function GmeMenu({
         renderTabBar={() => <></>}
         renderTabContent={() => <TabContent />}
       >
-        <TabPane tab="tab list" key="chess">
+        <TabPane tab="tab list" key="chess" className={classNames.tabPane}>
           <div className={classNames.tabContainer}>chess</div>
-          
         </TabPane>
-        <TabPane tab="tab detail" key="sudoku">
+        <TabPane tab="tab detail" key="sudoku" className={classNames.tabPane}>
           <div className={classNames.tabContainer}>{renderedSudoku}</div>
         </TabPane>
-        <TabPane tab="tab edit" key="2048">
+        <TabPane tab="tab edit" key="2048" className={classNames.tabPane}>
           <div className={classNames.tabContainer}>2048</div>
         </TabPane>
       </Tabs>
