@@ -81,6 +81,7 @@ function PauseCoverScreen({
   const renderedContinue = useMemo(
     () => {
       if (initializeState === "loading") return <CircularProgress />;
+      if (initializeState === "empty") return <></>;
       return (
         <div
           className={classNames.continueBtn}
