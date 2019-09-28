@@ -3,6 +3,7 @@ import { useDetailState, useEditState } from "../Base/Fetches";
 
 import useSudokuInitBoard from "./useSudokuInitBoard";
 import useSudokuInitGameRecord from "./useSudokuInitGameRecord";
+import useSudokuUsedSecond from "./useSudokuUsedSecond";
 
 type TInitializeState = "loading" | "empty" | "loaded";
 type TDifficulity = "easy" | "medium" | "difficult";
@@ -53,6 +54,7 @@ function useSudoku() {
     setGameStage
   );
   useSudokuInitGameRecord(setRecordMaster);
+  useSudokuUsedSecond(gameStage, setRecordMaster);
 
   // methods --------------------------------------------------------
 
@@ -63,26 +65,7 @@ function useSudoku() {
     });
   }, []);
 
-  const updateUsedSecond = useCallback(
-    () => {
-      if (gameStage === "paused") return;
-      setRecordMaster(oMaster => {
-        if (oMaster.initializeState === "loading") return oMaster;
-        if (oMaster.isFetching) return oMaster;
-        return { ...oMaster, usedSecond: oMaster.usedSecond + 1 };
-      });
-    },
-    [gameStage]
-  );
-
   // effect ------------------------------------------------------------
-
-  useEffect(() => {
-    const task = setInterval(updateUsedSecond, 1000);
-    return () => {
-      clearInterval(task);
-    };
-  });
 
   return {
     gameStage,
