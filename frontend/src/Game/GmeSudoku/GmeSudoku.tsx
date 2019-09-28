@@ -14,6 +14,7 @@ type TSudokuBoard = Array<Array<string>>;
 
 interface IRecordMaster {
   startBoard: TSudokuBoard;
+  solutionBoard: TSudokuBoard;
   difficulty: TDifficulity;
   currentBoard: TSudokuBoard;
   usedSecond: number;
@@ -24,6 +25,7 @@ interface IRecordMaster {
 interface IGmeSudokuProps {
   gameStage: TGameStage;
   handleDifficultyChosen: (d: TDifficulity) => any;
+  handleSubmit: (r: IRecordMaster) => any;
   handleSudokuBoardChange: (f: (b: TSudokuBoard) => TSudokuBoard) => any;
   recordMaster: IRecordMaster;
   setGameStage: (s: TGameStage) => any;
@@ -33,6 +35,7 @@ function GmeSudoku({
   gameStage,
   recordMaster,
   handleDifficultyChosen,
+  handleSubmit,
   handleSudokuBoardChange,
   setGameStage
 }: IGmeSudokuProps) {
@@ -49,13 +52,13 @@ function GmeSudoku({
       return (
         <GameHeader
           difficulty={difficulty}
-          handleSubmit={() => {}}
+          handleSubmit={() => handleSubmit(recordMaster)}
           setGameStage={setGameStage}
           usedSecond={usedSecond}
         />
       );
     },
-    [difficulty, setGameStage, usedSecond]
+    [difficulty, handleSubmit, recordMaster, setGameStage, usedSecond]
   );
   const renderedBoard = useMemo(
     () => (
@@ -102,6 +105,7 @@ function GmeSudoku({
 GmeSudoku.propTypes = {
   gameStage: PropTypes.oneOf(["paused", "playing"]).isRequired,
   handleDifficultyChosen: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
   handleSudokuBoardChange: PropTypes.func.isRequired,
   recordMaster: PropTypes.object.isRequired,
   setGameStage: PropTypes.func.isRequired

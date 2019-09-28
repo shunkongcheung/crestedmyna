@@ -1,10 +1,11 @@
 import { useCallback, useState } from "react";
 
-import useSudokuBase from "./useSudokuBase"
+import useSudokuBase from "./useSudokuBase";
 import useSudokuInitBoard from "./useSudokuInitBoard";
 import useSudokuInitGameRecord from "./useSudokuInitGameRecord";
 import useSudokuUsedSecond from "./useSudokuUsedSecond";
 import useSudokuSave from "./useSudokuSave";
+import useSudokuSubmit from "./useSudokuSubmit";
 
 type TInitializeState = "loading" | "empty" | "loaded";
 type TDifficulity = "easy" | "medium" | "difficult";
@@ -24,9 +25,8 @@ interface IRecordMaster {
 type TGameStage = "playing" | "paused";
 
 function useSudoku() {
-  
   // state --------------------------------------------------------
-	const { getInitBoard } = useSudokuBase()
+  const { getInitBoard } = useSudokuBase();
   const [gameStage, setGameStage] = useState<TGameStage>("paused");
   const [recordMaster, setRecordMaster] = useState<IRecordMaster>({
     startBoard: getInitBoard(),
@@ -42,6 +42,7 @@ function useSudoku() {
     setRecordMaster,
     setGameStage
   );
+  const { handleSubmit } = useSudokuSubmit(setRecordMaster, setGameStage);
   useSudokuInitGameRecord(setRecordMaster);
   useSudokuUsedSecond(gameStage, setRecordMaster);
   useSudokuSave(recordMaster);
@@ -58,6 +59,7 @@ function useSudoku() {
   return {
     gameStage,
     handleDifficultyChosen,
+    handleSubmit,
     handleSudokuBoardChange,
     recordMaster,
     setGameStage
