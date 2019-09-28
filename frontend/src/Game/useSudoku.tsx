@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
-import { useDetailState, useEditState } from "../Base/Fetches";
+import { useCallback, useState } from "react";
 
 import useSudokuInitBoard from "./useSudokuInitBoard";
 import useSudokuInitGameRecord from "./useSudokuInitGameRecord";
 import useSudokuUsedSecond from "./useSudokuUsedSecond";
+import useSudokuSave from "./useSudokuSave";
 
 type TInitializeState = "loading" | "empty" | "loaded";
 type TDifficulity = "easy" | "medium" | "difficult";
@@ -55,6 +55,7 @@ function useSudoku() {
   );
   useSudokuInitGameRecord(setRecordMaster);
   useSudokuUsedSecond(gameStage, setRecordMaster);
+  useSudokuSave(recordMaster);
 
   // methods --------------------------------------------------------
 

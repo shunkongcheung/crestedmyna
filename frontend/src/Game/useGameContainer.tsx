@@ -1,9 +1,12 @@
-import useGameMenu from "./useGameMenu";
-import { History } from 'history'
+import { History } from "history";
 
-function useGameContainer(history:History) {
+import useGameMenu from "./useGameMenu";
+import useSudoku from "./useSudoku";
+
+function useGameContainer(history: History) {
   const menuState = useGameMenu(history);
-  return { menuState };
+  const sudokuState = useSudoku();
+  return { menuState, sudokuState };
 }
 
 export default useGameContainer;
