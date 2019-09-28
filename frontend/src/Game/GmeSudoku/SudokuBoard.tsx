@@ -29,7 +29,8 @@ function SudokuBoard({
 
   const renderCell = useCallback(
     (value, isFromStart, rowIdx, colIdx) => {
-      if (isFromStart) return value;
+      if (isFromStart)
+        return <span className={classNames.startValue}>{value}</span>;
       const onChange = ({ target: { value } }: { target: { value: any } }) =>
         handleCellChange(rowIdx, colIdx, value.toString());
       return (
