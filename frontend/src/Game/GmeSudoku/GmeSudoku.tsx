@@ -1,7 +1,9 @@
 import React, { memo, useMemo } from "react";
 import PropTypes from "prop-types";
 
+import GameHeader from "./GameHeader";
 import SudokuBoard from "./SudokuBoard";
+import PauseCoverScreen from "./PauseCoverScreen";
 
 import classNames from "./GmeSudoku.module.scss";
 
@@ -12,6 +14,7 @@ type TSudokuBoard = Array<Array<string>>;
 
 interface IRecordMaster {
   startBoard: TSudokuBoard;
+  difficulty: TDifficulity;
   currentBoard: TSudokuBoard;
   usedSecond: number;
   isFetching: boolean;
@@ -29,9 +32,31 @@ interface IGmeSudokuProps {
 function GmeSudoku({
   gameStage,
   recordMaster,
-  handleSudokuBoardChange
+  handleDifficultyChosen,
+  handleSudokuBoardChange,
+  setGameStage
 }: IGmeSudokuProps) {
-  const { currentBoard, startBoard } = recordMaster;
+  const {
+    currentBoard,
+    difficulty,
+    initializeState,
+    isFetching,
+    startBoard,
+    usedSecond
+  } = recordMaster;
+  const renderedHeader = useMemo(
+    () => {
+      return (
+        <GameHeader
+          difficulty={difficulty}
+          handleSubmit={() => {}}
+          setGameStage={setGameStage}
+          usedSecond={usedSecond}
+        />
+      );
+    },
+    [difficulty, setGameStage, usedSecond]
+  );
   const renderedBoard = useMemo(
     () => (
       <SudokuBoard
@@ -42,10 +67,34 @@ function GmeSudoku({
     ),
     [startBoard, currentBoard, handleSudokuBoardChange]
   );
+  const renderedPauseCoverScreen = useMemo(
+    () => {
+      return (
+        <PauseCoverScreen
+          handleDifficultyChosen={handleDifficultyChosen}
+          gameStage={gameStage}
+          initializeState={initializeState}
+          isFetching={isFetching}
+          setGameStage={setGameStage}
+        />
+      );
+    },
+    [
+      gameStage,
+      handleDifficultyChosen,
+      isFetching,
+      initializeState,
+      setGameStage
+    ]
+  );
   return (
     <div className={classNames.container}>
       <div className={classNames.title}>SUDOKU</div>
-      {renderedBoard}
+      {renderedHeader}
+      <div className={classNames.boardContainer}>
+        {renderedPauseCoverScreen}
+        {renderedBoard}
+      </div>
     </div>
   );
 }
