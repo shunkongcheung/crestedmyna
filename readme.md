@@ -1,3 +1,16 @@
+# 0 FEATURE
+
+## 0.1 upcoming
+* file system
+* budget
+
+## 0.2 finishing up
+* sudoku ux (invalid chess show up)
+* sudoku ux (pause continue button)
+* sudoku difficulty control
+* media logic
+
+
 # 1 SETTING UP SERVER
 
 ## 1.1 looking for buntu instance
