@@ -5,7 +5,7 @@ type TGame = "chess" | "sudoku" | "2048";
 
 function useGameMenu(history: History) {
   const games: Array<TGame> = useMemo(() => ["chess", "sudoku", "2048"], []);
-  const [selectedGameIdx, setSelectedGame] = useState(0);
+  const [selectedGameIdx, setSelectedGame] = useState(1);
 
   const handleMenuChange = useCallback(
     (toSide: 'left'| 'right') => {
