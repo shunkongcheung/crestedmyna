@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 
+import useSudokuBase from "./useSudokuBase"
 import useSudokuInitBoard from "./useSudokuInitBoard";
 import useSudokuInitGameRecord from "./useSudokuInitGameRecord";
 import useSudokuUsedSecond from "./useSudokuUsedSecond";
@@ -23,21 +24,9 @@ interface IRecordMaster {
 type TGameStage = "playing" | "paused";
 
 function useSudoku() {
-  const getInitBoard = useCallback(() => {
-    return [
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"]
-    ];
-  }, []);
-
+  
   // state --------------------------------------------------------
+	const { getInitBoard } = useSudokuBase()
   const [gameStage, setGameStage] = useState<TGameStage>("paused");
   const [recordMaster, setRecordMaster] = useState<IRecordMaster>({
     startBoard: getInitBoard(),

@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { useDetailState } from "../Base/Fetches";
+import { useDetailState } from "../../Base/Fetches";
 
 type TDifficulity = "easy" | "medium" | "difficult";
 type TInitializeState = "loading" | "empty" | "loaded";

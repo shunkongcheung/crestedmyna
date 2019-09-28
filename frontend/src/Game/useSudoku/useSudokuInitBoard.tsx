@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import { useEditState } from "../Base/Fetches";
+import { useEditState } from "../../Base/Fetches";
 import useSudokuBase from "./useSudokuBase";
 
 type TDifficulity = "easy" | "medium" | "difficult";

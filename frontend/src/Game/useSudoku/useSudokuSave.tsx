@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import { useEditState } from "../Base/Fetches";
+import { useEditState } from "../../Base/Fetches";
 
 type TDifficulity = "easy" | "medium" | "difficult";
 type TInitializeState = "loading" | "empty" | "loaded";
