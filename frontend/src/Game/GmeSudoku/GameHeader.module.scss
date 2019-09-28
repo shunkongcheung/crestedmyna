@@ -1,0 +1,57 @@
+@import "../../variables";
+.container {
+  align-items: center;
+  display: flex;
+  margin-bottom: 1rem;
+  width: 100%;
+
+  @include phone-width {
+    display: block;
+  }
+}
+
+.usedTimeContainer {
+  display: flex;
+  align-items: center;
+
+  @include phone-width {
+    justify-content: flex-end;
+  }
+}
+.usedTimeTitle {
+  color: #777;
+  font-weight: 700;
+  margin-right: 0.5rem;
+}
+.usedTimeValue {
+  color: #444;
+}
+
+.btnContainer {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  font-weight: 700;
+  font-size: 0.9rem;
+
+  @include phone-width {
+    margin-top: 1rem;
+    justify-content: flex-end;
+  }
+}
+.pauseBtn {
+  color: $tertiaryColor;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+.submitBtn {
+  color: $secondaryColor;
+  cursor: pointer;
+  border: 1px solid $primaryColor;
+  border-radius: 5%;
+  padding: 0.4rem;
+
+  margin-left: 0.5rem;
+  margin-right: 0;
+}
