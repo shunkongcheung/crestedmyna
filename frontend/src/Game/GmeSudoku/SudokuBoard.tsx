@@ -37,6 +37,7 @@ function SudokuBoard({
         <input
           className={classNames.numInput}
           min={1}
+          max={9}
           type="number"
           value={value}
           onChange={onChange}
