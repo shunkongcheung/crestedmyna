@@ -65,8 +65,6 @@ function useSudoku() {
     });
   }, []);
 
-  // effect ------------------------------------------------------------
-
   return {
     gameStage,
     handleDifficultyChosen,

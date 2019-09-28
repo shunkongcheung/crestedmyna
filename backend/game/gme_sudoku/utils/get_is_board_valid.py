@@ -3,8 +3,8 @@ EMPTY_ITEM = '_'
 
 def get_is_area_unique(board, start_column, start_row, ignore_empty):
     area_values = []
-    for column_idx in range(start_column, 3):
-        for row_idx in range(start_row, 3):
+    for column_idx in range(start_column, start_column + 3):
+        for row_idx in range(start_row, start_row + 3):
             cur_item = board[row_idx][column_idx]
             if cur_item == EMPTY_ITEM and ignore_empty:
                 continue
