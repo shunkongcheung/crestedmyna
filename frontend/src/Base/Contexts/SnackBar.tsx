@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 
 import MiSnackbar from "@material-ui/core/Snackbar";
@@ -8,14 +8,27 @@ import SnackbarContent from "@material-ui/core/SnackbarContent";
 
 import classes from "./SnackBar.module.scss";
 
+interface ISnackBarContext {
+  message?: string;
+  type: "info" | "warning" | "error";
+  status: number;
+}
+
 interface ISnackBarProps {
   message?: string;
+  handleSnackBarChange: (v: ISnackBarContext) => any;
   type?: "error" | "warning" | "info";
 }
 
-function SnackBar({ message, type = "info" }: ISnackBarProps) {
-  const [open, setOpen] = useState(false);
-  const handleClose = useCallback(() => setOpen(false), []);
+function SnackBar({
+  handleSnackBarChange,
+  message,
+  type = "info"
+}: ISnackBarProps) {
+  const handleClose = useCallback(
+    () => handleSnackBarChange({ type, status: 200 }),
+    [handleSnackBarChange, type]
+  );
   const className = useMemo(
     () => {
       switch (type) {
@@ -29,7 +42,7 @@ function SnackBar({ message, type = "info" }: ISnackBarProps) {
     },
     [type]
   );
-  useEffect(() => setOpen(message ? true : false), [message]);
+  const open = useMemo(() => (message ? true : false), [message]);
 
   return (
     <MiSnackbar
@@ -57,6 +70,8 @@ function SnackBar({ message, type = "info" }: ISnackBarProps) {
 }
 
 SnackBar.propTypes = {
-  message: PropTypes.string
+  message: PropTypes.string,
+  type: PropTypes.oneOf(["info", "warning", "error"]),
+  handleSnackBarChange: PropTypes.func.isRequired
 };
 export default memo(SnackBar);
