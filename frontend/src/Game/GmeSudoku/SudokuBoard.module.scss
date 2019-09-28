@@ -21,7 +21,14 @@
 
 .row {
   display: flex;
-  height: 2rem;
+  height: 3rem;
+
+  @include small-pad-width {
+    height: 2.5rem;
+  }
+  @include phone-width {
+    height: 2rem;
+  }
 }
 .cell {
   text-align: center;

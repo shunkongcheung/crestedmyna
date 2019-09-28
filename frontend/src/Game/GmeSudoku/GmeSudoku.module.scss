@@ -10,7 +10,8 @@
     width: 23rem;
   }
   @include phone-width {
-    width: 12rem;
+    width: 17rem;
+    max-width: 60vw;
   }
 }
 .title {
