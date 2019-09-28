@@ -8,8 +8,9 @@
   border: 0;
   outline: none;
   height: 90%;
-
   width: 70%;
+  font-size: inherit;
+
   @include small-pad-width {
     width: 60%;
   }
