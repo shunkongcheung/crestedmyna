@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from "react";
+import React, { CSSProperties, memo, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 
 import classNames from "./SudokuBoard.module.scss";
@@ -21,7 +21,6 @@ function SudokuBoard({
       handleSudokuBoardChange(oBoard => {
         const nBoard = JSON.parse(JSON.stringify(oBoard));
         nBoard[rowIdx][colIdx] = value;
-        console.log("hey here....", nBoard);
         return nBoard;
       });
     },
@@ -50,8 +49,11 @@ function SudokuBoard({
     (valueRow: Array<string>, startRow: Array<string>, rowIdx: number) => {
       return valueRow.map((value, colIdx) => {
         const key = `${rowIdx}-${colIdx}`;
+        const style: CSSProperties = {};
+        if ((rowIdx + 1) % 3 === 0) style.borderBottomWidth = 2;
+        if ((colIdx + 1) % 3 === 0) style.borderRightWidth = 2;
         return (
-          <div className={classNames.cell} key={key}>
+          <div className={classNames.cell} key={key} style={style}>
             {renderCell(value, startRow[colIdx] !== "_", rowIdx, colIdx)}
           </div>
         );
