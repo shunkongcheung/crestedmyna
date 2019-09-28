@@ -1,17 +1,22 @@
-import React, { memo } from "react";
+import React, { memo, useMemo } from "react";
 import { RouteComponentProps } from "react-router-dom";
 
 import Layout from "../Base/Layout";
 
 import GmeMenu from "./GmeMenu";
+import GmeSudoku from "./GmeSudoku";
 import useGameContainer from "./useGameContainer";
 
 function GameContainer({ history }: RouteComponentProps) {
-  const { menuState } = useGameContainer(history);
+  const { menuState, sudokuState } = useGameContainer(history);
+
+  const renderedSudoku = useMemo(() => <GmeSudoku {...sudokuState} />, [
+    sudokuState
+  ]);
+
   return (
     <Layout>
-      Game!
-      <GmeMenu {...menuState} />
+      <GmeMenu {...menuState} renderedSudoku={renderedSudoku} />
     </Layout>
   );
 }

@@ -86,9 +86,6 @@ function GmeMenu({
       >
         <div className={classNames.arrow}>{">"}</div>
       </animated.div>
-      <div className={classNames.ctrlBtns}>
-        <button type="button">button</button>
-      </div>
     </div>
   );
 }
