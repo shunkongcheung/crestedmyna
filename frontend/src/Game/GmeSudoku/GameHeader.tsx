@@ -21,7 +21,7 @@ function GameHeader({
   const handlePause = useCallback(() => setGameStage("paused"), [setGameStage]);
   const usedHourLocale = useMemo(
     () =>
-      (usedSecond / 3600).toLocaleString("en-US", {
+      Math.floor(usedSecond / 3600).toLocaleString("en-US", {
         minimumIntegerDigits: 2,
         useGrouping: false
       }),
@@ -29,7 +29,7 @@ function GameHeader({
   );
   const usedMinuteLocale = useMemo(
     () =>
-      (usedSecond / 60).toLocaleString("en-US", {
+      Math.floor(usedSecond / 60).toLocaleString("en-US", {
         minimumIntegerDigits: 2,
         useGrouping: false
       }),
