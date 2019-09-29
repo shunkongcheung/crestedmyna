@@ -1,4 +1,5 @@
 from base.utils import get_admin_user
+from django.utils import timezone
 from general.gnl_syslog.utils import write_syslog
 from math import floor
 
@@ -18,6 +19,7 @@ def get_row_col_from_index(index):
 def get_random_board():
     index, MAX_INDEX = 0, 9*9
     generate_board = GenerateBoard()
+    start_time, MAX_SECONDS = timezone.now(), 5
 
     while index < MAX_INDEX:
         # get current row and column index
@@ -39,5 +41,10 @@ def get_random_board():
         if is_valid:
             index = index + 1
             continue
+
+        # if running too long. restart again
+        run_seconds = (timezone.now() - start_time).seconds
+        if run_seconds > MAX_SECONDS:
+            return get_random_board()
 
     return generate_board.get_sudoku_board()
