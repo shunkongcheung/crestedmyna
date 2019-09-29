@@ -6,8 +6,9 @@ from .models import MediaMaster
 
 # Register your models here.
 class MediaMasterAdmin(MyBaseAdmin):
-    list_display = ['access_url', 'file_type', ]
+    list_display = ['file_name', 'file_type', ]
     list_filter = ['file_type', ]
+    search_field = ['file_name', ]
 
 
 admin.site.register(MediaMaster, MediaMasterAdmin)

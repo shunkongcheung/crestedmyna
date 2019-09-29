@@ -3,5 +3,5 @@ from django.db import models
 
 
 class MediaMaster(MyBaseModel):
-    access_url = models.URLField()
+    file_name = models.CharField(max_length=256)
     file_type = models.CharField(max_length=32)
