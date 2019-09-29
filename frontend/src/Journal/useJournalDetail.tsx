@@ -1,7 +1,7 @@
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { useDetailState } from "../Base/Fetches";
-import { AuthContext } from "../Base/Contexts";
+import useGetAccessUrlFromFileName from "./useGetAccessUrlFromFileName";
 
 interface IJournalMasterBase {
   name: string;
@@ -36,8 +36,8 @@ interface IJournalMasterRet extends IJournalMasterBase {
 
 function useJournalDetailViewState() {
   /* const journalMasterId = useGetIdOrCreateState(/journal\/(\w+)/); */
+  const { getAccessUrlFromFileName } = useGetAccessUrlFromFileName();
 
-  const { token: authToken } = useContext(AuthContext);
   const getDefaultJournalMaster = useCallback(
     () => ({
       name: "",
@@ -66,9 +66,7 @@ function useJournalDetailViewState() {
       const journalMaster: IJournalMaster = {
         ...payload,
         medias: payload.medias.map(itm => {
-          const accessUrl = `/api/general/gnl_media/resolve/${
-            itm.file_name
-          }?auth=${authToken}`;
+          const accessUrl = getAccessUrlFromFileName(itm.file_name);
           return {
             id: itm.id,
             accessUrl,
@@ -80,7 +78,7 @@ function useJournalDetailViewState() {
       };
       setJournalMaster(journalMaster);
     },
-    [authToken, fetchDetail]
+    [fetchDetail, getAccessUrlFromFileName]
   );
 
   const resetJournalMaster = useCallback(
