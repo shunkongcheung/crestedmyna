@@ -31,6 +31,8 @@ interface IGmeSudokuProps {
   setGameStage: (s: TGameStage) => any;
 }
 
+type TSubmitState = "playing" | "loading" | "invalid";
+
 function GmeSudoku({
   gameStage,
   recordMaster,
@@ -49,12 +51,13 @@ function GmeSudoku({
     usedSecond
   } = recordMaster;
 
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitState, setSubmitState] = useState("playing");
 
   const handleSubmitI = useCallback(
-    () => {
-      handleSubmit(recordMaster);
-      setIsSubmitted(true);
+    async () => {
+      setSubmitState("loading");
+      const isValid = await handleSubmit(recordMaster);
+      setSubmitState(isValid ? "playing" : "invalid");
     },
     [handleSubmit, recordMaster]
   );
@@ -77,7 +80,7 @@ function GmeSudoku({
       <SudokuBoard
         currentBoard={currentBoard}
         handleSudokuBoardChange={handleSudokuBoardChange}
-        isSubmitted={isSubmitted}
+        isSubmitted={submitState === "invalid"}
         startBoard={startBoard}
         solutionBoard={solutionBoard}
       />
@@ -85,7 +88,7 @@ function GmeSudoku({
     [
       currentBoard,
       handleSudokuBoardChange,
-      isSubmitted,
+      submitState,
       startBoard,
       solutionBoard
     ]
