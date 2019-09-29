@@ -21,11 +21,11 @@ def get_random_row_and_column():
 
 def get_empty_space_count(level):
     if level == 'easy':
-        return randint(35, 40)
+        return randint(30, 35)
     if level == 'medium':
-        return randint(40, 45)
+        return randint(35, 40)
     if level == 'difficult':
-        return randint(45, 50)
+        return randint(40, 45)
 
 
 def empty_spaces_in_board(board, space_count):
@@ -54,6 +54,6 @@ class SudokuInitialBoardSerializer(Serializer):
         data['solution_board'] = get_hash_from_board(random_board)
 
         empty_space_count = get_empty_space_count(difficulty)
-        empty_spaces_in_board(random_board, empty_space_count)
+        empty_spaces_in_board(random_board, 1)
         data['start_board'] = get_hash_from_board(random_board)
         return data
