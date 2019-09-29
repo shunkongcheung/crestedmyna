@@ -66,9 +66,11 @@ function useSudokuSubmit(
           start_board: getHashFromBoard(recordMaster.startBoard)
         }
       );
-      if (!ok) return;
-      if (!payload.is_valid)
-        return setErrorMsg({ error: "Invalid. Try again." }, 400);
+      if (!ok) return false;
+      if (!payload.is_valid) {
+        setErrorMsg({ error: "Invalid. Try again." }, 400);
+        return false;
+      }
 
       // reset record master
       setRecordMaster({
@@ -96,6 +98,7 @@ function useSudokuSubmit(
 
       // reset game stage
       setGameStage("paused");
+      return true;
     },
     [
       fetchEdit,
