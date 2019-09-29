@@ -49,6 +49,7 @@ function useSudokuInitBoard(
         ...oMaster,
         currentBoard: startBoard,
         difficulty,
+        initializeState: "loaded",
         startBoard,
         solutionBoard,
         usedSecond: 0,
