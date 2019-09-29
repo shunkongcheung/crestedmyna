@@ -5,7 +5,10 @@ from base.apis import (
 )
 
 from .models import SudokuGameRecordMaster
-from .serializers import SudokuInitialBoardSerializer
+from .serializers import (
+    SudokuInitialBoardSerializer,
+    SudokuValidateSerializer,
+)
 
 fields = ['start_board',
           'current_board',
@@ -15,7 +18,7 @@ fields = ['start_board',
           ]
 
 
-class SudokuInitialBoardSerializerAPIView(MyCreateAPIView):
+class SudokuInitialBoardAPIView(MyCreateAPIView):
     serializer_class = SudokuInitialBoardSerializer
 
     def perform_create(self, validated_data):
@@ -31,3 +34,10 @@ class SudokuGameRecordMasterObjectAPIView(MyObjectAPIView):
         object, created = self.model.objects\
             .get_or_create(created_by=self.request.user, enable=True)
         return object
+
+
+class SudokuValidateAPIView(MyCreateAPIView):
+    serializer_class = SudokuValidateSerializer
+
+    def perform_create(self, validated_data):
+        pass
