@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useEditState } from "../../Base/Fetches";
+import useSudokuBase from "./useSudokuBase";
 
 type TDifficulity = "easy" | "medium" | "difficult";
 type TInitializeState = "loading" | "empty" | "loaded";
@@ -24,13 +25,8 @@ interface IRecordMasterRet {
 
 function useSudokuSave(recordMaster: IRecordMaster) {
   const recordMasterRef = useRef<IRecordMaster | undefined>();
+  const { getHashFromBoard } = useSudokuBase();
   const { fetchEdit } = useEditState<IRecordMasterRet>();
-
-  const getBoardHashFromBoard = useCallback(board => {
-    let boardHash = "";
-    for (let row of board) boardHash += row.join("");
-    return boardHash;
-  }, []);
 
   const handleSave = useCallback(
     () => {
@@ -38,15 +34,15 @@ function useSudokuSave(recordMaster: IRecordMaster) {
       if (!recordMaster) return;
 
       const data = {
-        current_board: getBoardHashFromBoard(recordMaster.currentBoard),
-        start_board: getBoardHashFromBoard(recordMaster.startBoard),
-        solution_board: getBoardHashFromBoard(recordMaster.solutionBoard),
+        current_board: getHashFromBoard(recordMaster.currentBoard),
+        start_board: getHashFromBoard(recordMaster.startBoard),
+        solution_board: getHashFromBoard(recordMaster.solutionBoard),
         difficulty: recordMaster.difficulty,
         used_second: recordMaster.usedSecond
       };
       fetchEdit("game/gme_sudoku/game_record/", data, { method: "PUT" });
     },
-    [fetchEdit, getBoardHashFromBoard]
+    [fetchEdit, getHashFromBoard]
   );
 
   useEffect(
