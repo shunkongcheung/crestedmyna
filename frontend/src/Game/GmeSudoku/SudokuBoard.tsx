@@ -8,13 +8,17 @@ type TSudokuBoard = Array<Array<string>>;
 interface ISudokuBoardProps {
   currentBoard: Array<Array<string>>;
   handleSudokuBoardChange: (f: (b: TSudokuBoard) => TSudokuBoard) => any;
+  isSubmitted: boolean;
   startBoard: Array<Array<string>>;
+  solutionBoard: Array<Array<string>>;
 }
 
 function SudokuBoard({
   currentBoard,
   handleSudokuBoardChange,
-  startBoard
+  isSubmitted,
+  startBoard,
+  solutionBoard
 }: ISudokuBoardProps) {
   const handleCellChange = useCallback(
     (rowIdx, colIdx, value) => {
@@ -33,6 +37,10 @@ function SudokuBoard({
         return <span className={classNames.startValue}>{value}</span>;
       const onChange = ({ target: { value } }: { target: { value: any } }) =>
         handleCellChange(rowIdx, colIdx, value.toString());
+
+      const isWrong = isSubmitted && value !== solutionBoard[rowIdx][colIdx];
+      const style: CSSProperties = {};
+      if (isWrong) style.color = "red";
       return (
         <input
           className={classNames.numInput}
@@ -41,10 +49,11 @@ function SudokuBoard({
           type="number"
           value={value}
           onChange={onChange}
+          style={style}
         />
       );
     },
-    [handleCellChange]
+    [handleCellChange, isSubmitted, solutionBoard]
   );
 
   const renderRow = useCallback(
@@ -81,6 +90,8 @@ function SudokuBoard({
 SudokuBoard.propTypes = {
   currentBoard: PropTypes.array.isRequired,
   handleSudokuBoardChange: PropTypes.func.isRequired,
-  startBoard: PropTypes.array.isRequired
+  isSubmitted: PropTypes.bool.isRequired,
+  startBoard: PropTypes.array.isRequired,
+  solutionBoard: PropTypes.array.isRequired
 };
 export default memo(SudokuBoard);

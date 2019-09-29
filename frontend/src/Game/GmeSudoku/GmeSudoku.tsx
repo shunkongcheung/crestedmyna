@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, useCallback, useMemo, useState } from "react";
 import PropTypes from "prop-types";
 
 import GameHeader from "./GameHeader";
@@ -45,30 +45,50 @@ function GmeSudoku({
     initializeState,
     isFetching,
     startBoard,
+    solutionBoard,
     usedSecond
   } = recordMaster;
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmitI = useCallback(
+    () => {
+      handleSubmit(recordMaster);
+      setIsSubmitted(true);
+    },
+    [handleSubmit, recordMaster]
+  );
+
   const renderedHeader = useMemo(
     () => {
       return (
         <GameHeader
           difficulty={difficulty}
-          handleSubmit={() => handleSubmit(recordMaster)}
+          handleSubmit={handleSubmitI}
           setGameStage={setGameStage}
           usedSecond={usedSecond}
         />
       );
     },
-    [difficulty, handleSubmit, recordMaster, setGameStage, usedSecond]
+    [difficulty, handleSubmitI, setGameStage, usedSecond]
   );
   const renderedBoard = useMemo(
     () => (
       <SudokuBoard
-        startBoard={startBoard}
         currentBoard={currentBoard}
         handleSudokuBoardChange={handleSudokuBoardChange}
+        isSubmitted={isSubmitted}
+        startBoard={startBoard}
+        solutionBoard={solutionBoard}
       />
     ),
-    [startBoard, currentBoard, handleSudokuBoardChange]
+    [
+      currentBoard,
+      handleSudokuBoardChange,
+      isSubmitted,
+      startBoard,
+      solutionBoard
+    ]
   );
   const renderedPauseCoverScreen = useMemo(
     () => {
