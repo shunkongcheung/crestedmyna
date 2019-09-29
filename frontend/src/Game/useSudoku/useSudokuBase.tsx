@@ -1,18 +1,10 @@
 import { useCallback } from "react";
 
 function useSudokuBase() {
-  const getInitBoard = useCallback(() => {
-    return [
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
-      ["_", "_", "_", "_", "_", "_", "_", "_", "_"]
-    ];
+  const getHashFromBoard = useCallback(board => {
+    let boardHash = "";
+    for (let row of board) boardHash += row.join("");
+    return boardHash;
   }, []);
 
   const getBoardFromHash = useCallback(boardHash => {
@@ -31,7 +23,21 @@ function useSudokuBase() {
     return board;
   }, []);
 
-  return { getBoardFromHash, getInitBoard };
+  const getInitBoard = useCallback(() => {
+    return [
+      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
+      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
+      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
+      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
+      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
+      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
+      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
+      ["_", "_", "_", "_", "_", "_", "_", "_", "_"],
+      ["_", "_", "_", "_", "_", "_", "_", "_", "_"]
+    ];
+  }, []);
+
+  return { getBoardFromHash, getHashFromBoard, getInitBoard };
 }
 
 export default useSudokuBase;
