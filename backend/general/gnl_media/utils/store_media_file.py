@@ -2,10 +2,9 @@ from django.conf import settings
 from general.gnl_lookup.utils import get_lookup_value
 from io import BytesIO
 from uuid import uuid4
-import os
 
-BASE_DIR = settings.BASE_DIR
-STATIC_URL = settings.STATIC_URL
+from .get_media_file_full_path import get_media_file_full_path
+
 IS_DEVELOPMENT = settings.IS_DEVELOPMENT
 
 
@@ -14,17 +13,11 @@ def get_unique_media_name(file_name, file_type):
     return f'{file_name}_{unique_name}.{file_type}'
 
 
-def get_media_file_full_path(file_name):
-    if settings.IS_DEVELOPMENT:
-        return os.path.join(f'{BASE_DIR}', 'base/static/m', file_name)
-    return os.path.join('/usr/local/casualapp/media', file_name)
-
-
-def get_media_file_path(unique_name):
-    host_name = get_lookup_value('HOST_NAME', 'GENERAL')
-    if settings.IS_DEVELOPMENT:
-        return f'{host_name}/static/m/{unique_name}'
-    return f'{host_name}/media/{unique_name}'
+# def get_media_file_path(unique_name):
+#     host_name = get_lookup_value('HOST_NAME', 'GENERAL')
+#     if settings.IS_DEVELOPMENT:
+#         return f'{host_name}/static/m/{unique_name}'
+#     return f'{host_name}/media/{unique_name}'
 
 
 def store_media_file(media_file, file_name, file_type):
@@ -33,4 +26,4 @@ def store_media_file(media_file, file_name, file_type):
     with open(media_path, 'wb') as file:
         file.write(media_file.read())
 
-    return get_media_file_path(u_name)
+    return u_name
