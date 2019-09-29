@@ -21,11 +21,11 @@ def get_random_row_and_column():
 
 def get_empty_space_count(level):
     if level == 'easy':
-        return randint(40, 50)
+        return randint(35, 40)
     if level == 'medium':
-        return randint(45, 50)
+        return randint(40, 45)
     if level == 'difficult':
-        return randint(50, 60)
+        return randint(45, 50)
 
 
 def empty_spaces_in_board(board, space_count):
