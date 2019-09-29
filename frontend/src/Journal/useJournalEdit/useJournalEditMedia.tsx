@@ -1,11 +1,13 @@
 import { useCallback } from "react";
 import { FormikProps } from "formik";
 
-import { useDeleteState, useFetchFormDataState } from "../Base/Fetches";
+import { useDeleteState, useFetchFormDataState } from "../../Base/Fetches";
+import useGetAccessUrlFromFileName from "../useGetAccessUrlFromFileName";
 
 function useJournalEditMedia() {
   const { fetchDelete } = useDeleteState();
   const { makeFormDataFetch } = useFetchFormDataState();
+  const { getAccessUrlFromFileName } = useGetAccessUrlFromFileName();
 
   // methods -----------------------------------------------
   const handleDeleteMedia = useCallback(
@@ -41,13 +43,13 @@ function useJournalEditMedia() {
 
       const media = {
         name: payload.name,
-        accessUrl: payload.access_url,
+        accessUrl: getAccessUrlFromFileName(payload.file_name),
         id: payload.id
       };
       const nMedias = [media, ...medias];
       setFieldValue("medias", nMedias);
     },
-    [makeFormDataFetch]
+    [getAccessUrlFromFileName, makeFormDataFetch]
   );
 
   // return ---------------------------------------------

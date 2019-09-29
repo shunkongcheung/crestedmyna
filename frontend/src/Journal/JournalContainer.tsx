@@ -21,7 +21,7 @@ function JournalContainer({ history }: IJournalContainer) {
   const {
     contentState,
     calendarState,
-		detailState,
+    detailState,
     editState
   } = useJournalContainer(history);
 

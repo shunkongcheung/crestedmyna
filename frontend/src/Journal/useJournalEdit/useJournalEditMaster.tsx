@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { History } from "history";
 
-import { useEditState } from "../Base/Fetches";
+import { useEditState } from "../../Base/Fetches";
 
 interface IEvent {
   id: number;
