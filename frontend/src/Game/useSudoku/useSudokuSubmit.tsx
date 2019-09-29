@@ -29,12 +29,9 @@ interface IRecordMasterRet {
 
 interface IValidateRet {
   is_valid: boolean;
-  solution_board: string;
 }
 interface IValidateSubmit {
   current_board: string;
-  start_board: string;
-  solution_board: string;
 }
 
 function useSudokuSubmit(
@@ -60,11 +57,7 @@ function useSudokuSubmit(
     async (recordMaster: IRecordMaster) => {
       const { ok, payload } = await fetchValidation(
         "game/gme_sudoku/validate_board/",
-        {
-          current_board: getHashFromBoard(recordMaster.currentBoard),
-          solution_board: getHashFromBoard(recordMaster.solutionBoard),
-          start_board: getHashFromBoard(recordMaster.startBoard)
-        }
+        { current_board: getHashFromBoard(recordMaster.currentBoard) }
       );
       if (!ok) return false;
       if (!payload.is_valid) {
