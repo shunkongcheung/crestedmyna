@@ -9,10 +9,12 @@ class CCASSParticipantMaster(MyBaseModel):
     address = models.TextField(blank=True)
 
 
-# class CCASSParticipantDetail(MyBaseModel):
-#     stock_code = models.CharField(max_length=64)
-#     detail_date = models.DateField()
+class CCASSParticipantDetail(MyBaseModel):
+    stock_code = models.CharField(max_length=64)
+    detail_date = models.DateField()
 
-#     participant = models.ForeignKey(CCASSParticipantMaster)
-#     share_count = models.BigIntegerField()
-#     share_percent = models.PositiveSmallIntegerField()
+    participant_master = models.ForeignKey(CCASSParticipantMaster,
+                                           on_delete=models.CASCADE
+                                           )
+    share_count = models.BigIntegerField()
+    share_percent = models.FloatField()
