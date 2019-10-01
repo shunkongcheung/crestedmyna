@@ -4,5 +4,15 @@ from django.db import models
 # Create your models here.
 
 
-# class ModelName(MyBaseModel):
-#     pass
+class CCASSParticipantMaster(MyBaseModel):
+    participant_id = models.CharField(max_length=16)
+    address = models.TextField(blank=True)
+
+
+# class CCASSParticipantDetail(MyBaseModel):
+#     stock_code = models.CharField(max_length=64)
+#     detail_date = models.DateField()
+
+#     participant = models.ForeignKey(CCASSParticipantMaster)
+#     share_count = models.BigIntegerField()
+#     share_percent = models.PositiveSmallIntegerField()
