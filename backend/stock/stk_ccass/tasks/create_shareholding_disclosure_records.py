@@ -15,7 +15,8 @@ import requests
 
 
 @shared_task
-def create_shareholding_disclosure_records(stock_code, date):
+def create_shareholding_disclosure_records(stock_code, date_string):
+    date = datetime.strptime(date_string, "%Y-%m-%dT%H:%M:%SZ")
     date_string = date.strftime('%Y/%m/%d')
     lxml_html = get_lxml_from_stock_code(stock_code, date_string)
 
