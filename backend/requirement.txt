@@ -26,6 +26,7 @@ itypes==1.1.0
 jedi==0.15.1
 Jinja2==2.10.1
 kombu==4.6.4
+lxml==4.4.1
 MarkupSafe==1.1.1
 more-itertools==5.0.0
 ndg-httpsclient==0.5.1
