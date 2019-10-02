@@ -1,14 +1,10 @@
-# 0 FEATURE
+# 0 FEATURE/FIX
+## Frontend
 
-## 0.1 upcoming
-* file system
-* budget
+### stock
+	* date filter
+	* stock: filter NaN logic
 
-## 0.2 finishing up
-* sudoku ux (invalid chess show up)
-* sudoku ux (pause continue button)
-* sudoku difficulty control
-* media logic
 
 
 # 1 SETTING UP SERVER
