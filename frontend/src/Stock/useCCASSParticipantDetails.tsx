@@ -56,7 +56,7 @@ function useCCASSParticipantDetails() {
       );
       return getNumArray(
         relatedParticipantDetails,
-        "share_count",
+        "share_percent",
         "detail_date",
         startDate,
         endDate
