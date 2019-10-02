@@ -119,7 +119,7 @@ function MainChart({
           data.splice(emptyIdx, 1);
         }
         labels.splice(emptyIdx, 1);
-        detailSums.splice(emptyIdx);
+        detailSums.splice(emptyIdx, 1);
       }
 
       /// get datesets ----------------------------------------------
@@ -139,7 +139,7 @@ function MainChart({
           backgroundColor: "rgba(2,78,128,1)",
           borderColor: "rgba(2,78,128,1)",
           pointBorderColor: "rgba(2,78,128,1)",
-          data: prices,
+          data: detailSums,
           yAxisID: "y-axis-2"
         }
       ];
