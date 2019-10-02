@@ -1,16 +1,10 @@
 import { useCallback, useState } from "react";
 import { useEditState } from "../Base/Fetches";
 
-interface ICCASSPArticipantDetail {
-  participantName: string;
-  participantId: string;
-  shareCount: number;
-  sharePercent: number;
-  detailDate: Date;
-}
+import useGetNumArray from "./useGetNumArray";
 
 interface ICCASSPArticipantDetailState {
-  participantDetails: Array<ICCASSPArticipantDetail>;
+  participantDetailsMap: { [x: string]: Array<number> };
   isLoading: boolean;
 }
 
@@ -34,10 +28,42 @@ function useCCASSParticipantDetails() {
   const [participantDetailsState, setParticipantDetailsState] = useState<
     ICCASSPArticipantDetailState
   >({
-    participantDetails: [],
+    participantDetailsMap: {},
     isLoading: true
   });
   const { fetchEdit } = useEditState<IFetchRet, IFetchSubmit>();
+  const { getNumArray } = useGetNumArray();
+
+  const getUniqueParticipantNames = useCallback(
+    (participantDetails: Array<IDetailRet>) => {
+      const participantNames: Array<string> = participantDetails.map(
+        itm => itm.participant_name
+      );
+      return Array.from(new Set(participantNames));
+    },
+    []
+  );
+
+  const getShareCountDataFromParticipantDetails = useCallback(
+    (
+      participantDetails: Array<IDetailRet>,
+      participantName: string,
+      startDate: Date,
+      endDate: Date
+    ) => {
+      let relatedParticipantDetails = participantDetails.filter(
+        itm => itm.participant_name === participantName
+      );
+      return getNumArray(
+        relatedParticipantDetails,
+        "share_count",
+        "detail_date",
+        startDate,
+        endDate
+      );
+    },
+    [getNumArray]
+  );
 
   const fetchParticipantDetails = useCallback(
     async (stock_code: string, start_date: string, end_date: string) => {
@@ -49,18 +75,36 @@ function useCCASSParticipantDetails() {
       });
       if (!ok) return;
 
+      const uniqueNames = getUniqueParticipantNames(
+        payload.participant_details
+      );
+
+      const participantDetailsMap: {
+        [x: string]: Array<number>;
+      } = {};
+      const startDate = new Date(start_date);
+      const endDate = new Date(end_date);
+      for (let uniqueName of uniqueNames) {
+        participantDetailsMap[
+          uniqueName
+        ] = getShareCountDataFromParticipantDetails(
+          payload.participant_details,
+          uniqueName,
+          startDate,
+          endDate
+        );
+      }
+
       setParticipantDetailsState({
         isLoading: false,
-        participantDetails: payload.participant_details.map(itm => ({
-          participantName: itm.participant_name,
-          participantId: itm.participant_id,
-          shareCount: itm.share_count,
-          sharePercent: itm.share_percent,
-          detailDate: new Date(itm.detail_date)
-        }))
+        participantDetailsMap
       });
     },
-    [fetchEdit]
+    [
+      fetchEdit,
+      getUniqueParticipantNames,
+      getShareCountDataFromParticipantDetails
+    ]
   );
 
   return {
