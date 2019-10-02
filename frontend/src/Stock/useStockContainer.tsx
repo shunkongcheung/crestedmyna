@@ -39,9 +39,18 @@ function useStockContainer() {
     range => {
       setChartRange(range);
       const { startDate, endDate } = getDatesFromRange(range);
-      fetchStockPrices(stockMaster.stockCode, startDate, endDate);
+      return Promise.all([
+        fetchParticipantDetails(stockMaster.stockCode, startDate, endDate),
+        fetchStockPrices(stockMaster.stockCode, startDate, endDate)
+      ]);
     },
-    [fetchStockPrices, getDatesFromRange, setChartRange, stockMaster]
+    [
+      fetchParticipantDetails,
+      fetchStockPrices,
+      getDatesFromRange,
+      setChartRange,
+      stockMaster
+    ]
   );
 
   const handleStockMasterChange = useCallback(
@@ -89,6 +98,7 @@ function useStockContainer() {
       const nStockMaster = await fetchStockMaster(firstStockMaster.id);
       if (!nStockMaster) return;
       const { startDate, endDate } = getDatesFromRange("week");
+      setChartRange("week");
       return Promise.all([
         fetchParticipantDetails(nStockMaster.stockCode, startDate, endDate),
         fetchStockPrices(nStockMaster.stockCode, startDate, endDate),
@@ -101,6 +111,7 @@ function useStockContainer() {
       fetchStockPrices,
       fetchStockTxs,
       getDatesFromRange,
+      setChartRange,
       stockMasters,
       stockMaster
     ]
@@ -120,7 +131,7 @@ function useStockContainer() {
     () => ({
       ...stockPricesState,
       ...participantDetailsState,
-      range: chartRange,
+      ...chartRange,
       handleRangeSelected
     }),
     [chartRange, handleRangeSelected, participantDetailsState, stockPricesState]
@@ -164,7 +175,6 @@ function useStockContainer() {
     }),
     [handleAddTx, handleStockProfileChange, stockTxsState, stockProfileState]
   );
-  console.log(participantDetailsState);
 
   return {
     chartState,
