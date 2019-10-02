@@ -14,7 +14,8 @@ class CCASSParticipantDetail(MyBaseModel):
     detail_date = models.DateField()
 
     participant_master = models.ForeignKey(CCASSParticipantMaster,
-                                           on_delete=models.CASCADE
+                                           on_delete=models.CASCADE,
+                                           related_name='participant_details'
                                            )
     share_count = models.BigIntegerField()
     share_percent = models.FloatField()
