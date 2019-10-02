@@ -10,14 +10,14 @@ import classNames from "./MainChart.module.scss";
 
 type TRange = "week" | "month" | "year" | "5years";
 interface IMainChartProps {
+  endDate: Date;
   handleRangeSelected: (r: TRange) => any;
   isLoading: boolean;
+  detailSums: Array<number>;
   prices: Array<number>;
   participantDetailsMap: { [x: string]: Array<number> };
-
-  startDate: Date;
-  endDate: Date;
   range: TRange;
+  startDate: Date;
 }
 let colorArray = [
   "#FF6633",
@@ -73,6 +73,7 @@ let colorArray = [
 ];
 
 function MainChart({
+  detailSums,
   handleRangeSelected,
   isLoading,
   participantDetailsMap,
@@ -118,6 +119,7 @@ function MainChart({
           data.splice(emptyIdx, 1);
         }
         labels.splice(emptyIdx, 1);
+        detailSums.splice(emptyIdx);
       }
 
       /// get datesets ----------------------------------------------
@@ -130,6 +132,15 @@ function MainChart({
           pointBorderColor: "rgba(233,78,128,1)",
           data: prices,
           yAxisID: "y-axis-1"
+        },
+        {
+          fill: false,
+          label: "Participant total",
+          backgroundColor: "rgba(2,78,128,1)",
+          borderColor: "rgba(2,78,128,1)",
+          pointBorderColor: "rgba(2,78,128,1)",
+          data: prices,
+          yAxisID: "y-axis-2"
         }
       ];
 

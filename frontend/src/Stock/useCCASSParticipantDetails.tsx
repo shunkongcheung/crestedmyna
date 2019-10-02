@@ -4,24 +4,31 @@ import { useEditState } from "../Base/Fetches";
 import useGetNumArray from "./useGetNumArray";
 
 interface ICCASSPArticipantDetailState {
-  participantDetailsMap: { [x: string]: Array<number> };
+  detailSums: Array<number>;
   isLoading: boolean;
+  participantDetailsMap: { [x: string]: Array<number> };
 }
 
 interface IFetchSubmit {
-  start_date: string;
   end_date: string;
+  start_date: string;
   stock_code: string;
 }
 interface IDetailRet {
+  detail_date: Date;
   participant_name: string;
   participant_id: string;
   share_count: number;
   share_percent: number;
+}
+interface ISumRet {
   detail_date: Date;
+  total_share_count: number;
+  total_share_percent: number;
 }
 interface IFetchRet {
   participant_details: Array<IDetailRet>;
+  detail_sums: Array<ISumRet>;
 }
 
 function useCCASSParticipantDetails() {
@@ -29,6 +36,7 @@ function useCCASSParticipantDetails() {
     ICCASSPArticipantDetailState
   >({
     participantDetailsMap: {},
+    detailSums: [],
     isLoading: true
   });
   const { fetchEdit } = useEditState<IFetchRet, IFetchSubmit>();
@@ -95,15 +103,24 @@ function useCCASSParticipantDetails() {
         );
       }
 
+      const detailSums = getNumArray(
+        payload.detail_sums,
+        "total_share_percent",
+        "detail_date",
+        startDate,
+        endDate
+      );
       setParticipantDetailsState({
         isLoading: false,
-        participantDetailsMap
+        participantDetailsMap,
+        detailSums
       });
     },
     [
       fetchEdit,
-      getUniqueParticipantNames,
-      getShareCountDataFromParticipantDetails
+      getNumArray,
+      getShareCountDataFromParticipantDetails,
+      getUniqueParticipantNames
     ]
   );
 
