@@ -6,26 +6,26 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { Line } from "react-chartjs-2";
 
 import RangeItem from "./RangeItem";
-import classNames from "./PriceLineChart.module.scss";
+import classNames from "./MainChart.module.scss";
 
 interface IPrice {
   date: Date;
   nominalPrice: number;
 }
 type TRange = "week" | "month" | "year" | "5years";
-interface IPriceLineChartProps {
+interface IMainChartProps {
   handleRangeSelected: (r: TRange) => any;
   isLoading: boolean;
   prices: Array<IPrice>;
   range: TRange;
 }
 
-function PriceLineChart({
+function MainChart({
   handleRangeSelected,
   isLoading,
   prices,
   range
-}: IPriceLineChartProps) {
+}: IMainChartProps) {
   const renderedLoading = useMemo(
     () => (
       <div className={classNames.loadingContainer}>
@@ -94,7 +94,7 @@ function PriceLineChart({
   );
 }
 
-PriceLineChart.propTypes = {
+MainChart.propTypes = {
   handleRangeSelected: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   prices: PropTypes.arrayOf(
@@ -105,4 +105,4 @@ PriceLineChart.propTypes = {
   ).isRequired,
   range: PropTypes.oneOf(["week", "month", "year", "5years"]).isRequired
 };
-export default memo(PriceLineChart);
+export default memo(MainChart);

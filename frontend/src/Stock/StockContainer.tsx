@@ -2,7 +2,7 @@ import React, { memo } from "react";
 
 import Layout from "../Base/Layout";
 
-import PriceLineChart from "./PriceLineChart";
+import MainChart from "./MainChart";
 import StockInfo from "./StockInfo";
 import StockName from "./StockName";
 import StockTxTable from "./StockTxTable";
@@ -13,16 +13,16 @@ import classNames from "./StockContainer.module.scss";
 
 function StockContainer() {
   const {
+    chartState,
     stockInfoState,
     stockNameState,
-    stockTxTableState,
-    priceLineChartState
+    stockTxTableState
   } = useStockContainer();
   return (
     <Layout>
       <div className={classNames.row}>
         <div className={classNames.lineChartContainer}>
-          <PriceLineChart {...priceLineChartState} />
+          <MainChart {...chartState} />
         </div>
         <div className={classNames.rightContainer}>
           <div className={classNames.nameContainer}>
