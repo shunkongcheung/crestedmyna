@@ -76,6 +76,7 @@ def get_participant_sums(start_date, end_date, stock_code):
                                                       )
     return related_details\
         .values('detail_date')\
+        .order_by('detail_date')\
         .annotate(total_share_count=Sum('share_count'))\
         .annotate(total_share_percent=Sum('share_percent'))\
         .values('detail_date', 'total_share_count', 'total_share_percent')
