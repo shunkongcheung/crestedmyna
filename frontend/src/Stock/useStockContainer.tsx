@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo } from "react";
 
 import useChartRange from "./useChartRange";
+import useCCASSParticipantDetails from "./useCCASSParticipantDetails";
 import useStockPrices from "./useStockPrices";
 import useStockMaster from "./useStockMaster";
 import useStockMasters from "./useStockMasters";
@@ -10,6 +11,10 @@ import useStockProfile from "./useStockProfile";
 
 function useStockContainer() {
   const { fetchStockPrices, stockPricesState } = useStockPrices();
+  const {
+    fetchParticipantDetails,
+    participantDetailsState
+  } = useCCASSParticipantDetails();
   const {
     createStockMaster,
     stockMasterState,
@@ -45,19 +50,35 @@ function useStockContainer() {
       if (!stockMaster) return;
       const { startDate, endDate } = getDatesFromRange("week");
       return Promise.all([
+        fetchParticipantDetails(stockMaster.stockCode, startDate, endDate),
         fetchStockPrices(stockMaster.stockCode, startDate, endDate),
         fetchStockTxs(stockMaster.id, 1)
       ]);
     },
-    [fetchStockMaster, fetchStockPrices, fetchStockTxs, getDatesFromRange]
+    [
+      fetchParticipantDetails,
+      fetchStockMaster,
+      fetchStockPrices,
+      fetchStockTxs,
+      getDatesFromRange
+    ]
   );
   const handleStockSearch = useCallback(
     async stockCode => {
       const nStockMaster = await createStockMaster(stockCode);
       const { startDate, endDate } = getDatesFromRange("week");
-      if (nStockMaster) return fetchStockPrices(stockCode, startDate, endDate);
+      if (nStockMaster)
+        return Promise.all([
+          fetchParticipantDetails(stockCode, startDate, endDate),
+          fetchStockPrices(stockCode, startDate, endDate)
+        ]);
     },
-    [createStockMaster, fetchStockPrices, getDatesFromRange]
+    [
+      createStockMaster,
+      fetchParticipantDetails,
+      fetchStockPrices,
+      getDatesFromRange
+    ]
   );
 
   const initStockMaster = useCallback(
@@ -69,11 +90,13 @@ function useStockContainer() {
       if (!nStockMaster) return;
       const { startDate, endDate } = getDatesFromRange("week");
       return Promise.all([
+        fetchParticipantDetails(nStockMaster.stockCode, startDate, endDate),
         fetchStockPrices(nStockMaster.stockCode, startDate, endDate),
         fetchStockTxs(nStockMaster.id, 1)
       ]);
     },
     [
+      fetchParticipantDetails,
       fetchStockMaster,
       fetchStockPrices,
       fetchStockTxs,
@@ -93,13 +116,14 @@ function useStockContainer() {
 
   // return --------------------------------------------------
 
-  const priceLineChartState = useMemo(
+  const chartState = useMemo(
     () => ({
       ...stockPricesState,
+      ...participantDetailsState,
       range: chartRange,
       handleRangeSelected
     }),
-    [chartRange,stockPricesState, handleRangeSelected]
+    [chartRange, handleRangeSelected, participantDetailsState, stockPricesState]
   );
   const stockNameState = useMemo(
     () => ({
@@ -140,9 +164,10 @@ function useStockContainer() {
     }),
     [handleAddTx, handleStockProfileChange, stockTxsState, stockProfileState]
   );
+  console.log(participantDetailsState);
 
   return {
-    priceLineChartState,
+    chartState,
     stockInfoState,
     stockNameState,
     stockTxTableState
