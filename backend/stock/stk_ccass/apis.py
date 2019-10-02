@@ -1,27 +1,12 @@
 from base.apis import (
     MyCreateAPIView,
-    MyListAPIView,
-    MyObjectAPIView,
 )
 
-# from .models import ModelName
-# from .serializers import ModelNameSerializer
-
-fields = []
+from .serializers import CCASSParticipantDetailSerializer
 
 
-class ModelNameCreateAPIView(MyCreateAPIView):
-    fields = fields
-    model = ModelName
-    # serializer_class = ModelNameSerializer
+class CCASSParticipantDetailAPIView(MyCreateAPIView):
+    serializer_class = CCASSParticipantDetailSerializer
 
-
-class ModelNameListAPIView(MyListAPIView):
-    fields = []
-    model = ModelName
-
-
-class ModelNameObjectAPIView(MyObjectAPIView):
-    fields = fields
-    model = ModelName
-    # serializer_class = ModelNameSerializer
+    def perform_create(self, validated_date):
+        pass
