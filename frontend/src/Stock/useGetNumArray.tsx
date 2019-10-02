@@ -11,7 +11,8 @@ function useGetNumArray() {
     []
   );
   const getNaNFromLength = useCallback(
-    (length: number, objectKey?: string) => Array.from({ length }).map(() => NaN),
+    (length: number, objectKey?: string) =>
+      Array.from({ length }).map(() => NaN),
     []
   );
 
@@ -30,7 +31,7 @@ function useGetNumArray() {
         const dateStr = item[dateName] as string;
         const dataPoint = item[dataName] as number;
         const curDate = new Date(dateStr);
-        const daysBetween = getDaysBetweenCount(lastDate, curDate);
+        const daysBetween = getDaysBetweenCount(lastDate, curDate) - 1;
         const nans = getNaNFromLength(daysBetween);
         numArr = numArr.concat(nans);
         numArr.push(dataPoint);
