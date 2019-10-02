@@ -10,10 +10,10 @@ import classNames from "./MainChart.module.scss";
 
 type TRange = "week" | "month" | "year" | "5years";
 interface IMainChartProps {
+  detailSums: Array<number>;
   endDate: Date;
   handleRangeSelected: (r: TRange) => any;
   isLoading: boolean;
-  detailSums: Array<number>;
   prices: Array<number>;
   participantDetailsMap: { [x: string]: Array<number> };
   range: TRange;
@@ -160,7 +160,7 @@ function MainChart({
 
       return datasets;
     },
-    [labels, participantDetailsMap, prices]
+    [detailSums, labels, participantDetailsMap, prices]
   );
 
   const renderedChart = useMemo(
@@ -227,14 +227,13 @@ function MainChart({
 }
 
 MainChart.propTypes = {
+  detailSums: PropTypes.arrayOf(PropTypes.number).isRequired,
+  endDate: PropTypes.instanceOf(Date).isRequired,
   handleRangeSelected: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  prices: PropTypes.arrayOf(
-    PropTypes.shape({
-      date: PropTypes.instanceOf(Date).isRequired,
-      nominalPrice: PropTypes.number.isRequired
-    })
-  ).isRequired,
-  range: PropTypes.oneOf(["week", "month", "year", "5years"]).isRequired
+  prices: PropTypes.arrayOf(PropTypes.number).isRequired,
+  participantDetailsMap: PropTypes.object.isRequired,
+  range: PropTypes.oneOf(["week", "month", "year", "5years"]).isRequired,
+  startDate: PropTypes.instanceOf(Date).isRequired
 };
 export default memo(MainChart);
