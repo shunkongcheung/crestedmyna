@@ -2,8 +2,17 @@ import { useCallback, useState } from "react";
 import moment from "moment";
 
 type TRange = "week" | "month" | "year" | "5years";
+interface IChartRange {
+  range: TRange;
+  startDate: Date;
+  endDate: Date;
+}
 function useChartRange() {
-  const [chartRange, setChartRange] = useState<TRange>("week");
+  const [chartRange, setChartRangeI] = useState<IChartRange>({
+    range: "week",
+    startDate: new Date(),
+    endDate: new Date()
+  });
 
   const getDatesFromRange = useCallback((range: TRange): {
     startDate: string;
@@ -46,6 +55,18 @@ function useChartRange() {
         return { ...ret, startDate: moment(today).format("YYYY-MM-DD") };
     }
   }, []);
+
+  const setChartRange = useCallback(
+    (range: TRange) => {
+      const { startDate, endDate } = getDatesFromRange(range);
+      setChartRangeI({
+        range,
+        startDate: new Date(startDate),
+        endDate: new Date(endDate)
+      });
+    },
+    [getDatesFromRange]
+  );
 
   return {
     chartRange,
