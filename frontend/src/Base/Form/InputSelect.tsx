@@ -7,7 +7,7 @@ import CreatableSelect from "react-select/creatable";
 interface IInputSelectProps {
   choices: Array<{ name: string; id: any }>;
   name: string;
-	onValueChange?: (value: number | string) => any;
+  onValueChange?: (value: number | string) => any;
 }
 
 interface ISelectValue {
@@ -61,8 +61,8 @@ function InputSelect({
 InputSelect.propTypes = {
   choices: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string,
-      id: PropTypes.number
+      name: PropTypes.string.isRequired,
+      id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
     })
   ).isRequired,
   name: PropTypes.string.isRequired,
