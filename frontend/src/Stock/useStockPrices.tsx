@@ -40,12 +40,12 @@ function useStockPrices() {
   // methods -----------------------------------------------------
 
   const fetchStockPrices = useCallback(
-    async (stockCode: string, start_date: string, end_date: string) => {
+    async (stock_code: string, start_date: string, end_date: string) => {
       setStockPricesState(oState => ({ ...oState, isLoading: true }));
       const { ok, payload } = await fetchEdit("stock/stk_price/", {
         start_date,
         end_date,
-        stock_code: stockCode
+        stock_code
       });
       if (!ok) return;
       setStockPricesState(oState => ({
