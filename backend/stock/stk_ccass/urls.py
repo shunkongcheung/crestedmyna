@@ -8,7 +8,7 @@ from .apis import (
 app_name = 'stk_ccass'
 
 urlpatterns = [
-    url(r'^participant_detail/$',
+    url(r'^$',
         CCASSParticipantDetailAPIView.as_view(),
         name='stk_ccass-api-participant_detail'
         ),
