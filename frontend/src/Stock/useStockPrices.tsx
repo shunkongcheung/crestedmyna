@@ -1,13 +1,16 @@
 import { useCallback, useState } from "react";
 
 import { useEditState } from "../Base/Fetches";
-import useGetNumArray from "./useGetNumArray";
 
 // state ------------------------------------------
+interface IPrice {
+  nominalPrice: number;
+  date: Date;
+}
 
 interface IStockPricesState {
   isLoading: boolean;
-  prices: Array<number>;
+  prices: Array<IPrice>;
 }
 
 // fetch ------------------------------------------
@@ -33,7 +36,6 @@ function useStockPrices() {
     prices: []
   });
   const { fetchEdit } = useEditState<IFetchRet, IFetchSubmit>();
-  const { getNumArray } = useGetNumArray();
 
   // methods -----------------------------------------------------
 
@@ -49,16 +51,13 @@ function useStockPrices() {
       setStockPricesState(oState => ({
         ...oState,
         isLoading: false,
-        prices: getNumArray(
-          payload.prices,
-          "nominal_price",
-          "date",
-          new Date(start_date),
-          new Date(end_date)
-        )
+        prices: payload.prices.map(itm => ({
+          nominalPrice: itm.nominal_price,
+          date: new Date(itm.date)
+        }))
       }));
     },
-    [fetchEdit, getNumArray]
+    [fetchEdit]
   );
 
   // return ------------------------------------------------------
