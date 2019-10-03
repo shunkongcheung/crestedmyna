@@ -9,7 +9,7 @@ from stock.models import (
     StockMaster,
 )
 
-from datetime import datetime, timedelta
+from datetime import date, timedelta
 
 from .create_shareholding_disclosure_records import (
     create_shareholding_disclosure_records,
@@ -21,10 +21,9 @@ def periodic_create_shareholding_disclosure_records():
     w_debug('begin.')
     # get all stock code
     stock_codes = get_stock_codes()
-    today = datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
     # trigger for today
     for stock_code in stock_codes:
-        request_date, today = get_stock_start_date(stock_code), datetime.now()
+        request_date, today = get_stock_start_date(stock_code), date.today()
         while request_date < today:
             request_date_str = request_date.strftime("%Y-%m-%dT%H:%M:%SZ")
             create_shareholding_disclosure_records\
@@ -42,7 +41,7 @@ def get_stock_start_date(stock_code):
         .first()
 
     if not most_recent_participant_detail:
-        two_years_ago = datetime.now() - timedelta(days=365*2)
+        two_years_ago = date.today() - timedelta(days=365*2)
         return two_years_ago
 
     last_date = most_recent_participant_detail.detail_date
