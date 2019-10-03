@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo } from "react";
 
 import useChartRange from "./useChartRange";
 import useCCASSParticipantDetails from "./useCCASSParticipantDetails";
+import useGetChartData from "./useGetChartData";
 import useStockPrices from "./useStockPrices";
 import useStockMaster from "./useStockMaster";
 import useStockMasters from "./useStockMasters";
@@ -33,6 +34,7 @@ function useStockContainer() {
     fetchStockTxs,
     fetchStockMaster
   );
+  const { getChartData } = useGetChartData();
 
   // methods ------------------------------------------------
   const handleRangeSelected = useCallback(
@@ -128,13 +130,29 @@ function useStockContainer() {
   // return --------------------------------------------------
 
   const chartState = useMemo(
-    () => ({
-      ...stockPricesState,
-      ...participantDetailsState,
-      ...chartRange,
-      handleRangeSelected
-    }),
-    [chartRange, handleRangeSelected, participantDetailsState, stockPricesState]
+    () => {
+      const isLoading =
+        participantDetailsState.isLoading || stockPricesState.isLoading;
+      return {
+        isLoading,
+        ...chartRange,
+        ...getChartData(
+          chartRange.startDate,
+          chartRange.endDate,
+          participantDetailsState.detailSums,
+          stockPricesState.prices,
+          participantDetailsState.participantDetailsMap
+        ),
+        handleRangeSelected
+      };
+    },
+    [
+      chartRange,
+      getChartData,
+      handleRangeSelected,
+      participantDetailsState,
+      stockPricesState
+    ]
   );
   const stockNameState = useMemo(
     () => ({

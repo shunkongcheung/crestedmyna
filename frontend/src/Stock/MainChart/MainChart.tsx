@@ -1,5 +1,4 @@
 import React, { memo, useMemo } from "react";
-import moment from "moment";
 import PropTypes from "prop-types";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -13,6 +12,7 @@ interface IMainChartProps {
   detailSums: Array<number>;
   endDate: Date;
   handleRangeSelected: (r: TRange) => any;
+  labels: Array<string>;
   isLoading: boolean;
   prices: Array<number>;
   participantDetailsMap: { [x: string]: Array<number> };
@@ -76,6 +76,7 @@ function MainChart({
   detailSums,
   handleRangeSelected,
   isLoading,
+  labels,
   participantDetailsMap,
   prices,
   startDate,
@@ -90,38 +91,9 @@ function MainChart({
     ),
     []
   );
-  const labels = useMemo(
-    () => {
-      let curDate = moment(startDate);
-      const lastDate = moment(endDate);
-      const dates: Array<string> = [];
-      while (curDate <= lastDate) {
-        dates.push(curDate.format("YYYY-MM-DD"));
-        curDate.add(1, "days");
-      }
-      return dates;
-    },
-    [startDate, endDate]
-  );
 
   const datasets = useMemo(
     () => {
-      // filter all the items that are null in norminal price -------
-      let emptyIdxes = [];
-      for (let idx = 0; idx < prices.length; idx++) {
-        if (isNaN(prices[idx])) emptyIdxes.push(idx);
-      }
-      emptyIdxes = emptyIdxes.reverse();
-      for (let idx = 0; idx < emptyIdxes.length; idx++) {
-        const emptyIdx = emptyIdxes[idx];
-        prices.splice(emptyIdx, 1);
-        for (let data of Object.values(participantDetailsMap)) {
-          data.splice(emptyIdx, 1);
-        }
-        labels.splice(emptyIdx, 1);
-        detailSums.splice(emptyIdx, 1);
-      }
-
       /// get datesets ----------------------------------------------
       const datasets = [
         {
@@ -160,7 +132,7 @@ function MainChart({
 
       return datasets;
     },
-    [detailSums, labels, participantDetailsMap, prices]
+    [detailSums, participantDetailsMap, prices]
   );
 
   const renderedChart = useMemo(
