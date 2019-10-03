@@ -21,19 +21,23 @@ function useChartRange() {
     const today = new Date();
 
     const lastMonday = new Date();
-    lastMonday.setDate(today.getDate() - today.getDay());
+    /* lastMonday.setDate(today.getDate() - today.getDay()); */
+    lastMonday.setDate(today.getDate() - 7);
 
     const firstDayOfMonth = new Date();
-    firstDayOfMonth.setDate(1);
+    /* firstDayOfMonth.setDate(1); */
+    firstDayOfMonth.setDate(today.getDate() - 31);
 
     const firstDayYear = new Date();
-    firstDayYear.setDate(1);
-    firstDayYear.setMonth(0);
+    firstDayYear.setDate(today.getDate() - 365);
+    /* firstDayYear.setDate(1); */
+    /* firstDayYear.setMonth(0); */
 
     const fiveYears = new Date();
-    fiveYears.setDate(1);
-    fiveYears.setMonth(0);
-    fiveYears.setFullYear(today.getFullYear() - 5);
+    fiveYears.setDate(today.getDate() - 365 * 5);
+    /* fiveYears.setDate(1); */
+    /* fiveYears.setMonth(0); */
+    /* fiveYears.setFullYear(today.getFullYear() - 5); */
 
     const ret = { endDate: moment(today).format("YYYY-MM-DD") };
     switch (range) {

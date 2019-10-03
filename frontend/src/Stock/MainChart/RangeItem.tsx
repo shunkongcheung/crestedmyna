@@ -19,13 +19,13 @@ function RangeItem({
     () => {
       switch (name) {
         case "week":
-          return "this week";
+          return "past week";
         case "month":
-          return "this month";
+          return "past month";
         case "year":
-          return "current year";
+          return "past year";
         case "5years":
-          return "last 5 years";
+          return "past 5 years";
         default:
           return "unknown";
       }
