@@ -1,12 +1,22 @@
 import { useCallback, useState } from "react";
 import { useEditState } from "../Base/Fetches";
 
-import useGetNumArray from "./useGetNumArray";
-
+interface IDetailSum {
+  detailDate: Date;
+  totalShareCount: number;
+  totalSharePercent: number;
+}
+interface ICCASSPArticipantDetail {
+  detailDate: Date;
+  participantName: string;
+  participantId: string;
+  shareCount: number;
+  sharePercent: number;
+}
 interface ICCASSPArticipantDetailState {
-  detailSums: Array<number>;
+  detailSums: Array<IDetailSum>;
   isLoading: boolean;
-  participantDetailsMap: { [x: string]: Array<number> };
+  participantDetailsMap: { [x: string]: Array<ICCASSPArticipantDetail> };
 }
 
 interface IFetchSubmit {
@@ -15,7 +25,7 @@ interface IFetchSubmit {
   stock_code: string;
 }
 interface IDetailRet {
-  detail_date: Date;
+  detail_date: string;
   participant_name: string;
   participant_id: string;
   share_count: number;
@@ -40,7 +50,6 @@ function useCCASSParticipantDetails() {
     isLoading: true
   });
   const { fetchEdit } = useEditState<IFetchRet, IFetchSubmit>();
-  const { getNumArray } = useGetNumArray();
 
   const getUniqueParticipantNames = useCallback(
     (participantDetails: Array<IDetailRet>) => {
@@ -62,15 +71,22 @@ function useCCASSParticipantDetails() {
       let relatedParticipantDetails = participantDetails.filter(
         itm => itm.participant_name === participantName
       );
-      return getNumArray(
-        relatedParticipantDetails,
-        "share_percent",
-        "detail_date",
-        startDate,
-        endDate
-      );
+      return relatedParticipantDetails.map(itm => ({
+        participantName: itm.participant_name,
+        participantId: itm.participant_id,
+        shareCount: itm.share_count,
+        sharePercent: itm.share_percent,
+        detailDate: new Date(itm.detail_date)
+      }));
+      /* return getNumArray( */
+      /*   relatedParticipantDetails, */
+      /*   "share_percent", */
+      /*   "detail_date", */
+      /*   startDate, */
+      /*   endDate */
+      /* ); */
     },
-    [getNumArray]
+    []
   );
 
   const fetchParticipantDetails = useCallback(
@@ -88,7 +104,7 @@ function useCCASSParticipantDetails() {
       );
 
       const participantDetailsMap: {
-        [x: string]: Array<number>;
+        [x: string]: Array<ICCASSPArticipantDetail>;
       } = {};
       const startDate = new Date(start_date);
       const endDate = new Date(end_date);
@@ -103,13 +119,18 @@ function useCCASSParticipantDetails() {
         );
       }
 
-      const detailSums = getNumArray(
-        payload.detail_sums,
-        "total_share_percent",
-        "detail_date",
-        startDate,
-        endDate
-      );
+      const detailSums = payload.detail_sums.map(itm => ({
+        detailDate: new Date(itm.detail_date),
+        totalShareCount: itm.total_share_count,
+        totalSharePercent: itm.total_share_percent
+      }));
+      /* const detailSums = getNumArray( */
+      /*   payload.detail_sums, */
+      /*   "total_share_percent", */
+      /*   "detail_date", */
+      /*   startDate, */
+      /*   endDate */
+      /* ); */
       setParticipantDetailsState({
         isLoading: false,
         participantDetailsMap,
@@ -118,7 +139,6 @@ function useCCASSParticipantDetails() {
     },
     [
       fetchEdit,
-      getNumArray,
       getShareCountDataFromParticipantDetails,
       getUniqueParticipantNames
     ]
