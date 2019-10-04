@@ -2,8 +2,7 @@ import React, { memo } from "react";
 import { History } from "history";
 import PropTypes from "prop-types";
 
-import Tabs, { TabPane } from "rc-tabs";
-import TabContent from "rc-tabs/lib/TabContent";
+import { Tabs } from "antd";
 
 import JournalDetail from "./JournalDetail";
 import JournalEdit from "./JournalEdit";
@@ -11,6 +10,8 @@ import JournalCalendar from "./JournalCalendar";
 import useJournalContainer from "./useJournalContainer";
 
 import Layout from "../Base/Layout";
+
+const { TabPane } = Tabs;
 
 interface IJournalContainer {
   history: History;
@@ -25,11 +26,7 @@ function JournalContainer({ history }: IJournalContainer) {
 
   return (
     <Layout>
-      <Tabs
-        activeKey={contentState}
-        renderTabBar={() => <></>}
-        renderTabContent={() => <TabContent />}
-      >
+      <Tabs activeKey={contentState} renderTabBar={() => <></>}>
         <TabPane tab="tab list" key="list">
           <JournalCalendar {...calendarState} />
         </TabPane>
