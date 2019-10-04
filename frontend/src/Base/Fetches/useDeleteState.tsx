@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import useFetchState from "./useFetchState";
 import useErrorState from "./useErrorState";
 
-function useDeleteStateState(
+function useDeleteState(
   snackLvl: "none" | "info" | "warning" | "error" = "error"
 ) {
   const { makeRestfulFetch } = useFetchState<{}>();
@@ -27,4 +27,4 @@ function useDeleteStateState(
   return { fetchDelete };
 }
 
-export default useDeleteStateState;
+export default useDeleteState;
