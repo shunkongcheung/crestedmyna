@@ -1,0 +1,11 @@
+@import "variables";
+
+.ant-btn-primary {
+  background-color: $primaryColor;
+  border-color: $primaryColor;
+
+  &:hover {
+    background-color: $secondaryColor;
+    border-color: $secondaryColor;
+  }
+}

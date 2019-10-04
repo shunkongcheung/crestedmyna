@@ -7,7 +7,8 @@ import { FourOFour } from "./Base/Utils";
 import GlobalContexts from "./Base/Contexts/GlobalContexts";
 
 import "antd/dist/antd.css";
-import classNames from "./App.module.css";
+import "./App.scss";
+import classNames from "./App.module.scss";
 
 // routes -----------------------------------------------
 const AuthContainer = lazy(() => import("./Base/Auth/AuthContainer"));
