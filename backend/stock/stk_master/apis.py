@@ -27,6 +27,15 @@ class StockMasterCreateAPIView(MyCreateAPIView):
 class StockMasterListAPIView(MyListAPIView):
     model = StockMaster
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query_params = self.request.query_params
+        ids = query_params.get('id__in')
+        if ids:
+            return queryset.filter(id__in=ids.split(','))
+        else:
+            return queryset
+
 
 class StockMasterObjectAPIView(MyObjectAPIView):
     fields = fields
