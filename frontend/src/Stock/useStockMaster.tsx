@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { useDetailState, useEditState } from "../Base/Fetches";
+import { useDetailState, useEditState, useDeleteState } from "../Base/Fetches";
 
 interface IStockMaster {
   name: string;
@@ -28,23 +28,28 @@ interface IStockMasterSubmit {
   stock_code: string;
 }
 
+function getInitialStockMaster() {
+  return {
+    name: "",
+    id: -1,
+    stockCode: "",
+    shareCount: 0,
+    marketPrice: 0,
+    marketValue: 0,
+    realizedValue: 0
+  };
+}
+
 function useStockMaster() {
   // state --------------------------------------------
   const [stockMasterState, setStockMasterState] = useState<IStockMasterState>({
     isLoading: false,
-    stockMaster: {
-      name: "",
-      id: -1,
-      stockCode: "",
-      shareCount: 0,
-      marketPrice: 0,
-      marketValue: 0,
-      realizedValue: 0
-    }
+    stockMaster: getInitialStockMaster()
   });
 
   const { fetchDetail } = useDetailState<IStockMasterRet>();
   const { fetchEdit } = useEditState<IStockMasterRet, IStockMasterSubmit>();
+  const { fetchDelete } = useDeleteState();
 
   const getStockMasterFromPayload = useCallback(
     (payload: IStockMasterRet): IStockMaster => {
@@ -80,13 +85,30 @@ function useStockMaster() {
     [fetchEdit, getStockMasterFromPayload]
   );
 
+  const deleteStockMaster = useCallback(
+    async () => {
+      let stockMasterId = stockMasterState.stockMaster.id;
+      setStockMasterState(oState => ({ ...oState, isLoading: true }));
+      const { ok } = await fetchDelete(`stock/stk_master/${stockMasterId}/`);
+      setStockMasterState({
+        isLoading: false,
+        stockMaster: getInitialStockMaster()
+      });
+      return ok;
+    },
+    [fetchDelete, stockMasterState.stockMaster.id]
+  );
+
   // return --------------------------------------------
   const fetchStockMaster = useCallback(
     async (id: number) => {
+      if (id < 0) return;
       setStockMasterState(oState => ({ ...oState, isLoading: true }));
       const { ok, payload } = await fetchDetail(`stock/stk_master/${id}/`);
+
       if (!ok)
         return setStockMasterState(oState => ({ ...oState, isLoading: false }));
+
       const nextState = {
         stockMaster: getStockMasterFromPayload(payload),
         isLoading: false
@@ -99,6 +121,7 @@ function useStockMaster() {
 
   return {
     createStockMaster,
+    deleteStockMaster,
     stockMasterState,
     fetchStockMaster
   };

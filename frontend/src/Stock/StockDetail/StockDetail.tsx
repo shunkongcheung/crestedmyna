@@ -44,6 +44,7 @@ interface IStockDetailProps {
     startDate: Date;
   };
   stockInfoState: {
+    handleDelete: () => Promise<boolean>;
     stockCode: string;
     shareCount: number;
     marketPrice: number;

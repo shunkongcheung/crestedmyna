@@ -1,9 +1,11 @@
-import React, { memo } from "react";
+import React, { useCallback, memo } from "react";
+import { Popconfirm, message } from "antd";
 import PropTypes from "prop-types";
 
 import classNames from "./StockInfo.module.scss";
 
 interface IStockInfoProps {
+  handleDelete: () => Promise<boolean>;
   stockCode: string;
   shareCount: number;
   marketPrice: number;
@@ -12,12 +14,20 @@ interface IStockInfoProps {
 }
 
 function StockInfo({
+  handleDelete,
   stockCode,
   shareCount,
   marketPrice,
   marketValue,
   realizedValue
 }: IStockInfoProps) {
+  const handleDeleteI = useCallback(
+    async () => {
+      const ok = await handleDelete();
+      if (ok) message.success("Stock item is deleted");
+    },
+    [handleDelete]
+  );
   return (
     <>
       <div className={classNames.row}>
@@ -39,6 +49,16 @@ function StockInfo({
       <div className={classNames.row}>
         <div className={classNames.title}>REALIZED VALUE</div>
         <div className={classNames.content}>${realizedValue}</div>
+      </div>
+      <div className={classNames.row}>
+        <Popconfirm
+          title="Are you sure delete this stock?"
+          onConfirm={handleDeleteI}
+          okText="Delete"
+          cancelText="Cancel"
+        >
+          <div className={classNames.deleteBtn}>DELETE</div>
+        </Popconfirm>
       </div>
     </>
   );

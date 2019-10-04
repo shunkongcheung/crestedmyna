@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
 import useChartRange from "./useChartRange";
 import useCCASSParticipantDetails from "./useCCASSParticipantDetails";
@@ -11,6 +11,7 @@ import useStockTxs from "./useStockTxs";
 import useStockProfile from "./useStockProfile";
 
 function useStockContainer() {
+  const isInitialzed = useRef(false);
   const { fetchStockPrices, stockPricesState } = useStockPrices();
   const {
     fetchParticipantDetails,
@@ -18,6 +19,7 @@ function useStockContainer() {
   } = useCCASSParticipantDetails();
   const {
     createStockMaster,
+    deleteStockMaster,
     stockMasterState,
     fetchStockMaster
   } = useStockMaster();
@@ -25,7 +27,7 @@ function useStockContainer() {
   const { stockProfileState, handleStockProfileChange } = useStockProfile();
   const { chartRange, setChartRange, getDatesFromRange } = useChartRange();
 
-  const { stockMastersState } = useStockMasters();
+  const { stockMastersState, fetchStockMasters } = useStockMasters();
 
   const { range } = chartRange;
   const { stockMasters } = stockMastersState;
@@ -84,24 +86,23 @@ function useStockContainer() {
       if (nStockMaster)
         return Promise.all([
           fetchParticipantDetails(stockCode, startDate, endDate),
-          fetchStockPrices(stockCode, startDate, endDate)
+          fetchStockPrices(stockCode, startDate, endDate),
+          fetchStockMasters()
         ]);
     },
     [
       createStockMaster,
       fetchParticipantDetails,
       fetchStockPrices,
+      fetchStockMasters,
       getDatesFromRange,
       range
     ]
   );
 
   const initStockMaster = useCallback(
-    async () => {
-      if (!Array.isArray(stockMasters) || !stockMasters.length) return;
-      if (stockMaster.id > 0) return;
-      const firstStockMaster = stockMasters[0];
-      const nStockMaster = await fetchStockMaster(firstStockMaster.id);
+    async stockMasterId => {
+      const nStockMaster = await fetchStockMaster(stockMasterId);
       if (!nStockMaster) return;
       const { startDate, endDate } = getDatesFromRange("week");
       setChartRange("week");
@@ -117,7 +118,27 @@ function useStockContainer() {
       fetchStockPrices,
       fetchStockTxs,
       getDatesFromRange,
-      setChartRange,
+      setChartRange
+    ]
+  );
+
+  const handleDeleteStockMaster = useCallback(
+    async () => {
+      const ok = await deleteStockMaster();
+      if (ok) {
+        const secondStockMasterId =
+          Array.isArray(stockMasters) && stockMasters.length > 1
+            ? (stockMasters.find(itm => itm.id !== stockMaster.id) as any).id
+            : -1;
+        fetchStockMasters();
+        initStockMaster(secondStockMasterId);
+      }
+      return ok;
+    },
+    [
+      deleteStockMaster,
+      fetchStockMasters,
+      initStockMaster,
       stockMasters,
       stockMaster
     ]
@@ -126,9 +147,14 @@ function useStockContainer() {
   // lice cycle ------------------------------------------------
   useEffect(
     () => {
-      initStockMaster();
+      if (!Array.isArray(stockMasters) || !stockMasters.length) return;
+      if (stockMaster.id > 0) return;
+      if (isInitialzed.current) return;
+      isInitialzed.current = true;
+      const firstStockMaster = stockMasters[0];
+      initStockMaster(firstStockMaster.id);
     },
-    [initStockMaster]
+    [stockMasters, stockMaster.id, initStockMaster]
   );
 
   // return --------------------------------------------------
@@ -177,13 +203,14 @@ function useStockContainer() {
   );
   const stockInfoState = useMemo(
     () => ({
+      handleDelete: handleDeleteStockMaster,
       stockCode: stockMaster.stockCode,
       shareCount: stockMaster.shareCount,
       marketPrice: stockMaster.marketPrice,
       marketValue: stockMaster.marketValue,
       realizedValue: stockMaster.realizedValue
     }),
-    [stockMaster]
+    [handleDeleteStockMaster, stockMaster]
   );
   const stockTxTableState = useMemo(
     () => ({
