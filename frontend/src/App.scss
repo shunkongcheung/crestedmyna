@@ -1,5 +1,6 @@
 @import "variables";
 
+// BUTTONS --------------------------
 .ant-btn-primary {
   background-color: $primaryColor;
   border-color: $primaryColor;
@@ -12,6 +13,22 @@
 .ant-btn {
   &:hover {
     border-color: $secondaryColor;
+    color: $secondaryColor;
+  }
+}
+
+// TABS --------------------------
+.ant-tabs-nav .ant-tabs-tab-active {
+  color: $primaryColor;
+  &:hover {
+    color: $secondaryColor;
+  }
+}
+.ant-tabs-ink-bar {
+  background-color: $primaryColor;
+}
+.ant-tabs-nav .ant-tabs-tab {
+  &:hover {
     color: $secondaryColor;
   }
 }
