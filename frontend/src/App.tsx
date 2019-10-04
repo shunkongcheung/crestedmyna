@@ -6,6 +6,7 @@ import Layout from "./Base/Layout/Layout";
 import { FourOFour } from "./Base/Utils";
 import GlobalContexts from "./Base/Contexts/GlobalContexts";
 
+import "antd/dist/antd.css";
 import classNames from "./App.module.css";
 
 // routes -----------------------------------------------
