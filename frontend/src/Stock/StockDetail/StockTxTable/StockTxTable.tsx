@@ -1,18 +1,14 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, useCallback, useMemo } from "react";
+import { Tag, Table } from "antd";
 import PropTypes from "prop-types";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
-import StockTxHeader from "./StockTxHeader";
-import StockTxItem from "./StockTxItem";
-
-import classNames from "./StockTxTable.module.scss";
-
+type TTxType = "BUY" | "SELL";
 interface IStockProfile {
   txStaticCost: number;
   txProportionCost: number;
 }
 interface IStockTx {
-  txType: "BUY" | "SELL";
+  txType: TTxType;
   txAt: Date;
   shareCount: number;
   price: number;
@@ -28,35 +24,79 @@ interface IStockTxTableProps {
 }
 
 function StockTxTable({ stockTxs, isTxsLoading, page }: IStockTxTableProps) {
-  const renderedStockTxItems = useMemo(
-    () => {
-      if (isTxsLoading)
-        return (
-          <div className={classNames.centerContainer}>
-            <CircularProgress color="primary" />
-          </div>
-        );
+  const renderTxType = useCallback((txType: TTxType) => {
+    let color = "geekblue";
+    if (txType === "SELL") {
+      color = "volcano";
+    }
+    return (
+      <Tag color={color} key={txType}>
+        {txType}
+      </Tag>
+    );
+  }, []);
+  const renderTxAt = useCallback(
+    (txAt: Date) => <span>{txAt.toLocaleString()}</span>,
+    []
+  );
+  const keyedData = useMemo(
+    () => stockTxs.map((itm, key) => ({ ...itm, key })),
+    [stockTxs]
+  );
 
-      if (Array.isArray(stockTxs) && !stockTxs.length)
-        return (
-          <div className={classNames.centerContainer}>
-            <div className={classNames.noDataBanner}> NO DATA </div>
-          </div>
-        );
-      return stockTxs.map((itm, idx) => (
-        <StockTxItem {...itm} key={`StockTxTable-${idx}`} />
-      ));
-    },
-    [isTxsLoading, stockTxs]
+  const columns = useMemo(
+    () => [
+      {
+        title: "Net value",
+        dataIndex: "netValue",
+        key: "netValue"
+      },
+      {
+        title: "Share",
+        dataIndex: "shareCount",
+        key: "shareCount"
+      },
+      {
+        title: "Price",
+        dataIndex: "price",
+        key: "price"
+      },
+      {
+        title: "Gross value",
+        dataIndex: "grossValue",
+        key: "grossValue"
+      },
+      {
+        title: "Trade cost",
+        dataIndex: "tradeCost",
+        key: "tradeCost"
+      },
+      {
+        title: "Type",
+        dataIndex: "txType",
+        key: "txType",
+        render: renderTxType
+      },
+      {
+        title: "At",
+        dataIndex: "txAt",
+        key: "txAt",
+        render: renderTxAt
+      }
+    ],
+    [renderTxAt, renderTxType]
   );
   return (
     <>
-      <StockTxHeader />
-      {renderedStockTxItems}
+      <Table
+        columns={columns}
+        dataSource={keyedData}
+        loading={isTxsLoading}
+        pagination={false}
+      />
     </>
   );
 }
-
 StockTxTable.propTypes = {
   stockTxs: PropTypes.array.isRequired,
   isTxsLoading: PropTypes.bool.isRequired,
