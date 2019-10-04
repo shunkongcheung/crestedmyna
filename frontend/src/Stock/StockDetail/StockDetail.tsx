@@ -1,10 +1,10 @@
 import React, { memo } from "react";
 
-
 import MainChart from "./MainChart";
 import StockInfo from "./StockInfo";
 import StockName from "./StockName";
 import StockTxTable from "./StockTxTable";
+import TxEdit from "./TxEdit";
 
 import classNames from "./StockDetail.module.scss";
 
@@ -58,13 +58,15 @@ interface IStockDetailProps {
     stockName: string;
   };
   stockTxTableState: {
-    handleAddTx: (tx: IStockTxSubmit, f: any) => any;
-    handleStockProfileChange: (p: IStockProfile, f: any) => any;
     isTxsLoading: boolean;
-    isProfileLoading: boolean;
-    stockProfile: IStockProfile;
     stockTxs: Array<IStockTx>;
     page: number;
+  };
+  txEditState: {
+    handleAddTx: (tx: IStockTxSubmit, f: any) => any;
+    handleStockProfileChange: (p: IStockProfile, f: any) => any;
+    isProfileLoading: boolean;
+    stockProfile: IStockProfile;
   };
 }
 
@@ -72,7 +74,8 @@ function StockDetail({
   chartState,
   stockInfoState,
   stockNameState,
-  stockTxTableState
+  stockTxTableState,
+  txEditState
 }: IStockDetailProps) {
   return (
     <>
@@ -89,6 +92,7 @@ function StockDetail({
           </div>
         </div>
       </div>
+      <TxEdit {...txEditState} />
       <StockTxTable {...stockTxTableState} />
     </>
   );

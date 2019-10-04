@@ -2,7 +2,6 @@ import React, { memo, useMemo } from "react";
 import PropTypes from "prop-types";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import StockTxAdd from "./StockTxAdd";
 import StockTxHeader from "./StockTxHeader";
 import StockTxItem from "./StockTxItem";
 
@@ -22,31 +21,13 @@ interface IStockTx {
   netValue: number;
 }
 
-interface IStockTxSubmit {
-  txType: "BUY" | "SELL";
-  txAt: Date;
-  shareCount: number;
-  price: number;
-}
 interface IStockTxTableProps {
-  handleAddTx: (tx: IStockTxSubmit, f: any) => any;
-  handleStockProfileChange: (p: IStockProfile, f: any) => any;
   isTxsLoading: boolean;
-  isProfileLoading: boolean;
-  stockProfile: IStockProfile;
   stockTxs: Array<IStockTx>;
   page: number;
 }
 
-function StockTxTable({
-  handleAddTx,
-  handleStockProfileChange,
-  stockProfile,
-  stockTxs,
-  isTxsLoading,
-  isProfileLoading,
-  page
-}: IStockTxTableProps) {
+function StockTxTable({ stockTxs, isTxsLoading, page }: IStockTxTableProps) {
   const renderedStockTxItems = useMemo(
     () => {
       if (isTxsLoading)
@@ -70,24 +51,15 @@ function StockTxTable({
   );
   return (
     <>
-      <StockTxAdd handleAddTx={handleAddTx} />
-      <StockTxHeader
-        handleStockProfileChange={handleStockProfileChange}
-        isProfileLoading={isProfileLoading}
-        stockProfile={stockProfile}
-      />
+      <StockTxHeader />
       {renderedStockTxItems}
     </>
   );
 }
 
 StockTxTable.propTypes = {
-  handleAddTx: PropTypes.func.isRequired,
-  handleStockProfileChange: PropTypes.func.isRequired,
-  stockProfile: PropTypes.object.isRequired,
   stockTxs: PropTypes.array.isRequired,
   isTxsLoading: PropTypes.bool.isRequired,
-  isProfileLoading: PropTypes.bool.isRequired,
   page: PropTypes.number.isRequired
 };
 export default memo(StockTxTable);

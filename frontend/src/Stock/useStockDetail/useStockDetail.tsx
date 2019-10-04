@@ -215,21 +215,27 @@ function useStockDetail() {
   const stockTxTableState = useMemo(
     () => ({
       isTxsLoading: stockTxsState.isLoading,
-      isProfileLoading: stockProfileState.isLoading,
       page: stockTxsState.page,
-      stockTxs: stockTxsState.stockTxs,
+      stockTxs: stockTxsState.stockTxs
+    }),
+    [stockTxsState]
+  );
+  const txEditState = useMemo(
+    () => ({
+      isProfileLoading: stockProfileState.isLoading,
       handleAddTx,
       handleStockProfileChange,
       stockProfile: stockProfileState.stockProfile
     }),
-    [handleAddTx, handleStockProfileChange, stockTxsState, stockProfileState]
+    [handleAddTx, handleStockProfileChange, stockProfileState]
   );
 
   return {
     chartState,
     stockInfoState,
     stockNameState,
-    stockTxTableState
+    stockTxTableState,
+    txEditState
   };
 }
 

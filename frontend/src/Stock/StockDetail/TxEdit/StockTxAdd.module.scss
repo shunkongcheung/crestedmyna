@@ -19,7 +19,7 @@
 .container {
   display: flex;
   align-items: center;
-  margin: 5rem auto auto auto;
+	width:100%;
 }
 .addCol {
   @extend #column;
