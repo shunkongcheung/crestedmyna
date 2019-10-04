@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { useDetailState, useEditState } from "../Base/Fetches";
+import { useDetailState, useEditState } from "../../Base/Fetches";
 
 interface IStockProfile {
   txStaticCost: number;

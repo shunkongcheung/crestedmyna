@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import moment from "moment";
 
-import { useEditState } from "../Base/Fetches";
+import { useEditState } from "../../Base/Fetches";
 
 interface IStockTx {
   txType: "BUY" | "SELL";
@@ -36,11 +36,11 @@ function useStockTxAdd(
       const { ok } = await fetchEdit("stock/stk_tx/create/", submitValues, {
         formApis
       });
-			if (!ok)return ;
-		 	fetchTxs(stockMasterId, 1);
-		 	fetchStockMaster(stockMasterId);
+      if (!ok) return;
+      fetchTxs(stockMasterId, 1);
+      fetchStockMaster(stockMasterId);
     },
-    [fetchTxs, fetchEdit,fetchStockMaster, stockMasterId]
+    [fetchTxs, fetchEdit, fetchStockMaster, stockMasterId]
   );
 
   return { handleAddTx };

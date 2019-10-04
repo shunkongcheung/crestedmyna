@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-import { useEditState } from "../Base/Fetches";
+import { useEditState } from "../../Base/Fetches";
 
 // state ------------------------------------------
 interface IPrice {

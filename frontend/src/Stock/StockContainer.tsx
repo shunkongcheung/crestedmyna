@@ -4,8 +4,8 @@ import StockDetail from "./StockDetail";
 import useStockContainer from "./useStockContainer";
 
 function StockContainer() {
-  const states = useStockContainer();
-  return <StockDetail {...states} />;
+  const { stockDetailState } = useStockContainer();
+  return <StockDetail {...stockDetailState} />;
 }
 
 export default memo(StockContainer);

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useListState } from "../Base/Fetches";
+import { useListState } from "../../Base/Fetches";
 
 interface IStockMaster {
   name: string;

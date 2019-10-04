@@ -1,5 +1,9 @@
 import { useCallback, useState } from "react";
-import { useDetailState, useEditState, useDeleteState } from "../Base/Fetches";
+import {
+  useDetailState,
+  useEditState,
+  useDeleteState
+} from "../../Base/Fetches";
 
 interface IStockMaster {
   name: string;
