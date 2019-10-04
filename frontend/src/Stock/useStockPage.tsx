@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { History } from "history";
 
-type TPage = "detail" | "portfolio";
+type TPage = "detail" | "portfolio" | "txes";
 
 function useStockPage(history: History) {
   const [page, setPage] = useState<TPage>("detail");
@@ -16,12 +16,14 @@ function useStockPage(history: History) {
   const setPageOnHistoryChange = useCallback(location => {
     const { pathname } = location;
     if (pathname.includes("portfolio")) setPage("portfolio");
+    if (pathname.includes("txes")) setPage("txes");
     else setPage("detail");
   }, []);
 
   useEffect(
     () => {
       const unlisten = history.listen(setPageOnHistoryChange);
+      setPageOnHistoryChange(history.location);
       return () => {
         unlisten();
       };
@@ -29,7 +31,7 @@ function useStockPage(history: History) {
     [history, setPageOnHistoryChange]
   );
 
-  return {  handleTabChange, page, };
+  return { handleTabChange, page };
 }
 
 export default useStockPage;
