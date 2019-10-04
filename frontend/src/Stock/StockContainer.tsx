@@ -1,41 +1,11 @@
 import React, { memo } from "react";
 
-import Layout from "../Base/Layout";
-
-import MainChart from "./MainChart";
-import StockInfo from "./StockInfo";
-import StockName from "./StockName";
-import StockTxTable from "./StockTxTable";
-
+import StockDetail from "./StockDetail";
 import useStockContainer from "./useStockContainer";
 
-import classNames from "./StockContainer.module.scss";
-
 function StockContainer() {
-  const {
-    chartState,
-    stockInfoState,
-    stockNameState,
-    stockTxTableState
-  } = useStockContainer();
-  return (
-    <Layout>
-      <div className={classNames.row}>
-        <div className={classNames.lineChartContainer}>
-          <MainChart {...chartState} />
-        </div>
-        <div className={classNames.rightContainer}>
-          <div className={classNames.nameContainer}>
-            <StockName {...stockNameState} />
-          </div>
-          <div className={classNames.infoContainer}>
-            <StockInfo {...stockInfoState} />
-          </div>
-        </div>
-      </div>
-      <StockTxTable {...stockTxTableState} />
-    </Layout>
-  );
+  const states = useStockContainer();
+  return <StockDetail {...states} />;
 }
 
 export default memo(StockContainer);

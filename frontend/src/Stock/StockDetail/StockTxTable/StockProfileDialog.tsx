@@ -2,8 +2,8 @@ import React, { memo, useMemo } from "react";
 import { withFormik, FormikProps } from "formik";
 import * as Yup from "yup";
 
-import { Dialog } from "../../Base/Utils";
-import { InputText } from "../../Base/Form";
+import { Dialog } from "../../../Base/Utils";
+import { InputText } from "../../../Base/Form";
 
 import PropTypes from "prop-types";
 

@@ -4,7 +4,7 @@ import { withFormik, FormikProps } from "formik";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 
-import { InputSelect, InputText, InputDateTime } from "../../Base/Form";
+import { InputSelect, InputText, InputDateTime } from "../../../Base/Form";
 
 import classNames from "./StockTxAdd.module.scss";
 

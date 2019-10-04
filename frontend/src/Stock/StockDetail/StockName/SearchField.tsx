@@ -2,7 +2,7 @@ import React, { memo, useCallback } from "react";
 import { withFormik, FormikProps } from "formik";
 import PropTypes from "prop-types";
 
-import { InputSelect } from "../../Base/Form";
+import { InputSelect } from "../../../Base/Form";
 
 interface ISearchFieldProps {
   stockMasters: Array<{ name: string; id: number }>;
