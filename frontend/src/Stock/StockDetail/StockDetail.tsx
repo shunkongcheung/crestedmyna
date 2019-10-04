@@ -1,6 +1,5 @@
 import React, { memo } from "react";
 
-import Layout from "../../Base/Layout";
 
 import MainChart from "./MainChart";
 import StockInfo from "./StockInfo";
@@ -76,7 +75,7 @@ function StockDetail({
   stockTxTableState
 }: IStockDetailProps) {
   return (
-    <Layout>
+    <>
       <div className={classNames.row}>
         <div className={classNames.lineChartContainer}>
           <MainChart {...chartState} />
@@ -91,7 +90,7 @@ function StockDetail({
         </div>
       </div>
       <StockTxTable {...stockTxTableState} />
-    </Layout>
+    </>
   );
 }
 
