@@ -7,6 +7,7 @@ import { FourOFour } from "./Base/Utils";
 import GlobalContexts from "./Base/Contexts/GlobalContexts";
 
 import "antd/dist/antd.css";
+import "rc-tabs/assets/index.css";
 import "./App.scss";
 import classNames from "./App.module.scss";
 

@@ -12,8 +12,6 @@ import useJournalContainer from "./useJournalContainer";
 
 import Layout from "../Base/Layout";
 
-import "rc-tabs/assets/index.css";
-
 interface IJournalContainer {
   history: History;
 }
