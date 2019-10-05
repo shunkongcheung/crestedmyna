@@ -11,6 +11,7 @@ interface IStockInfoProps {
   marketPrice: number;
   marketValue: number;
   realizedValue: number;
+  unrealizedValue: number;
 }
 
 function StockInfo({
@@ -19,7 +20,8 @@ function StockInfo({
   shareCount,
   marketPrice,
   marketValue,
-  realizedValue
+  realizedValue,
+  unrealizedValue
 }: IStockInfoProps) {
   const handleDeleteI = useCallback(
     async () => {
@@ -47,8 +49,12 @@ function StockInfo({
         <div className={classNames.content}>${marketValue}</div>
       </div>
       <div className={classNames.row}>
-        <div className={classNames.title}>REALIZED VALUE</div>
-        <div className={classNames.content}>${realizedValue}</div>
+        <div className={classNames.title}>REALIZED GAIN/LOSS</div>
+        <div className={classNames.content}>${realizedValue.toFixed(2)}</div>
+      </div>
+      <div className={classNames.row}>
+        <div className={classNames.title}>UNREALIZED GAIN/LOSS</div>
+        <div className={classNames.content}>${unrealizedValue.toFixed(2)}</div>
       </div>
       <div className={classNames.row}>
         <Popconfirm
@@ -69,6 +75,7 @@ StockInfo.propTypes = {
   shareCount: PropTypes.number.isRequired,
   marketPrice: PropTypes.number.isRequired,
   marketValue: PropTypes.number.isRequired,
-  realizedValue: PropTypes.number.isRequired
+  realizedValue: PropTypes.number.isRequired,
+  unrealizedValue: PropTypes.number.isRequired
 };
 export default memo(StockInfo);

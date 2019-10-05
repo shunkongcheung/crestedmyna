@@ -196,7 +196,7 @@ function useStockDetail(
   );
   const stockNameState = useMemo(
     () => ({
-      isLoading:  stockMasterState.isLoading,
+      isLoading: stockMasterState.isLoading,
       stockName: stockMaster.name,
       stockMasterNames: stockMasterNames,
       handleStockMasterChange,
@@ -213,11 +213,7 @@ function useStockDetail(
   const stockInfoState = useMemo(
     () => ({
       handleDelete: handleDeleteStockMaster,
-      stockCode: stockMaster.stockCode,
-      shareCount: stockMaster.shareCount,
-      marketPrice: stockMaster.marketPrice,
-      marketValue: stockMaster.marketValue,
-      realizedValue: stockMaster.realizedValue
+      ...stockMaster
     }),
     [handleDeleteStockMaster, stockMaster]
   );

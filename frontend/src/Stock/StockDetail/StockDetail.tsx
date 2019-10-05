@@ -49,6 +49,7 @@ interface IStockDetailProps {
     marketPrice: number;
     marketValue: number;
     realizedValue: number;
+    unrealizedValue: number;
   };
   stockNameState: {
     handleStockSearch: (search: string) => any;
