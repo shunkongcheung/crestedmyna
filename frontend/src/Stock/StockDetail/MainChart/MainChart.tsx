@@ -4,7 +4,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { Line } from "react-chartjs-2";
 
-import RangeItem from "./RangeItem";
+import RangeSelector from "./RangeSelector";
+
 import classNames from "./MainChart.module.scss";
 
 type TRange = "week" | "month" | "year" | "5years";
@@ -99,6 +100,8 @@ function MainChart({
         {
           fill: false,
           label: "Nominal price",
+          pointRadius: 1,
+          pointHoverRadius: 1,
           backgroundColor: "rgba(233,78,128,1)",
           borderColor: "rgba(233,78,128,1)",
           pointBorderColor: "rgba(233,78,128,1)",
@@ -172,28 +175,7 @@ function MainChart({
   return (
     <>
       {renderedContent}
-      <div className={classNames.rangeContainer}>
-        <RangeItem
-          handleRangeSelected={handleRangeSelected}
-          name="week"
-          selectedRange={range}
-        />
-        <RangeItem
-          handleRangeSelected={handleRangeSelected}
-          name="month"
-          selectedRange={range}
-        />
-        <RangeItem
-          handleRangeSelected={handleRangeSelected}
-          name="year"
-          selectedRange={range}
-        />
-        <RangeItem
-          handleRangeSelected={handleRangeSelected}
-          name="5years"
-          selectedRange={range}
-        />
-      </div>
+      <RangeSelector handleRangeSelected={handleRangeSelected} range={range} />
     </>
   );
 }
