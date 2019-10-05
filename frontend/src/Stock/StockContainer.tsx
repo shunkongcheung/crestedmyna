@@ -15,8 +15,8 @@ function StockContainer({ history }: RouteComponentProps) {
   const {
     handleTabChange,
     page,
-    txesState,
-    stockDetailState
+		stockDetailState,
+		stockTxState
   } = useStockContainer(history);
   return (
     <Layout>
@@ -25,7 +25,7 @@ function StockContainer({ history }: RouteComponentProps) {
           <StockDetail {...stockDetailState} />
         </TabPane>
         <TabPane tab="Transactions" key="txes">
-          <StockTx {...txesState} />
+          <StockTx {...stockTxState} />
         </TabPane>
       </Tabs>
     </Layout>

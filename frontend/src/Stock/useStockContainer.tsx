@@ -1,19 +1,19 @@
 import { History } from "history";
 
-import useTxes from "./useTxes";
+import useStockTx from "./useStockTx";
 import useStockDetail from "./useStockDetail";
 import useStockPage from "./useStockPage";
 
 function useStockContainer(history: History) {
   const { handleTabChange, page } = useStockPage(history);
   const stockDetailState = useStockDetail();
-  const txesState = useTxes();
+  const stockTxState = useStockTx();
 
   return {
     handleTabChange,
     page,
-    txesState,
-    stockDetailState
+    stockDetailState,
+    stockTxState
   };
 }
 

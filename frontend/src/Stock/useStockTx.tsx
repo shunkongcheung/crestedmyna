@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useListState } from "../Base/Fetches";
+import { useDetailState, useListState } from "../Base/Fetches";
 
 type TTxType = "BUY" | "SELL";
 
@@ -32,22 +32,23 @@ interface ITxRet {
   tx_type: "BUY" | "SELL";
 }
 interface ITxState {
-  txes: Array<ITx>;
+  stockTxs: Array<ITx>;
   stockMasters: Array<IStockMaster>;
   page: number;
   total: number;
   filter?: IFilter;
   isLoading: boolean;
 }
-function useTxes() {
+function useStockTx() {
   const [txState, setTxState] = useState<ITxState>({
     isLoading: true,
     page: 1,
     stockMasters: [],
     total: 1,
-    txes: []
+    stockTxs: []
   });
-  const { fetchList: fetchTxes } = useListState<ITxRet>();
+  const { fetchDetail } = useDetailState<ITxRet>();
+  const { fetchList: fetchTxes } = useListState<{ id: number }>();
   const { fetchList: fetchStockMasters } = useListState<IStockMaster>();
 
   const getTxFilterParams = useCallback((filter = {} as IFilter) => {
@@ -58,7 +59,7 @@ function useTxes() {
     return filterParams;
   }, []);
 
-  const getTxes = useCallback(
+  const getTxIds = useCallback(
     async (page: number, filter: IFilter) => {
       if (filter) page = 1;
       const PAGE_SIZE = 10;
@@ -69,22 +70,31 @@ function useTxes() {
         ...filterParams
       });
       const { count, results } = payload;
-      if (!ok) return { total: 0, txes: [] };
+      if (!ok) return { total: 0, txIds: [] };
       return {
         total: count,
-        txes: results.map(itm => ({
-          grossValue: itm.gross_value,
-          netValue: itm.net_value,
-          price: itm.price,
-          shareCount: itm.share_count,
-          stockMaster: itm.stock_master,
-          tradeCost: itm.trade_cost,
-          txAt: new Date(itm.tx_at),
-          txType: itm.tx_type
-        }))
+        txIds: results.map(itm => itm.id)
       };
     },
     [fetchTxes, getTxFilterParams]
+  );
+
+  const getTxDetail = useCallback(
+    async (stockTxId: number): Promise<undefined | ITx> => {
+      const { ok, payload } = await fetchDetail(`stock/stk_tx/${stockTxId}/`);
+      if (!ok) return undefined;
+      return {
+        grossValue: payload.gross_value,
+        netValue: payload.net_value,
+        price: payload.price,
+        shareCount: payload.share_count,
+        stockMaster: payload.stock_master,
+        tradeCost: payload.trade_cost,
+        txAt: new Date(payload.tx_at),
+        txType: payload.tx_type
+      };
+    },
+    [fetchDetail]
   );
 
   const getStockMasters = useCallback(
@@ -101,13 +111,24 @@ function useTxes() {
   const handleListChange = useCallback(
     async (page: number = 1, filter: IFilter) => {
       setTxState(oState => ({ ...oState, isLoading: true }));
-      const [{ total, txes }, stockMasters] = await Promise.all([
-        getTxes(page, filter),
+      const [{ total, txIds }, stockMasters] = await Promise.all([
+        getTxIds(page, filter),
         getStockMasters()
       ]);
-      setTxState({ filter, isLoading: false, stockMasters, page, total, txes });
+      const stockTxsWithUndefined = await Promise.all(txIds.map(getTxDetail));
+      const stockTxs = stockTxsWithUndefined.filter(
+        itm => itm !== undefined
+      ) as Array<ITx>;
+      setTxState({
+        filter,
+        isLoading: false,
+        stockMasters,
+        page,
+        total,
+        stockTxs
+      });
     },
-    [getTxes, getStockMasters]
+    [getTxIds, getTxDetail, getStockMasters]
   );
 
   useEffect(
@@ -120,4 +141,4 @@ function useTxes() {
   return { ...txState, handleListChange };
 }
 
-export default useTxes;
+export default useStockTx;
