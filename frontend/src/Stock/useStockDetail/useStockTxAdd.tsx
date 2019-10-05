@@ -29,7 +29,7 @@ function useStockTxAdd(
       const submitValues = {
         stock_master: stockMasterId,
         tx_type: stockProfile.txType,
-        tx_at: moment(stockProfile.txAt).format("YYYY-MM-DD HH:mm"),
+        tx_at: moment(stockProfile.txAt).format("YYYY-MM-DD"),
         share_count: stockProfile.shareCount,
         price: stockProfile.price
       };
