@@ -8,6 +8,8 @@ import { FormArea, InputDateTime, InputText } from "../../Base/Form";
 import DescField from "./DescField";
 import MediaField from "./MediaField";
 
+import classNames from "./JournalEditForm.module.scss";
+
 interface IMedia {
   accessUrl: string;
   name: string;
@@ -32,7 +34,7 @@ interface IJournalMasterVal {
 
 interface IFormikVal extends IJournalMasterVal, IMediaVal {}
 
-interface IJournalEditViewFormProps {
+interface IJournalEditFormProps {
   handleAddMedia: (
     name: string,
     file: File,
@@ -41,15 +43,15 @@ interface IJournalEditViewFormProps {
   handleDeleteMedia: (id: number, f: FormikProps<IJournalMasterVal>) => any;
 }
 
-interface IFormikProps extends IJournalEditViewFormProps {
+interface IFormikProps extends IJournalEditFormProps {
   handleSubmit: (v: IJournalMasterVal, f: any) => Promise<any>;
 }
 
-function JournalEditViewForm({
+function JournalEditForm({
   handleAddMedia,
   handleDeleteMedia,
   ...formikProps
-}: IJournalEditViewFormProps & FormikProps<IFormikVal>) {
+}: IJournalEditFormProps & FormikProps<IFormikVal>) {
   const { values } = formikProps;
   const { startAt, endAt } = values;
   const { description, medias } = values;
@@ -84,20 +86,28 @@ function JournalEditViewForm({
       handleSubmit={formikProps.handleSubmit}
       isSubmitting={formikProps.isSubmitting}
     >
-      <InputText {...formikProps} label="Name" name="name" />
-      <InputDateTime
-        {...formikProps}
-        disabledDate={disabledStartAt}
-        label="Start at"
-        name="startAt"
-      />
-      <InputDateTime
-        {...formikProps}
-        disabledDate={disabledEndAt}
-        label="End at"
-        name="endAt"
-      />
-      <InputText {...formikProps} label="Location" name="location" />
+      <div className={classNames.inputContainer}>
+        <InputText {...formikProps} label="Name" name="name" />
+      </div>
+      <div className={classNames.inputContainer}>
+        <InputDateTime
+          {...formikProps}
+          disabledDate={disabledStartAt}
+          label="Start at"
+          name="startAt"
+        />
+      </div>
+      <div className={classNames.inputContainer}>
+        <InputDateTime
+          {...formikProps}
+          disabledDate={disabledEndAt}
+          label="End at"
+          name="endAt"
+        />
+      </div>
+      <div className={classNames.inputContainer}>
+        <InputText {...formikProps} label="Location" name="location" />
+      </div>
       <MediaField
         {...formikProps}
         handleAddMedia={handleAddMediaI}
@@ -112,7 +122,7 @@ function JournalEditViewForm({
   );
 }
 
-JournalEditViewForm.propTypes = {
+JournalEditForm.propTypes = {
   handleAddMedia: PropTypes.func.isRequired,
   handleDeleteMedia: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
@@ -144,5 +154,5 @@ export default memo(
       await handleSubmit(submitValues, formApis);
       formApis.setSubmitting(false);
     }
-  })(JournalEditViewForm)
+  })(JournalEditForm)
 );
