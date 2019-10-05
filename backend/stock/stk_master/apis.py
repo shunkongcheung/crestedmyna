@@ -4,6 +4,7 @@ from base.apis import (
     MyObjectAPIView,
 )
 from rest_framework.permissions import IsAdminUser
+from rest_framework import filters
 
 from .models import StockMaster
 from .serializers import StockMasterSerializer
@@ -26,15 +27,24 @@ class StockMasterCreateAPIView(MyCreateAPIView):
 
 class StockMasterListAPIView(MyListAPIView):
     model = StockMaster
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['market_value',
+                       'name',
+                       'realized_value',
+                       'stock_code',
+                       'share_count',
+                       ]
+
+    def get_queryset_by_id(self, queryset, ids):
+        return queryset.filter(id__in=ids.split(',')) if ids else queryset
 
     def get_queryset(self):
         queryset = super().get_queryset()
         query_params = self.request.query_params
         ids = query_params.get('id__in')
-        if ids:
-            return queryset.filter(id__in=ids.split(','))
-        else:
-            return queryset
+        queryset = self.get_queryset_by_id(queryset, ids)
+
+        return queryset
 
 
 class StockMasterObjectAPIView(MyObjectAPIView):
