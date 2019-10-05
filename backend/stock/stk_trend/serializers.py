@@ -5,16 +5,17 @@ from rest_framework.serializers import (
     Serializer,
 )
 
-from .utils import get_stock_prices
+from .utils import get_stock_trends
 
 
-class StockPriceItemSerializer(Serializer):
+class StockTrendItemSerializer(Serializer):
+    turnover = FloatField()
     nominal_price = FloatField()
     date = DateField()
 
 
-class StockPriceSerializer(Serializer):
-    prices = StockPriceItemSerializer(many=True, read_only=True)
+class StockTrendSerializer(Serializer):
+    prices = StockTrendItemSerializer(many=True, read_only=True)
 
     start_date = DateField()
     end_date = DateField()
@@ -25,6 +26,6 @@ class StockPriceSerializer(Serializer):
         end_date = data['end_date']
         stock_code = data['stock_code']
 
-        prices = get_stock_prices(start_date, end_date, stock_code)
+        prices = get_stock_trends(start_date, end_date, stock_code)
         data['prices'] = prices
         return data
