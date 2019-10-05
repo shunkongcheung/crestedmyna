@@ -5,8 +5,9 @@ import { Tabs } from "antd";
 
 import Layout from "../Base/Layout";
 
-import StockTx from "./StockTx";
 import StockDetail from "./StockDetail";
+import StockTx from "./StockTx";
+import StockPortfolio from "./StockPortfolio";
 import useStockContainer from "./useStockContainer";
 
 const { TabPane } = Tabs;
@@ -15,12 +16,16 @@ function StockContainer({ history }: RouteComponentProps) {
   const {
     handleTabChange,
     page,
-		stockDetailState,
-		stockTxState
+    stockDetailState,
+    stockPortfolioState,
+    stockTxState
   } = useStockContainer(history);
   return (
     <Layout>
       <Tabs activeKey={page} onChange={handleTabChange}>
+        <TabPane tab="Portfolio" key="portfolio">
+          <StockPortfolio {...stockPortfolioState} />
+        </TabPane>
         <TabPane tab="Stock summary" key="detail">
           <StockDetail {...stockDetailState} />
         </TabPane>
