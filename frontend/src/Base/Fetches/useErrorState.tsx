@@ -1,11 +1,9 @@
-import { useCallback, useContext } from "react";
-import SnackBarContext from "../Contexts/SnackBarContext";
+import { useCallback } from "react";
+import { notification } from "antd";
 
 function useErrorState(
   snackLvl: "none" | "info" | "warning" | "error" = "error"
 ) {
-  const { handleSnackBarChange } = useContext(SnackBarContext);
-
   const getErrorMsgFromArr = useCallback((nonFieldErrors: Array<string>) => {
     if (!nonFieldErrors.length) return "";
     if (nonFieldErrors.length === 1) return nonFieldErrors[0];
@@ -31,16 +29,13 @@ function useErrorState(
             key in dataKeys ? "" : getStringifiedErrorValue(value)
         )
         .filter(itm => itm !== "");
-      const message = getErrorMsgFromArr(nonFieldErrors);
-      if (snackLvl !== "none")
-        handleSnackBarChange({ message, type: snackLvl, status });
+      const description = getErrorMsgFromArr(nonFieldErrors);
+      if (snackLvl !== "none") {
+        notification.config({ placement: "bottomRight" });
+        notification[snackLvl]({ message: "Requst failed", description });
+      }
     },
-    [
-      getErrorMsgFromArr,
-      getStringifiedErrorValue,
-      handleSnackBarChange,
-      snackLvl
-    ]
+    [getErrorMsgFromArr, getStringifiedErrorValue, snackLvl]
   );
 
   return { setErrorMsg };
