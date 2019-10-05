@@ -2,8 +2,11 @@
 ## Frontend
 
 ### stock
-	* date filter
-	* stock: filter NaN logic
+* add turnover & participant table
+* update add tx fields
+
+### journal
+* use antd calendar
 
 
 
