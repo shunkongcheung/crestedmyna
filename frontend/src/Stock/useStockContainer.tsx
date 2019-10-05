@@ -13,9 +13,14 @@ function useStockContainer(history: History) {
     fetchStockMasterNames,
     ...stockMasterNamesState
   } = useStockMasterNames();
-  const stockDetailState = useStockDetail();
-  const stockPortfolioState = useStockPortfolio();
   const stockTxStateI = useStockTx();
+  const stockPortfolioState = useStockPortfolio();
+  const stockDetailState = useStockDetail(
+    fetchStockMasterNames,
+    stockTxStateI.handleListChange,
+    stockMasterNamesState.isLoading,
+    stockMasterNamesState.stockMasterNames
+  );
 
   const stockTxState = useMemo(
     () => {

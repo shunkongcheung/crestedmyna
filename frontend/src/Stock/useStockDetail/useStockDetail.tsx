@@ -5,12 +5,16 @@ import useCCASSParticipantDetails from "./useCCASSParticipantDetails";
 import useGetChartData from "./useGetChartData";
 import useStockPrices from "./useStockPrices";
 import useStockMaster from "./useStockMaster";
-import useStockMasters from "./useStockMasters";
 import useStockTxAdd from "./useStockTxAdd";
 import useStockTxs from "./useStockTxs";
 import useStockProfile from "./useStockProfile";
 
-function useStockDetail() {
+function useStockDetail(
+  fetchStockMasterNames: () => any,
+  fetchAllStockTxs: (p: number, q: {}) => any,
+  isLoadingStockMasterNames: boolean,
+  stockMasterNames: Array<{ name: string; id: number }>
+) {
   const isInitialzed = useRef(false);
   const { fetchStockPrices, stockPricesState } = useStockPrices();
   const {
@@ -27,15 +31,19 @@ function useStockDetail() {
   const { stockProfileState, handleStockProfileChange } = useStockProfile();
   const { chartRange, setChartRange, getDatesFromRange } = useChartRange();
 
-  const { stockMastersState, fetchStockMasters } = useStockMasters();
-
   const { range } = chartRange;
-  const { stockMasters } = stockMastersState;
   const { stockMaster } = stockMasterState;
 
+  const refreshStockTx = useCallback(
+    (sm: number, page: number) => {
+      fetchStockTxs(sm, page);
+      fetchAllStockTxs(page, {});
+    },
+    [fetchStockTxs, fetchAllStockTxs]
+  );
   const { handleAddTx } = useStockTxAdd(
     stockMaster.id,
-    fetchStockTxs,
+    refreshStockTx,
     fetchStockMaster
   );
   const { getChartData } = useGetChartData();
@@ -87,14 +95,14 @@ function useStockDetail() {
         return Promise.all([
           fetchParticipantDetails(stockCode, startDate, endDate),
           fetchStockPrices(stockCode, startDate, endDate),
-          fetchStockMasters()
+          fetchStockMasterNames()
         ]);
     },
     [
       createStockMaster,
       fetchParticipantDetails,
       fetchStockPrices,
-      fetchStockMasters,
+      fetchStockMasterNames,
       getDatesFromRange,
       range
     ]
@@ -127,19 +135,22 @@ function useStockDetail() {
       const ok = await deleteStockMaster();
       if (ok) {
         const secondStockMasterId =
-          Array.isArray(stockMasters) && stockMasters.length > 1
-            ? (stockMasters.find(itm => itm.id !== stockMaster.id) as any).id
+          Array.isArray(stockMasterNames) && stockMasterNames.length > 1
+            ? (stockMasterNames.find(itm => itm.id !== stockMaster.id) as any)
+                .id
             : -1;
-        fetchStockMasters();
+        fetchStockMasterNames();
+        fetchAllStockTxs(1, {});
         initStockMaster(secondStockMasterId);
       }
       return ok;
     },
     [
       deleteStockMaster,
-      fetchStockMasters,
+      fetchStockMasterNames,
+      fetchAllStockTxs,
       initStockMaster,
-      stockMasters,
+      stockMasterNames,
       stockMaster
     ]
   );
@@ -147,14 +158,14 @@ function useStockDetail() {
   // lice cycle ------------------------------------------------
   useEffect(
     () => {
-      if (!Array.isArray(stockMasters) || !stockMasters.length) return;
+      if (!Array.isArray(stockMasterNames) || !stockMasterNames.length) return;
       if (stockMaster.id > 0) return;
       if (isInitialzed.current) return;
       isInitialzed.current = true;
-      const firstStockMaster = stockMasters[0];
+      const firstStockMaster = stockMasterNames[0];
       initStockMaster(firstStockMaster.id);
     },
-    [stockMasters, stockMaster.id, initStockMaster]
+    [stockMasterNames, stockMaster.id, initStockMaster]
   );
 
   // return --------------------------------------------------
@@ -186,9 +197,9 @@ function useStockDetail() {
   );
   const stockNameState = useMemo(
     () => ({
-      isLoading: stockMastersState.isLoading || stockMasterState.isLoading,
+      isLoading: isLoadingStockMasterNames || stockMasterState.isLoading,
       stockName: stockMaster.name,
-      stockMasters: stockMasters,
+      stockMasterNames: stockMasterNames,
       handleStockMasterChange,
       handleStockSearch
     }),
@@ -197,8 +208,8 @@ function useStockDetail() {
       handleStockSearch,
       stockMaster,
       stockMasterState.isLoading,
-      stockMastersState.isLoading,
-      stockMasters
+      isLoadingStockMasterNames,
+      stockMasterNames
     ]
   );
   const stockInfoState = useMemo(
