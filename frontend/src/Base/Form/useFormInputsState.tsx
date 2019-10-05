@@ -40,13 +40,24 @@ function useFormState(
     [errors, getByString, inputTouched, name, submitCount]
   );
 
+  const style = useMemo(
+    () => {
+      if (!inputError) return undefined;
+      return {
+        border: "1px solid red",
+        borderRadius: 5
+      };
+    },
+    [inputError]
+  );
+
   const inputValue = useMemo<any>(() => getByString(values, name), [
     getByString,
     name,
     values
   ]);
 
-  return { inputError, inputValue };
+  return { inputError, inputValue, style };
 }
 
 export default useFormState;
