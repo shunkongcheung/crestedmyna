@@ -21,23 +21,23 @@ interface ITx {
   txAt: Date;
   txType: TTxType;
 }
-interface ITxesProps {
+interface ISockTxProps {
   handleListChange: (p: number, filter: IFilter) => any;
   stockMasters: Array<IStockMaster>;
+  stockTxs: Array<ITx>;
   page: number;
   total: number;
-  txes: Array<ITx>;
   filter?: IFilter;
   isLoading: boolean;
 }
 
-function Txes({
+function SockTx({
   handleListChange,
   stockMasters,
   page,
-  txes,
+  stockTxs,
   total
-}: ITxesProps) {
+}: ISockTxProps) {
   const onChange = useCallback(
     ({ current }, { txType, stockMaster }) =>
       handleListChange(current || 1, { txType, stockMaster } as any),
@@ -65,9 +65,10 @@ function Txes({
     (txAt: Date) => <span>{txAt.toLocaleString()}</span>,
     []
   );
-  const keyedData = useMemo(() => txes.map((itm, key) => ({ ...itm, key })), [
-    txes
-  ]);
+  const keyedData = useMemo(
+    () => stockTxs.map((itm, key) => ({ ...itm, key })),
+    [stockTxs]
+  );
   const columns = useMemo(
     () => [
       {
@@ -137,4 +138,4 @@ function Txes({
   );
 }
 
-export default memo(Txes);
+export default memo(SockTx);

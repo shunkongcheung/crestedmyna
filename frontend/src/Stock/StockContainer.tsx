@@ -5,7 +5,7 @@ import { Tabs } from "antd";
 
 import Layout from "../Base/Layout";
 
-import Txes from "./Txes";
+import StockTx from "./StockTx";
 import StockDetail from "./StockDetail";
 import useStockContainer from "./useStockContainer";
 
@@ -25,7 +25,7 @@ function StockContainer({ history }: RouteComponentProps) {
           <StockDetail {...stockDetailState} />
         </TabPane>
         <TabPane tab="Transactions" key="txes">
-          <Txes {...txesState} />
+          <StockTx {...txesState} />
         </TabPane>
       </Tabs>
     </Layout>
