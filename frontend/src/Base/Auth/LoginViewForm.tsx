@@ -30,8 +30,12 @@ function LoginViewForm(
       submitText="LOGIN"
       withPadding
     >
-      <InputText {...formikProps} label="Username" name="username" />
-      <InputText {...formikProps} label="Password" name="password" isMask />
+      <div style={{ marginBottom: "1rem" }}>
+        <InputText {...formikProps} label="Username" name="username" />
+      </div>
+      <div style={{ marginBottom: "1rem" }}>
+        <InputText {...formikProps} label="Password" name="password" isMask />
+      </div>
     </FormArea>
   );
 }
