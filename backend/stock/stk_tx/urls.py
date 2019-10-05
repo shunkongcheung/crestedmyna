@@ -2,7 +2,6 @@ from django.conf.urls import url
 from .apis import (
     StockTxCreateAPIView,
     StockTxListAPIView,
-    StockMasterTxListAPIView,
     StockTxObjectAPIView,
 )
 
@@ -19,10 +18,6 @@ urlpatterns = [
         ),
     url(r'^list/$',
         StockTxListAPIView.as_view(),
-        name='stk_tx-api-list'
-        ),
-    url(r'^(?P<stock_master>[0-9]+)/$',
-        StockMasterTxListAPIView.as_view(),
         name='stk_tx-api-list'
         ),
 ]

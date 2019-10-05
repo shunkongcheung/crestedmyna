@@ -16,18 +16,6 @@ from .utils import (
 fields = ['stock_master', 'tx_type', 'tx_at', 'share_count', 'price', ]
 
 
-class StockMasterTxListAPIView(MyListAPIView):
-    fields = fields + ['gross_value', 'trade_cost', 'net_value', ]
-    model = StockTx
-
-    def get_queryset(self):
-        return StockTx.objects.filter(
-            enable=True,
-            created_by=self.request.user,
-            stock_master=self.kwargs['stock_master']
-        )
-
-
 class StockTxCreateAPIView(MyCreateAPIView):
     fields = fields
     model = StockTx
