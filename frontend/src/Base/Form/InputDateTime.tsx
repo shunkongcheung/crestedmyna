@@ -1,54 +1,61 @@
-import React, { memo, useCallback } from "react";
+import React, { memo, useCallback, useMemo } from "react";
+import { DatePicker, Tooltip } from "antd";
 import { FormikProps } from "formik";
 import PropTypes from "prop-types";
-
-import { DateTimePicker } from "@material-ui/pickers";
 
 import useFormInputsState from "./useFormInputsState";
 
 interface IInputDateTimeProps {
-  helperText?: string;
   label: string;
+  mode?: "date" | "datetime";
   name: string;
 }
 
 function InputDateTime({
   label,
+  mode = "datetime",
   name,
-  helperText,
   ...formikProps
 }: IInputDateTimeProps & FormikProps<{ [x: string]: any }>) {
-  const { inputError, inputValue } = useFormInputsState(name, formikProps);
+  const { inputError, style } = useFormInputsState(name, formikProps);
   const { setFieldTouched, setFieldValue } = formikProps;
 
-  const handleBlur = useCallback(() => setFieldTouched(name, true, true), [
-    name,
-    setFieldTouched
-  ]);
-  const handleChange = useCallback(value => setFieldValue(name, value), [
-    name,
-    setFieldValue
-  ]);
+  const handleChange = useCallback(
+    value => {
+      setFieldValue(name, value);
+      setFieldTouched(name, true, true);
+    },
+    [name, setFieldValue, setFieldTouched]
+  );
+
+  const format = useMemo(
+    () => {
+      switch (mode) {
+        case "date":
+          return "YYYY-MM-DD";
+        case "datetime":
+          return "YYYY-MM-DD HH:mm:ss";
+        default:
+          return "YYYY-MM-DD";
+      }
+    },
+    [mode]
+  );
 
   return (
-    <DateTimePicker
-      error={inputError !== undefined}
-      helperText={inputError || helperText}
-      id={name}
-      label={label}
-      margin="normal"
-      name={name}
-      onBlur={handleBlur}
-      onChange={handleChange}
-      style={{ width: "100%" }}
-      variant="inline"
-      value={inputValue ? inputValue : null}
-    />
+    <Tooltip title={inputError}>
+      <DatePicker
+        onChange={handleChange}
+        style={{ ...style, width: "100%" }}
+        showTime={mode === "datetime"}
+        format={format}
+      />
+    </Tooltip>
   );
 }
 
 InputDateTime.propTypes = {
-  helperText: PropTypes.string,
+  mode: PropTypes.oneOf(["date", "datetime"]),
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired
 };
