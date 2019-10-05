@@ -10,7 +10,6 @@ interface IInputDateTimeProps {
   helperText?: string;
   label: string;
   name: string;
-  type?: "date" | "datetime" | "time";
 }
 
 function InputDateTime({
@@ -51,7 +50,6 @@ function InputDateTime({
 InputDateTime.propTypes = {
   helperText: PropTypes.string,
   label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(["date", "datetime", "time"])
+  name: PropTypes.string.isRequired
 };
 export default memo(InputDateTime);
