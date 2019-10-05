@@ -11,9 +11,8 @@ import useStockProfile from "./useStockProfile";
 
 function useStockDetail(
   fetchStockMasterNames: () => any,
-  fetchAllStockTxs: (p: number, q: {}) => any,
-  isLoadingStockMasterNames: boolean,
-  stockMasterNames: Array<{ name: string; id: number }>
+  refreshOtherTabs: () => any,
+  stockMasterNames: Array<{ id: number; name: string }>
 ) {
   const isInitialzed = useRef(false);
   const { fetchStockTrends, stockTrendsState } = useStockTrends();
@@ -34,16 +33,16 @@ function useStockDetail(
   const { range } = chartRange;
   const { stockMaster } = stockMasterState;
 
-  const refreshStockTx = useCallback(
+  const onStockTxAdd = useCallback(
     (sm: number, page: number) => {
       fetchStockTxs(sm, page);
-      fetchAllStockTxs(page, {});
+      refreshOtherTabs();
     },
-    [fetchStockTxs, fetchAllStockTxs]
+    [fetchStockTxs, refreshOtherTabs]
   );
   const { handleAddTx } = useStockTxAdd(
     stockMaster.id,
-    refreshStockTx,
+    onStockTxAdd,
     fetchStockMaster
   );
   const { getChartData } = useGetChartData();
@@ -140,7 +139,7 @@ function useStockDetail(
                 .id
             : -1;
         fetchStockMasterNames();
-        fetchAllStockTxs(1, {});
+        refreshOtherTabs();
         initStockMaster(secondStockMasterId);
       }
       return ok;
@@ -148,7 +147,7 @@ function useStockDetail(
     [
       deleteStockMaster,
       fetchStockMasterNames,
-      fetchAllStockTxs,
+      refreshOtherTabs,
       initStockMaster,
       stockMasterNames,
       stockMaster
@@ -197,7 +196,7 @@ function useStockDetail(
   );
   const stockNameState = useMemo(
     () => ({
-      isLoading: isLoadingStockMasterNames || stockMasterState.isLoading,
+      isLoading:  stockMasterState.isLoading,
       stockName: stockMaster.name,
       stockMasterNames: stockMasterNames,
       handleStockMasterChange,
@@ -208,7 +207,6 @@ function useStockDetail(
       handleStockSearch,
       stockMaster,
       stockMasterState.isLoading,
-      isLoadingStockMasterNames,
       stockMasterNames
     ]
   );

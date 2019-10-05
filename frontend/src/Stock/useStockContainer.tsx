@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { History } from "history";
 
 import useStockTx from "./useStockTx";
@@ -14,20 +14,25 @@ function useStockContainer(history: History) {
     ...stockMasterNamesState
   } = useStockMasterNames();
   const stockTxStateI = useStockTx();
-  const stockPortfolioState = useStockPortfolio();
+  const { refreshStockPortfolio, ...stockPortfolioState } = useStockPortfolio();
+
+  const { handleListChange } = stockTxStateI;
+  const refreshOtherTabs = useCallback(
+    () => {
+      handleListChange(1, {});
+      refreshStockPortfolio();
+    },
+    [handleListChange, refreshStockPortfolio]
+  );
+
   const stockDetailState = useStockDetail(
     fetchStockMasterNames,
-    stockTxStateI.handleListChange,
-    stockMasterNamesState.isLoading,
+    refreshOtherTabs,
     stockMasterNamesState.stockMasterNames
   );
 
   const stockTxState = useMemo(
-    () => {
-      const isLoading =
-        stockTxStateI.isLoading || stockMasterNamesState.isLoading;
-      return { ...stockTxStateI, ...stockMasterNamesState, isLoading };
-    },
+    () => ({ ...stockMasterNamesState, ...stockTxStateI }),
     [stockTxStateI, stockMasterNamesState]
   );
 
