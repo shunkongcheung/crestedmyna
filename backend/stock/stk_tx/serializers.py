@@ -3,6 +3,7 @@ from .utils import (
     get_stock_master_realized_value,
     get_stock_master_share_count,
     get_stock_master_market_value,
+    get_stock_master_unrealized_value,
     get_stock_profile,
     get_stock_tx_gross_value,
     get_stock_tx_net_value,
@@ -35,11 +36,20 @@ class StockTxSerializer(MyBaseSerializer):
 
     def save(self):
         instance = super().save()
+
         # update master after save
         stock_master = instance.stock_master
         stock_master.share_count = get_stock_master_share_count(stock_master)
-        stock_master.market_value = get_stock_master_market_value(stock_master)
+
+        market_value = get_stock_master_market_value(stock_master)
+        stock_master.market_value = market_value
+
         stock_master.realized_value = \
             get_stock_master_realized_value(stock_master)
+        stock_master.unrealized_value = get_stock_master_unrealized_value(
+            stock_master,
+            market_value
+        )
         stock_master.save()
+
         return instance

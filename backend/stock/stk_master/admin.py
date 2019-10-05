@@ -12,6 +12,7 @@ class StockMasterAdmin(MyBaseAdmin):
                     'market_value',
                     'realized_value',
                     'sector',
+                    'unrealized_value',
                     ]
 
 
