@@ -1,16 +1,16 @@
+from rest_framework.permissions import IsAdminUser
+
 from base.apis import (
     MyCreateAPIView,
     MyListAPIView,
     MyObjectAPIView,
 )
-from rest_framework.permissions import IsAdminUser
-from rest_framework import filters
 
 from .models import StockMaster
 from .serializers import StockMasterSerializer
 
 
-fields = ['stock_code', ]
+fields = ['stock_code', 'sector', ]
 read_only_fields = ['name',
                     'share_count',
                     'market_price',
@@ -27,7 +27,6 @@ class StockMasterCreateAPIView(MyCreateAPIView):
 
 class StockMasterListAPIView(MyListAPIView):
     model = StockMaster
-    filter_backends = [filters.OrderingFilter]
     ordering_fields = ['market_price',
                        'market_value',
                        'name',
