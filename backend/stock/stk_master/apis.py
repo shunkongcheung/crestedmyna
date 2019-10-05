@@ -15,7 +15,9 @@ read_only_fields = ['name',
                     'share_count',
                     'market_price',
                     'market_value',
-                    'realized_value', ]
+                    'realized_value',
+                    'unrealized_value',
+                    ]
 
 
 class StockMasterCreateAPIView(MyCreateAPIView):
