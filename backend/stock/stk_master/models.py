@@ -11,3 +11,8 @@ class StockMaster(MyBaseModel):
     market_price = models.FloatField(default=0)  # update on refresh
     market_value = models.FloatField(default=0.0)  # share_count * market_price
     realized_value = models.FloatField(default=0.0)
+
+    sector = models.ForeignKey('stock.StockSectorMaster',
+                               on_delete=models.CASCADE,
+                               related_name='stock_masters',
+                               )

@@ -7,8 +7,11 @@ from .models import StockMaster
 # Register your models here.
 class StockMasterAdmin(MyBaseAdmin):
     list_display = ['stock_code',
-                    'share_count', 'market_price',
-                    'market_value', 'realized_value',
+                    'share_count',
+                    'market_price',
+                    'market_value',
+                    'realized_value',
+                    'sector',
                     ]
 
 
