@@ -16,7 +16,7 @@ function useStockPage(history: History) {
   const setPageOnHistoryChange = useCallback(location => {
     const { pathname } = location;
     if (pathname.includes("portfolio")) setPage("portfolio");
-    if (pathname.includes("txes")) setPage("txes");
+    else if (pathname.includes("txes")) setPage("txes");
     else setPage("detail");
   }, []);
 
