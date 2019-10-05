@@ -1,6 +1,8 @@
 import React, { memo, useCallback, useMemo } from "react";
-import { Table, Tag } from "antd";
+import { Table } from "antd";
 import PropTypes from "prop-types";
+
+import classNames from "./StockMasterTable.module.scss";
 
 type TOrderBy =
   | "marketValue"
@@ -93,10 +95,20 @@ function StockMasterTable({
   );
   const pagination = useMemo(() => ({ current: page, total }), [page, total]);
 
+  const renderedFooter = useCallback(() => {
+    return (
+      <div className={classNames.footer}>
+        <span className={classNames.star}>*</span>
+				<span>Please refresh if you edited on summary tab.</span>
+      </div>
+    );
+  }, []);
+
   return (
     <>
       <Table
         columns={columns}
+        footer={renderedFooter}
         dataSource={keyedData}
         onChange={onChange}
         pagination={pagination}
