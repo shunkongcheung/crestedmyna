@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import MediaAddBtn from "./MediaAddBtn";
 import MediaItem from "./MediaItem";
 
+import classNames from "./MediaField.module.scss";
+
 interface IMediaVal {
   media: {
     name: string;
@@ -32,18 +34,7 @@ function MediaField({
 }: IMediaFieldProps & FormikProps<IMediaVal>) {
   return (
     <>
-      <div
-        className="MuiFormLabel-root"
-        style={{
-          display: "flex",
-          justifyContent: "flex-start",
-          marginTop: "1rem",
-          marginBottom: "0.5rem"
-        }}
-      >
-        Media
-      </div>
-      <div>
+      <div className={classNames.mediaFieldContainer}>
         <MediaAddBtn handleAddMedia={handleAddMedia} {...formikProps} />
         {medias.map(itm => {
           const key = `MediaItem-${itm.id}`;
@@ -55,6 +46,7 @@ function MediaField({
             />
           );
         })}
+        <div className={classNames.mediaFieldClear} />
       </div>
     </>
   );
