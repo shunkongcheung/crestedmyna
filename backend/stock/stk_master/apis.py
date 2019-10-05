@@ -10,12 +10,12 @@ from .models import StockMaster
 from .serializers import StockMasterSerializer
 
 
-fields = ['stock_code', 'sector', ]
+fields = ['sector', 'stock_code', ]
 read_only_fields = ['name',
-                    'share_count',
                     'market_price',
                     'market_value',
                     'realized_value',
+                    'share_count',
                     'unrealized_value',
                     ]
 
@@ -35,6 +35,7 @@ class StockMasterListAPIView(MyListAPIView):
                        'realized_value',
                        'stock_code',
                        'share_count',
+                       'unrealized_value',
                        ]
 
     def get_queryset_by_id(self, queryset, ids):
