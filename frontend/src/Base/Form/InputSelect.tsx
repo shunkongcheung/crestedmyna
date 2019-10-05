@@ -1,13 +1,15 @@
-import React, { memo, useCallback, useMemo, useState } from "react";
+import React, { memo, useCallback, useMemo, useRef } from "react";
+import { Select } from "antd";
 import { FormikProps } from "formik";
 import PropTypes from "prop-types";
 
-import CreatableSelect from "react-select/creatable";
+const { Option } = Select;
 
 interface IInputSelectProps {
   choices: Array<{ name: string; id: any }>;
+  label?: string;
   name: string;
-  onValueChange?: (value: number | string) => any;
+  onSearch?: (value: number | string) => any;
 }
 
 interface ISelectValue {
@@ -17,44 +19,71 @@ interface ISelectValue {
 
 function InputSelect({
   choices,
+  label,
   name,
-  onValueChange,
+  onSearch,
   ...formikProps
 }: IInputSelectProps & FormikProps<{ [x: string]: any }>) {
   const { setFieldTouched, setFieldValue } = formikProps;
-  const [selectValue, setSelectValue] = useState<ISelectValue>({
-    label: "",
-    value: -1
-  });
+  const searchValue = useRef<string>("");
 
   const handleSelectChange = useCallback(
-    (newValue: any, actionMeta: any) => {
-      setSelectValue(newValue);
-      const value = newValue ? newValue.value : "";
-      setFieldValue(name, value);
-      if (onValueChange) onValueChange(value);
+    (newValue: any) => {
+      setFieldValue(name, newValue);
+      searchValue.current = "";
     },
-    [name, onValueChange, setFieldValue]
+    [name, setFieldValue]
   );
   const handleSelectBlur = useCallback(
-    () => setFieldTouched(name, true, true),
-    [name, setFieldTouched]
+    () => {
+      setFieldTouched(name, true, true);
+      if (searchValue.current && onSearch) {
+        const tempValue = searchValue.current;
+        searchValue.current = "";
+        onSearch(tempValue);
+      }
+    },
+    [name, onSearch, setFieldTouched]
+  );
+  const handleSearch = useCallback(
+    (value: any) => {
+      if (!onSearch) return;
+      if (!value) return;
+      searchValue.current = value;
+    },
+    [onSearch]
   );
 
-  const parsedChoices = useMemo(
-    () => choices.map(itm => ({ label: itm.name, value: itm.id })),
+  const filterOption = useCallback(
+    (input, option) =>
+      option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0,
+    []
+  );
+
+  const renderedChoices = useMemo(
+    () =>
+      choices.map((itm, key) => (
+        <Option key={key} value={itm.id}>
+          {itm.name}
+        </Option>
+      )),
     [choices]
   );
 
   return (
-    <CreatableSelect
-      isClearable
-      onChange={handleSelectChange}
-      name={name}
+    <Select
+      allowClear
+      filterOption={filterOption}
       onBlur={handleSelectBlur}
-      options={parsedChoices}
-      value={selectValue}
-    />
+      onChange={handleSelectChange}
+      onSearch={handleSearch}
+      optionFilterProp="children"
+      placeholder={label}
+      showSearch
+      style={{ width: "100%" }}
+    >
+      {renderedChoices}
+    </Select>
   );
 }
 
@@ -65,6 +94,7 @@ InputSelect.propTypes = {
       id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
     })
   ).isRequired,
+  label: PropTypes.string,
   name: PropTypes.string.isRequired,
   onValueChange: PropTypes.func
 };
