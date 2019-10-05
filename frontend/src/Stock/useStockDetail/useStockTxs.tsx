@@ -38,10 +38,11 @@ function useStockTxs() {
   const fetchStockTxs = useCallback(
     async (stockMasterId: number, page: number) => {
       setStockTxsState(oState => ({ ...oState, isLoading: true }));
-      const { ok, payload } = await fetchList(
-        `stock/stk_tx/${stockMasterId}/`,
-        { page }
-      );
+      const { ok, payload } = await fetchList(`stock/stk_tx/list/`, {
+        page,
+        page_size: 1000,
+        stock_master__in: stockMasterId
+      });
       if (!ok)
         return setStockTxsState(oState => ({ ...oState, isLoading: false }));
       setStockTxsState({
