@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useRef } from "react";
 import useChartRange from "./useChartRange";
 import useCCASSParticipantDetails from "./useCCASSParticipantDetails";
 import useGetChartData from "./useGetChartData";
-import useStockPrices from "./useStockPrices";
+import useStockTrends from "./useStockTrends";
 import useStockMaster from "./useStockMaster";
 import useStockTxAdd from "./useStockTxAdd";
 import useStockTxs from "./useStockTxs";
@@ -16,7 +16,7 @@ function useStockDetail(
   stockMasterNames: Array<{ name: string; id: number }>
 ) {
   const isInitialzed = useRef(false);
-  const { fetchStockPrices, stockPricesState } = useStockPrices();
+  const { fetchStockTrends, stockTrendsState } = useStockTrends();
   const {
     fetchParticipantDetails,
     participantDetailsState
@@ -55,12 +55,12 @@ function useStockDetail(
       const { startDate, endDate } = getDatesFromRange(range);
       return Promise.all([
         fetchParticipantDetails(stockMaster.stockCode, startDate, endDate),
-        fetchStockPrices(stockMaster.stockCode, startDate, endDate)
+        fetchStockTrends(stockMaster.stockCode, startDate, endDate)
       ]);
     },
     [
       fetchParticipantDetails,
-      fetchStockPrices,
+      fetchStockTrends,
       getDatesFromRange,
       setChartRange,
       stockMaster
@@ -74,14 +74,14 @@ function useStockDetail(
       const { startDate, endDate } = getDatesFromRange(range);
       return Promise.all([
         fetchParticipantDetails(stockMaster.stockCode, startDate, endDate),
-        fetchStockPrices(stockMaster.stockCode, startDate, endDate),
+        fetchStockTrends(stockMaster.stockCode, startDate, endDate),
         fetchStockTxs(stockMaster.id, 1)
       ]);
     },
     [
       fetchParticipantDetails,
       fetchStockMaster,
-      fetchStockPrices,
+      fetchStockTrends,
       fetchStockTxs,
       getDatesFromRange,
       range
@@ -94,14 +94,14 @@ function useStockDetail(
       if (nStockMaster)
         return Promise.all([
           fetchParticipantDetails(stockCode, startDate, endDate),
-          fetchStockPrices(stockCode, startDate, endDate),
+          fetchStockTrends(stockCode, startDate, endDate),
           fetchStockMasterNames()
         ]);
     },
     [
       createStockMaster,
       fetchParticipantDetails,
-      fetchStockPrices,
+      fetchStockTrends,
       fetchStockMasterNames,
       getDatesFromRange,
       range
@@ -116,14 +116,14 @@ function useStockDetail(
       setChartRange("week");
       return Promise.all([
         fetchParticipantDetails(nStockMaster.stockCode, startDate, endDate),
-        fetchStockPrices(nStockMaster.stockCode, startDate, endDate),
+        fetchStockTrends(nStockMaster.stockCode, startDate, endDate),
         fetchStockTxs(nStockMaster.id, 1)
       ]);
     },
     [
       fetchParticipantDetails,
       fetchStockMaster,
-      fetchStockPrices,
+      fetchStockTrends,
       fetchStockTxs,
       getDatesFromRange,
       setChartRange
@@ -173,7 +173,7 @@ function useStockDetail(
   const chartState = useMemo(
     () => {
       const isLoading =
-        participantDetailsState.isLoading || stockPricesState.isLoading;
+        participantDetailsState.isLoading || stockTrendsState.isLoading;
       return {
         isLoading,
         ...chartRange,
@@ -181,7 +181,7 @@ function useStockDetail(
           chartRange.startDate,
           chartRange.endDate,
           participantDetailsState.detailSums,
-          stockPricesState.prices,
+          stockTrendsState.prices,
           participantDetailsState.participantDetailsMap
         ),
         handleRangeSelected
@@ -192,7 +192,7 @@ function useStockDetail(
       getChartData,
       handleRangeSelected,
       participantDetailsState,
-      stockPricesState
+      stockTrendsState
     ]
   );
   const stockNameState = useMemo(

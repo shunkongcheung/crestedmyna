@@ -3,14 +3,15 @@ import { useCallback, useState } from "react";
 import { useEditState } from "../../Base/Fetches";
 
 // state ------------------------------------------
-interface IPrice {
+interface ITrend {
   nominalPrice: number;
+  turnover: number;
   date: Date;
 }
 
-interface IStockPricesState {
+interface IStockTrendsState {
   isLoading: boolean;
-  prices: Array<IPrice>;
+  prices: Array<ITrend>;
 }
 
 // fetch ------------------------------------------
@@ -20,18 +21,19 @@ interface IFetchSubmit {
   stock_code: string;
 }
 
-interface IPriceRet {
+interface ITrendRet {
   nominal_price: number;
+  turnover: number;
   date: string;
 }
 
 interface IFetchRet {
-  prices: Array<IPriceRet>;
+  prices: Array<ITrendRet>;
 }
 
-function useStockPrices() {
+function useStockTrends() {
   // state -------------------------------------------------------
-  const [stockPricesState, setStockPricesState] = useState<IStockPricesState>({
+  const [stockTrendsState, setStockTrendsState] = useState<IStockTrendsState>({
     isLoading: false,
     prices: []
   });
@@ -39,20 +41,21 @@ function useStockPrices() {
 
   // methods -----------------------------------------------------
 
-  const fetchStockPrices = useCallback(
+  const fetchStockTrends = useCallback(
     async (stock_code: string, start_date: string, end_date: string) => {
-      setStockPricesState(oState => ({ ...oState, isLoading: true }));
-      const { ok, payload } = await fetchEdit("stock/stk_price/", {
+      setStockTrendsState(oState => ({ ...oState, isLoading: true }));
+      const { ok, payload } = await fetchEdit("stock/stk_trend/", {
         start_date,
         end_date,
         stock_code
       });
       if (!ok) return;
-      setStockPricesState(oState => ({
+      setStockTrendsState(oState => ({
         ...oState,
         isLoading: false,
         prices: payload.prices.map(itm => ({
           nominalPrice: itm.nominal_price,
+          turnover: itm.turnover,
           date: new Date(itm.date)
         }))
       }));
@@ -62,9 +65,9 @@ function useStockPrices() {
 
   // return ------------------------------------------------------
   return {
-    stockPricesState,
-    fetchStockPrices
+    stockTrendsState,
+    fetchStockTrends
   };
 }
 
-export default useStockPrices;
+export default useStockTrends;
