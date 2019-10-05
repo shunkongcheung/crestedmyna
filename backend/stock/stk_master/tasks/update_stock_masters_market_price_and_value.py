@@ -16,23 +16,13 @@ def get_updated_stock_master(stock_master, market_price):
 
 @shared_task
 def update_stock_masters_market_price_and_value():
-    admin_user = get_admin_user()
-    write_syslog(
-        'update_stock_masters_market_price_and_value',
-        'begin',
-        admin_user
-    )
-
+    w_log('begin')
     stock_masters = StockMaster.objects.filter(enable=True)
     stock_codes = stock_masters.distinct('stock_code')\
         .values_list('stock_code', flat=True)
     stock_codes_len = len(stock_codes)
 
-    write_syslog(
-        'update_stock_masters_market_price_and_value',
-        f'unique stock code count {stock_codes_len}',
-        admin_user
-    )
+    w_log(f'unique stock code count {stock_codes_len}')
 
     for idx, stock_code in enumerate(stock_codes):
         last_price = get_stock_last_price(stock_code)
@@ -47,14 +37,15 @@ def update_stock_masters_market_price_and_value():
         related_stock_masters.bulk_update(updated_stock_masters,
                                           ['market_price', 'market_value']
                                           )
-        write_syslog(
-            'update_stock_masters_market_price_and_value',
-            f'{idx}/{stock_codes_len}: {stock_code} {last_price}',
-            admin_user
-        )
+        w_log(f'{idx}/{stock_codes_len}: {stock_code} {last_price}')
 
+    w_log('finished')
+
+
+def w_log(message):
+    admin_user = get_admin_user()
     write_syslog(
         'update_stock_masters_market_price_and_value',
-        'finished',
+        message,
         admin_user
     )
