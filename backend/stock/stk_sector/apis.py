@@ -10,18 +10,5 @@ from base.apis import (
 fields = []
 
 
-class ModelNameCreateAPIView(MyCreateAPIView):
-    fields = fields
-    model = ModelName
-    # serializer_class = ModelNameSerializer
-
-
 class ModelNameListAPIView(MyListAPIView):
-    fields = []
     model = ModelName
-
-
-class ModelNameObjectAPIView(MyObjectAPIView):
-    fields = fields
-    model = ModelName
-    # serializer_class = ModelNameSerializer
