@@ -1,14 +1,14 @@
 from base.admin import MyBaseAdmin
 from django.contrib import admin
 
-# from .models import ModelName
+from .models import StockSectorMaster
 
 
-# # Register your models here.
-# class ModelNameAdmin(MyBaseAdmin):
-#     list_display = ['catagory', 'is_public', 'lookup_value', ]
-#     list_filter = []
-#     search_fields = []
+# Register your models here.
+class StockSectorMasterAdmin(MyBaseAdmin):
+    list_display = []
+    list_filter = []
+    search_fields = []
 
 
-# admin.site.register(ModelName, ModelNameAdmin)
+admin.site.register(StockSectorMaster, StockSectorMasterAdmin)
