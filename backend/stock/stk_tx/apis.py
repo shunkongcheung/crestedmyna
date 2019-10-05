@@ -23,7 +23,6 @@ class StockTxCreateAPIView(MyCreateAPIView):
 
 
 class StockTxListAPIView(MyListAPIView):
-    fields = fields + ['gross_value', 'trade_cost', 'net_value', ]
     model = StockTx
 
     def filter_queryset_by_type(self, queryset, tx_types):
@@ -35,17 +34,20 @@ class StockTxListAPIView(MyListAPIView):
             if stock_masters else queryset
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset()\
+            .filter(stock_master__enable=True)\
+            .order_by('-tx_at')
         query_params = self.request.query_params
         stock_masters = query_params.get('stock_master__in')
         tx_types = query_params.get('tx_type__in')
         queryset = self.filter_queryset_by_type(queryset, tx_types)
         queryset = self.filter_queryset_by_master(queryset, stock_masters)
-        return queryset.filter(stock_master__enable=True)
+        return queryset
 
 
 class StockTxObjectAPIView(MyObjectAPIView):
-    http_methods = ['delete']
+    fields = fields + ['gross_value', 'trade_cost', 'net_value', ]
+    http_methods = ['get', 'delete', ]
     model = StockTx
 
     def perform_destory(self, instance):
