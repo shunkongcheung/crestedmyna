@@ -90,18 +90,20 @@ function useStockDetail(
     async stockCode => {
       const nStockMaster = await createStockMaster(stockCode);
       const { startDate, endDate } = getDatesFromRange(range);
-      if (nStockMaster)
-        return Promise.all([
-          fetchParticipantDetails(stockCode, startDate, endDate),
-          fetchStockTrends(stockCode, startDate, endDate),
-          fetchStockMasterNames()
-        ]);
+      if (!nStockMaster) return;
+      return Promise.all([
+        fetchStockMasterNames(),
+        fetchParticipantDetails(stockCode, startDate, endDate),
+        fetchStockTrends(stockCode, startDate, endDate),
+        fetchStockTxs(nStockMaster.id, 1)
+      ]);
     },
     [
       createStockMaster,
+      fetchStockMasterNames,
       fetchParticipantDetails,
       fetchStockTrends,
-      fetchStockMasterNames,
+      fetchStockTxs,
       getDatesFromRange,
       range
     ]
