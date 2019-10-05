@@ -16,3 +16,5 @@ class StockMaster(MyBaseModel):
                                on_delete=models.CASCADE,
                                related_name='stock_masters',
                                )
+
+    unrealized_value = models.FloatField(default=0.0)
