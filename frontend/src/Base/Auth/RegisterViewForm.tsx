@@ -29,17 +29,29 @@ function RegisterViewForm(
       isSubmitting={formikProps.isSubmitting}
       submitText="REGISTER"
     >
-      <InputText {...formikProps} label="First name" name="first_name" />
-      <InputText {...formikProps} label="Last name" name="last_name" />
-      <InputText {...formikProps} label="Email" name="email" />
-      <InputText {...formikProps} label="Username" name="username" />
-      <InputText {...formikProps} label="Password" name="password" isMask />
-      <InputText
-        {...formikProps}
-        label="Password (again)"
-        name="password_again"
-        isMask
-      />
+      <div style={{ marginBottom: "1rem" }}>
+        <InputText {...formikProps} label="First name" name="first_name" />
+      </div>
+      <div style={{ marginBottom: "1rem" }}>
+        <InputText {...formikProps} label="Last name" name="last_name" />
+      </div>
+      <div style={{ marginBottom: "1rem" }}>
+        <InputText {...formikProps} label="Email" name="email" />
+      </div>
+      <div style={{ marginBottom: "1rem" }}>
+        <InputText {...formikProps} label="Username" name="username" />
+      </div>
+      <div style={{ marginBottom: "1rem" }}>
+        <InputText {...formikProps} label="Password" name="password" isMask />
+      </div>
+      <div style={{ marginBottom: "1rem" }}>
+        <InputText
+          {...formikProps}
+          label="Password (again)"
+          name="password_again"
+          isMask
+        />
+      </div>
     </FormArea>
   );
 }
