@@ -36,7 +36,7 @@ function StockTxTable({ stockTxs, isTxsLoading, page }: IStockTxTableProps) {
     );
   }, []);
   const renderTxAt = useCallback(
-    (txAt: Date) => <span>{txAt.toLocaleString()}</span>,
+    (txAt: Date) => <span>{txAt.toLocaleDateString()}</span>,
     []
   );
   const keyedData = useMemo(
