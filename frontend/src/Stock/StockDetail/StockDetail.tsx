@@ -54,7 +54,7 @@ interface IStockDetailProps {
     handleStockSearch: (search: string) => any;
     handleStockMasterChange: (id: number) => any;
     isLoading: boolean;
-    stockMasters: Array<{ name: string; id: number }>;
+    stockMasterNames: Array<{ name: string; id: number }>;
     stockName: string;
   };
   stockTxTableState: {

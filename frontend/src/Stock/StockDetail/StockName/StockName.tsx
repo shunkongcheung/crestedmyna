@@ -12,7 +12,7 @@ interface IStockNameProps {
   handleStockSearch: (search: string) => any;
   handleStockMasterChange: (id: number) => any;
   isLoading: boolean;
-  stockMasters: Array<{ name: string; id: number }>;
+  stockMasterNames: Array<{ name: string; id: number }>;
   stockName: string;
 }
 
@@ -20,7 +20,7 @@ function StockName({
   handleStockSearch,
   handleStockMasterChange,
   isLoading,
-  stockMasters,
+  stockMasterNames,
   stockName
 }: IStockNameProps) {
   const [isSearching, setIsSearching] = useState(false);
@@ -75,7 +75,7 @@ function StockName({
           <SearchField
             handleStockSearch={handleStockSearchI}
             handleStockMasterChange={handleStockMasterChangeI}
-            stockMasters={stockMasters}
+            stockMasters={stockMasterNames}
           />
         </animated.div>
       </div>
@@ -87,7 +87,7 @@ StockName.propTypes = {
   handleStockSearch: PropTypes.func.isRequired,
   handleStockMasterChange: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  stockMasters: PropTypes.array.isRequired,
+  stockMasterNames: PropTypes.array.isRequired,
   stockName: PropTypes.string.isRequired
 };
 export default memo(StockName);
