@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useDetailState, useListState } from "../Base/Fetches";
+import { useListState } from "../Base/Fetches";
 import { useFetchStockTxs } from "./hooks";
 
 type TTxType = "BUY" | "SELL";
@@ -21,16 +21,6 @@ interface ITx {
   tradeCost: number;
   txAt: Date;
   txType: TTxType;
-}
-interface ITxRet {
-  gross_value: number;
-  net_value: number;
-  price: number;
-  share_count: number;
-  stock_master: number;
-  trade_cost: number;
-  tx_at: string;
-  tx_type: "BUY" | "SELL";
 }
 interface ITxState {
   stockTxs: Array<ITx>;
