@@ -28,7 +28,8 @@ class StockMasterCreateAPIView(MyCreateAPIView):
 class StockMasterListAPIView(MyListAPIView):
     model = StockMaster
     filter_backends = [filters.OrderingFilter]
-    ordering_fields = ['market_value',
+    ordering_fields = ['market_price',
+                       'market_value',
                        'name',
                        'realized_value',
                        'stock_code',
