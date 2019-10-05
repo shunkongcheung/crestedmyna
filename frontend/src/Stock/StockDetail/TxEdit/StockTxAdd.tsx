@@ -4,7 +4,7 @@ import { withFormik, FormikProps } from "formik";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 
-import { InputSelect, InputText, InputDate } from "../../../Base/Form";
+import { InputSelect, InputText, InputDateTime } from "../../../Base/Form";
 
 import classNames from "./StockTxAdd.module.scss";
 
@@ -48,7 +48,7 @@ function StockTxAdd(formikProps: IStockTxAddProps & FormikProps<IStockTx>) {
         <InputText {...formikProps} label="Price" name="price" />
       </div>
       <div className={classNames.addCol}>
-        <InputDate {...formikProps} label="Date" name="txAt" />
+        <InputDateTime {...formikProps} label="Date" name="txAt" mode="date"/>
       </div>
     </div>
   );
