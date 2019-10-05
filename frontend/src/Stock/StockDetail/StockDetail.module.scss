@@ -12,8 +12,6 @@
 }
 
 #colContainer {
-  width: 50%;
-
   @include small-pad-width {
     width: 100%;
   }
@@ -24,12 +22,14 @@
 
 .lineChartContainer {
   @extend #colContainer;
+  width: 65%;
 }
 
 .rightContainer {
   @extend #colContainer;
   display: flex;
   flex-direction: column;
+  width: 35%;
 }
 
 .infoContainer {
