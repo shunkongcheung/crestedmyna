@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from "react";
+import React, { memo, useCallback, useEffect, useRef } from "react";
 import { withFormik, FormikProps } from "formik";
 import PropTypes from "prop-types";
 
@@ -12,7 +12,7 @@ interface ISearchFieldProps {
 interface IFormikProps extends ISearchFieldProps {}
 
 interface IFormikVal {
-  searchName: string;
+  searchName: string | number;
 }
 
 function SearchField({
@@ -21,21 +21,26 @@ function SearchField({
   handleStockSearch,
   ...formikProps
 }: ISearchFieldProps & FormikProps<IFormikVal>) {
-  const onValueChange = useCallback(
-    async value => {
-      if (!value) return;
-      const existing = stockMasters.find(itm => itm.id === value);
-      if (existing) handleStockMasterChange(value);
-      if (typeof value === "string") handleStockSearch(value);
+  const oldName = useRef<undefined | number>();
+  const { values } = formikProps;
+  const { searchName } = values;
+
+  useEffect(
+    () => {
+      if (searchName === undefined) return;
+      if (oldName.current === searchName) return;
+      oldName.current = searchName as number;
+      handleStockMasterChange(searchName as number);
     },
-    [handleStockMasterChange, handleStockSearch, stockMasters]
+    [searchName, handleStockMasterChange]
   );
+
   return (
     <div style={{ marginTop: "0.5rem" }}>
       <InputSelect
         choices={stockMasters}
         name="searchName"
-        onValueChange={onValueChange}
+        onSearch={handleStockSearch as any}
         {...formikProps}
       />
     </div>
