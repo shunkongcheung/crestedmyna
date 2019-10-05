@@ -23,7 +23,7 @@ interface ITx {
 }
 interface ISockTxProps {
   handleListChange: (p: number, filter: IFilter) => any;
-  stockMasters: Array<IStockMaster>;
+  stockMasterNames: Array<IStockMaster>;
   stockTxs: Array<ITx>;
   page: number;
   total: number;
@@ -33,7 +33,7 @@ interface ISockTxProps {
 
 function SockTx({
   handleListChange,
-  stockMasters,
+  stockMasterNames,
   page,
   stockTxs,
   total
@@ -45,10 +45,12 @@ function SockTx({
   );
   const renderStockMaster = useCallback(
     stockMasterId => {
-      const stockMaster = stockMasters.find(itm => itm.id === stockMasterId);
+      const stockMaster = stockMasterNames.find(
+        itm => itm.id === stockMasterId
+      );
       return stockMaster ? stockMaster.name : stockMasterId;
     },
-    [stockMasters]
+    [stockMasterNames]
   );
   const renderTxType = useCallback((txType: TTxType) => {
     let color = "geekblue";
@@ -73,7 +75,7 @@ function SockTx({
     () => [
       {
         dataIndex: "stockMaster",
-        filters: stockMasters.map(itm => ({
+        filters: stockMasterNames.map(itm => ({
           text: itm.name,
           value: `${itm.id}`
         })),
@@ -123,7 +125,7 @@ function SockTx({
         render: renderTxAt
       }
     ],
-    [renderStockMaster, renderTxAt, renderTxType, stockMasters]
+    [renderStockMaster, renderTxAt, renderTxType, stockMasterNames]
   );
   const pagination = useMemo(() => ({ current: page, total }), [page, total]);
   return (

@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import { useListState } from "../Base/Fetches";
 import { useFetchStockTxs } from "./hooks";
 
 type TTxType = "BUY" | "SELL";
@@ -7,10 +6,6 @@ type TTxType = "BUY" | "SELL";
 interface IFilter {
   txType?: Array<TTxType>;
   stockMaster?: Array<number>;
-}
-interface IStockMaster {
-  name: string;
-  id: number;
 }
 interface ITx {
   grossValue: number;
@@ -24,7 +19,6 @@ interface ITx {
 }
 interface ITxState {
   stockTxs: Array<ITx>;
-  stockMasters: Array<IStockMaster>;
   page: number;
   total: number;
   filter?: IFilter;
@@ -34,35 +28,21 @@ function useStockTx() {
   const [txState, setTxState] = useState<ITxState>({
     isLoading: true,
     page: 1,
-    stockMasters: [],
     total: 1,
     stockTxs: []
   });
-  const { fetchList: fetchStockMasters } = useListState<IStockMaster>();
   const { fetchStockTxs } = useFetchStockTxs();
-
-  const getStockMasters = useCallback(
-    async () => {
-      const { ok, payload } = await fetchStockMasters(
-        "stock/stk_master/list/",
-        { page_size: 1000 }
-      );
-      return ok ? payload.results : [];
-    },
-    [fetchStockMasters]
-  );
 
   const handleListChange = useCallback(
     async (page: number = 1, filter: IFilter) => {
       setTxState(oState => ({ ...oState, isLoading: true }));
-      const [{ total, stockTxs }, stockMasters] = await Promise.all([
-        fetchStockTxs(page, filter),
-        getStockMasters()
-      ]);
+      const { total, stockTxs } = await 
+        fetchStockTxs(page, filter)
+      ;
       const isLoading = false;
-      setTxState({ filter, isLoading, stockMasters, page, total, stockTxs });
+      setTxState({ filter, isLoading,  page, total, stockTxs });
     },
-    [fetchStockTxs, getStockMasters]
+    [fetchStockTxs]
   );
 
   useEffect(
