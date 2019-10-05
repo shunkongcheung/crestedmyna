@@ -1,5 +1,6 @@
 import React, { memo, useCallback } from "react";
 import { withFormik, FormikProps } from "formik";
+import { Moment } from "moment";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 
@@ -50,6 +51,7 @@ function JournalEditViewForm({
   ...formikProps
 }: IJournalEditViewFormProps & FormikProps<IFormikVal>) {
   const { values } = formikProps;
+  const { startAt, endAt } = values;
   const { description, medias } = values;
 
   const handleAddMediaI = useCallback(
@@ -60,6 +62,22 @@ function JournalEditViewForm({
     (id: number) => handleDeleteMedia(id, formikProps),
     [formikProps, handleDeleteMedia]
   );
+
+  const disabledEndAt = useCallback(
+    (endAt: Moment | undefined) => {
+      if (!startAt || !endAt) return false;
+      return startAt.valueOf() >= endAt.valueOf();
+    },
+    [startAt]
+  );
+  const disabledStartAt = useCallback(
+    (startAt: Moment | undefined) => {
+      if (!startAt || !endAt) return false;
+      return startAt.valueOf() > endAt.valueOf();
+    },
+    [endAt]
+  );
+
   return (
     <FormArea
       banner="JOURNAL"
@@ -67,8 +85,18 @@ function JournalEditViewForm({
       isSubmitting={formikProps.isSubmitting}
     >
       <InputText {...formikProps} label="Name" name="name" />
-      <InputDateTime {...formikProps} label="Start at" name="startAt" />
-      <InputDateTime {...formikProps} label="End at" name="endAt" />
+      <InputDateTime
+        {...formikProps}
+        disabledDate={disabledStartAt}
+        label="Start at"
+        name="startAt"
+      />
+      <InputDateTime
+        {...formikProps}
+        disabledDate={disabledEndAt}
+        label="End at"
+        name="endAt"
+      />
       <InputText {...formikProps} label="Location" name="location" />
       <MediaField
         {...formikProps}
