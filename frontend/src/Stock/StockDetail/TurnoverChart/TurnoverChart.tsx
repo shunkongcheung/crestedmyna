@@ -13,7 +13,7 @@ interface ITurnoverChartProps {
 function TurnoverChart({ isLoading, labels, turnovers }: ITurnoverChartProps) {
   const { getPrettyNum } = useGetPrettyNum();
   const yAxesUserCallback = useCallback(
-    val => `${getPrettyNum(val / 1000, false)}k`,
+    val => `${getPrettyNum(val / 1000, false)}M`,
     [getPrettyNum]
   );
   const datasets = useMemo(
@@ -40,6 +40,7 @@ function TurnoverChart({ isLoading, labels, turnovers }: ITurnoverChartProps) {
   return (
     <TrendChart
       chartType="Bar"
+			displayLabels={false}
       datasets={datasets}
       isLoading={isLoading}
       labels={labels}

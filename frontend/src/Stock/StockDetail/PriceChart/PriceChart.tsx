@@ -34,6 +34,7 @@ function PriceChart({ isLoading, labels, prices }: IPriceChartProps) {
   return (
     <TrendChart
       datasets={datasets}
+      displayLabels={false}
       isLoading={isLoading}
       labels={labels}
       title="Price"

@@ -1,4 +1,4 @@
-import React, { createElement, memo, useMemo } from "react";
+import React, { createElement, memo, useCallback, useMemo } from "react";
 import * as Charts from "react-chartjs-2";
 import { Spin } from "antd";
 import { Chart, ChartDataSets } from "chart.js";
@@ -8,20 +8,22 @@ import classNames from "./TrendChart.module.scss";
 
 interface ITrendChartProps {
   chartType?: "Bar" | "Line";
+  datasets: Array<ChartDataSets>;
+  displayLabels?: boolean;
   isLoading: boolean;
   labels: Array<string>;
-  datasets: Array<ChartDataSets>;
   title: string;
   yAxesUserCallback?: (item: any) => any;
 }
 
 function TrendChart({
+  displayLabels = true,
   chartType = "Line",
   datasets,
   isLoading,
   labels,
-	title,
-  yAxesUserCallback
+  title,
+  yAxesUserCallback = val => val
 }: ITrendChartProps) {
   const renderedLoading = useMemo(
     () => (
@@ -31,22 +33,35 @@ function TrendChart({
     ),
     []
   );
+  const handleTooltipFooterCallback = useCallback(([tooltipItem]: any) => {
+    const { index } = tooltipItem;
+    return "";
+  }, []);
   const renderedChart = useMemo(
     () => {
       const options: Chart.ChartOptions = {
         legend: { position: "bottom", display: false },
-        title: { position: "left", display: true, text: title }
-      };
-      if (yAxesUserCallback)
-        options.scales = {
+        title: { position: "left", display: true, text: title },
+        tooltips: { callbacks: { footer: handleTooltipFooterCallback } },
+        scales: {
+          xAxes: [{ ticks: { display: displayLabels } }],
           yAxes: [{ ticks: { callback: yAxesUserCallback } }]
-        };
+        }
+      };
       const ChartElement = Charts[chartType];
       const data = { labels, datasets };
       const height = 70;
       return createElement(ChartElement, { data, options, height });
     },
-    [chartType, labels, datasets, title, yAxesUserCallback]
+    [
+      chartType,
+      datasets,
+      displayLabels,
+      handleTooltipFooterCallback,
+      labels,
+      title,
+      yAxesUserCallback
+    ]
   );
 
   const renderedContent = useMemo(
@@ -57,10 +72,11 @@ function TrendChart({
 }
 
 TrendChart.propTypes = {
-  chartType: PropTypes.oneOf(["bar", "line"]).isRequired,
+  chartType: PropTypes.oneOf(["Bar", "Line"]),
+  datasets: PropTypes.array.isRequired,
+  displayLabels: PropTypes.bool,
   isLoading: PropTypes.bool.isRequired,
   labels: PropTypes.arrayOf(PropTypes.string).isRequired,
-  datasets: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,
   yAxesUserCallback: PropTypes.func
 };

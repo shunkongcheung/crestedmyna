@@ -56,7 +56,7 @@ function StockInfo({
       <div className={classNames.row}>
         <div className={classNames.title}>TURNOVER</div>
         <div className={classNames.content}>
-          {getPrettyNum(turnover, false)}
+          {`${getPrettyNum(turnover / 1000, false)} M`}
         </div>
       </div>
       <div className={classNames.row}>
