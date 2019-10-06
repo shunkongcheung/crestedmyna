@@ -1,11 +1,11 @@
 from django.conf.urls import url
 from .apis import StockProfileObjectAPIView
 
-app_name = 'stk_profile'
+app_name = 'stk_portfolio'
 
 urlpatterns = [
-    url(r'^detail/$',
+    url(r'^profile/$',
         StockProfileObjectAPIView.as_view(),
-        name='stk_profile-api-object'
+        name='stk_portfolio-api-profile'
         ),
 ]
