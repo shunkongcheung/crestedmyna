@@ -1,11 +1,9 @@
 import React, { memo, useMemo } from "react";
-import { Line } from "react-chartjs-2";
-import { Spin } from "antd";
 import PropTypes from "prop-types";
 
 import getColors from "./getColors";
 
-import classNames from "../PriceChart/PriceChart.module.scss";
+import {TrendChart} from "../components"
 
 interface ICCASSChartProps {
   detailSums: Array<number>;
@@ -22,14 +20,6 @@ function CCASSChart({
   labels,
   participantDetailsMap
 }: ICCASSChartProps) {
-  const renderedLoading = useMemo(
-    () => (
-      <div className={classNames.loadingContainer}>
-        <Spin />
-      </div>
-    ),
-    []
-  );
   const datasets = useMemo(
     () => {
       const datasets = [
@@ -63,24 +53,11 @@ function CCASSChart({
     [detailSums, participantDetailsMap]
   );
 
-  const renderedChart = useMemo(
-    () => {
-      return (
-        <Line
-          data={{ labels, datasets }}
-          height={100}
-          options={{ legend: { position: "bottom", display: false } }}
-        />
-      );
-    },
-    [labels, datasets]
-  );
-
-  const renderedContent = useMemo(
-    () => (isLoading ? renderedLoading : renderedChart),
-    [isLoading, renderedChart, renderedLoading]
-  );
-  return <>{renderedContent}</>;
+	return <TrendChart 
+		datasets={datasets}
+		labels={labels} 
+		isLoading={isLoading}
+	/>;
 }
 
 CCASSChart.propTypes = {

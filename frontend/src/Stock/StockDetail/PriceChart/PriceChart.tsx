@@ -1,10 +1,7 @@
 import React, { memo, useMemo } from "react";
 import PropTypes from "prop-types";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { Line } from "react-chartjs-2";
-
-import classNames from "./PriceChart.module.scss";
+import { TrendChart } from "../components";
 
 type TRange = "week" | "month" | "year" | "5years";
 interface IPriceChartProps {
@@ -14,15 +11,6 @@ interface IPriceChartProps {
 }
 
 function PriceChart({ isLoading, labels, prices }: IPriceChartProps) {
-  const renderedLoading = useMemo(
-    () => (
-      <div className={classNames.loadingContainer}>
-        <CircularProgress color="secondary" style={{ margin: "0.5rem" }} />
-      </div>
-    ),
-    []
-  );
-
   const datasets = useMemo(
     () => {
       /// get datesets ----------------------------------------------
@@ -44,36 +32,9 @@ function PriceChart({ isLoading, labels, prices }: IPriceChartProps) {
     [prices]
   );
 
-  const renderedChart = useMemo(
-    () => (
-      <div className={classNames.chartContainer}>
-        <Line
-          data={{ labels, datasets }}
-          height={100}
-          options={{
-            legend: { position: "bottom", display: false },
-            scales: {
-              yAxes: [
-                {
-                  display: true,
-                  position: "left",
-                  id: "y-axis-1"
-                }
-              ]
-            }
-          }}
-        />
-      </div>
-    ),
-    [datasets, labels]
+  return (
+    <TrendChart datasets={datasets} isLoading={isLoading} labels={labels} />
   );
-
-  const renderedContent = useMemo(
-    () => (isLoading ? renderedLoading : renderedChart),
-    [isLoading, renderedChart, renderedLoading]
-  );
-
-  return <>{renderedContent}</>;
 }
 
 PriceChart.propTypes = {
