@@ -144,18 +144,18 @@ function StockMasterTable({
         title: "Name"
       },
       {
-        dataIndex: "shareCount",
-        key: "shareCount",
-        render: val => getPrettyNum(val, false),
-        sorter: true,
-        title: "Share"
-      },
-      {
         dataIndex: "marketPrice",
         key: "marketPrice",
         render: renderValue,
         sorter: true,
         title: "Market Price"
+      },
+      {
+        dataIndex: "shareCount",
+        key: "shareCount",
+        render: val => getPrettyNum(val, false),
+        sorter: true,
+        title: "Share"
       },
       {
         dataIndex: "marketValue",
