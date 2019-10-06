@@ -170,31 +170,27 @@ function useStockDetail(
   );
 
   // return --------------------------------------------------
+  const chartRangeState = useMemo(
+    () => ({...chartRange,handleRangeSelected}),
+    [chartRange, handleRangeSelected]
+  );
 
-  const chartState = useMemo(
+  const priceChartState = useMemo(
     () => {
       const isLoading =
         participantDetailsState.isLoading || stockTrendsState.isLoading;
       return {
         isLoading,
-        ...chartRange,
         ...getChartData(
           chartRange.startDate,
           chartRange.endDate,
           participantDetailsState.detailSums,
           stockTrendsState.prices,
           participantDetailsState.participantDetailsMap
-        ),
-        handleRangeSelected
+        )
       };
     },
-    [
-      chartRange,
-      getChartData,
-      handleRangeSelected,
-      participantDetailsState,
-      stockTrendsState
-    ]
+    [chartRange, getChartData, participantDetailsState, stockTrendsState]
   );
   const stockNameState = useMemo(
     () => ({
@@ -238,7 +234,8 @@ function useStockDetail(
   );
 
   return {
-    chartState,
+    chartRangeState,
+    priceChartState,
     stockInfoState,
     stockNameState,
     stockTxTableState,

@@ -4,21 +4,15 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { Line } from "react-chartjs-2";
 
-import RangeSelector from "./RangeSelector";
-
 import classNames from "./PriceChart.module.scss";
 
 type TRange = "week" | "month" | "year" | "5years";
 interface IPriceChartProps {
   detailSums: Array<number>;
-  endDate: Date;
-  handleRangeSelected: (r: TRange) => any;
   labels: Array<string>;
   isLoading: boolean;
   prices: Array<number>;
   participantDetailsMap: { [x: string]: Array<number> };
-  range: TRange;
-  startDate: Date;
 }
 let colorArray = [
   "#FF6633",
@@ -75,14 +69,10 @@ let colorArray = [
 
 function PriceChart({
   detailSums,
-  handleRangeSelected,
   isLoading,
   labels,
   participantDetailsMap,
-  prices,
-  startDate,
-  endDate,
-  range
+  prices
 }: IPriceChartProps) {
   const renderedLoading = useMemo(
     () => (
@@ -176,22 +166,13 @@ function PriceChart({
     [isLoading, renderedChart, renderedLoading]
   );
 
-  return (
-    <>
-      {renderedContent}
-      <RangeSelector handleRangeSelected={handleRangeSelected} range={range} />
-    </>
-  );
+  return <>{renderedContent}</>;
 }
 
 PriceChart.propTypes = {
   detailSums: PropTypes.arrayOf(PropTypes.number).isRequired,
-  endDate: PropTypes.instanceOf(Date).isRequired,
-  handleRangeSelected: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   prices: PropTypes.arrayOf(PropTypes.number).isRequired,
-  participantDetailsMap: PropTypes.object.isRequired,
-  range: PropTypes.oneOf(["week", "month", "year", "5years"]).isRequired,
-  startDate: PropTypes.instanceOf(Date).isRequired
+  participantDetailsMap: PropTypes.object.isRequired
 };
 export default memo(PriceChart);

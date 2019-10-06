@@ -1,6 +1,7 @@
 import React, { memo } from "react";
 
-import MainChart from "./MainChart";
+import PriceChart from "./PriceChart";
+import RangeSelector from "./RangeSelector";
 import StockInfo from "./StockInfo";
 import StockName from "./StockName";
 import StockTxAdd from "./StockTxAdd";
@@ -31,16 +32,16 @@ interface IStockTxSubmit {
 }
 
 interface IStockDetailProps {
-  chartState: {
-    detailSums: Array<number>;
-    endDate: Date;
+  chartRangeState: {
     handleRangeSelected: (r: TRange) => any;
+    range: TRange;
+  };
+  priceChartState: {
+    detailSums: Array<number>;
     labels: Array<string>;
     isLoading: boolean;
     prices: Array<number>;
     participantDetailsMap: { [x: string]: Array<number> };
-    range: TRange;
-    startDate: Date;
   };
   stockInfoState: {
     handleDelete: () => Promise<boolean>;
@@ -72,7 +73,8 @@ interface IStockDetailProps {
 }
 
 function StockDetail({
-  chartState,
+  chartRangeState,
+  priceChartState,
   stockInfoState,
   stockNameState,
   stockTxTableState,
@@ -82,7 +84,8 @@ function StockDetail({
     <>
       <div className={classNames.row}>
         <div className={classNames.lineChartContainer}>
-          <MainChart {...chartState} />
+          <PriceChart {...priceChartState} />
+          <RangeSelector {...chartRangeState} />
         </div>
         <div className={classNames.rightContainer}>
           <div className={classNames.nameContainer}>
