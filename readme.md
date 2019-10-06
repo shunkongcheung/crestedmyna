@@ -1,9 +1,10 @@
 # 0 FEATURE/FIX
-## Frontend
+## frontend
 
 ### stock
-* add turnover & participant table
-* update add tx fields
+* share and market switch columns
+* remove dates of x-axis on some charts
+* turnover and market price move up
 
 ### journal
 * use antd calendar
