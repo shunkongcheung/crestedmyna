@@ -37,7 +37,7 @@ function useStockProfile() {
 
   const initStockProfile = useCallback(
     async () => {
-      const { ok, payload } = await fetchDetail("stock/stk_profile/detail/");
+      const { ok, payload } = await fetchDetail("stock/stk_portfolio/profile/");
       if (!ok)
         return setStockProfileState(oState => ({
           ...oState,
@@ -52,7 +52,7 @@ function useStockProfile() {
   );
 
   const handleStockProfileChange = useCallback(
-    async (data: IStockProfile, formApis:any) => {
+    async (data: IStockProfile, formApis: any) => {
       const { ok, payload } = await fetchEdit(
         "stock/stk_profile/detail/",
         {
