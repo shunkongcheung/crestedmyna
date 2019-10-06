@@ -1,5 +1,6 @@
-import React, { memo } from "react";
+import React, { memo, useMemo } from "react";
 
+import CCASSChart from "./CCASSChart";
 import PriceChart from "./PriceChart";
 import RangeSelector from "./RangeSelector";
 import StockInfo from "./StockInfo";
@@ -80,11 +81,21 @@ function StockDetail({
   stockTxTableState,
   txEditState
 }: IStockDetailProps) {
+  const ccassChartState = useMemo(
+    () => ({
+      participantDetailsMap: priceChartState.participantDetailsMap,
+      isLoading: priceChartState.isLoading,
+      detailSums: priceChartState.detailSums,
+      labels: priceChartState.labels
+    }),
+    [priceChartState]
+  );
   return (
     <>
       <div className={classNames.row}>
         <div className={classNames.lineChartContainer}>
           <PriceChart {...priceChartState} />
+          <CCASSChart {...ccassChartState} />
           <RangeSelector {...chartRangeState} />
         </div>
         <div className={classNames.rightContainer}>
