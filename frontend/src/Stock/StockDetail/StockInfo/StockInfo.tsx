@@ -2,6 +2,8 @@ import React, { useCallback, memo } from "react";
 import { Popconfirm, message } from "antd";
 import PropTypes from "prop-types";
 
+import { useGetPrettyNum } from "../../hooks";
+
 import classNames from "./StockInfo.module.scss";
 
 interface IStockInfoProps {
@@ -10,6 +12,7 @@ interface IStockInfoProps {
   shareCount: number;
   marketPrice: number;
   marketValue: number;
+  turnover: number;
   realizedValue: number;
   unrealizedValue: number;
 }
@@ -20,9 +23,11 @@ function StockInfo({
   shareCount,
   marketPrice,
   marketValue,
+  turnover,
   realizedValue,
   unrealizedValue
 }: IStockInfoProps) {
+  const { getPrettyNum } = useGetPrettyNum();
   const handleDeleteI = useCallback(
     async () => {
       const ok = await handleDelete();
@@ -37,7 +42,7 @@ function StockInfo({
         <div className={classNames.content}>{stockCode}</div>
       </div>
       <div className={classNames.row}>
-        <div className={classNames.title}>SHARES</div>
+        <div className={classNames.title}>SHARE</div>
         <div className={classNames.content}>{shareCount}</div>
       </div>
       <div className={classNames.row}>
@@ -46,15 +51,23 @@ function StockInfo({
       </div>
       <div className={classNames.row}>
         <div className={classNames.title}>MARKET VALUE</div>
-        <div className={classNames.content}>${marketValue}</div>
+        <div className={classNames.content}>${getPrettyNum(marketValue)}</div>
+      </div>
+      <div className={classNames.row}>
+        <div className={classNames.title}>TURNOVER</div>
+        <div className={classNames.content}>
+          {getPrettyNum(turnover, false)}
+        </div>
       </div>
       <div className={classNames.row}>
         <div className={classNames.title}>REALIZED GAIN/LOSS</div>
-        <div className={classNames.content}>${realizedValue.toFixed(2)}</div>
+        <div className={classNames.content}>${getPrettyNum(realizedValue)}</div>
       </div>
       <div className={classNames.row}>
         <div className={classNames.title}>UNREALIZED GAIN/LOSS</div>
-        <div className={classNames.content}>${unrealizedValue.toFixed(2)}</div>
+        <div className={classNames.content}>
+          ${getPrettyNum(unrealizedValue)}
+        </div>
       </div>
       <div className={classNames.row}>
         <Popconfirm

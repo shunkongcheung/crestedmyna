@@ -13,6 +13,7 @@ interface IStockMaster {
   marketPrice: number;
   marketValue: number;
   realizedValue: number;
+  turnover: number;
   unrealizedValue: number;
 }
 interface IStockMasterState {
@@ -28,6 +29,7 @@ interface IStockMasterRet {
   market_price: number;
   market_value: number;
   realized_value: number;
+  turnover: number;
   unrealized_value: number;
 }
 interface IStockMasterSubmit {
@@ -43,6 +45,7 @@ function getInitialStockMaster() {
     marketPrice: 0,
     marketValue: 0,
     realizedValue: 0,
+    turnover: 0,
     unrealizedValue: 0
   };
 }
@@ -67,6 +70,7 @@ function useStockMaster() {
         shareCount: payload.share_count,
         marketPrice: payload.market_price,
         marketValue: payload.market_value,
+        turnover: payload.turnover,
         realizedValue: payload.realized_value,
         unrealizedValue: payload.unrealized_value
       };

@@ -56,6 +56,7 @@ interface IStockDetailProps {
     marketPrice: number;
     marketValue: number;
     realizedValue: number;
+    turnover: number;
     unrealizedValue: number;
   };
   stockNameState: {
