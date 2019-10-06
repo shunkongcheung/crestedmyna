@@ -19,9 +19,9 @@ function TurnoverChart({ isLoading, labels, turnovers }: ITurnoverChartProps) {
           label: "Turnover",
           pointRadius: 1,
           pointHoverRadius: 1,
-          backgroundColor: "rgba(233,78,128,1)",
-          borderColor: "rgba(233,78,128,1)",
-          pointBorderColor: "rgba(233,78,128,1)",
+          backgroundColor: "rgba(233, 78, 80,1)",
+          borderColor: "rgba(233, 78, 80,1)",
+          pointBorderColor: "rgba(233, 78, 80,1)",
           data: turnovers
         }
       ];
