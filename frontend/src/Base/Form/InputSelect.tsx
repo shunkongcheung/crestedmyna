@@ -1,7 +1,9 @@
 import React, { memo, useCallback, useMemo, useRef } from "react";
-import { Select } from "antd";
+import { Select, Tooltip } from "antd";
 import { FormikProps } from "formik";
 import PropTypes from "prop-types";
+
+import useFormInputsState from "./useFormInputsState";
 
 const { Option } = Select;
 
@@ -25,6 +27,7 @@ function InputSelect({
   ...formikProps
 }: IInputSelectProps & FormikProps<{ [x: string]: any }>) {
   const { setFieldTouched, setFieldValue } = formikProps;
+  const { inputError, style } = useFormInputsState(name, formikProps);
   const searchValue = useRef<string>("");
 
   const handleSelectChange = useCallback(
@@ -71,19 +74,21 @@ function InputSelect({
   );
 
   return (
-    <Select
-      allowClear
-      filterOption={filterOption}
-      onBlur={handleSelectBlur}
-      onChange={handleSelectChange}
-      onSearch={handleSearch}
-      optionFilterProp="children"
-      placeholder={label}
-      showSearch
-      style={{ width: "100%" }}
-    >
-      {renderedChoices}
-    </Select>
+    <Tooltip title={inputError}>
+      <Select
+        allowClear
+        filterOption={filterOption}
+        onBlur={handleSelectBlur}
+        onChange={handleSelectChange}
+        onSearch={handleSearch}
+        optionFilterProp="children"
+        placeholder={label}
+        showSearch
+        style={{ ...style, width: "100%" }}
+      >
+        {renderedChoices}
+      </Select>
+    </Tooltip>
   );
 }
 
