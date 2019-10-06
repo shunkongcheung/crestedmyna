@@ -18,6 +18,8 @@ interface IStockMaster {
   marketPrice: number;
   marketValue: number;
   realizedValue: number;
+  turnover: number;
+  unrealizedCost: number;
   unrealizedValue: number;
 }
 interface IStockMasterTableState {

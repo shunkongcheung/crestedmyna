@@ -20,6 +20,8 @@ interface IStockMaster {
   marketPrice: number;
   marketValue: number;
   realizedValue: number;
+  turnover: number;
+  unrealizedCost: number;
   unrealizedValue: number;
 }
 interface IStockMasterRet {
@@ -29,6 +31,8 @@ interface IStockMasterRet {
   market_price: number;
   market_value: number;
   realized_value: number;
+  turnover: number;
+  unrealized_cost: number;
   unrealized_value: number;
 }
 
@@ -89,7 +93,9 @@ function useStockMasterTableState() {
         marketPrice: payload.market_price,
         marketValue: payload.market_value,
         realizedValue: payload.realized_value,
-        unrealizedValue: payload.unrealized_value,
+        turnover: payload.turnover,
+        unrealizedCost: payload.unrealized_cost,
+        unrealizedValue: payload.unrealized_value
       };
     },
     [fetchDetail]

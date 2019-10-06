@@ -23,6 +23,8 @@ interface IStockMaster {
   marketPrice: number;
   marketValue: number;
   realizedValue: number;
+  turnover: number;
+  unrealizedCost: number;
   unrealizedValue: number;
 }
 interface IStockMasterTableProps {
@@ -97,6 +99,41 @@ function StockMasterTable({
     [renderTag]
   );
 
+  const getPrettyUnrealizedPercent = useCallback(
+    (unrealizedCost: number, unrealizedValue: number) => {
+      if (unrealizedValue === 0) return "-";
+      if (unrealizedCost === 0) return "-";
+      const prettyUnrealizedPercent = getPrettyNum(
+        (unrealizedValue / unrealizedCost) * 100
+      );
+      return `${prettyUnrealizedPercent}%`;
+    },
+    [getPrettyNum]
+  );
+  const renderUnrealizedValueAndPercent = useCallback(
+    ({ unrealizedCost, unrealizedValue }) => {
+      const renderedTag = renderTag(unrealizedValue);
+
+      const prettyUnrealizedPercent = getPrettyUnrealizedPercent(
+        unrealizedCost,
+        unrealizedValue
+      );
+      const prettyUnrealizedValue = getPrettyNum(unrealizedValue);
+      return (
+        <div className={classNames.unrealizedValueAndPercent}>
+          {renderedTag}
+          <div>
+            <div>{prettyUnrealizedValue}</div>
+            <div className={classNames.unrealizedPercentContainer}>
+              {prettyUnrealizedPercent}
+            </div>
+          </div>
+        </div>
+      );
+    },
+    [getPrettyUnrealizedPercent, getPrettyNum, renderTag]
+  );
+
   const columns = useMemo(
     () => [
       {
@@ -136,14 +173,20 @@ function StockMasterTable({
       },
 
       {
-        dataIndex: "unrealizedValue",
-        key: "unrealizedValue",
-        render: renderGainLoss,
+        dataIndex: "unrealizedValueAndPercent",
+        key: "unrealizedValueAndPercent",
+        render: renderUnrealizedValueAndPercent,
         sorter: true,
         title: "Unealized gain/loss"
       }
     ],
-    [renderGainLoss, renderNameAndCode]
+    [
+      getPrettyNum,
+      renderGainLoss,
+      renderValue,
+      renderNameAndCode,
+      renderUnrealizedValueAndPercent
+    ]
   );
   const keyedData = useMemo(
     () =>
@@ -153,6 +196,10 @@ function StockMasterTable({
           name: itm.name,
           stockCode: itm.stockCode,
           realizedValue: itm.realizedValue,
+          unrealizedValue: itm.unrealizedValue
+        },
+        unrealizedValueAndPercent: {
+          unrealizedCost: itm.unrealizedCost,
           unrealizedValue: itm.unrealizedValue
         },
         key
