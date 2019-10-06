@@ -1,6 +1,8 @@
 import React, { memo, useCallback, useMemo } from "react";
-import { Icon, Tag, Table } from "antd";
+import { Icon, Table } from "antd";
 import PropTypes from "prop-types";
+
+import { useGetPrettyNum } from "../hooks";
 
 import classNames from "./StockMasterTable.module.scss";
 
@@ -38,6 +40,7 @@ function StockMasterTable({
   stockMasters,
   total
 }: IStockMasterTableProps) {
+  const { getPrettyNum } = useGetPrettyNum();
   const onChange = useCallback(
     ({ page }, _, extra) => {
       let { order, field } = extra;
@@ -50,10 +53,7 @@ function StockMasterTable({
     [handleListChange]
   );
 
-  const renderValue = useCallback(
-    x => `$${x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
-    []
-  );
+  const renderValue = useCallback(x => `$${getPrettyNum(x)}`, [getPrettyNum]);
 
   const renderTag = useCallback((value: number) => {
     const color = value >= 0 ? "green" : "#e94e80";
@@ -68,7 +68,7 @@ function StockMasterTable({
 
   const renderGainLoss = useCallback(
     (value: number) => {
-      const fixedValue = renderValue(value.toFixed(2));
+      const fixedValue = renderValue(value);
       const renderedTag = renderTag(value);
       return (
         <>
@@ -109,12 +109,14 @@ function StockMasterTable({
       {
         dataIndex: "shareCount",
         key: "shareCount",
+        render: val => getPrettyNum(val, false),
         sorter: true,
         title: "Share"
       },
       {
         dataIndex: "marketPrice",
         key: "marketPrice",
+        render: renderValue,
         sorter: true,
         title: "Market Price"
       },
