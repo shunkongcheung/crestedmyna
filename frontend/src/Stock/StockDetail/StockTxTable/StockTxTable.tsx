@@ -2,6 +2,8 @@ import React, { memo, useCallback, useMemo } from "react";
 import { Tag, Table } from "antd";
 import PropTypes from "prop-types";
 
+import { useGetPrettyNum } from "../../hooks";
+
 type TTxType = "BUY" | "SELL";
 interface IStockProfile {
   txStaticCost: number;
@@ -24,6 +26,14 @@ interface IStockTxTableProps {
 }
 
 function StockTxTable({ stockTxs, isTxsLoading, page }: IStockTxTableProps) {
+  const { getPrettyNum } = useGetPrettyNum();
+
+  const renderValue = useCallback(val => `$${getPrettyNum(val)}`, [
+    getPrettyNum
+  ]);
+  const renderShare = useCallback(val => getPrettyNum(val, false), [
+    getPrettyNum
+  ]);
   const renderTxType = useCallback((txType: TTxType) => {
     let color = "geekblue";
     if (txType === "SELL") {
@@ -49,26 +59,31 @@ function StockTxTable({ stockTxs, isTxsLoading, page }: IStockTxTableProps) {
       {
         title: "Net value",
         dataIndex: "netValue",
+        render: renderValue,
         key: "netValue"
       },
       {
         title: "Share",
         dataIndex: "shareCount",
+        render: renderShare,
         key: "shareCount"
       },
       {
         title: "Price",
         dataIndex: "price",
+        render: renderValue,
         key: "price"
       },
       {
         title: "Gross value",
         dataIndex: "grossValue",
+        render: renderValue,
         key: "grossValue"
       },
       {
         title: "Trade cost",
         dataIndex: "tradeCost",
+        render: renderValue,
         key: "tradeCost"
       },
       {
