@@ -1,8 +1,14 @@
-from base.apis import MyObjectAPIView
+from base.apis import (
+    MyCreateAPIView,
+    MyObjectAPIView,
+)
 from .models import StockProfile
+from .serializers import (
+    StockPortfolioSummarySerializer,
+)
 
 
-class StockPortfolioObjectAPIView(MyObjectAPIView):
+class StockProfileObjectAPIView(MyObjectAPIView):
     fields = ['tx_static_cost', 'tx_proportion_cost']
     http_method = ['get', 'put', ]
     model = StockProfile
@@ -13,3 +19,12 @@ class StockPortfolioObjectAPIView(MyObjectAPIView):
             return None
         object = self.model.objects.get(created_by=user, enable=True)
         return object
+
+
+class StockPortfolioSummaryAPIView(MyCreateAPIView):
+    def get_serializer(self, *args, **kwargs):
+        kwargs['user'] = self.request.user
+        return StockPortfolioSummarySerializer(*args, **kwargs)
+
+    def perform_create(self, valdiated_data):
+        pass

@@ -1,0 +1,1 @@
+from .stock_portfolio_summary_serializer import StockPortfolioSummarySerializer
