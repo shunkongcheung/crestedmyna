@@ -32,7 +32,12 @@ function PriceChart({ isLoading, labels, prices }: IPriceChartProps) {
   );
 
   return (
-    <TrendChart datasets={datasets} isLoading={isLoading} labels={labels} />
+    <TrendChart
+      datasets={datasets}
+      isLoading={isLoading}
+      labels={labels}
+      title="Price"
+    />
   );
 }
 
