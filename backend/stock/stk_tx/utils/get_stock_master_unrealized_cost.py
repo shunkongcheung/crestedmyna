@@ -31,19 +31,17 @@ def get_stock_master_unrealized_buy_net_value(stock_master,
     return unrealized_buy_net_value
 
 
-def get_stock_master_unrealized_value(stock_master,
-                                      market_value=None,
-                                      tx_after=None,
-                                      tx_before=None):
+def get_stock_master_unrealized_cost(stock_master,
+                                     tx_after=None,
+                                     tx_before=None):
     sell_share_count = get_stock_master_share_count_by_type(stock_master,
                                                             StockTx.TX_SELL[0],
                                                             tx_after,
                                                             tx_before
                                                             )
-    market_value = market_value or stock_master.market_value
     buy_net_value = get_stock_master_unrealized_buy_net_value(stock_master,
                                                               sell_share_count,
                                                               tx_after,
                                                               tx_before
                                                               )
-    return market_value - buy_net_value
+    return buy_net_value

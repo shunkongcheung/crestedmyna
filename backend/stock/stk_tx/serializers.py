@@ -3,7 +3,7 @@ from .utils import (
     get_stock_master_realized_value,
     get_stock_master_share_count,
     get_stock_master_market_value,
-    get_stock_master_unrealized_value,
+    get_stock_master_unrealized_cost,
     get_stock_profile,
     get_stock_tx_gross_value,
     get_stock_tx_net_value,
@@ -44,12 +44,12 @@ class StockTxSerializer(MyBaseSerializer):
         market_value = get_stock_master_market_value(stock_master)
         stock_master.market_value = market_value
 
-        stock_master.realized_value = \
-            get_stock_master_realized_value(stock_master)
-        stock_master.unrealized_value = get_stock_master_unrealized_value(
-            stock_master,
-            market_value
-        )
-        stock_master.save()
+        realized_value = get_stock_master_realized_value(stock_master)
+        stock_master.realized_value = realized_value
 
+        unrealized_cost = get_stock_master_unrealized_cost(stock_master)
+        stock_master.unrealized_cost = unrealized_cost
+        stock_master.unrealized_value = market_value - unrealized_cost
+
+        stock_master.save()
         return instance
