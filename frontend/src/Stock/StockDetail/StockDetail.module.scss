@@ -22,14 +22,18 @@
 
 .lineChartContainer {
   @extend #colContainer;
-  width: 65%;
+  @include pc-width {
+    width: 65%;
+  }
 }
 
 .rightContainer {
   @extend #colContainer;
   display: flex;
   flex-direction: column;
-  width: 35%;
+  @include pc-width {
+    width: 35%;
+  }
 }
 
 .infoContainer {
