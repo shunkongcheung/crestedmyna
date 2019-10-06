@@ -36,9 +36,7 @@ function TrendChart({
         options.scales = {
           yAxes: [{ ticks: { callback: yAxesUserCallback } }]
         };
-      return (
-        <Line data={{ labels, datasets }} height={100} options={options} />
-      );
+      return <Line data={{ labels, datasets }} height={70} options={options} />;
     },
     [labels, datasets, yAxesUserCallback]
   );
