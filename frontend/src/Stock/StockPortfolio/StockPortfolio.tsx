@@ -18,6 +18,7 @@ interface IStockMaster {
   marketPrice: number;
   marketValue: number;
   realizedValue: number;
+  unrealizedValue: number;
 }
 interface IStockMasterTableState {
   handleListChange: (p: number, o?: IOrderParams) => any;

@@ -8,3 +8,19 @@
   color: #c44;
   margin-right: 0.2rem;
 }
+
+.nameAndCodeContainer {
+  display: flex;
+}
+.nameTagContainer {
+  display: flex;
+  align-items: center;
+}
+.nameContainer {
+  font-weight: 700;
+  color: #777;
+  font-size: 1rem;
+}
+.stockCodeContainer {
+  font-size: 0.7rem;
+}

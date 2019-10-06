@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useMemo } from "react";
-import { Table } from "antd";
+import { Icon, Tag, Table } from "antd";
 import PropTypes from "prop-types";
 
 import classNames from "./StockMasterTable.module.scss";
@@ -21,6 +21,7 @@ interface IStockMaster {
   marketPrice: number;
   marketValue: number;
   realizedValue: number;
+  unrealizedValue: number;
 }
 interface IStockMasterTableProps {
   handleListChange: (p: number, o?: IOrderParams) => any;
@@ -39,7 +40,8 @@ function StockMasterTable({
 }: IStockMasterTableProps) {
   const onChange = useCallback(
     ({ page }, _, extra) => {
-      const { order, field } = extra;
+      let { order, field } = extra;
+      if (field === "nameAndCode") field = "name";
       if (order) {
         const orderParams = { ordering: field, isAscend: order === "ascend" };
         return handleListChange(1, orderParams);
@@ -48,19 +50,61 @@ function StockMasterTable({
     [handleListChange]
   );
 
+  const renderValue = useCallback(
+    x => `$${x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`,
+    []
+  );
+
+  const renderTag = useCallback((value: number) => {
+    const color = value >= 0 ? "green" : "#e94e80";
+    const padding = "0.5rem";
+    const iconType = `caret-${value >= 0 ? "up" : "down"}`;
+    return (
+      <span style={{ color, padding }}>
+        <Icon type={iconType} />
+      </span>
+    );
+  }, []);
+
+  const renderGainLoss = useCallback(
+    (value: number) => {
+      const fixedValue = renderValue(value.toFixed(2));
+      const renderedTag = renderTag(value);
+      return (
+        <>
+          {renderedTag}
+          {fixedValue}
+        </>
+      );
+    },
+    [renderTag, renderValue]
+  );
+
+  const renderNameAndCode = useCallback(
+    ({ name, stockCode, realizedValue, unrealizedValue }) => {
+      const totalValue = realizedValue + unrealizedValue;
+      const renderedTag = renderTag(totalValue);
+      return (
+        <div className={classNames.nameAndCodeContainer}>
+          <div className={classNames.nameTagContainer}>{renderedTag}</div>
+          <div>
+            <div className={classNames.nameContainer}>{name}</div>
+            <div className={classNames.stockCodeContainer}>{stockCode}</div>
+          </div>
+        </div>
+      );
+    },
+    [renderTag]
+  );
+
   const columns = useMemo(
     () => [
       {
-        dataIndex: "name",
-        key: "name",
+        dataIndex: "nameAndCode",
+        key: "nameAndCode",
+        render: renderNameAndCode,
         sorter: true,
         title: "Name"
-      },
-      {
-        dataIndex: "stockCode",
-        key: "stockCode",
-        sorter: true,
-        title: "Code"
       },
       {
         dataIndex: "shareCount",
@@ -77,20 +121,40 @@ function StockMasterTable({
       {
         dataIndex: "marketValue",
         key: "marketValue",
+        render: renderValue,
         sorter: true,
         title: "Market value"
       },
       {
         dataIndex: "realizedValue",
         key: "realizedValue",
+        render: renderGainLoss,
         sorter: true,
-        title: "Realized value"
+        title: "Realized gain/loss"
+      },
+
+      {
+        dataIndex: "unrealizedValue",
+        key: "unrealizedValue",
+        render: renderGainLoss,
+        sorter: true,
+        title: "Unealized gain/loss"
       }
     ],
-    []
+    [renderGainLoss, renderNameAndCode]
   );
   const keyedData = useMemo(
-    () => stockMasters.map((itm, key) => ({ ...itm, key })),
+    () =>
+      stockMasters.map((itm, key) => ({
+        ...itm,
+        nameAndCode: {
+          name: itm.name,
+          stockCode: itm.stockCode,
+          realizedValue: itm.realizedValue,
+          unrealizedValue: itm.unrealizedValue
+        },
+        key
+      })),
     [stockMasters]
   );
   const pagination = useMemo(() => ({ current: page, total }), [page, total]);
@@ -99,7 +163,7 @@ function StockMasterTable({
     return (
       <div className={classNames.footer}>
         <span className={classNames.star}>*</span>
-				<span>Please refresh if you edited on summary tab.</span>
+        <span>Please refresh if you edited on summary tab.</span>
       </div>
     );
   }, []);
@@ -108,8 +172,9 @@ function StockMasterTable({
     <>
       <Table
         columns={columns}
-        footer={renderedFooter}
         dataSource={keyedData}
+        footer={renderedFooter}
+        loading={isLoading}
         onChange={onChange}
         pagination={pagination}
       />
