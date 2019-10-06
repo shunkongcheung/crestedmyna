@@ -72,16 +72,16 @@ function StockTxTable({
         key: "netValue"
       },
       {
-        title: "Share",
-        dataIndex: "shareCount",
-        render: renderShare,
-        key: "shareCount"
-      },
-      {
         title: "Price",
         dataIndex: "price",
         render: renderValue,
         key: "price"
+      },
+      {
+        title: "Share",
+        dataIndex: "shareCount",
+        render: renderShare,
+        key: "shareCount"
       },
       {
         title: "Gross value",
