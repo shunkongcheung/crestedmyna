@@ -6,10 +6,10 @@ import { Line } from "react-chartjs-2";
 
 import RangeSelector from "./RangeSelector";
 
-import classNames from "./MainChart.module.scss";
+import classNames from "./PriceChart.module.scss";
 
 type TRange = "week" | "month" | "year" | "5years";
-interface IMainChartProps {
+interface IPriceChartProps {
   detailSums: Array<number>;
   endDate: Date;
   handleRangeSelected: (r: TRange) => any;
@@ -73,7 +73,7 @@ let colorArray = [
   "#6666FF"
 ];
 
-function MainChart({
+function PriceChart({
   detailSums,
   handleRangeSelected,
   isLoading,
@@ -83,7 +83,7 @@ function MainChart({
   startDate,
   endDate,
   range
-}: IMainChartProps) {
+}: IPriceChartProps) {
   const renderedLoading = useMemo(
     () => (
       <div className={classNames.loadingContainer}>
@@ -184,7 +184,7 @@ function MainChart({
   );
 }
 
-MainChart.propTypes = {
+PriceChart.propTypes = {
   detailSums: PropTypes.arrayOf(PropTypes.number).isRequired,
   endDate: PropTypes.instanceOf(Date).isRequired,
   handleRangeSelected: PropTypes.func.isRequired,
@@ -194,4 +194,4 @@ MainChart.propTypes = {
   range: PropTypes.oneOf(["week", "month", "year", "5years"]).isRequired,
   startDate: PropTypes.instanceOf(Date).isRequired
 };
-export default memo(MainChart);
+export default memo(PriceChart);
