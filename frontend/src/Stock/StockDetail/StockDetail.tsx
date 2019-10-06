@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from "react";
+import React, { memo } from "react";
 
 import CCASSChart from "./CCASSChart";
 import PriceChart from "./PriceChart";
@@ -33,16 +33,20 @@ interface IStockTxSubmit {
 }
 
 interface IStockDetailProps {
+  ccassChartState: {
+    detailSums: Array<number>;
+    labels: Array<string>;
+    isLoading: boolean;
+    participantDetailsMap: { [x: string]: Array<number> };
+  };
   chartRangeState: {
     handleRangeSelected: (r: TRange) => any;
     range: TRange;
   };
   priceChartState: {
-    detailSums: Array<number>;
     labels: Array<string>;
     isLoading: boolean;
     prices: Array<number>;
-    participantDetailsMap: { [x: string]: Array<number> };
   };
   stockInfoState: {
     handleDelete: () => Promise<boolean>;
@@ -74,6 +78,7 @@ interface IStockDetailProps {
 }
 
 function StockDetail({
+  ccassChartState,
   chartRangeState,
   priceChartState,
   stockInfoState,
@@ -81,15 +86,6 @@ function StockDetail({
   stockTxTableState,
   txEditState
 }: IStockDetailProps) {
-  const ccassChartState = useMemo(
-    () => ({
-      participantDetailsMap: priceChartState.participantDetailsMap,
-      isLoading: priceChartState.isLoading,
-      detailSums: priceChartState.detailSums,
-      labels: priceChartState.labels
-    }),
-    [priceChartState]
-  );
   return (
     <>
       <div className={classNames.row}>
