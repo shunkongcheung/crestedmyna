@@ -1,11 +1,10 @@
 from base.apis import MyObjectAPIView
 from .models import StockProfile
 
-fields = ['tx_static_cost', 'tx_proportion_cost']
 
-
-class StockProfileObjectAPIView(MyObjectAPIView):
-    fields = fields
+class StockPortfolioObjectAPIView(MyObjectAPIView):
+    fields = ['tx_static_cost', 'tx_proportion_cost']
+    http_method = ['get', 'put', ]
     model = StockProfile
 
     def get_object(self):
