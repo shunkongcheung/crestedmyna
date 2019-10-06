@@ -5,7 +5,11 @@ import django.db.models.deletion
 
 from stock.models import StockSectorMaster
 
-undetermined_sector_master = StockSectorMaster.objects.get(name='Undetermined')
+try:
+    undetermined_sector_master = StockSectorMaster.objects\
+        .get(name='Undetermined').pk
+except:
+    undetermined_sector_master = 1
 
 
 class Migration(migrations.Migration):
@@ -18,7 +22,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='stockmaster',
             name='sector',
-            field=models.ForeignKey(default=undetermined_sector_master.pk,
+            field=models.ForeignKey(default=undetermined_sector_master,
                                     on_delete=django.db.models.deletion.CASCADE,
                                     related_name='stock_masters',
                                     to='stock.StockSectorMaster'),
