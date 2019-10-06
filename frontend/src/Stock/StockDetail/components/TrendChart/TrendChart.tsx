@@ -1,7 +1,7 @@
 import React, { memo, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import { Spin } from "antd";
-import { ChartDataSets } from "chart.js";
+import { Chart, ChartDataSets } from "chart.js";
 import PropTypes from "prop-types";
 
 import classNames from "./TrendChart.module.scss";
@@ -10,9 +10,15 @@ interface ITrendChartProps {
   isLoading: boolean;
   labels: Array<string>;
   datasets: Array<ChartDataSets>;
+  yAxesUserCallback?: (item: any) => any;
 }
 
-function TrendChart({ isLoading, labels, datasets }: ITrendChartProps) {
+function TrendChart({
+  datasets,
+  isLoading,
+  labels,
+  yAxesUserCallback
+}: ITrendChartProps) {
   const renderedLoading = useMemo(
     () => (
       <div className={classNames.loadingContainer}>
@@ -23,15 +29,18 @@ function TrendChart({ isLoading, labels, datasets }: ITrendChartProps) {
   );
   const renderedChart = useMemo(
     () => {
+      const options: Chart.ChartOptions = {
+        legend: { position: "bottom", display: false }
+      };
+      if (yAxesUserCallback)
+        options.scales = {
+          yAxes: [{ ticks: { callback: yAxesUserCallback } }]
+        };
       return (
-        <Line
-          data={{ labels, datasets }}
-          height={100}
-          options={{ legend: { position: "bottom", display: false } }}
-        />
+        <Line data={{ labels, datasets }} height={100} options={options} />
       );
     },
-    [labels, datasets]
+    [labels, datasets, yAxesUserCallback]
   );
 
   const renderedContent = useMemo(
@@ -44,6 +53,7 @@ function TrendChart({ isLoading, labels, datasets }: ITrendChartProps) {
 TrendChart.propTypes = {
   isLoading: PropTypes.bool.isRequired,
   labels: PropTypes.arrayOf(PropTypes.string).isRequired,
-  datasets: PropTypes.array.isRequired
+  datasets: PropTypes.array.isRequired,
+  yAxesUserCallback: PropTypes.func
 };
 export default memo(TrendChart);
