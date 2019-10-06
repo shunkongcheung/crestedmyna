@@ -11,7 +11,7 @@ interface ITrend {
 
 interface IStockTrendsState {
   isLoading: boolean;
-  prices: Array<ITrend>;
+  trends: Array<ITrend>;
 }
 
 // fetch ------------------------------------------
@@ -35,7 +35,7 @@ function useStockTrends() {
   // state -------------------------------------------------------
   const [stockTrendsState, setStockTrendsState] = useState<IStockTrendsState>({
     isLoading: false,
-    prices: []
+    trends: []
   });
   const { fetchEdit } = useEditState<IFetchRet, IFetchSubmit>();
 
@@ -53,7 +53,7 @@ function useStockTrends() {
       setStockTrendsState(oState => ({
         ...oState,
         isLoading: false,
-        prices: payload.prices.map(itm => ({
+        trends: payload.prices.map(itm => ({
           nominalPrice: itm.nominal_price,
           turnover: itm.turnover,
           date: new Date(itm.date)

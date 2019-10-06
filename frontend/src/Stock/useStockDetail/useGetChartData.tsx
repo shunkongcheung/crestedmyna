@@ -3,8 +3,9 @@ import moment from "moment";
 
 import useGetNumArray from "./useGetNumArray";
 
-interface IPrice {
+interface ITrend {
   nominalPrice: number;
+  turnover: number;
   date: Date;
 }
 
@@ -53,25 +54,27 @@ function useGetChartDate() {
   }, []);
 
   const getDataWithoutNaN = useCallback(
-    ({ detailSums, labels, participantDetailsMap, prices }) => {
+    ({ detailSums, labels, participantDetailsMap, prices, turnovers }) => {
       const emptyIdxes = getNaNIndexes(prices);
+
       const nonEmptyDetailSums = getArrayWithIndexRemoved(
         detailSums,
         emptyIdxes
       );
       const nonEmptyLabels = getArrayWithIndexRemoved(labels, emptyIdxes);
       const nonEmptyPrices = getArrayWithIndexRemoved(prices, emptyIdxes);
-      const nonEmptyMap: { [x: string]: Array<number> } = {};
+      const nonEmptyTurnovers = getArrayWithIndexRemoved(turnovers, emptyIdxes);
 
-      for (let [name, data] of Object.entries(participantDetailsMap)) {
+      const nonEmptyMap: { [x: string]: Array<number> } = {};
+      for (let [name, data] of Object.entries(participantDetailsMap))
         nonEmptyMap[name] = getArrayWithIndexRemoved(data, emptyIdxes);
-      }
 
       return {
         detailSums: nonEmptyDetailSums,
-        prices: nonEmptyPrices,
         labels: nonEmptyLabels,
-        participantDetailsMap: nonEmptyMap
+        prices: nonEmptyPrices,
+        participantDetailsMap: nonEmptyMap,
+        turnovers: nonEmptyTurnovers
       };
     },
     [getNaNIndexes, getArrayWithIndexRemoved]
@@ -82,7 +85,7 @@ function useGetChartDate() {
       startDate: Date,
       endDate: Date,
       detailSums: Array<IDetailSum>,
-      prices: Array<IPrice>,
+      trends: Array<ITrend>,
       participantDetailsMap: { [x: string]: Array<ICCASSPArticipantDetail> }
     ) => {
       const dateLabels = getLabelsByDates(startDate, endDate);
@@ -94,8 +97,15 @@ function useGetChartDate() {
         endDate
       );
       const priceNums = getNumArray(
-        prices,
+        trends,
         "nominalPrice",
+        "date",
+        startDate,
+        endDate
+      );
+      const turnoverNums = getNumArray(
+        trends,
+        "turnover",
         "date",
         startDate,
         endDate
@@ -116,7 +126,8 @@ function useGetChartDate() {
         detailSums: detailSumNums,
         labels: dateLabels,
         participantDetailsMap: participantDetailsMapNums,
-        prices: priceNums
+        prices: priceNums,
+        turnovers: turnoverNums
       };
 
       return getDataWithoutNaN(withNaNData);

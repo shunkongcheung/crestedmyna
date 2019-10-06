@@ -170,28 +170,49 @@ function useStockDetail(
   );
 
   // return --------------------------------------------------
-  const chartRangeState = useMemo(
-    () => ({...chartRange,handleRangeSelected}),
-    [chartRange, handleRangeSelected]
-  );
-
-  const priceChartState = useMemo(
+  const chartData = useMemo(
     () => {
-      const isLoading =
-        participantDetailsState.isLoading || stockTrendsState.isLoading;
-      return {
-        isLoading,
-        ...getChartData(
-          chartRange.startDate,
-          chartRange.endDate,
-          participantDetailsState.detailSums,
-          stockTrendsState.prices,
-          participantDetailsState.participantDetailsMap
-        )
-      };
+      return getChartData(
+        chartRange.startDate,
+        chartRange.endDate,
+        participantDetailsState.detailSums,
+        stockTrendsState.trends,
+        participantDetailsState.participantDetailsMap
+      );
     },
     [chartRange, getChartData, participantDetailsState, stockTrendsState]
   );
+  const chartRangeState = useMemo(
+    () => ({ ...chartRange, handleRangeSelected }),
+    [chartRange, handleRangeSelected]
+  );
+
+  const ccassChartState = useMemo(
+    () => ({
+      isLoading: participantDetailsState.isLoading,
+      labels: chartData.labels,
+      detailSums: chartData.detailSums,
+      participantDetailsMap: chartData.participantDetailsMap
+    }),
+    [chartData, participantDetailsState]
+  );
+  const priceChartState = useMemo(
+    () => ({
+      isLoading: stockTrendsState.isLoading,
+      labels: chartData.labels,
+      prices: chartData.prices
+    }),
+    [chartData, stockTrendsState]
+  );
+  const turnoverChartState = useMemo(
+    () => ({
+      isLoading: stockTrendsState.isLoading,
+      labels: chartData.labels,
+      turnovers: chartData.turnovers
+    }),
+    [chartData, stockTrendsState]
+  );
+
   const stockNameState = useMemo(
     () => ({
       isLoading: stockMasterState.isLoading,
@@ -234,11 +255,13 @@ function useStockDetail(
   );
 
   return {
+    ccassChartState,
     chartRangeState,
     priceChartState,
     stockInfoState,
     stockNameState,
     stockTxTableState,
+    turnoverChartState,
     txEditState
   };
 }
