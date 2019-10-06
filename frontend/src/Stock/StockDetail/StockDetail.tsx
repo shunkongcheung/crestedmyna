@@ -3,8 +3,8 @@ import React, { memo } from "react";
 import MainChart from "./MainChart";
 import StockInfo from "./StockInfo";
 import StockName from "./StockName";
+import StockTxAdd from "./StockTxAdd";
 import StockTxTable from "./StockTxTable";
-import TxEdit from "./TxEdit";
 
 import classNames from "./StockDetail.module.scss";
 
@@ -93,7 +93,7 @@ function StockDetail({
           </div>
         </div>
       </div>
-      <TxEdit {...txEditState} />
+      <StockTxAdd handleAddTx={txEditState.handleAddTx} />
       <StockTxTable {...stockTxTableState} />
     </>
   );

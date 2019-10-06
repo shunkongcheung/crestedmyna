@@ -111,6 +111,8 @@ function MainChart({
         {
           fill: false,
           label: "Participant total",
+          pointRadius: 1,
+          pointHoverRadius: 1,
           backgroundColor: "rgba(2,78,128,1)",
           borderColor: "rgba(2,78,128,1)",
           pointBorderColor: "rgba(2,78,128,1)",
@@ -124,6 +126,8 @@ function MainChart({
         datasets.push({
           fill: false,
           label,
+          pointRadius: 1,
+          pointHoverRadius: 1,
           backgroundColor: colorArray[idx % colorArray.length],
           borderColor: colorArray[idx % colorArray.length],
           pointBorderColor: colorArray[idx % colorArray.length],
@@ -143,7 +147,7 @@ function MainChart({
       <div className={classNames.chartContainer}>
         <Line
           data={{ labels, datasets }}
-          height={250}
+          height={150}
           options={{
             legend: { position: "bottom", display: false },
             scales: {
