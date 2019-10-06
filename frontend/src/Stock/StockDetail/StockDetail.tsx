@@ -7,6 +7,7 @@ import StockInfo from "./StockInfo";
 import StockName from "./StockName";
 import StockTxAdd from "./StockTxAdd";
 import StockTxTable from "./StockTxTable";
+import TurnoverChart from "./TurnoverChart"
 
 import classNames from "./StockDetail.module.scss";
 
@@ -69,6 +70,11 @@ interface IStockDetailProps {
     stockTxs: Array<IStockTx>;
     page: number;
   };
+  turnoverChartState: {
+    labels: Array<string>;
+    isLoading: boolean;
+    turnovers: Array<number>;
+  };
   txEditState: {
     handleAddTx: (tx: IStockTxSubmit, f: any) => any;
     handleStockProfileChange: (p: IStockProfile, f: any) => any;
@@ -84,6 +90,7 @@ function StockDetail({
   stockInfoState,
   stockNameState,
   stockTxTableState,
+  turnoverChartState,
   txEditState
 }: IStockDetailProps) {
   return (
@@ -91,6 +98,7 @@ function StockDetail({
       <div className={classNames.row}>
         <div className={classNames.lineChartContainer}>
           <PriceChart {...priceChartState} />
+          <TurnoverChart {...turnoverChartState} />
           <CCASSChart {...ccassChartState} />
           <RangeSelector {...chartRangeState} />
         </div>
