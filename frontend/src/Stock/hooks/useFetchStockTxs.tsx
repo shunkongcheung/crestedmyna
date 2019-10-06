@@ -41,7 +41,7 @@ function useFetchStockTxs() {
 
   const getTxIds = useCallback(
     async (page: number, filter: IFilter) => {
-      if (filter) page = 1;
+      if (filter && Object.values(filter).filter(itm => itm).length) page = 1;
       const PAGE_SIZE = 10;
       const filterParams = getTxFilterParams(filter);
       const { ok, payload } = await fetchTxes("stock/stk_tx/list/", {

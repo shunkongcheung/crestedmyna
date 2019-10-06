@@ -36,11 +36,9 @@ function useStockTx() {
   const handleListChange = useCallback(
     async (page: number = 1, filter: IFilter) => {
       setTxState(oState => ({ ...oState, isLoading: true }));
-      const { total, stockTxs } = await 
-        fetchStockTxs(page, filter)
-      ;
+      const { total, stockTxs } = await fetchStockTxs(page, filter);
       const isLoading = false;
-      setTxState({ filter, isLoading,  page, total, stockTxs });
+      setTxState({ filter, isLoading, page, total, stockTxs });
     },
     [fetchStockTxs]
   );
