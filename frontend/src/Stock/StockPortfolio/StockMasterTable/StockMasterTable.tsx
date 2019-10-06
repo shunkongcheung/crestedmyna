@@ -2,7 +2,7 @@ import React, { memo, useCallback, useMemo } from "react";
 import { Icon, Table } from "antd";
 import PropTypes from "prop-types";
 
-import { useGetPrettyNum } from "../hooks";
+import { useGetPrettyNum } from "../../hooks";
 
 import classNames from "./StockMasterTable.module.scss";
 
