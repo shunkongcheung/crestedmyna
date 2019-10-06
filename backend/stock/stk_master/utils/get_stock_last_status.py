@@ -16,7 +16,7 @@ def get_end_date_str():
     return ytd_str
 
 
-def get_stock_last_price(stock_code):
+def get_stock_last_status(stock_code):
     quandl = get_quandl()
     start_date, end_date = get_start_date_str(), get_end_date_str()
     stock = f'HKEX/{stock_code}'
@@ -25,4 +25,5 @@ def get_stock_last_price(stock_code):
     last_record = data.tail(1)
     record_dict = json.loads(last_record.to_json(orient='records'))[0]
     nominal_price = record_dict['Nominal Price']
-    return nominal_price
+    turnover = record_dict['Turnover (000)']
+    return nominal_price, turnover
