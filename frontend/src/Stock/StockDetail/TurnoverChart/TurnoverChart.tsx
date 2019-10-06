@@ -1,7 +1,8 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 
 import { TrendChart } from "../components";
+import { useGetPrettyNum } from "../../hooks";
 
 interface ITurnoverChartProps {
   labels: Array<string>;
@@ -10,6 +11,11 @@ interface ITurnoverChartProps {
 }
 
 function TurnoverChart({ isLoading, labels, turnovers }: ITurnoverChartProps) {
+  const { getPrettyNum } = useGetPrettyNum();
+  const yAxesUserCallback = useCallback(
+    val => `${getPrettyNum(val / 1000, false)}k`,
+    [getPrettyNum]
+  );
   const datasets = useMemo(
     () => {
       /// get datesets ----------------------------------------------
@@ -33,12 +39,12 @@ function TurnoverChart({ isLoading, labels, turnovers }: ITurnoverChartProps) {
 
   return (
     <TrendChart
+      chartType="Bar"
       datasets={datasets}
       isLoading={isLoading}
       labels={labels}
-      yAxesUserCallback={item => {
-        return `${item / 1000}k`;
-      }}
+      title="Turnover"
+      yAxesUserCallback={yAxesUserCallback}
     />
   );
 }
