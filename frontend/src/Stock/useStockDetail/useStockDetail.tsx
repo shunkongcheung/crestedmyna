@@ -108,6 +108,10 @@ function useStockDetail(
       range
     ]
   );
+  const handleTxTableChange = useCallback(
+    (page: number) => fetchStockTxs(stockMaster.id, page),
+    [fetchStockTxs, stockMaster]
+  );
 
   const initStockMaster = useCallback(
     async stockMasterId => {
@@ -238,9 +242,8 @@ function useStockDetail(
   );
   const stockTxTableState = useMemo(
     () => ({
-      isTxsLoading: stockTxsState.isLoading,
-      page: stockTxsState.page,
-      stockTxs: stockTxsState.stockTxs
+      handleListChange: handleTxTableChange,
+      ...stockTxsState
     }),
     [stockTxsState]
   );

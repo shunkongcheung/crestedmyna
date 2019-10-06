@@ -7,7 +7,7 @@ import StockInfo from "./StockInfo";
 import StockName from "./StockName";
 import StockTxAdd from "./StockTxAdd";
 import StockTxTable from "./StockTxTable";
-import TurnoverChart from "./TurnoverChart"
+import TurnoverChart from "./TurnoverChart";
 
 import classNames from "./StockDetail.module.scss";
 
@@ -67,9 +67,11 @@ interface IStockDetailProps {
     stockName: string;
   };
   stockTxTableState: {
-    isTxsLoading: boolean;
+    handleListChange: (p: number) => any;
+    isLoading: boolean;
     stockTxs: Array<IStockTx>;
     page: number;
+    total: number;
   };
   turnoverChartState: {
     labels: Array<string>;

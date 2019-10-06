@@ -20,14 +20,25 @@ interface IStockTx {
 }
 
 interface IStockTxTableProps {
-  isTxsLoading: boolean;
+  handleListChange: (p: number) => any;
+  isLoading: boolean;
   stockTxs: Array<IStockTx>;
   page: number;
+  total: number;
 }
 
-function StockTxTable({ stockTxs, isTxsLoading, page }: IStockTxTableProps) {
+function StockTxTable({
+  handleListChange,
+  isLoading,
+  page,
+  stockTxs,
+  total
+}: IStockTxTableProps) {
   const { getPrettyNum } = useGetPrettyNum();
 
+  const onChange = useCallback(({ current }) => handleListChange(current), [
+    handleListChange
+  ]);
   const renderValue = useCallback(val => `$${getPrettyNum(val)}`, [
     getPrettyNum
   ]);
@@ -36,9 +47,7 @@ function StockTxTable({ stockTxs, isTxsLoading, page }: IStockTxTableProps) {
   ]);
   const renderTxType = useCallback((txType: TTxType) => {
     let color = "geekblue";
-    if (txType === "SELL") {
-      color = "volcano";
-    }
+    if (txType === "SELL") color = "volcano";
     return (
       <Tag color={color} key={txType}>
         {txType}
@@ -99,22 +108,26 @@ function StockTxTable({ stockTxs, isTxsLoading, page }: IStockTxTableProps) {
         render: renderTxAt
       }
     ],
-    [renderTxAt, renderTxType]
+    [renderTxAt, renderTxType, renderShare, renderValue]
   );
+  const pagination = useMemo(() => ({ current: page, total }), [page, total]);
   return (
     <>
       <Table
         columns={columns}
         dataSource={keyedData}
-        loading={isTxsLoading}
-        pagination={false}
+        loading={isLoading}
+        onChange={onChange}
+        pagination={pagination}
       />
     </>
   );
 }
 StockTxTable.propTypes = {
+  handleListChange: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  page: PropTypes.number.isRequired,
   stockTxs: PropTypes.array.isRequired,
-  isTxsLoading: PropTypes.bool.isRequired,
-  page: PropTypes.number.isRequired
+  total: PropTypes.number.isRequired
 };
 export default memo(StockTxTable);
