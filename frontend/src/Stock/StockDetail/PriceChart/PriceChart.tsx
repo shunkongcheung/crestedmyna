@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 import { TrendChart } from "../components";
 
-type TRange = "week" | "month" | "year" | "5years";
 interface IPriceChartProps {
   labels: Array<string>;
   isLoading: boolean;
