@@ -11,11 +11,13 @@ from .serializers import StockMasterSerializer
 
 
 fields = ['sector', 'stock_code', ]
-read_only_fields = ['name',
-                    'market_price',
+read_only_fields = ['market_price',
                     'market_value',
+                    'name',
                     'realized_value',
                     'share_count',
+                    'turnover',
+                    'unrealized_cost',
                     'unrealized_value',
                     ]
 
@@ -29,14 +31,7 @@ class StockMasterCreateAPIView(MyCreateAPIView):
 
 class StockMasterListAPIView(MyListAPIView):
     model = StockMaster
-    ordering_fields = ['market_price',
-                       'market_value',
-                       'name',
-                       'realized_value',
-                       'stock_code',
-                       'share_count',
-                       'unrealized_value',
-                       ]
+    ordering_fields = '__all__'
 
     def get_queryset_by_id(self, queryset, ids):
         return queryset.filter(id__in=ids.split(',')) if ids else queryset
