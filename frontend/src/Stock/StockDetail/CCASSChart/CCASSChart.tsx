@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import getColors from "./getColors";
 
-import {TrendChart} from "../components"
+import { TrendChart } from "../components";
 
 interface ICCASSChartProps {
   detailSums: Array<number>;
@@ -53,11 +53,14 @@ function CCASSChart({
     [detailSums, participantDetailsMap]
   );
 
-	return <TrendChart 
-		datasets={datasets}
-		labels={labels} 
-		isLoading={isLoading}
-	/>;
+  return (
+    <TrendChart
+      datasets={datasets}
+      labels={labels}
+      isLoading={isLoading}
+      title="Participation distribution"
+    />
+  );
 }
 
 CCASSChart.propTypes = {
