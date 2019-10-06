@@ -1,5 +1,5 @@
-import React, { memo, useMemo } from "react";
-import { MdAdd } from "react-icons/md";
+import React, { memo } from "react";
+import { Button } from "antd";
 import { withFormik, FormikProps } from "formik";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
@@ -22,22 +22,13 @@ function StockTxAdd(formikProps: IStockTxAddProps & FormikProps<IStockTx>) {
   const { handleSubmit, values } = formikProps;
   const { txType } = values;
 
-  const iconClassName = useMemo(
-    () =>
-      `${classNames.addIcon} ${
-        txType === "BUY" ? classNames.iconFull : classNames.iconEmpty
-      }`,
-    [txType]
-  );
   return (
     <div className={classNames.container}>
-      <div className={classNames.iconContainer}>
-        <MdAdd className={iconClassName} onClick={() => handleSubmit()} />
-      </div>
-      <div className={classNames.addCol}>
+      <div className={classNames.addCol} style={{ marginLeft: 0 }}>
         <InputSelect
           {...formikProps}
           choices={[{ name: "BUY", id: "BUY" }, { name: "SELL", id: "SELL" }]}
+          label="Transaction type"
           name="txType"
         />
       </div>
@@ -48,7 +39,15 @@ function StockTxAdd(formikProps: IStockTxAddProps & FormikProps<IStockTx>) {
         <InputText {...formikProps} label="Price" name="price" />
       </div>
       <div className={classNames.addCol}>
-        <InputDateTime {...formikProps} label="Date" name="txAt" mode="date"/>
+        <InputDateTime {...formikProps} label="Date" name="txAt" mode="date" />
+      </div>
+      <div className={classNames.iconContainer}>
+        <Button
+          type="primary"
+          shape="circle"
+          icon="plus"
+          onClick={handleSubmit as any}
+        />
       </div>
     </div>
   );
