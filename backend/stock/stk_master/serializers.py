@@ -13,8 +13,7 @@ from stock.models import StockSectorMaster
 
 from .utils import (
     get_stock_info,
-    get_stock_last_price,
-
+    get_stock_last_status,
 )
 
 
@@ -35,8 +34,9 @@ class StockMasterSerializer(MyBaseSerializer):
             raise ValidationError(str(ex))
 
         try:
-            last_price = get_stock_last_price(stock_code)
+            last_price, turnover = get_stock_last_status(stock_code)
             data['market_price'] = last_price
+            data['turnover'] = turnover
         except Exception as ex:
             raise ValidationError(str(ex))
 
@@ -45,9 +45,9 @@ class StockMasterSerializer(MyBaseSerializer):
 
         return data
 
-    def update(self, instance, data):
-        data['market_value'] = data['market_price'] * instance.share_count
-        return super().update(instance, data)
+    # def update(self, instance, data):
+    #     data['market_value'] = data['market_price'] * instance.share_count
+    #     return super().update(instance, data)
 
     def create(self, data):
         stock_master, created = self.Meta.model.objects.update_or_create(
