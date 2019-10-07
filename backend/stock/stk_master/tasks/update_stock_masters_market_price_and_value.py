@@ -45,9 +45,7 @@ def update_stock_masters_market_price_and_value():
                           'turnover',
                           'unrealized_value',
                           ]
-        related_stock_masters.bulk_update(updated_stock_masters,
-                                          updated_fields
-                                          )
+        StockMaster.objects.bulk_update(updated_stock_masters, updated_fields)
         w_log(f'{idx}/{stock_codes_len}: {stock_code} {last_price}')
 
     w_log('finished')
