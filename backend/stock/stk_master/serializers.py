@@ -10,6 +10,7 @@ from rest_framework.serializers import (
 from base.serializers import MyBaseSerializer
 
 from stock.models import StockSectorMaster
+from stock.stk_ccass.tasks import periodic_create_shareholding_disclosure_records
 
 from .utils import (
     get_stock_info,
@@ -56,4 +57,5 @@ class StockMasterSerializer(MyBaseSerializer):
             enable=True,
             defaults=data
         )
+        periodic_create_shareholding_disclosure_records.apply_async()
         return stock_master
