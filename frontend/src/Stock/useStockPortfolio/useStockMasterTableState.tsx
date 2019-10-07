@@ -6,7 +6,8 @@ type TOrderBy =
   | "name"
   | "realizedValue"
   | "stockCode"
-  | "shareCount";
+  | "shareCount"
+  | "unrealizedValue";
 
 interface IOrderParams {
   ordering: TOrderBy;

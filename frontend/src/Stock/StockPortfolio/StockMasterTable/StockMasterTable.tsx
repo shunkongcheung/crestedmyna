@@ -11,7 +11,8 @@ type TOrderBy =
   | "name"
   | "realizedValue"
   | "stockCode"
-  | "shareCount";
+  | "shareCount"
+  | "unrealizedValue";
 interface IOrderParams {
   ordering: TOrderBy;
   isAscend: boolean;
@@ -47,6 +48,7 @@ function StockMasterTable({
     ({ page }, _, extra) => {
       let { order, field } = extra;
       if (field === "nameAndCode") field = "name";
+      if (field === "unrealizedValueAndPercent") field = "unrealizedValue";
       if (order) {
         const orderParams = { ordering: field, isAscend: order === "ascend" };
         return handleListChange(1, orderParams);
