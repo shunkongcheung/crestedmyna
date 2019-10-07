@@ -50,7 +50,10 @@ function TrendChart({
       const options: Chart.ChartOptions = {
         legend: { position: "bottom", display: false },
         title: { position: "left", display: true, text: title },
-        tooltips: { callbacks: { footer: handleTooltipFooterCallback } },
+        tooltips: {
+          callbacks: { footer: handleTooltipFooterCallback },
+          intersect: false
+        },
         scales: {
           xAxes: [
             {
