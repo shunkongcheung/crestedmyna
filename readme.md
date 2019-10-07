@@ -1,12 +1,17 @@
 # 0 ROADMAP
-## frontend
-
-### stock
-* show graph full screen
-* hover not on point but around
-
-### journal
-* use antd calendar
+### frontend
+** listed according to priority **
+- stock: editing of industry
+- stock: portfolio summary
+- stock: portfolio pie chart
+	- industry distribution
+	- unrealized gain/loss
+	- realized gain/loss
+	- market price
+- stock: portfolio industry / stock filter
+- stock: hover not on point but around
+- stock: show graph full screen
+- journal: use antd calendar
 
 
 
@@ -64,7 +69,7 @@ sudo mkdir /var/log/casualapp
 sudo chown -R ubuntu.ubuntu /var/log/casualapp/
 ```
 
-### 1.5 DOMAIN AND CERTIFICATE
+## 1.5 DOMAIN AND CERTIFICATE
 https://www.freenom.com/
 manage domain -> manage freenom DNS -> add record
 https://letsencrypt.org/
@@ -79,12 +84,12 @@ sudo apt-get install certbot python-certbot-nginx
 sudo certbot --nginx
 ```
 
-### 1.6 PYTHON SETUP
+## 1.6 PYTHON SETUP
 ```
 source venv/bin/activate
 ```
 
-### 1.7 RABBITMQ
+## 1.7 RABBITMQ
 ```
 sudo apt-get update
 sudo apt-get upgrade
@@ -110,8 +115,7 @@ usermod -aG sudo shun
 rsync --archive --chown=shun:shun ~/.ssh /home/shun
 ```
 
-######################################################################
-2.0 ROUTINE
+# 2.0 ROUTINE
 
 ### 2.1 DATABASE BACKUP
 ```
