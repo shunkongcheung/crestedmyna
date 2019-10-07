@@ -4,17 +4,16 @@
 ** listed according to priority **
 
 
-1.	stock: editing of industry
-2.	stock: portfolio summary
-3.	stock: portfolio pie chart
+*	stock: editing of industry
+*	stock: portfolio summary
+*	stock: portfolio pie chart
 	*	industry distribution
 	*	unrealized gain/loss
 	*	realized gain/loss
 	*	market price
-4.	stock: portfolio industry / stock filter
-5.	stock: hover not on point but around
-6.	stock: show graph full screen
-7.	journal: use antd calendar
+*	stock: portfolio industry / stock filter
+*	stock: show graph full screen
+*	journal: use antd calendar
 
 
 
