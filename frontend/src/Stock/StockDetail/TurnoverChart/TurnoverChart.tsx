@@ -40,7 +40,7 @@ function TurnoverChart({ isLoading, labels, turnovers }: ITurnoverChartProps) {
   return (
     <TrendChart
       chartType="Bar"
-			displayLabels={false}
+      displayLabels={false}
       datasets={datasets}
       isLoading={isLoading}
       labels={labels}
