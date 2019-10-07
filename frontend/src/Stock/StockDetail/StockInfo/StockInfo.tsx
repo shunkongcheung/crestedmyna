@@ -1,5 +1,5 @@
 import React, { useCallback, memo } from "react";
-import { Popconfirm, message } from "antd";
+import { Popconfirm, Tag, message } from "antd";
 import PropTypes from "prop-types";
 
 import { useGetPrettyNum } from "../../hooks";
@@ -38,6 +38,22 @@ function StockInfo({
   return (
     <>
       <div className={classNames.row}>
+        <div className={classNames.importantTitle}>TURNOVER</div>
+        <div className={classNames.importantContent}>
+          <Tag color="geekblue" style={{ margin: 0 }}>
+            {`${getPrettyNum(turnover / 1000, false)} M`}
+          </Tag>
+        </div>
+      </div>
+      <div className={classNames.row}>
+        <div className={classNames.importantTitle}>LATEST PRICE</div>
+        <div className={classNames.importantContent}>
+          <Tag color="geekblue" style={{ margin: 0 }}>
+            ${marketPrice}
+          </Tag>
+        </div>
+      </div>
+      <div className={classNames.row}>
         <div className={classNames.title}>STOCK CODE</div>
         <div className={classNames.content}>{stockCode}</div>
       </div>
@@ -46,18 +62,8 @@ function StockInfo({
         <div className={classNames.content}>{shareCount}</div>
       </div>
       <div className={classNames.row}>
-        <div className={classNames.title}>LATEST PRICE</div>
-        <div className={classNames.content}>${marketPrice}</div>
-      </div>
-      <div className={classNames.row}>
         <div className={classNames.title}>MARKET VALUE</div>
         <div className={classNames.content}>${getPrettyNum(marketValue)}</div>
-      </div>
-      <div className={classNames.row}>
-        <div className={classNames.title}>TURNOVER</div>
-        <div className={classNames.content}>
-          {`${getPrettyNum(turnover / 1000, false)} M`}
-        </div>
       </div>
       <div className={classNames.row}>
         <div className={classNames.title}>REALIZED GAIN/LOSS</div>

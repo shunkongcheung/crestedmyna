@@ -23,3 +23,13 @@
 .content {
   color: #999;
 }
+
+.importantTitle {
+  @extend .title;
+  font-size: 1rem;
+}
+.importantContent {
+  @extend .content;
+  font-size: 1rem;
+  font-weight: 700;
+}
