@@ -25,5 +25,6 @@ def get_stock_last_status(stock_code):
     last_record = data.tail(1)
     record_dict = json.loads(last_record.to_json(orient='records'))[0]
     nominal_price = record_dict['Nominal Price']
-    turnover = record_dict['Turnover (000)']
+    # turnover = record_dict['Turnover (000)']
+    turnover = record_dict['Share Volume (000)']
     return nominal_price, turnover

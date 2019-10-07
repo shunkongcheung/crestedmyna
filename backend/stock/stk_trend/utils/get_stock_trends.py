@@ -8,12 +8,14 @@ def get_stock_trends(start_date, end_date, stock_code):
 
     columns = {
         'Nominal Price': 'nominal_price',
-        'Turnover (000)': 'turnover'
+        # 'Turnover (000)': 'turnover',
+        'Share Volume (000)': 'turnover',
     }
     data = data.rename(columns=columns)
     data.index.name = 'date'
 
     json_str = data.to_json(orient='table', index=True)
     trends = json.loads(json_str)['data']
+    print(data.columns)
 
     return trends
