@@ -212,7 +212,7 @@ function StockMasterTable({
     return (
       <div className={classNames.footer}>
         <span className={classNames.star}>*</span>
-        <span>Please refresh if you edited on summary tab.</span>
+        <span>I am a useless footer and apology for my spilling</span>
       </div>
     );
   }, []);
