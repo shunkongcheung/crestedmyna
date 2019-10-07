@@ -1,7 +1,7 @@
 # 0 ROADMAP
 ### frontend
 
-** listed according to priority **
+** listed according to priority ** <br/>
 - stock: editing of industry
 - stock: portfolio summary
 - stock: portfolio pie chart
