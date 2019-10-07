@@ -1,10 +1,9 @@
-# 0 FEATURE/FIX
+# 0 ROADMAP
 ## frontend
 
 ### stock
-* share and market switch columns
-* remove dates of x-axis on some charts
-* turnover and market price move up
+* show graph full screen
+* hover not on point but around
 
 ### journal
 * use antd calendar
