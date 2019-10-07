@@ -1,5 +1,6 @@
 # 0 ROADMAP
 ### frontend
+
 ** listed according to priority **
 - stock: editing of industry
 - stock: portfolio summary
@@ -70,11 +71,12 @@ sudo chown -R ubuntu.ubuntu /var/log/casualapp/
 ```
 
 ## 1.5 DOMAIN AND CERTIFICATE
-https://www.freenom.com/
-manage domain -> manage freenom DNS -> add record
-https://letsencrypt.org/
-```
 
+https://www.domain.com/
+manage domain -> manage DNS -> add record
+https://letsencrypt.org/
+
+```
 sudo apt-get update
 sudo apt-get install software-properties-common
 sudo add-apt-repository universe
