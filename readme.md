@@ -113,7 +113,7 @@ sudo apt-get update
 sudo apt-get install -y rabbitmq-server
 ```
 
-### 1.8 USER SETUP
+## 1.8 USER SETUP
 ```
 # login as root
 adduser shun
