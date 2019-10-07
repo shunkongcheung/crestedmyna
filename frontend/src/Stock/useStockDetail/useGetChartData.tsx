@@ -44,14 +44,17 @@ function useGetChartDate() {
     return emptyIdxes.reverse();
   }, []);
 
-  const getArrayWithIndexRemoved = useCallback((numArray, emptyIdxes) => {
-    const newArray = JSON.parse(JSON.stringify(numArray));
-    for (let idx = 0; idx < emptyIdxes.length; idx++) {
-      const emptyIdx = emptyIdxes[idx];
-      newArray.splice(emptyIdx, 1);
-    }
-    return newArray;
-  }, []);
+  const getArrayWithIndexRemoved = useCallback(
+    (numArray, emptyIdxes, padding = NaN) => {
+      const newArray = JSON.parse(JSON.stringify(numArray));
+      for (let idx = 0; idx < emptyIdxes.length; idx++) {
+        const emptyIdx = emptyIdxes[idx];
+        newArray.splice(emptyIdx, 1);
+      }
+      return [padding].concat(newArray).concat([padding]);
+    },
+    []
+  );
 
   const getDataWithoutNaN = useCallback(
     ({ detailSums, labels, participantDetailsMap, prices, turnovers }) => {
@@ -61,7 +64,7 @@ function useGetChartDate() {
         detailSums,
         emptyIdxes
       );
-      const nonEmptyLabels = getArrayWithIndexRemoved(labels, emptyIdxes);
+      const nonEmptyLabels = getArrayWithIndexRemoved(labels, emptyIdxes, "");
       const nonEmptyPrices = getArrayWithIndexRemoved(prices, emptyIdxes);
       const nonEmptyTurnovers = getArrayWithIndexRemoved(turnovers, emptyIdxes);
 
