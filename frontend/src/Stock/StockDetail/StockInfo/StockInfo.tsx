@@ -66,11 +66,11 @@ function StockInfo({
         <div className={classNames.content}>${getPrettyNum(marketValue)}</div>
       </div>
       <div className={classNames.row}>
-        <div className={classNames.title}>REALIZED GAIN/LOSS</div>
+        <div className={classNames.title}>REALISED GAIN/LOSS</div>
         <div className={classNames.content}>${getPrettyNum(realizedValue)}</div>
       </div>
       <div className={classNames.row}>
-        <div className={classNames.title}>UNREALIZED GAIN/LOSS</div>
+        <div className={classNames.title}>UNREALISED GAIN/LOSS</div>
         <div className={classNames.content}>
           ${getPrettyNum(unrealizedValue)}
         </div>

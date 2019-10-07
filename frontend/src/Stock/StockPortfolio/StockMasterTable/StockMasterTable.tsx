@@ -169,7 +169,7 @@ function StockMasterTable({
         key: "realizedValue",
         render: renderGainLoss,
         sorter: true,
-        title: "Realized gain/loss"
+        title: "Realised gain/loss"
       },
 
       {
@@ -177,7 +177,7 @@ function StockMasterTable({
         key: "unrealizedValueAndPercent",
         render: renderUnrealizedValueAndPercent,
         sorter: true,
-        title: "Unealized gain/loss"
+        title: "Unrealised gain/loss"
       }
     ],
     [
