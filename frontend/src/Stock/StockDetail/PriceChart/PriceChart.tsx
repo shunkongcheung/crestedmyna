@@ -49,6 +49,7 @@ function PriceChart({
       datasets={datasets}
       displayLabels={false}
       handleChartPointHover={handleChartPointHover}
+			isTall
       isLoading={isLoading}
       labels={labels}
       title="Price"

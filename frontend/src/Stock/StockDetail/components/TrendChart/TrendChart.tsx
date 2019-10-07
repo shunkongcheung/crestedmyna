@@ -12,6 +12,7 @@ interface ITrendChartProps {
   displayLabels?: boolean;
   handleChartPointHover: (i: number) => any;
   isLoading: boolean;
+  isTall?: boolean;
   labels: Array<string>;
   title: string;
   yAxesUserCallback?: (item: any) => any;
@@ -23,6 +24,7 @@ function TrendChart({
   datasets,
   handleChartPointHover,
   isLoading,
+  isTall = false,
   labels,
   title,
   yAxesUserCallback = val => val
@@ -66,7 +68,7 @@ function TrendChart({
       };
       const ChartElement = Charts[chartType];
       const data = { labels, datasets };
-      const height = displayLabels ? 120 : 70;
+      const height = isTall ? 120 : 60;
       return createElement(ChartElement, { data, options, height });
     },
     [
@@ -74,6 +76,7 @@ function TrendChart({
       datasets,
       displayLabels,
       handleTooltipFooterCallback,
+      isTall,
       labels,
       title,
       yAxesUserCallback
@@ -93,6 +96,7 @@ TrendChart.propTypes = {
   displayLabels: PropTypes.bool,
   handleChartPointHover: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  isTall: PropTypes.bool,
   labels: PropTypes.arrayOf(PropTypes.string).isRequired,
   title: PropTypes.string.isRequired,
   yAxesUserCallback: PropTypes.func
