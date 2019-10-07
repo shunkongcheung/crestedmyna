@@ -1,0 +1,84 @@
+import React, { CSSProperties, memo, useCallback, useMemo } from "react";
+import { animated, useTransition } from "react-spring";
+import PropTypes from "prop-types";
+
+import { useGetPrettyNum } from "../../hooks";
+
+import classNames from "./ChartSummary.module.scss";
+
+interface IChartSummaryProps {
+  dateLabel: string;
+  price: number;
+  turnover: number;
+  participantPercentSum: number;
+}
+
+function ChartSummary({
+  dateLabel,
+  price,
+  turnover,
+  participantPercentSum
+}: IChartSummaryProps) {
+  const { getPrettyNum } = useGetPrettyNum();
+  const transitions = useTransition(dateLabel, dateLabel, {
+    from: { opacity: 0, transform: "translate3d(0,100%,0)" },
+    enter: { opacity: 1, transform: "translate3d(0,0,0)" },
+    leave: { opacity: 0, transform: "translate3d(0,100%,0)" }
+  });
+  const renderRow = useCallback(
+    (data: string, style: CSSProperties, title: string) => (
+      <div className={classNames.row} style={style}>
+        <div className={classNames.titleCol}>{title}</div>
+        <div className={classNames.dataCol}>
+          {transitions.map(({ props, key }: any) => (
+            <animated.div style={{ ...props, position: "absolute" }} key={key}>
+              {data}
+            </animated.div>
+          ))}
+        </div>
+      </div>
+    ),
+    [transitions]
+  );
+
+  const renderedChildren = useMemo(
+    () => {
+      return (
+        <>
+          {renderRow(dateLabel, { marginLeft: 0 }, "DATE")}
+          {renderRow(`$${getPrettyNum(price)}`, {}, "PRICE")}
+          {renderRow(`$${getPrettyNum(turnover / 1000)}M`, {}, "TURNOVER")}
+          {renderRow(
+            `${getPrettyNum(participantPercentSum)}%`,
+            { marginRight: 0 },
+            "PARTICIPANT %"
+          )}
+        </>
+      );
+    },
+    [
+      dateLabel,
+      getPrettyNum,
+      participantPercentSum,
+      price,
+      renderRow,
+      transitions,
+      turnover
+    ]
+  );
+
+  return (
+    <div className={classNames.container}>
+      <div className={classNames.header}>CHARTS</div>
+      <div className={classNames.summaryContainer}>{renderedChildren}</div>
+    </div>
+  );
+}
+
+ChartSummary.propTypes = {
+  dateLabel: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  turnover: PropTypes.number.isRequired,
+  participantPercentSum: PropTypes.number.isRequired
+};
+export default memo(ChartSummary);
