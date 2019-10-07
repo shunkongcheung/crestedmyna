@@ -1,8 +1,5 @@
 # 0 ROADMAP
-### frontend
-
-** listed according to priority **
-
+### frontend \** listed according to priority **
 
 *	stock: editing of industry
 *	stock: portfolio summary
@@ -19,17 +16,14 @@
 
 # 1 SETTING UP SERVER
 
-## 1.1 looking for buntu instance
-```https://www.youtube.com/watch?v=Xlp9G137-MI&t=638s```
-* choose from quick start
-* ubuntu hvm ebs x86
-
+## 1.1 INSTALL UBUNTU ON DIGITAL OCEAN
 
 ## 1.2 CREATE SECURITY GROUP
 * ssh
 * http
 
 ## 1.2 INSTALLATION
+
 ```
 sudo apt-get update
 sudo apt-get install python3.7 nginx git python3-pip libpq-dev postgresql
@@ -43,6 +37,7 @@ tzselect
 ```
 
 ## 1.3 DATABASE
+
 ```
 sudo -u postgres psql
 
@@ -62,6 +57,7 @@ postgres=# \q
 ```
 
 ## 1.4 DIRECTORY SETUP
+
 ```
 sudo mkdir /usr/local/casualapp
 sudo chown ubuntu.ubuntu /usr/local/casualapp
@@ -90,11 +86,15 @@ sudo certbot --nginx
 ```
 
 ## 1.6 PYTHON SETUP
+
+
 ```
 source venv/bin/activate
 ```
 
 ## 1.7 RABBITMQ
+
+
 ```
 sudo apt-get update
 sudo apt-get upgrade
@@ -112,7 +112,9 @@ sudo apt-get update
 sudo apt-get install -y rabbitmq-server
 ```
 
-### 1.8 USER SETUP
+## 1.8 USER SETUP
+
+
 ```
 # login as root
 adduser shun
@@ -123,6 +125,8 @@ rsync --archive --chown=shun:shun ~/.ssh /home/shun
 # 2.0 ROUTINE
 
 ### 2.1 DATABASE BACKUP
+
+
 ```
 ### once
 sudo chown postgres.postgres /usr/local/casualapp/db_backups
