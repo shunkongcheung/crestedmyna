@@ -51,20 +51,12 @@ function ChartSummary({
           {renderRow(
             `${getPrettyNum(participantPercentSum)}%`,
             { marginRight: 0 },
-            "PARTICIPANT %"
+            "CCASS %"
           )}
         </>
       );
     },
-    [
-      dateLabel,
-      getPrettyNum,
-      participantPercentSum,
-      price,
-      renderRow,
-      transitions,
-      turnover
-    ]
+    [dateLabel, getPrettyNum, participantPercentSum, price, renderRow, turnover]
   );
 
   return (
