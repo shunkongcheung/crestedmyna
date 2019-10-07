@@ -22,7 +22,7 @@ function ChartSummary({
   const { getPrettyNum } = useGetPrettyNum();
   const transitions = useTransition(dateLabel, dateLabel, {
     from: { opacity: 0, transform: "scale(1.2)" },
-    enter: { opacity: 1 },
+    enter: { opacity: 1, transform: "scale(1)" },
     leave: { opacity: 0, transform: "scale(0.8)" }
   });
   const renderRow = useCallback(
