@@ -20,14 +20,21 @@ function CCASSChart({
   labels,
   participantDetailsMap
 }: ICCASSChartProps) {
+  const pointRadius = useMemo(
+    () => {
+      if (Array.isArray(labels) && labels.length < 30) return 3;
+      return 1;
+    },
+    [labels]
+  );
   const datasets = useMemo(
     () => {
       const datasets = [
         {
           fill: false,
           label: "Participant total",
-          pointRadius: 1,
-          pointHoverRadius: 1,
+          pointRadius,
+          pointHoverRadius: pointRadius,
           backgroundColor: "rgba(2,78,128,1)",
           borderColor: "rgba(2,78,128,1)",
           pointBorderColor: "rgba(2,78,128,1)",
@@ -50,7 +57,7 @@ function CCASSChart({
       }
       return datasets;
     },
-    [detailSums, participantDetailsMap]
+    [detailSums, participantDetailsMap, pointRadius]
   );
 
   return (

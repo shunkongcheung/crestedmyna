@@ -10,6 +10,13 @@ interface IPriceChartProps {
 }
 
 function PriceChart({ isLoading, labels, prices }: IPriceChartProps) {
+  const pointRadius = useMemo(
+    () => {
+      if (Array.isArray(labels) && labels.length < 30) return 3;
+      return 1;
+    },
+    [labels]
+  );
   const datasets = useMemo(
     () => {
       /// get datesets ----------------------------------------------
@@ -17,8 +24,8 @@ function PriceChart({ isLoading, labels, prices }: IPriceChartProps) {
         {
           fill: false,
           label: "Nominal price",
-          pointRadius: 1,
-          pointHoverRadius: 1,
+          pointRadius,
+          pointHoverRadius: pointRadius,
           backgroundColor: "rgba(233,78,128,1)",
           borderColor: "rgba(233,78,128,1)",
           pointBorderColor: "rgba(233,78,128,1)",
@@ -28,7 +35,7 @@ function PriceChart({ isLoading, labels, prices }: IPriceChartProps) {
 
       return datasets;
     },
-    [prices]
+    [prices, pointRadius]
   );
 
   return (
