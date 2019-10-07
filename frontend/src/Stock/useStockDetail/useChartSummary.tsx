@@ -21,16 +21,24 @@ function useChartSummary(
     turnover: 0
   });
 
+  const getDataOfIndex = useCallback((dataArray: Array<any>, index: number) => {
+    if (!Array.isArray(dataArray) || dataArray.length <= index) {
+      return 0;
+    }
+    const data = dataArray[index];
+    return data !== null ? data : 0;
+  }, []);
+
   const handleChartPointHover = useCallback(
     (index: number) => {
       setChartSummary({
-        dateLabel: dateLabels[index],
-        participantPercentSum: participantPercentSums[index],
-        price: prices[index],
-        turnover: turnovers[index]
+        dateLabel: getDataOfIndex(dateLabels, index),
+        participantPercentSum: getDataOfIndex(participantPercentSums, index),
+        price: getDataOfIndex(prices, index),
+        turnover: getDataOfIndex(turnovers, index)
       });
     },
-    [dateLabels, participantPercentSums, prices, turnovers]
+    [dateLabels, getDataOfIndex, participantPercentSums, prices, turnovers]
   );
 
   useEffect(
