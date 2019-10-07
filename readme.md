@@ -75,7 +75,9 @@ sudo chown -R ubuntu.ubuntu /var/log/casualapp/
 ## 1.5 DOMAIN AND CERTIFICATE
 
 https://www.domain.com/
+
 manage domain -> manage DNS -> add record
+
 https://letsencrypt.org/
 
 ```
