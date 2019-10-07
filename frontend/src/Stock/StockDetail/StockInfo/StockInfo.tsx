@@ -38,18 +38,18 @@ function StockInfo({
   return (
     <>
       <div className={classNames.row}>
-        <div className={classNames.importantTitle}>TURNOVER</div>
-        <div className={classNames.importantContent}>
-          <Tag color="geekblue" style={{ margin: 0 }}>
-            {`${getPrettyNum(turnover / 1000, false)} M`}
-          </Tag>
-        </div>
-      </div>
-      <div className={classNames.row}>
         <div className={classNames.importantTitle}>LATEST PRICE</div>
         <div className={classNames.importantContent}>
           <Tag color="geekblue" style={{ margin: 0 }}>
             ${marketPrice}
+          </Tag>
+        </div>
+      </div>
+      <div className={classNames.row}>
+        <div className={classNames.importantTitle}>TURNOVER</div>
+        <div className={classNames.importantContent}>
+          <Tag color="geekblue" style={{ margin: 0 }}>
+            {`${getPrettyNum(turnover / 1000, false)} M`}
           </Tag>
         </div>
       </div>
