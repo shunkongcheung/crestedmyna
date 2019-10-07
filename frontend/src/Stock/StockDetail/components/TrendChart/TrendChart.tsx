@@ -44,13 +44,23 @@ function TrendChart({
         title: { position: "left", display: true, text: title },
         tooltips: { callbacks: { footer: handleTooltipFooterCallback } },
         scales: {
-          xAxes: [{ ticks: { display: displayLabels } }],
-          yAxes: [{ ticks: { callback: yAxesUserCallback } }]
+          xAxes: [
+            {
+              ticks: { display: displayLabels },
+              gridLines: { offsetGridLines: true }
+            }
+          ],
+          yAxes: [
+            {
+              afterFit: scaleInstance => (scaleInstance.width = 50),
+              ticks: { callback: yAxesUserCallback }
+            }
+          ]
         }
       };
       const ChartElement = Charts[chartType];
       const data = { labels, datasets };
-      const height = 70;
+      const height = displayLabels ? 120 : 70;
       return createElement(ChartElement, { data, options, height });
     },
     [
