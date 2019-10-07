@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 
+import ChartSummary from "./ChartSummary";
 import CCASSChart from "./CCASSChart";
 import PriceChart from "./PriceChart";
 import RangeSelector from "./RangeSelector";
@@ -36,17 +37,25 @@ interface IStockTxSubmit {
 interface IStockDetailProps {
   ccassChartState: {
     detailSums: Array<number>;
-    labels: Array<string>;
+    handleChartPointHover: (i: number) => any;
     isLoading: boolean;
+    labels: Array<string>;
     participantDetailsMap: { [x: string]: Array<number> };
   };
   chartRangeState: {
     handleRangeSelected: (r: TRange) => any;
     range: TRange;
   };
+  chartSummaryState: {
+    dateLabel: string;
+    participantPercentSum: number;
+    price: number;
+    turnover: number;
+  };
   priceChartState: {
-    labels: Array<string>;
+    handleChartPointHover: (i: number) => any;
     isLoading: boolean;
+    labels: Array<string>;
     prices: Array<number>;
   };
   stockInfoState: {
@@ -74,8 +83,9 @@ interface IStockDetailProps {
     total: number;
   };
   turnoverChartState: {
-    labels: Array<string>;
+    handleChartPointHover: (i: number) => any;
     isLoading: boolean;
+    labels: Array<string>;
     turnovers: Array<number>;
   };
   txEditState: {
@@ -89,6 +99,7 @@ interface IStockDetailProps {
 function StockDetail({
   ccassChartState,
   chartRangeState,
+  chartSummaryState,
   priceChartState,
   stockInfoState,
   stockNameState,
@@ -100,6 +111,7 @@ function StockDetail({
     <>
       <div className={classNames.row}>
         <div className={classNames.lineChartContainer}>
+          <ChartSummary {...chartSummaryState} />
           <PriceChart {...priceChartState} />
           <TurnoverChart {...turnoverChartState} />
           <CCASSChart {...ccassChartState} />

@@ -5,12 +5,18 @@ import { TrendChart } from "../components";
 import { useGetPrettyNum } from "../../hooks";
 
 interface ITurnoverChartProps {
-  labels: Array<string>;
+  handleChartPointHover: (i: number) => any;
   isLoading: boolean;
+  labels: Array<string>;
   turnovers: Array<number>;
 }
 
-function TurnoverChart({ isLoading, labels, turnovers }: ITurnoverChartProps) {
+function TurnoverChart({
+  handleChartPointHover,
+  isLoading,
+  labels,
+  turnovers
+}: ITurnoverChartProps) {
   const { getPrettyNum } = useGetPrettyNum();
   const yAxesUserCallback = useCallback(
     val => `${getPrettyNum(val / 1000, false)}M`,
@@ -42,6 +48,7 @@ function TurnoverChart({ isLoading, labels, turnovers }: ITurnoverChartProps) {
       chartType="Bar"
       displayLabels={false}
       datasets={datasets}
+      handleChartPointHover={handleChartPointHover}
       isLoading={isLoading}
       labels={labels}
       title="Turnover"
@@ -51,6 +58,7 @@ function TurnoverChart({ isLoading, labels, turnovers }: ITurnoverChartProps) {
 }
 
 TurnoverChart.propTypes = {
+  handleChartPointHover: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   labels: PropTypes.arrayOf(PropTypes.string).isRequired,
   turnovers: PropTypes.arrayOf(PropTypes.number).isRequired

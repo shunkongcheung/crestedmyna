@@ -7,6 +7,7 @@ import { TrendChart } from "../components";
 
 interface ICCASSChartProps {
   detailSums: Array<number>;
+  handleChartPointHover: (i: number) => any;
   isLoading: boolean;
   labels: Array<string>;
   participantDetailsMap: { [x: string]: Array<number> };
@@ -17,6 +18,7 @@ const COLORS = getColors();
 function CCASSChart({
   detailSums,
   isLoading,
+  handleChartPointHover,
   labels,
   participantDetailsMap
 }: ICCASSChartProps) {
@@ -63,8 +65,9 @@ function CCASSChart({
   return (
     <TrendChart
       datasets={datasets}
-      labels={labels}
+      handleChartPointHover={handleChartPointHover}
       isLoading={isLoading}
+      labels={labels}
       title="Participation distribution"
     />
   );
@@ -72,6 +75,7 @@ function CCASSChart({
 
 CCASSChart.propTypes = {
   detailSums: PropTypes.arrayOf(PropTypes.number).isRequired,
+  handleChartPointHover: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   labels: PropTypes.arrayOf(PropTypes.string).isRequired,
   participantDetailsMap: PropTypes.object.isRequired

@@ -10,6 +10,7 @@ interface ITrendChartProps {
   chartType?: "Bar" | "Line";
   datasets: Array<ChartDataSets>;
   displayLabels?: boolean;
+  handleChartPointHover: (i: number) => any;
   isLoading: boolean;
   labels: Array<string>;
   title: string;
@@ -20,6 +21,7 @@ function TrendChart({
   displayLabels = true,
   chartType = "Line",
   datasets,
+  handleChartPointHover,
   isLoading,
   labels,
   title,
@@ -33,10 +35,14 @@ function TrendChart({
     ),
     []
   );
-  const handleTooltipFooterCallback = useCallback(([tooltipItem]: any) => {
-    const { index } = tooltipItem;
-    return "";
-  }, []);
+  const handleTooltipFooterCallback = useCallback(
+    ([tooltipItem]: any) => {
+      const { index } = tooltipItem;
+      return handleChartPointHover(index);
+    },
+    [handleChartPointHover]
+  );
+
   const renderedChart = useMemo(
     () => {
       const options: Chart.ChartOptions = {
@@ -85,6 +91,7 @@ TrendChart.propTypes = {
   chartType: PropTypes.oneOf(["Bar", "Line"]),
   datasets: PropTypes.array.isRequired,
   displayLabels: PropTypes.bool,
+  handleChartPointHover: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   labels: PropTypes.arrayOf(PropTypes.string).isRequired,
   title: PropTypes.string.isRequired,
