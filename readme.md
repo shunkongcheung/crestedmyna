@@ -110,6 +110,9 @@ echo "deb https://dl.bintray.com/rabbitmq/debian xenial main" | sudo tee /etc/ap
 wget -O- https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | sudo apt-key add -
 sudo apt-get update
 sudo apt-get install -y rabbitmq-server
+
+# !!!! if failed
+sudo find / -name mnesia
 ```
 
 ## 1.8 USER SETUP
