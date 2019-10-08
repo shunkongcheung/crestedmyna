@@ -8,6 +8,7 @@ import {
 interface IStockMaster {
   name: string;
   id: number;
+  sector: number;
   stockCode: string;
   shareCount: number;
   marketPrice: number;
@@ -24,6 +25,7 @@ interface IStockMasterState {
 interface IStockMasterRet {
   name: string;
   id: number;
+  sector: number;
   stock_code: string;
   share_count: number;
   market_price: number;
@@ -40,6 +42,7 @@ function getInitialStockMaster() {
   return {
     name: "",
     id: -1,
+    sector: -1,
     stockCode: "",
     shareCount: 0,
     marketPrice: 0,
@@ -66,6 +69,7 @@ function useStockMaster() {
       return {
         name: payload.name,
         id: payload.id,
+        sector: payload.sector,
         stockCode: payload.stock_code,
         shareCount: payload.share_count,
         marketPrice: payload.market_price,
