@@ -4,8 +4,27 @@ from base.apis import (
 )
 from .models import StockProfile
 from .serializers import (
+    StockPortfolioCountDistributionSerializer,
     StockPortfolioSummarySerializer,
 )
+
+
+class StockPortfolioCountDistributionAPIView(MyCreateAPIView):
+    def get_serializer(self, *args, **kwargs):
+        kwargs['user'] = self.request.user
+        return StockPortfolioCountDistributionSerializer(*args, **kwargs)
+
+    def perform_create(self, valdiated_data):
+        pass
+
+
+class StockPortfolioSummaryAPIView(MyCreateAPIView):
+    def get_serializer(self, *args, **kwargs):
+        kwargs['user'] = self.request.user
+        return StockPortfolioSummarySerializer(*args, **kwargs)
+
+    def perform_create(self, valdiated_data):
+        pass
 
 
 class StockProfileObjectAPIView(MyObjectAPIView):
@@ -19,12 +38,3 @@ class StockProfileObjectAPIView(MyObjectAPIView):
             return None
         object = self.model.objects.get(created_by=user, enable=True)
         return object
-
-
-class StockPortfolioSummaryAPIView(MyCreateAPIView):
-    def get_serializer(self, *args, **kwargs):
-        kwargs['user'] = self.request.user
-        return StockPortfolioSummarySerializer(*args, **kwargs)
-
-    def perform_create(self, valdiated_data):
-        pass

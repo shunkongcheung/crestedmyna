@@ -1,1 +1,2 @@
+from .stock_portfolio_count_distribution_serializer import StockPortfolioCountDistributionSerializer
 from .stock_portfolio_summary_serializer import StockPortfolioSummarySerializer
