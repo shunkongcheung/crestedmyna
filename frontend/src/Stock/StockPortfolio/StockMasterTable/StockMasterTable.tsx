@@ -18,8 +18,9 @@ interface IOrderParams {
   isAscend: boolean;
 }
 interface IStockMaster {
-  stockCode: string;
   name: string;
+  sector: number;
+  stockCode: string;
   shareCount: number;
   marketPrice: number;
   marketValue: number;
@@ -32,6 +33,7 @@ interface IStockMasterTableProps {
   handleListChange: (p: number, o?: IOrderParams) => any;
   isLoading: boolean;
   page: number;
+  sectors: Array<{ name: string; id: number }>;
   stockMasters: Array<IStockMaster>;
   total: number;
 }
@@ -40,6 +42,7 @@ function StockMasterTable({
   handleListChange,
   isLoading,
   page,
+  sectors,
   stockMasters,
   total
 }: IStockMasterTableProps) {
@@ -85,20 +88,23 @@ function StockMasterTable({
   );
 
   const renderNameAndCode = useCallback(
-    ({ name, stockCode, realizedValue, unrealizedValue }) => {
+    ({ name, sector, realizedValue, unrealizedValue }) => {
       const totalValue = realizedValue + unrealizedValue;
       const renderedTag = renderTag(totalValue);
+
+      const sectorMaster = sectors.find(itm => itm.id === Number(sector));
+      const sectorName = sectorMaster ? sectorMaster.name : sector;
       return (
         <div className={classNames.nameAndCodeContainer}>
           <div className={classNames.nameTagContainer}>{renderedTag}</div>
           <div>
             <div className={classNames.nameContainer}>{name}</div>
-            <div className={classNames.stockCodeContainer}>{stockCode}</div>
+            <div className={classNames.stockSectorContainer}>{sectorName}</div>
           </div>
         </div>
       );
     },
-    [renderTag]
+    [renderTag, sectors]
   );
 
   const getPrettyUnrealizedPercent = useCallback(
@@ -155,7 +161,7 @@ function StockMasterTable({
       {
         dataIndex: "shareCount",
         key: "shareCount",
-        render: val => getPrettyNum(val, false),
+        render: (val: number) => getPrettyNum(val, false),
         sorter: true,
         title: "Share"
       },
@@ -166,6 +172,7 @@ function StockMasterTable({
         sorter: true,
         title: "Market value"
       },
+
       {
         dataIndex: "realizedValue",
         key: "realizedValue",
@@ -173,7 +180,6 @@ function StockMasterTable({
         sorter: true,
         title: "Realised gain/loss"
       },
-
       {
         dataIndex: "unrealizedValueAndPercent",
         key: "unrealizedValueAndPercent",
@@ -196,6 +202,7 @@ function StockMasterTable({
         ...itm,
         nameAndCode: {
           name: itm.name,
+          sector: itm.sector,
           stockCode: itm.stockCode,
           realizedValue: itm.realizedValue,
           unrealizedValue: itm.unrealizedValue

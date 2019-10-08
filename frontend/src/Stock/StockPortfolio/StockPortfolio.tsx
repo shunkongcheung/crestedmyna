@@ -13,8 +13,9 @@ interface IOrderParams {
   isAscend: boolean;
 }
 interface IStockMaster {
-  stockCode: string;
   name: string;
+  sector: number;
+  stockCode: string;
   shareCount: number;
   marketPrice: number;
   marketValue: number;
@@ -28,6 +29,7 @@ interface IStockMasterTableState {
   stockMasters: Array<IStockMaster>;
   isLoading: boolean;
   page: number;
+  sectors: Array<{ name: string; id: number }>;
   total: number;
 }
 interface IStockPortfolioProps {
