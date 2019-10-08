@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
 
+import { useStockSectors } from "../hooks";
+
 import useChartRange from "./useChartRange";
 import useChartSummary from "./useChartSummary";
 import useCCASSParticipantDetails from "./useCCASSParticipantDetails";
@@ -33,6 +35,7 @@ function useStockDetail(
 
   const { range } = chartRange;
   const { stockMaster } = stockMasterState;
+  const stockSectorState = useStockSectors(stockMaster);
 
   const onStockTxAdd = useCallback(
     (sm: number, page: number) => {
@@ -246,10 +249,11 @@ function useStockDetail(
   );
   const stockInfoState = useMemo(
     () => ({
-      handleDelete: handleDeleteStockMaster,
-      ...stockMaster
+      ...stockMaster,
+      ...stockSectorState,
+      handleDelete: handleDeleteStockMaster
     }),
-    [handleDeleteStockMaster, stockMaster]
+    [handleDeleteStockMaster, stockMaster, stockSectorState]
   );
   const stockTxTableState = useMemo(
     () => ({

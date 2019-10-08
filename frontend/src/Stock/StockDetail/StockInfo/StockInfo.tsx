@@ -9,6 +9,9 @@ import classNames from "./StockInfo.module.scss";
 
 interface IStockInfoProps {
   handleDelete: () => Promise<boolean>;
+  handleStockSectorChange: (s: number) => any;
+  sector: number;
+  sectors: Array<{ name: string; id: number }>;
   stockCode: string;
   shareCount: number;
   marketPrice: number;
@@ -20,6 +23,9 @@ interface IStockInfoProps {
 
 function StockInfo({
   handleDelete,
+  handleStockSectorChange,
+  sector,
+  sectors,
   stockCode,
   shareCount,
   marketPrice,
@@ -70,9 +76,9 @@ function StockInfo({
         <div className={classNames.title}>SECTOR</div>
         <div className={classNames.sectorContent}>
           <StockSector
-            handleStockSectorChange={a => console.log("changed...", a)}
-            sectors={[{ name: "Id1", id: 1 }, { name: "Id2", id: 2 }] as any}
-            sector={1}
+            handleStockSectorChange={handleStockSectorChange}
+            sectors={sectors}
+            sector={sector}
           />
         </div>
       </div>

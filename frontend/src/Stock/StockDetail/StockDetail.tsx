@@ -59,7 +59,10 @@ interface IStockDetailProps {
     prices: Array<number>;
   };
   stockInfoState: {
+    handleStockSectorChange: (s: number) => any;
     handleDelete: () => Promise<boolean>;
+    sector: number;
+    sectors: Array<{ name: string; id: number }>;
     stockCode: string;
     shareCount: number;
     marketPrice: number;

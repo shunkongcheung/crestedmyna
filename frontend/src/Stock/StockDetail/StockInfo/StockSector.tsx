@@ -1,4 +1,5 @@
 import React, { memo, useEffect, useRef } from "react";
+import { Spin } from "antd";
 import { withFormik, FormikProps } from "formik";
 import PropTypes from "prop-types";
 
@@ -24,7 +25,8 @@ function StockSector({
 
   useEffect(
     () => {
-      if (!prevSector.current && sector > 0) {
+      if (sector <= 0) return;
+      if (!prevSector.current) {
         prevSector.current = sector;
         return;
       }
@@ -33,9 +35,16 @@ function StockSector({
     },
     [sector, handleStockSectorChange]
   );
+  if (!(sector > 0)) return <Spin />;
 
-	return <InputSelect allowClear={false}
-	name="sector" choices={sectors} {...formikProps} />;
+  return (
+    <InputSelect
+      allowClear={false}
+      name="sector"
+      choices={sectors}
+      {...formikProps}
+    />
+  );
 }
 
 StockSector.propTypes = {
@@ -43,5 +52,6 @@ StockSector.propTypes = {
   sector: PropTypes.number.isRequired
 };
 export default withFormik<IFormikProps, IFormikVal>({
+  enableReinitialize: true,
   handleSubmit: () => {}
 })(memo(StockSector));
