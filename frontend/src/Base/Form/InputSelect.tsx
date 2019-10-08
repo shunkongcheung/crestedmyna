@@ -11,6 +11,7 @@ interface IInputSelectProps {
   allowClear?: boolean;
   choices: Array<{ name: string; id: any }>;
   label?: string;
+  multiple?: boolean;
   name: string;
   onSearch?: (value: number | string) => any;
 }
@@ -24,6 +25,7 @@ function InputSelect({
   allowClear = true,
   choices,
   label,
+  multiple = false,
   name,
   onSearch,
   ...formikProps
@@ -78,11 +80,20 @@ function InputSelect({
     [choices]
   );
 
+  const mode = useMemo(
+    () => {
+      if (multiple) return "multiple";
+      return undefined;
+    },
+    [multiple]
+  );
+
   return (
     <Tooltip title={inputError}>
       <Select
         allowClear={allowClear}
         filterOption={filterOption}
+        mode={mode}
         onBlur={handleSelectBlur}
         onChange={handleSelectChange}
         onSearch={handleSearch}
@@ -107,6 +118,7 @@ InputSelect.propTypes = {
     })
   ).isRequired,
   label: PropTypes.string,
+  multiple: PropTypes.bool,
   name: PropTypes.string.isRequired,
   onValueChange: PropTypes.func
 };
