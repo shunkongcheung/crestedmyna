@@ -1,14 +1,11 @@
 # 0 ROADMAP
 ### frontend \** listed according to priority **
 
-*	stock: editing of industry
-*	stock: portfolio summary
 *	stock: portfolio pie chart
-	*	industry distribution
 	*	unrealized gain/loss
 	*	realized gain/loss
 	*	market price
-*	stock: portfolio industry / stock filter
+* stock: click on portfolio and go to summary
 *	stock: show graph full screen
 *	journal: use antd calendar
 
