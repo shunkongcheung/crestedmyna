@@ -3,6 +3,7 @@ import { Popconfirm, Tag, message } from "antd";
 import PropTypes from "prop-types";
 
 import { useGetPrettyNum } from "../../hooks";
+import StockSector from "./StockSector";
 
 import classNames from "./StockInfo.module.scss";
 
@@ -64,6 +65,16 @@ function StockInfo({
       <div className={classNames.row}>
         <div className={classNames.title}>MARKET VALUE</div>
         <div className={classNames.content}>${getPrettyNum(marketValue)}</div>
+      </div>
+      <div className={classNames.row}>
+        <div className={classNames.title}>SECTOR</div>
+        <div className={classNames.sectorContent}>
+          <StockSector
+            handleStockSectorChange={a => console.log("changed...", a)}
+            sectors={[{ name: "Id1", id: 1 }, { name: "Id2", id: 2 }] as any}
+            sector={1}
+          />
+        </div>
       </div>
       <div className={classNames.row}>
         <div className={classNames.title}>REALISED GAIN/LOSS</div>
