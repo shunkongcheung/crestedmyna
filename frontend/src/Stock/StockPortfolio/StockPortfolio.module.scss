@@ -1,0 +1,37 @@
+@import "../../variables";
+
+#col {
+  @include small-pad-width {
+    width: 100%;
+  }
+  @include phone-width {
+    width: 100%;
+  }
+  margin-bottom: 2rem;
+}
+
+.chartsCol {
+  @extend #col;
+  @include pc-width {
+    width: 60%;
+  }
+}
+
+.summaryCol {
+  @extend #col;
+  @include pc-width {
+    width: 40%;
+  }
+}
+
+.row {
+  @include pc-width {
+    display: flex;
+  }
+  @include small-pad-width {
+    display: inherit;
+  }
+  @include phone-width {
+    display: inherit;
+  }
+}

@@ -1,6 +1,10 @@
 import React, { memo } from "react";
-import StockMasterTable from "./StockMasterTable";
+
+import PortfolioCharts from "./PortfolioCharts";
 import PortfolioSummary from "./PortfolioSummary";
+import StockMasterTable from "./StockMasterTable";
+
+import classNames from "./StockPortfolio.module.scss";
 
 type TOrderBy =
   | "marketValue"
@@ -9,6 +13,13 @@ type TOrderBy =
   | "stockCode"
   | "shareCount"
   | "unrealizedValue";
+
+interface IChartsState {
+  stockCountDistribution: {
+    isLoading: boolean;
+    stockCountItems: Array<{ name: string; count: number }>;
+  };
+}
 interface IOrderParams {
   ordering: TOrderBy;
   isAscend: boolean;
@@ -36,23 +47,32 @@ interface IStockMasterTableState {
 interface IPortfolioSummary {
   isLoading: boolean;
   handleSectorsChange: (s: Array<number>) => any;
-  sectors: Array<{name:string, id:number}>;
+  sectors: Array<{ name: string; id: number }>;
   marketValue: number;
   realizedValue: number;
   unrealizedValue: number;
 }
 interface IStockPortfolioProps {
+  chartsState: IChartsState;
   portfolioSummaryState: IPortfolioSummary;
   stockMasterTableState: IStockMasterTableState;
 }
 
 function StockPortfolio({
+  chartsState,
   portfolioSummaryState,
   stockMasterTableState
 }: IStockPortfolioProps) {
   return (
     <>
-      <PortfolioSummary {...portfolioSummaryState} />
+      <div className={classNames.row}>
+        <div className={classNames.chartsCol}>
+          <PortfolioCharts {...chartsState} />
+        </div>
+        <div className={classNames.summaryCol}>
+          <PortfolioSummary {...portfolioSummaryState} />
+        </div>
+      </div>
       <StockMasterTable {...stockMasterTableState} />
     </>
   );
