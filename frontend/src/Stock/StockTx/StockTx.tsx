@@ -1,6 +1,8 @@
 import React, { memo, useCallback, useMemo } from "react";
 import { Table, Tag } from "antd";
 
+import classNames from "./StockTx.module.scss";
+
 type TTxType = "BUY" | "SELL";
 
 interface IFilter {
@@ -129,14 +131,14 @@ function SockTx({
   );
   const pagination = useMemo(() => ({ current: page, total }), [page, total]);
   return (
-    <>
+    <div className={classNames.container}>
       <Table
         columns={columns}
         dataSource={keyedData}
         onChange={onChange}
         pagination={pagination}
       />
-    </>
+    </div>
   );
 }
 
