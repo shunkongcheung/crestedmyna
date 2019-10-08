@@ -36,11 +36,21 @@ class StockMasterListAPIView(MyListAPIView):
     def get_queryset_by_id(self, queryset, ids):
         return queryset.filter(id__in=ids.split(',')) if ids else queryset
 
+    def get_queryset_by_sectors(self, queryset, sector_ids):
+        if not sectors:
+            return queryset
+        return queryset.annotate(sector_id='sector__id')\
+            .filter(sector_id__in=sector_ids.split(','))
+
     def get_queryset(self):
         queryset = super().get_queryset()
         query_params = self.request.query_params
+
         ids = query_params.get('id__in')
         queryset = self.get_queryset_by_id(queryset, ids)
+
+        sector_ids = query_params.get('sector__in')
+        queryset = self.get_queryset_by_id(queryset, sector_ids)
 
         return queryset
 
