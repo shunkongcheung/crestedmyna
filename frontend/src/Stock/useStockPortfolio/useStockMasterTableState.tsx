@@ -15,8 +15,9 @@ interface IOrderParams {
 }
 
 interface IStockMaster {
-  stockCode: string;
   name: string;
+	sector:number;
+  stockCode: string;
   shareCount: number;
   marketPrice: number;
   marketValue: number;
@@ -26,8 +27,9 @@ interface IStockMaster {
   unrealizedValue: number;
 }
 interface IStockMasterRet {
-  stock_code: string;
   name: string;
+	sector:number;
+  stock_code: string;
   share_count: number;
   market_price: number;
   market_value: number;
@@ -88,6 +90,7 @@ function useStockMasterTableState() {
 
       if (!ok) return undefined;
       return {
+        sector: payload.sector,
         stockCode: payload.stock_code,
         name: payload.name,
         shareCount: payload.share_count,
