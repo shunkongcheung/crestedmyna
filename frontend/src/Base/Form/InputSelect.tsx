@@ -8,6 +8,7 @@ import useFormInputsState from "./useFormInputsState";
 const { Option } = Select;
 
 interface IInputSelectProps {
+  allowClear?: boolean;
   choices: Array<{ name: string; id: any }>;
   label?: string;
   name: string;
@@ -20,6 +21,7 @@ interface ISelectValue {
 }
 
 function InputSelect({
+  allowClear = true,
   choices,
   label,
   name,
@@ -76,7 +78,7 @@ function InputSelect({
   return (
     <Tooltip title={inputError}>
       <Select
-        allowClear
+        allowClear={allowClear}
         filterOption={filterOption}
         onBlur={handleSelectBlur}
         onChange={handleSelectChange}
@@ -93,6 +95,7 @@ function InputSelect({
 }
 
 InputSelect.propTypes = {
+  allowClear: PropTypes.bool,
   choices: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
