@@ -19,9 +19,7 @@ interface IStockTxAddProps {
 }
 
 function StockTxAdd(formikProps: IStockTxAddProps & FormikProps<IStockTx>) {
-  const { handleSubmit, values } = formikProps;
-  const { txType } = values;
-
+  const { handleSubmit } = formikProps;
   return (
     <div className={classNames.container}>
       <div className={classNames.addCol} style={{ marginLeft: 0 }}>

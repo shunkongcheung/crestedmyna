@@ -256,7 +256,7 @@ function useStockDetail(
       handleListChange: handleTxTableChange,
       ...stockTxsState
     }),
-    [stockTxsState]
+    [handleTxTableChange, stockTxsState]
   );
   const txEditState = useMemo(
     () => ({
