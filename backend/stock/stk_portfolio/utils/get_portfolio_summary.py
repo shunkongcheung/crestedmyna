@@ -19,19 +19,19 @@ def get_portfolio_summary(user, sectors):
 def get_market_value(stock_masters):
     return stock_masters\
         .values('market_value')\
-        .aggregate(sum=Sum('market_value'))['sum']
+        .aggregate(sum=Sum('market_value'))['sum'] or 0
 
 
 def get_realized_value(stock_masters):
     return stock_masters\
         .values('realized_value')\
-        .aggregate(sum=Sum('realized_value'))['sum']
+        .aggregate(sum=Sum('realized_value'))['sum'] or 0
 
 
 def get_unrealized_value(stock_masters):
     return stock_masters\
         .values('unrealized_value')\
-        .aggregate(sum=Sum('unrealized_value'))['sum']
+        .aggregate(sum=Sum('unrealized_value'))['sum'] or 0
 
 
 def get_stock_masters(user, sectors):
