@@ -1,7 +1,7 @@
 import React, { memo, useMemo } from "react";
 import PropTypes from "prop-types";
 
-import getColors from "./getColors";
+import { useGetColors } from "../../hooks";
 
 import { TrendChart } from "../components";
 
@@ -13,8 +13,6 @@ interface ICCASSChartProps {
   participantDetailsMap: { [x: string]: Array<number> };
 }
 
-const COLORS = getColors();
-
 function CCASSChart({
   detailSums,
   isLoading,
@@ -22,6 +20,7 @@ function CCASSChart({
   labels,
   participantDetailsMap
 }: ICCASSChartProps) {
+  const { getColors } = useGetColors();
   const pointRadius = useMemo(
     () => {
       if (Array.isArray(labels) && labels.length < 30) return 3;
@@ -31,6 +30,7 @@ function CCASSChart({
   );
   const datasets = useMemo(
     () => {
+      const COLORS = getColors();
       const datasets = [
         {
           fill: false,
@@ -59,7 +59,7 @@ function CCASSChart({
       }
       return datasets;
     },
-    [detailSums, participantDetailsMap, pointRadius]
+    [detailSums, getColors, participantDetailsMap, pointRadius]
   );
 
   return (
