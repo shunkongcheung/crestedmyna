@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 import StockMasterTable from "./StockMasterTable";
+import PortfolioSummary from "./PortfolioSummary";
 
 type TOrderBy =
   | "marketValue"
@@ -32,13 +33,26 @@ interface IStockMasterTableState {
   sectors: Array<{ name: string; id: number }>;
   total: number;
 }
+interface IPortfolioSummary {
+  isLoading: boolean;
+  handleSectorsChange: (s: Array<number>) => any;
+  sectors: Array<{name:string, id:number}>;
+  marketValue: number;
+  realizedValue: number;
+  unrealizedValue: number;
+}
 interface IStockPortfolioProps {
+  portfolioSummaryState: IPortfolioSummary;
   stockMasterTableState: IStockMasterTableState;
 }
 
-function StockPortfolio({ stockMasterTableState }: IStockPortfolioProps) {
+function StockPortfolio({
+  portfolioSummaryState,
+  stockMasterTableState
+}: IStockPortfolioProps) {
   return (
     <>
+      <PortfolioSummary {...portfolioSummaryState} />
       <StockMasterTable {...stockMasterTableState} />
     </>
   );
