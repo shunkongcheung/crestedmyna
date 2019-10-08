@@ -220,7 +220,7 @@ function StockMasterTable({
   }, []);
 
   return (
-    <>
+    <div className={classNames.container}>
       <Table
         columns={columns}
         dataSource={keyedData}
@@ -229,7 +229,7 @@ function StockMasterTable({
         onChange={onChange}
         pagination={pagination}
       />
-    </>
+    </div>
   );
 }
 
