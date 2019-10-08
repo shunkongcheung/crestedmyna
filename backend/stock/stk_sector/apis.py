@@ -1,14 +1,13 @@
-from base.apis import (
-    MyCreateAPIView,
-    MyListAPIView,
-    MyObjectAPIView,
-)
+from base.apis import MyListAPIView
+from .models import StockSectorMaster
 
-# from .models import ModelName
-# from .serializers import ModelNameSerializer
 
 fields = []
 
 
-class ModelNameListAPIView(MyListAPIView):
-    model = ModelName
+class StockSectorMasterListAPIView(MyListAPIView):
+    model = StockSectorMaster
+
+    def get_queryset(self):
+        return StockSectorMaster.objects\
+            .filter(enable=True)
