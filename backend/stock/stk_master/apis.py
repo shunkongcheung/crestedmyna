@@ -6,7 +6,10 @@ from base.apis import (
     MyObjectAPIView,
 )
 
-from .models import StockMaster
+from stock.models import (
+    StockMaster,
+    StockSectorMaster,
+)
 from .serializers import StockMasterSerializer
 
 
@@ -37,10 +40,11 @@ class StockMasterListAPIView(MyListAPIView):
         return queryset.filter(id__in=ids.split(',')) if ids else queryset
 
     def get_queryset_by_sectors(self, queryset, sector_ids):
-        if not sectors:
+        if not sector_ids:
             return queryset
-        return queryset.annotate(sector_id='sector__id')\
-            .filter(sector_id__in=sector_ids.split(','))
+        sector_masters = StockSectorMaster.objects\
+            .filter(enable=True, id__in=sector_ids.split(','))
+        return queryset.filter(sector__in=sector_masters)
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -50,7 +54,7 @@ class StockMasterListAPIView(MyListAPIView):
         queryset = self.get_queryset_by_id(queryset, ids)
 
         sector_ids = query_params.get('sector__in')
-        queryset = self.get_queryset_by_id(queryset, sector_ids)
+        queryset = self.get_queryset_by_sectors(queryset, sector_ids)
 
         return queryset
 
