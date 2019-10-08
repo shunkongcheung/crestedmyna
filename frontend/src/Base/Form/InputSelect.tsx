@@ -29,7 +29,10 @@ function InputSelect({
   ...formikProps
 }: IInputSelectProps & FormikProps<{ [x: string]: any }>) {
   const { setFieldTouched, setFieldValue } = formikProps;
-  const { inputError, style } = useFormInputsState(name, formikProps);
+  const { inputValue, inputError, style } = useFormInputsState(
+    name,
+    formikProps
+  );
   const searchValue = useRef<string>("");
 
   const handleSelectChange = useCallback(
@@ -87,6 +90,7 @@ function InputSelect({
         placeholder={label}
         showSearch
         style={{ ...style, width: "100%" }}
+        value={inputValue}
       >
         {renderedChoices}
       </Select>
