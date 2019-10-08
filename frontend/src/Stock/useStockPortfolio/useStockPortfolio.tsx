@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from "react";
 
 import { useStockSectors } from "../hooks";
+import usePortfolioSummary from "./usePortfolioSummary";
 import useStockMasterTableState from "./useStockMasterTableState";
 
 function useStockPortfolio() {
@@ -8,15 +9,20 @@ function useStockPortfolio() {
     () => ({ id: -1, stockCode: "", sector: -1 }),
     []
   );
-  const stockMasterTable = useStockMasterTableState();
+
+  const portfolioSummary = usePortfolioSummary();
+  const { handleSectorsChange, sectors: selectedSectors } = portfolioSummary;
+
+  const stockMasterTable = useStockMasterTableState(selectedSectors);
   const stockSectors = useStockSectors(fakeStockMaster);
 
   const { handleListChange } = stockMasterTable;
   const refreshStockPortfolio = useCallback(
     () => {
       handleListChange(1);
+      handleSectorsChange([]);
     },
-    [handleListChange]
+    [handleListChange, handleSectorsChange]
   );
 
   const stockMasterTableState = useMemo(
@@ -27,8 +33,20 @@ function useStockPortfolio() {
     }),
     [stockMasterTable, stockSectors]
   );
+  const portfolioSummaryState = useMemo(
+    () => ({
+      ...portfolioSummary,
+      sectors: stockSectors.sectors,
+      isLoading: portfolioSummary.isLoading || stockSectors.isLoading
+    }),
+    [portfolioSummary, stockSectors]
+  );
 
-  return { refreshStockPortfolio, stockMasterTableState };
+  return {
+    refreshStockPortfolio,
+    stockMasterTableState,
+    portfolioSummaryState
+  };
 }
 
 export default useStockPortfolio;

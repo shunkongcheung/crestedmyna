@@ -16,7 +16,7 @@ interface IOrderParams {
 
 interface IStockMaster {
   name: string;
-	sector:number;
+  sector: number;
   stockCode: string;
   shareCount: number;
   marketPrice: number;
@@ -28,7 +28,7 @@ interface IStockMaster {
 }
 interface IStockMasterRet {
   name: string;
-	sector:number;
+  sector: number;
   stock_code: string;
   share_count: number;
   market_price: number;
@@ -45,8 +45,13 @@ interface IStockMasterTableState {
   page: number;
   total: number;
 }
+interface IQueryParams {
+  page: number;
+  ordering?: string;
+  sector__in?: string;
+}
 
-function useStockMasterTableState() {
+function useStockMasterTableState(sectors: Array<number>) {
   const [stockMasterTable, setStockMasterTable] = useState<
     IStockMasterTableState
   >({
@@ -58,7 +63,7 @@ function useStockMasterTableState() {
   const { fetchDetail } = useDetailState<IStockMasterRet>();
   const { fetchList } = useListState<{ id: number }>();
 
-  const getOrdering = useCallback((orderParams: IOrderParams) => {
+  const getQueryOrdering = useCallback((orderParams: IOrderParams) => {
     const { ordering, isAscend } = orderParams;
     const underscoreOrdering = ordering.replace(/([A-Z])/g, function(x, y) {
       return "_" + y.toLowerCase();
@@ -66,12 +71,22 @@ function useStockMasterTableState() {
     return isAscend ? underscoreOrdering : `-${underscoreOrdering}`;
   }, []);
 
+  const getQueryParams = useCallback(
+    (page: number, orderParams?: IOrderParams) => {
+      const params: IQueryParams = { page };
+      if (orderParams) params.ordering = getQueryOrdering(orderParams);
+
+      if (Array.isArray(sectors) && sectors.length)
+        params.sector__in = sectors.join(",");
+
+      return params;
+    },
+    [getQueryOrdering, sectors]
+  );
+
   const fetchStockMasterIds = useCallback(
     async (page: number, orderParams?: IOrderParams) => {
-      const params = { page } as { page: number; ordering?: string };
-      if (orderParams) {
-        params.ordering = getOrdering(orderParams);
-      }
+      const params = getQueryParams(page, orderParams);
       const { ok, payload } = await fetchList("stock/stk_master/list/", params);
       return ok
         ? {
@@ -80,7 +95,7 @@ function useStockMasterTableState() {
           }
         : { stockMasterIds: [], total: 0 };
     },
-    [fetchList, getOrdering]
+    [fetchList, getQueryParams]
   );
   const fetchStockMasterDetail = useCallback(
     async (stockMasterId: number): Promise<undefined | IStockMaster> => {
