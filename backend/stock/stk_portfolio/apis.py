@@ -4,15 +4,15 @@ from base.apis import (
 )
 from .models import StockProfile
 from .serializers import (
-    StockPortfolioCountDistributionSerializer,
+    StockPortfolioDistributionSerializer,
     StockPortfolioSummarySerializer,
 )
 
 
-class StockPortfolioCountDistributionAPIView(MyCreateAPIView):
+class StockPortfolioDistributionAPIView(MyCreateAPIView):
     def get_serializer(self, *args, **kwargs):
         kwargs['user'] = self.request.user
-        return StockPortfolioCountDistributionSerializer(*args, **kwargs)
+        return StockPortfolioDistributionSerializer(*args, **kwargs)
 
     def perform_create(self, valdiated_data):
         pass
