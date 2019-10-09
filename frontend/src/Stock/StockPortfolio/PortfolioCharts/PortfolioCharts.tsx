@@ -56,7 +56,7 @@ function PortfolioCharts({
         <DistributionChart
           distributionItems={marketValueDistributionItems}
           isLoading={isLoading}
-          title="Market gain/loss per sector"
+          title="Market value per sector"
         />
       </div>
       <div>
