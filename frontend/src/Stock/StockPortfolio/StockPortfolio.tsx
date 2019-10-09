@@ -15,13 +15,16 @@ type TOrderBy =
   | "unrealizedValue";
 
 interface IDistributionItem {
+  id: number;
   sectorName: string;
   value: number;
 }
 
 interface IChartsState {
   isLoading: boolean;
+  selectedSectors: Array<number>;
   stockCountDistributionItems: Array<IDistributionItem>;
+  stockMarketValueDistributionItems: Array<IDistributionItem>;
   stockRealizedValueDistributionItems: Array<IDistributionItem>;
   stockUnrealizedValueDistributionItems: Array<IDistributionItem>;
 }

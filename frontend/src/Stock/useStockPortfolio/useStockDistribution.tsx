@@ -3,22 +3,26 @@ import { useCallback, useEffect, useState } from "react";
 import { useEditState } from "../../Base/Fetches";
 
 interface IStockDistributionItem {
+  id: number;
   sectorName: string;
   value: number;
 }
 interface IStockDistributionState {
   isLoading: boolean;
   stockCountDistributionItems: Array<IStockDistributionItem>;
+  stockMarketValueDistributionItems: Array<IStockDistributionItem>;
   stockRealizedValueDistributionItems: Array<IStockDistributionItem>;
   stockUnrealizedValueDistributionItems: Array<IStockDistributionItem>;
 }
 
 interface IStockDistributionItemRet {
   sector_name: string;
+  sector: number;
   value: number;
 }
 interface IStockDistributionRet {
   count_distributions: Array<IStockDistributionItemRet>;
+  market_value_distributions: Array<IStockDistributionItemRet>;
   realized_value_distributions: Array<IStockDistributionItemRet>;
   unrealized_value_distributions: Array<IStockDistributionItemRet>;
 }
@@ -28,6 +32,7 @@ function useStockDistribution() {
   >({
     isLoading: true,
     stockCountDistributionItems: [],
+    stockMarketValueDistributionItems: [],
     stockRealizedValueDistributionItems: [],
     stockUnrealizedValueDistributionItems: []
   });
@@ -36,7 +41,11 @@ function useStockDistribution() {
 
   const getRetToStateMappedArray = useCallback(
     (retArr: Array<IStockDistributionItemRet>) =>
-      retArr.map(itm => ({ sectorName: itm.sector_name, value: itm.value })),
+      retArr.map(itm => ({
+        sectorName: itm.sector_name,
+        id: itm.sector,
+        value: itm.value
+      })),
     []
   );
 
@@ -54,6 +63,7 @@ function useStockDistribution() {
         }));
       const {
         count_distributions,
+        market_value_distributions,
         realized_value_distributions,
         unrealized_value_distributions
       } = payload;
@@ -61,6 +71,9 @@ function useStockDistribution() {
         isLoading: false,
         stockCountDistributionItems: getRetToStateMappedArray(
           count_distributions
+        ),
+        stockMarketValueDistributionItems: getRetToStateMappedArray(
+          market_value_distributions
         ),
         stockRealizedValueDistributionItems: getRetToStateMappedArray(
           realized_value_distributions

@@ -1,30 +1,84 @@
-import React, { memo } from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import { Carousel } from "antd";
 
-import CountDistributionChart from "./CountDistributionChart";
+import DistributionChart from "./DistributionChart";
 
 interface IDistributionItem {
+  id: number;
   sectorName: string;
   value: number;
 }
 interface IPortfolioChartsProps {
   isLoading: boolean;
+  selectedSectors: Array<number>;
   stockCountDistributionItems: Array<IDistributionItem>;
+  stockMarketValueDistributionItems: Array<IDistributionItem>;
   stockRealizedValueDistributionItems: Array<IDistributionItem>;
   stockUnrealizedValueDistributionItems: Array<IDistributionItem>;
 }
 
-function PortfolioCharts({ ...stockCountDistribution }: IPortfolioChartsProps) {
+function PortfolioCharts({
+  isLoading,
+  selectedSectors,
+  stockCountDistributionItems,
+  stockMarketValueDistributionItems,
+  stockRealizedValueDistributionItems,
+  stockUnrealizedValueDistributionItems
+}: IPortfolioChartsProps) {
+  const getFilteredItems = useCallback(
+    (distributionItems: Array<IDistributionItem>) => {
+      const shouldFilter =
+        Array.isArray(selectedSectors) && selectedSectors.length;
+      return shouldFilter
+        ? distributionItems.filter(itm => selectedSectors.includes(itm.id))
+        : distributionItems;
+    },
+    [selectedSectors]
+  );
+  const marketValueDistributionItems = useMemo(
+    () => getFilteredItems(stockMarketValueDistributionItems),
+    [getFilteredItems, stockMarketValueDistributionItems]
+  );
+
+  const realizedDistributionItemsFilterSectors = useMemo(
+    () => getFilteredItems(stockRealizedValueDistributionItems),
+    [getFilteredItems, stockRealizedValueDistributionItems]
+  );
+
+  const unrealizedDistributionItemsFilterSectors = useMemo(
+    () => getFilteredItems(stockUnrealizedValueDistributionItems),
+    [getFilteredItems, stockUnrealizedValueDistributionItems]
+  );
+
   return (
     <Carousel>
       <div>
-        <CountDistributionChart {...stockCountDistribution} />
+        <DistributionChart
+          distributionItems={marketValueDistributionItems}
+          isLoading={isLoading}
+          title="Market gain/loss per sector"
+        />
       </div>
       <div>
-        <CountDistributionChart {...stockCountDistribution} />
+        <DistributionChart
+          distributionItems={stockCountDistributionItems}
+          isLoading={isLoading}
+          title="No. of stock per sector"
+        />
       </div>
       <div>
-        <CountDistributionChart {...stockCountDistribution} />
+        <DistributionChart
+          distributionItems={realizedDistributionItemsFilterSectors}
+          isLoading={isLoading}
+          title="Realized gain/loss per sector"
+        />
+      </div>
+      <div>
+        <DistributionChart
+          distributionItems={unrealizedDistributionItemsFilterSectors}
+          isLoading={isLoading}
+          title="Unrealized gain/loss per sector"
+        />
       </div>
     </Carousel>
   );

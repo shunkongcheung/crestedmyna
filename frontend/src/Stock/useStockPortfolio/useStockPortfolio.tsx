@@ -13,10 +13,7 @@ function useStockPortfolio() {
   const portfolioSummary = usePortfolioSummary();
   const { handleSectorsChange, sectors: selectedSectors } = portfolioSummary;
 
-  const {
-    initDistribution,
-    ...stockDistribution
-  } = useStockDistribution();
+  const { initDistribution, ...stockDistribution } = useStockDistribution();
 
   const stockMasterTable = useStockMasterTableState(selectedSectors);
   const { handleListChange } = stockMasterTable;
@@ -51,9 +48,10 @@ function useStockPortfolio() {
     [portfolioSummary, stockSectors]
   );
 
-  const chartsState = useMemo(() => ({ ...stockDistribution }), [
-    stockDistribution
-  ]);
+  const chartsState = useMemo(
+    () => ({ selectedSectors, ...stockDistribution }),
+    [selectedSectors, stockDistribution]
+  );
 
   return {
     chartsState,
