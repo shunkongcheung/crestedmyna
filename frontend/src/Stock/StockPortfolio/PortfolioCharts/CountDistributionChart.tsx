@@ -29,17 +29,18 @@ function CountDistributionChart({
       const colors = getColors();
       const backgroundColor = colors.splice(0, relevantData.length);
       const data = relevantData.map(itm => itm.value);
-      const label = "Stock count per sector";
       return {
-        datasets: [{ data, backgroundColor, label }],
+        datasets: [{ data, backgroundColor }],
         labels: relevantData.map(itm => itm.sectorName)
       };
     },
     [getColors, stockCountDistributionItems]
   );
   const options = useMemo<Chart.ChartOptions>(() => {
+    const titleText = "Stock count per sector";
     return {
-      legend: { position: "top", onClick: e => e.stopPropagation() }
+      legend: { position: "bottom", onClick: e => e.stopPropagation() },
+      title: { position: "top", display: true, text: titleText }
     };
   }, []);
 
