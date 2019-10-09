@@ -74,11 +74,11 @@ function StockPortfolio({
   return (
     <>
       <div className={classNames.row}>
-        <div className={classNames.chartsCol}>
-          <PortfolioCharts {...chartsState} />
-        </div>
         <div className={classNames.summaryCol}>
           <PortfolioSummary {...portfolioSummaryState} />
+        </div>
+        <div className={classNames.chartsCol}>
+          <PortfolioCharts {...chartsState} />
         </div>
       </div>
       <StockMasterTable {...stockMasterTableState} />

@@ -13,14 +13,14 @@
 .chartsCol {
   @extend #col;
   @include pc-width {
-    width: 60%;
+    width: 50%;
   }
 }
 
 .summaryCol {
   @extend #col;
   @include pc-width {
-    width: 40%;
+    width: 50%;
   }
 }
 
