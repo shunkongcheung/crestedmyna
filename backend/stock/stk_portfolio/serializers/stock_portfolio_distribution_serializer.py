@@ -18,6 +18,10 @@ class StockPortfolioDistributionSerializer(Serializer):
         many=True,
         read_only=True
     )
+    market_value_distributions = StockPortfolioDistributionItemSerializer(
+        many=True,
+        read_only=True
+    )
     realized_value_distributions = StockPortfolioDistributionItemSerializer(
         many=True,
         read_only=True
