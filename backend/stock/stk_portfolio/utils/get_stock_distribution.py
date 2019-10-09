@@ -22,20 +22,20 @@ def get_user_stock_masters(user):
 
 def get_stock_count_distribution(user):
     stock_masters = get_user_stock_masters(user)
-    return stock_masters.values('sector_name', 'id')\
-        .values('sector_name')\
+    return stock_masters.values('sector_name', 'sector', 'id')\
+        .values('sector_name', 'sector')\
         .annotate(value=Count('sector_name'))
 
 
 def get_stock_realized_value_distribution(user):
     stock_masters = get_user_stock_masters(user)
-    return stock_masters.values('sector_name', 'realized_value')\
-        .values('sector_name')\
+    return stock_masters.values('sector_name', 'sector', 'realized_value')\
+        .values('sector_name', 'sector')\
         .annotate(value=Sum('realized_value'))
 
 
 def get_stock_unrealized_value_distribution(user):
     stock_masters = get_user_stock_masters(user)
-    return stock_masters.values('sector_name', 'unrealized_value')\
-        .values('sector_name')\
+    return stock_masters.values('sector_name', 'sector', 'unrealized_value')\
+        .values('sector_name', 'sector')\
         .annotate(value=Sum('unrealized_value'))

@@ -9,6 +9,7 @@ from ..utils import get_stock_distribution
 
 class StockPortfolioDistributionItemSerializer(Serializer):
     sector_name = CharField()
+    sector = IntegerField()
     value = IntegerField()
 
 
