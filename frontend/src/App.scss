@@ -3,6 +3,15 @@
 $hoverPrimaryColor: #ffe6f7;
 $hoverSecondaryColor: #fae1f2;
 
+.ant-carousel .slick-dots li button {
+  background: #777 !important;
+  height: 0.7rem !important;
+}
+.ant-carousel .slick-dots li.slick-active button {
+  background: #777 !important;
+  height: 0.7rem;
+}
+
 // a {
 //   &:hover {
 //     color: $secondaryColor;
