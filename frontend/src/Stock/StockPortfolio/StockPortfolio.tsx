@@ -14,11 +14,16 @@ type TOrderBy =
   | "shareCount"
   | "unrealizedValue";
 
+interface IDistributionItem {
+  sectorName: string;
+  value: number;
+}
+
 interface IChartsState {
-  stockCountDistribution: {
-    isLoading: boolean;
-    stockCountItems: Array<{ name: string; count: number }>;
-  };
+  isLoading: boolean;
+  stockCountDistributionItems: Array<IDistributionItem>;
+  stockRealizedValueDistributionItems: Array<IDistributionItem>;
+  stockUnrealizedValueDistributionItems: Array<IDistributionItem>;
 }
 interface IOrderParams {
   ordering: TOrderBy;

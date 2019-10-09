@@ -6,29 +6,36 @@ import PropTypes from "prop-types";
 
 import { useGetColors } from "../../hooks";
 
+interface IDistributionItem {
+  sectorName: string;
+  value: number;
+}
+interface IPortfolioChartsProps {
+  isLoading: boolean;
+}
 interface ICountDistributionChartProps {
   isLoading: boolean;
-  stockCountItems: Array<{ name: string; count: number }>;
+  stockCountDistributionItems: Array<IDistributionItem>;
 }
 
 function CountDistributionChart({
   isLoading,
-  stockCountItems
+  stockCountDistributionItems
 }: ICountDistributionChartProps) {
   const { getColors } = useGetColors();
   const data = useMemo<ChartData>(
     () => {
-      const relevantData = stockCountItems.filter(itm => itm.count);
+      const relevantData = stockCountDistributionItems.filter(itm => itm.value);
       const colors = getColors();
       const backgroundColor = colors.splice(0, relevantData.length);
-      const data = relevantData.map(itm => itm.count);
+      const data = relevantData.map(itm => itm.value);
       const label = "Stock count per sector";
       return {
         datasets: [{ data, backgroundColor, label }],
-        labels: relevantData.map(itm => itm.name)
+        labels: relevantData.map(itm => itm.sectorName)
       };
     },
-    [getColors, stockCountItems]
+    [getColors, stockCountDistributionItems]
   );
   const options = useMemo<Chart.ChartOptions>(() => {
     return {
@@ -46,11 +53,8 @@ function CountDistributionChart({
 
 CountDistributionChart.propTypes = {
   isLoading: PropTypes.bool.isRequired,
-  stockCountItems: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      count: PropTypes.number
-    })
+  stockCountDistributionItems: PropTypes.arrayOf(
+    PropTypes.shape({ name: PropTypes.string, value: PropTypes.number })
   ).isRequired
 };
 export default memo(CountDistributionChart);

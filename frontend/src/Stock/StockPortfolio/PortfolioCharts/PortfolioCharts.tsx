@@ -2,14 +2,18 @@ import React, { memo } from "react";
 
 import CountDistributionChart from "./CountDistributionChart";
 
+interface IDistributionItem {
+  sectorName: string;
+  value: number;
+}
 interface IPortfolioChartsProps {
-  stockCountDistribution: {
-    isLoading: boolean;
-    stockCountItems: Array<{ name: string; count: number }>;
-  };
+  isLoading: boolean;
+  stockCountDistributionItems: Array<IDistributionItem>;
+  stockRealizedValueDistributionItems: Array<IDistributionItem>;
+  stockUnrealizedValueDistributionItems: Array<IDistributionItem>;
 }
 
-function PortfolioCharts({ stockCountDistribution }: IPortfolioChartsProps) {
+function PortfolioCharts({ ...stockCountDistribution }: IPortfolioChartsProps) {
   return <CountDistributionChart {...stockCountDistribution} />;
 }
 
