@@ -1,2 +1,2 @@
 from .get_portfolio_summary import get_portfolio_summary
-from .get_stock_count_distribution import get_stock_count_distribution
+from .get_stock_distribution import get_stock_distribution
