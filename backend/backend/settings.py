@@ -19,6 +19,11 @@ from .settings_loc import (
     IS_DEVELOPMENT,
 )
 
+from .credentials import (
+    EMAIL_HOST_USER,
+    EMAIL_HOST_PASSWORD,
+)
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -151,3 +156,8 @@ CELERY_RESULT_BACKEND = 'amqp://localhost:5672'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
