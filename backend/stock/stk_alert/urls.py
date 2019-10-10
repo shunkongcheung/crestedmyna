@@ -1,23 +1,13 @@
 from django.conf.urls import url
-# from .apis import (
-#     ModelNameCreateAPIView,
-#     ModelNameListAPIView,
-#     ModelNameObjectAPIView,
-# )
+from .apis import (
+    StockAlertMasterObjectAPIView,
+)
 
 app_name = 'stk_alert'
 
 urlpatterns = [
-    # url(r'^create/$',
-    #     ModelNameCreateAPIView.as_view(),
-    #     name='app_name_val-api-create'
-    #     ),
-    # url(r'^list/$',
-    #     ModelNameListAPIView.as_view(),
-    #     name='app_name_val-api-list'
-    #     ),
-    # url(r'^(P<pk>[0-9]+)/$',
-    #     ModelNameObjectAPIView.as_view(),
-    #     name='app_name_val-api-object'
-    #     ),
+    url(r'^(?P<stock_code>.+)/$',
+        StockAlertMasterObjectAPIView.as_view(),
+        name='stk_alert-api-object'
+        ),
 ]

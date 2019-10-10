@@ -4,24 +4,26 @@ from base.apis import (
     MyObjectAPIView,
 )
 
-# from .models import ModelName
-# from .serializers import ModelNameSerializer
+from .models import StockAlertMaster
 
-fields = []
+fields = ['stock_code',
+          'market_price_value',
+          'market_price_condition',
+          'ccass_percent_value',
+          'ccass_percent_condition',
+          ]
 
 
-class ModelNameCreateAPIView(MyCreateAPIView):
+class StockAlertMasterObjectAPIView(MyObjectAPIView):
     fields = fields
-    model = ModelName
-    # serializer_class = ModelNameSerializer
+    model = StockAlertMaster
 
-
-class ModelNameListAPIView(MyListAPIView):
-    fields = []
-    model = ModelName
-
-
-class ModelNameObjectAPIView(MyObjectAPIView):
-    fields = fields
-    model = ModelName
-    # serializer_class = ModelNameSerializer
+    def get_object(self):
+        stock_code = self.kwargs['stock_code']
+        sa_master, _ = self.model.objects.get_or_create(
+            stock_code=stock_code,
+            created_by=self.request.user,
+            enable=True,
+            defaults={'name': stock_code}
+        )
+        return sa_master
