@@ -20,10 +20,18 @@ class StockAlertMaster(MyBaseModel):
         choices=COND_CHOICES,
         default=COND_ABOVE,
     )
+    market_price_trigger_at = models.DateTimeField(
+        blank=True,
+        null=True,
+    )
 
     ccass_percent_value = models.FloatField(default=0)
     ccass_percent_condition = models.CharField(
         max_length=16,
         choices=COND_CHOICES,
         default=COND_ABOVE,
+    )
+    ccass_percent_trigger_at = models.DateTimeField(
+        blank=True,
+        null=True,
     )
