@@ -6,6 +6,10 @@ from base.apis import (
 
 from .models import StockAlertMaster
 
+read_only_fields = [
+    'market_price_trigger_at',
+    'ccass_percent_trigger_at',
+]
 fields = ['stock_code',
           'market_price_value',
           'market_price_condition',
@@ -16,7 +20,13 @@ fields = ['stock_code',
 
 class StockAlertMasterObjectAPIView(MyObjectAPIView):
     fields = fields
+    read_only_fields = read_only_fields
     model = StockAlertMaster
+
+    def perform_update(self, serializer):
+        serializer.validated_data['market_price_trigger_at'] = None
+        serializer.validated_data['ccass_percent_trigger_at'] = None
+        return super().perform_update(serializer)
 
     def get_object(self):
         stock_code = self.kwargs['stock_code']
