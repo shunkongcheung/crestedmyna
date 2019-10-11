@@ -4,6 +4,7 @@ import ChartSummary from "./ChartSummary";
 import CCASSChart from "./CCASSChart";
 import PriceChart from "./PriceChart";
 import RangeSelector from "./RangeSelector";
+import StockCtrl from "./StockCtrl";
 import StockInfo from "./StockInfo";
 import StockName from "./StockName";
 import StockTxAdd from "./StockTxAdd";
@@ -58,9 +59,11 @@ interface IStockDetailProps {
     labels: Array<string>;
     prices: Array<number>;
   };
+  stockCtrlState: {
+    handleDelete: () => Promise<boolean>;
+  };
   stockInfoState: {
     handleStockSectorChange: (s: number) => any;
-    handleDelete: () => Promise<boolean>;
     sector: number;
     sectors: Array<{ name: string; id: number }>;
     stockCode: string;
@@ -104,6 +107,7 @@ function StockDetail({
   chartRangeState,
   chartSummaryState,
   priceChartState,
+  stockCtrlState,
   stockInfoState,
   stockNameState,
   stockTxTableState,
@@ -126,6 +130,7 @@ function StockDetail({
           </div>
           <div className={classNames.infoContainer}>
             <StockInfo {...stockInfoState} />
+            <StockCtrl {...stockCtrlState} />
           </div>
         </div>
       </div>

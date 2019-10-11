@@ -231,6 +231,12 @@ function useStockDetail(
     [chartData, handleChartPointHover, stockTrendsState]
   );
 
+  const stockCtrlState = useMemo(
+    () => ({
+      handleDelete: handleDeleteStockMaster
+    }),
+    [handleDeleteStockMaster]
+  );
   const stockNameState = useMemo(
     () => ({
       isLoading: stockMasterState.isLoading,
@@ -250,10 +256,9 @@ function useStockDetail(
   const stockInfoState = useMemo(
     () => ({
       ...stockMaster,
-      ...stockSectorState,
-      handleDelete: handleDeleteStockMaster
+      ...stockSectorState
     }),
-    [handleDeleteStockMaster, stockMaster, stockSectorState]
+    [stockMaster, stockSectorState]
   );
   const stockTxTableState = useMemo(
     () => ({
@@ -277,6 +282,7 @@ function useStockDetail(
     chartRangeState,
     chartSummaryState,
     priceChartState,
+    stockCtrlState,
     stockInfoState,
     stockNameState,
     stockTxTableState,

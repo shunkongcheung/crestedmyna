@@ -8,7 +8,6 @@ import StockSector from "./StockSector";
 import classNames from "./StockInfo.module.scss";
 
 interface IStockInfoProps {
-  handleDelete: () => Promise<boolean>;
   handleStockSectorChange: (s: number) => any;
   sector: number;
   sectors: Array<{ name: string; id: number }>;
@@ -22,7 +21,6 @@ interface IStockInfoProps {
 }
 
 function StockInfo({
-  handleDelete,
   handleStockSectorChange,
   sector,
   sectors,
@@ -35,13 +33,6 @@ function StockInfo({
   unrealizedValue
 }: IStockInfoProps) {
   const { getPrettyNum } = useGetPrettyNum();
-  const handleDeleteI = useCallback(
-    async () => {
-      const ok = await handleDelete();
-      if (ok) message.success("Stock item is deleted");
-    },
-    [handleDelete]
-  );
   return (
     <>
       <div className={classNames.row}>
@@ -91,16 +82,6 @@ function StockInfo({
         <div className={classNames.content}>
           ${getPrettyNum(unrealizedValue)}
         </div>
-      </div>
-      <div className={classNames.row}>
-        <Popconfirm
-          title="Are you sure delete this stock?"
-          onConfirm={handleDeleteI}
-          okText="Delete"
-          cancelText="Cancel"
-        >
-          <div className={classNames.deleteBtn}>DELETE</div>
-        </Popconfirm>
       </div>
     </>
   );
