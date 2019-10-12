@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
+from datetime import date, timedelta
 
 
 from base.utils import get_admin_user
@@ -8,8 +9,6 @@ from stock.models import (
     CCASSParticipantDetail,
     StockMaster,
 )
-
-from datetime import date, timedelta
 
 from .create_shareholding_disclosure_records import (
     create_shareholding_disclosure_records,
