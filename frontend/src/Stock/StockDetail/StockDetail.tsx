@@ -35,6 +35,15 @@ interface IStockTxSubmit {
   price: number;
 }
 
+type TCondition = "COND_ABOVE" | "COND_BELOW";
+interface IStockAlert {
+  marketPriceValue: number;
+  marketPriceCondition: TCondition;
+  ccassPercentValue: number;
+  ccassPercentCondition: TCondition;
+  lastTriggerAt?: Date;
+}
+
 interface IStockDetailProps {
   ccassChartState: {
     detailSums: Array<number>;
@@ -61,6 +70,9 @@ interface IStockDetailProps {
   };
   stockCtrlState: {
     handleDelete: () => Promise<boolean>;
+    handleStockAlertSubmit: (s: IStockAlert, f: any) => Promise<any>;
+    isLoading: boolean;
+    stockAlert: IStockAlert;
   };
   stockInfoState: {
     handleStockSectorChange: (s: number) => any;
@@ -114,6 +126,7 @@ function StockDetail({
   turnoverChartState,
   txEditState
 }: IStockDetailProps) {
+  console.log(stockCtrlState);
   return (
     <>
       <div className={classNames.row}>
