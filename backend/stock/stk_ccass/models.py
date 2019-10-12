@@ -5,7 +5,7 @@ from django.db import models
 
 
 class CCASSParticipantMaster(MyBaseModel):
-    participant_id = models.CharField(max_length=16)
+    participant_id = models.CharField(max_length=16, unique=True)
     address = models.TextField(blank=True)
 
 
