@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from base.apis import (
     MyCreateAPIView,
     MyListAPIView,
@@ -30,10 +32,17 @@ class StockAlertMasterObjectAPIView(MyObjectAPIView):
 
     def get_object(self):
         stock_code = self.kwargs['stock_code']
+        cur_time = timezone.now()
+        defaults = {
+            'name': stock_code,
+            'market_price_trigger_at': cur_time,
+            'ccass_percent_trigger_at': cur_time,
+
+        }
         sa_master, _ = self.model.objects.get_or_create(
             stock_code=stock_code,
             created_by=self.request.user,
             enable=True,
-            defaults={'name': stock_code}
+            defaults=defaults
         )
         return sa_master
