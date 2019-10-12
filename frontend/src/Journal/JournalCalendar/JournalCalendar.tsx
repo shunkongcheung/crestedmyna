@@ -1,4 +1,5 @@
 import React, { memo, useCallback } from "react";
+import { Moment } from 'moment'
 import { MdAdd } from "react-icons/md";
 import PropTypes from "prop-types";
 
@@ -14,7 +15,7 @@ interface IEvent {
 }
 interface IJournalCalendar {
   events: Array<IEvent>;
-  handleRangeChange: (gte?: Date, lte?: Date) => any;
+  handleRangeChange: (gte?: Moment, lte?: Moment) => any;
   handleCalendarClick: (id?: number) => any;
 }
 function JournalCalendar({

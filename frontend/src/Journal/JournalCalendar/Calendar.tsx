@@ -1,12 +1,9 @@
 import React, { memo, useCallback } from "react";
-import { Calendar as BCalendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
+import { Calendar as ACalendar, Badge } from "antd";
+import moment, { Moment } from "moment";
 import PropTypes from "prop-types";
 
-import "react-big-calendar/lib/sass/styles.scss";
-import "./Calendar.scss";
-
-const localizer = momentLocalizer(moment);
+import classNames from "./Calendar.module.scss";
 
 interface IEvent {
   id: number;
@@ -20,7 +17,7 @@ interface ICalendarProps {
   date?: Date;
   events: Array<IEvent>;
   handleEventClick: (id: number) => any;
-  handleRangeChange: (startAt: Date, endAt: Date) => any;
+  handleRangeChange: (startAt: Moment, endAt: Moment) => any;
 }
 
 function Calendar({
@@ -29,37 +26,45 @@ function Calendar({
   handleEventClick,
   handleRangeChange
 }: ICalendarProps) {
-  const getStartEndFromArr = useCallback(rangeArr => {
-    const startAt = rangeArr[0];
-    const endAt = rangeArr[rangeArr.length - 1];
-    return { startAt, endAt };
-  }, []);
-
-  const getStartEndFromObj = useCallback(rangeObj => {
-    return { startAt: rangeObj.start, endAt: rangeObj.end };
-  }, []);
-
-  const onSelectEvent = useCallback(event => handleEventClick(event.id), [
-    handleEventClick
-  ]);
-
-  const onRangeChange = useCallback(
-    range => {
-      const { startAt, endAt } = Array.isArray(range)
-        ? getStartEndFromArr(range)
-        : getStartEndFromObj(range);
-      handleRangeChange(startAt, endAt);
+  const dateCellRender = useCallback(
+    (value: Moment) => {
+      const cellDate = value.date();
+      const eventOnDate = events.filter(itm => {
+        const mmStart = moment(itm.start);
+        const mmEnd = moment(itm.end);
+        return mmStart.date() <= cellDate && mmEnd.date() >= cellDate;
+      });
+      return (
+        <ul className={classNames.events}>
+          {eventOnDate.map(item => (
+            <li key={item.id} onClick={() => handleEventClick(item.id)}>
+              <Badge
+                className={classNames.event}
+                status="success"
+                text={item.title}
+              />
+            </li>
+          ))}
+        </ul>
+      );
     },
-    [getStartEndFromArr, getStartEndFromObj, handleRangeChange]
+    [events, handleEventClick]
+  );
+
+  const handlePanelChange = useCallback(
+    (date: Moment | undefined, mode: "month" | "year" | undefined) => {
+      if (!mode || !date) return;
+      const startAt = moment(date).startOf(mode);
+      const endAt = moment(date).endOf(mode);
+      return handleRangeChange(startAt, endAt);
+    },
+    [handleRangeChange]
   );
 
   return (
-    <BCalendar
-      defaultDate={date}
-      events={events}
-      localizer={localizer}
-      onSelectEvent={onSelectEvent}
-      onRangeChange={onRangeChange}
+    <ACalendar
+      dateCellRender={dateCellRender}
+      onPanelChange={handlePanelChange}
     />
   );
 }
