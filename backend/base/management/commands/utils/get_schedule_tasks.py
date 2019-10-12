@@ -8,6 +8,11 @@ def get_schedule_tasks():
     '''
     return [
         {
+            'name': 'stk_alert-periodic_send_alert_emails',
+            'task': 'stock.stk_alert.tasks.periodic_send_alert_emails.periodic_send_alert_emails',
+            'crontab': '1 3 * * 1-5',
+        },
+        {
             'name': 'stk_ccass-periodic_create_shareholding_disclosure_records',
             'task': 'stock.stk_ccass.tasks.periodic_create_shareholding_disclosure_records.periodic_create_shareholding_disclosure_records',
             'crontab': '1 1 * * *',
