@@ -85,10 +85,15 @@ def send_alert_emails_for_stock_price_below(stock_alert_masters, market_price, c
 
 
 def send_alert_emails_for_queryset(queryset, condition_type, market_price, ccass_percent):
+    first_stock_alert_master = queryset.first()
+    stock_code = first_stock_alert_master.stock_code if first_stock_master else ''
+    stock_name = first_stock_alert_master.name if first_stock_master else ''
     context = {
+        'ccass_percent': ccass_percent,
         'condition_type': condition_type,
         'market_price': market_price,
-        'ccass_percent': ccass_percent,
+        'stock_code': stock_code,
+        'stock_name': stock_name,
     }
     recipient_list = [
         stock_alert_master.created_by.email
