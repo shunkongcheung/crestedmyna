@@ -19,6 +19,7 @@ interface IFormikVal {
 interface IEditAlertModalProps {
   handleCancel: () => any;
   isVisible: boolean;
+  lastTriggerAt?: Date;
 }
 interface IFormikProps extends IEditAlertModalProps, Partial<IFormikVal> {
   handleAlertSubmit: (v: IFormikVal, f: any) => any;
@@ -27,7 +28,7 @@ interface IFormikProps extends IEditAlertModalProps, Partial<IFormikVal> {
 function EditAlertModal({
   isVisible,
   handleCancel,
-
+  lastTriggerAt,
   ...formikApis
 }: IEditAlertModalProps & FormikProps<IFormikVal>) {
   const { handleSubmit, isSubmitting } = formikApis;
@@ -90,6 +91,23 @@ function EditAlertModal({
     [renderSelect, renderText]
   );
 
+  const renderedLastTriggerAtMessage = useMemo(
+    () => {
+      if (!lastTriggerAt) return <></>;
+      const triggerAtStr = lastTriggerAt.toLocaleDateString();
+      return (
+        <div className={classNames.triggeredMessage}>
+          <p>
+            <span className={classNames.star}>*</span>
+            Your alert has been triggered on {triggerAtStr}. To resume, hit OK
+            again to save.
+          </p>
+        </div>
+      );
+    },
+    [lastTriggerAt]
+  );
+
   return (
     <Modal
       confirmLoading={isSubmitting}
@@ -100,6 +118,7 @@ function EditAlertModal({
     >
       {renderedPrice}
       {renderedCCASS}
+      {renderedLastTriggerAtMessage}
     </Modal>
   );
 }
@@ -111,6 +130,7 @@ EditAlertModal.propTypes = {
 };
 
 export default withFormik<IFormikProps, IFormikVal>({
+  enableReinitialize: true,
   validationSchema: Yup.object().shape({
     marketPriceValue: Yup.number().min(0),
     marketPriceCondition: Yup.mixed().oneOf(["COND_ABOVE", "COND_BELOW"]),
