@@ -6,9 +6,13 @@ from base.apis import (
     MyObjectAPIView,
 )
 
-from .models import StockAlertMaster
+from stock.models import (
+    StockMaster,
+    StockAlertMaster,
+)
 
 read_only_fields = [
+    'name',
     'market_price_trigger_at',
     'ccass_percent_trigger_at',
 ]
@@ -30,11 +34,15 @@ class StockAlertMasterObjectAPIView(MyObjectAPIView):
         serializer.validated_data['ccass_percent_trigger_at'] = None
         return super().perform_update(serializer)
 
+    def get_stock_master_name(self, stock_code):
+        return StockMaster.objects.filter(stock_code=stock_code).first().name
+
     def get_object(self):
         stock_code = self.kwargs['stock_code']
         cur_time = timezone.now()
+        stock_name = self.get_stock_master_name(stock_code)
         defaults = {
-            'name': stock_code,
+            'name': stock_name,
             'market_price_trigger_at': cur_time,
             'ccass_percent_trigger_at': cur_time,
 
