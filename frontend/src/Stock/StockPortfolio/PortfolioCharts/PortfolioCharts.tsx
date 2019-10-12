@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useMemo } from "react";
-import { Carousel } from "antd";
+/* import { Carousel } from "antd"; */
 
 import DistributionChart from "./DistributionChart";
 

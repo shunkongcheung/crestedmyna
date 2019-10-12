@@ -1,5 +1,5 @@
-import React, { useCallback, memo } from "react";
-import { Popconfirm, Tag, message } from "antd";
+import React, { memo } from "react";
+import { Tag } from "antd";
 import PropTypes from "prop-types";
 
 import { useGetPrettyNum } from "../../hooks";
