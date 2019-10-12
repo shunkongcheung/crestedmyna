@@ -1,5 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
+from django.db import transaction
 
 from base.utils import get_admin_user
 from general.gnl_syslog.utils import write_syslog
@@ -80,18 +81,17 @@ def create_or_update_partipant_master(address,
                                       participant_name,
                                       user):
 
-    defaults = {
-        'address': address,
-        'created_by': user,
-    }
-    p_master, created = CCASSParticipantMaster.objects\
-        .update_or_create(
-            participant_id=participant_id,
-            name=participant_name,
-            defaults=defaults
-        )
-
-    return p_master, 'created' if created else 'exist'
+    defaults = {'address': address,
+                'created_by': user,
+                'name': participant_name,
+                }
+    with transaction.atomic():
+        p_master, created = CCASSParticipantMaster.objects\
+            .update_or_create(
+                participant_id=participant_id,
+                defaults=defaults
+            )
+        return p_master, 'created' if created else 'exist'
 
 
 def get_stripped_data(data):
@@ -130,6 +130,9 @@ def get_content_from_trow(trow):
             content['participant_name'] = value
 
         is_contain_data = True
+
+    if content['participant_id'] == 'No ID provided':
+        is_contain_data = False
 
     return content if is_contain_data else None
 
