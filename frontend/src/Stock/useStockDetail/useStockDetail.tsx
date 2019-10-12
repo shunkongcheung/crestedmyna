@@ -6,6 +6,7 @@ import useChartRange from "./useChartRange";
 import useChartSummary from "./useChartSummary";
 import useCCASSParticipantDetails from "./useCCASSParticipantDetails";
 import useGetChartData from "./useGetChartData";
+import useStockAlert from "./useStockAlert";
 import useStockTrends from "./useStockTrends";
 import useStockMaster from "./useStockMaster";
 import useStockTxAdd from "./useStockTxAdd";
@@ -36,6 +37,7 @@ function useStockDetail(
   const { range } = chartRange;
   const { stockMaster } = stockMasterState;
   const stockSectorState = useStockSectors(stockMaster);
+  const stockAlert = useStockAlert(stockMaster.stockCode);
 
   const onStockTxAdd = useCallback(
     (sm: number, page: number) => {
@@ -233,9 +235,10 @@ function useStockDetail(
 
   const stockCtrlState = useMemo(
     () => ({
+      ...stockAlert,
       handleDelete: handleDeleteStockMaster
     }),
-    [handleDeleteStockMaster]
+    [handleDeleteStockMaster, stockAlert]
   );
   const stockNameState = useMemo(
     () => ({
