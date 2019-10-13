@@ -1,8 +1,7 @@
 from django.conf.urls import url
 from .apis import (
     CCASSParticipantDetailAPIView,
-    # ModelNameListAPIView,
-    # ModelNameObjectAPIView,
+    CCASSParticipantTrendAPIView,
 )
 
 app_name = 'stk_ccass'
@@ -12,12 +11,8 @@ urlpatterns = [
         CCASSParticipantDetailAPIView.as_view(),
         name='stk_ccass-api-participant_detail'
         ),
-    #     url(r'^list/$',
-    #         ModelNameListAPIView.as_view(),
-    #         name='stk_ccass-api-list'
-    #         ),
-    #     url(r'^(P<pk>[0-9]+)/$',
-    #         ModelNameObjectAPIView.as_view(),
-    #         name='stk_ccass-api-object'
-    #         ),
+    url(r'^(?P<date>[0-9]+)/$',
+        CCASSParticipantTrendAPIView.as_view(),
+        name='stk_ccass-api-trend'
+        ),
 ]
