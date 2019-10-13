@@ -16,6 +16,5 @@ def get_stock_trends(start_date, end_date, stock_code):
 
     json_str = data.to_json(orient='table', index=True)
     trends = json.loads(json_str)['data']
-    print(data.columns)
 
     return trends
