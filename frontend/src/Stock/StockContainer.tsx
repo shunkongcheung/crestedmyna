@@ -5,6 +5,7 @@ import { Tabs } from "antd";
 
 import Layout from "../Base/Layout";
 
+import CCASSTrend from "./CCASSTrend";
 import StockDetail from "./StockDetail";
 import StockTx from "./StockTx";
 import StockPortfolio from "./StockPortfolio";
@@ -14,6 +15,7 @@ const { TabPane } = Tabs;
 
 function StockContainer({ history }: RouteComponentProps) {
   const {
+    ccassTrendState,
     handleTabChange,
     page,
     stockDetailState,
@@ -31,6 +33,9 @@ function StockContainer({ history }: RouteComponentProps) {
         </TabPane>
         <TabPane tab="Transactions" key="txes">
           <StockTx {...stockTxState} />
+        </TabPane>
+        <TabPane tab="Participant trend" key="ccassTrend">
+          <CCASSTrend {...ccassTrendState} />
         </TabPane>
       </Tabs>
     </Layout>

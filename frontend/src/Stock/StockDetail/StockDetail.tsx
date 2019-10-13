@@ -126,7 +126,6 @@ function StockDetail({
   turnoverChartState,
   txEditState
 }: IStockDetailProps) {
-  console.log(stockCtrlState);
   return (
     <>
       <div className={classNames.row}>
