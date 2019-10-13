@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { History } from "history";
 
-type TPage = "detail" | "portfolio" | "txes";
+type TPage = "ccassTrend" | "detail" | "portfolio" | "txes";
 
 function useStockPage(history: History) {
   const [page, setPage] = useState<TPage>("detail");
@@ -17,6 +17,7 @@ function useStockPage(history: History) {
     const { pathname } = location;
     if (pathname.includes("portfolio")) setPage("portfolio");
     else if (pathname.includes("txes")) setPage("txes");
+    else if (pathname.includes("ccassTrend")) setPage("ccassTrend");
     else setPage("detail");
   }, []);
 
