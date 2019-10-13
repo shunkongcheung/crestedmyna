@@ -1,0 +1,1 @@
+from .ccass_participant_detail_serializer import CCASSParticipantSumItemSerializer

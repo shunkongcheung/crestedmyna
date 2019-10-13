@@ -5,7 +5,7 @@ from rest_framework.serializers import (
     FloatField,
     Serializer,
 )
-from .models import (
+from ..models import (
     CCASSParticipantDetail,
     CCASSParticipantMaster,
 )
