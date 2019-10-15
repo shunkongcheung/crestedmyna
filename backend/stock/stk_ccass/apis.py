@@ -22,6 +22,7 @@ class CCASSParticipantDetailAPIView(MyCreateAPIView):
 
 class CCASSParticipantTrendAPIView(MyListAPIView):
     serializer_class = CCASSParticipantTrendSerializer
+    ordering_fields = ['diff_percent', 'first_percent', 'second_percent', ]
 
     def get_stock_master_name(self, stock_code):
         stock_master = StockMaster.objects\
