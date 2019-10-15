@@ -6,7 +6,8 @@ from rest_framework.serializers import (
 
 
 class CCASSParticipantTrendSerializer(Serializer):
-    participant_name = CharField()
+    stock_code = CharField()
+    stock_name = CharField()
 
     diff_percent = FloatField()
     first_percent = FloatField()
