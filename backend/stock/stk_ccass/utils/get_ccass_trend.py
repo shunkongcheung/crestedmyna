@@ -18,11 +18,13 @@ def get_last_day_with_records(cur_date):
         .distinct('detail_date')\
         .values_list('detail_date', flat=True)
 
-    date_list = list(dates)
-    cur_idx = date_list.index(cur_date)
-    if cur_idx == 0:
+    try:
+        date_list = list(dates)
+        cur_idx = date_list.index(cur_date)
+    except ValueError:
         return cur_date
-    return date_list[cur_idx - 1]
+
+    return cur_date if cur_idx == 0 else date_list[cur_idx - 1]
 
 
 def get_ccass_trend(date):
