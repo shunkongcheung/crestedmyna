@@ -1,8 +1,8 @@
 import React, { memo, useMemo } from "react";
+import { Modal } from "antd";
 import { withFormik, FormikProps } from "formik";
 import * as Yup from "yup";
 
-import { Dialog } from "../../../Base/Utils";
 import { InputText } from "../../../Base/Form";
 
 import PropTypes from "prop-types";
@@ -13,7 +13,7 @@ interface IStockProfile {
 }
 
 interface IStockProfileDialogProps {
-  handleStockProfileChange: (p: IStockProfile, f:any) => any;
+  handleStockProfileChange: (p: IStockProfile, f: any) => any;
   handleModalClose: () => any;
   isModalOpen: boolean;
 }
@@ -34,20 +34,20 @@ function StockProfileDialog({
   );
 
   return (
-    <Dialog
-      handleSubmit={handleSubmit}
-      handleClose={handleModalClose}
-      textContent={renderedContent}
-      isOpen={isModalOpen}
+    <Modal
+      onOk={handleSubmit as any}
+      onCancel={handleModalClose as any}
+      visible={isModalOpen}
       title="STOCK PROFILE"
     >
+      {renderedContent}
       <InputText {...formikProps} label="Static cost" name="txStaticCost" />
       <InputText
         {...formikProps}
         label="Proportional cost"
         name="txProportionCost"
       />
-    </Dialog>
+    </Modal>
   );
 }
 
@@ -55,6 +55,7 @@ StockProfileDialog.propTypes = {
   handleStockProfileChange: PropTypes.func.isRequired
 };
 export default withFormik<IStockProfileDialogProps, IStockProfile>({
+  enableReinitialize: true,
   validationSchema: Yup.object().shape({
     txStaticCost: Yup.number().required(),
     txProportionCost: Yup.number()
