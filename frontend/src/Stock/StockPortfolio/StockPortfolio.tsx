@@ -52,9 +52,19 @@ interface IStockMasterTableState {
   sectors: Array<{ name: string; id: number }>;
   total: number;
 }
+
+interface IStockProfile {
+  txStaticCost: number;
+  txProportionCost: number;
+}
 interface IPortfolioSummary {
   isLoading: boolean;
   handleSectorsChange: (s: Array<number>) => any;
+  stockProfileState: {
+    handleStockProfileChange: (s: IStockProfile, f:any) => any;
+    isLoading: boolean;
+    stockProfile: IStockProfile;
+  };
   sectors: Array<{ name: string; id: number }>;
   marketValue: number;
   realizedValue: number;
