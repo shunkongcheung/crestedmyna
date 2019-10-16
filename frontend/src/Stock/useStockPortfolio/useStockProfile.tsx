@@ -54,7 +54,7 @@ function useStockProfile() {
   const handleStockProfileChange = useCallback(
     async (data: IStockProfile, formApis: any) => {
       const { ok, payload } = await fetchEdit(
-        "stock/stk_profile/detail/",
+        "stock/stk_portfolio/profile/",
         {
           tx_static_cost: data.txStaticCost,
           tx_proportion_cost: data.txProportionCost
@@ -82,7 +82,7 @@ function useStockProfile() {
   );
 
   // return  --------------------------------------------------
-  return { stockProfileState, handleStockProfileChange };
+  return { ...stockProfileState, handleStockProfileChange };
 }
 
 export default useStockProfile;

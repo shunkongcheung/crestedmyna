@@ -11,7 +11,6 @@ import useStockTrends from "./useStockTrends";
 import useStockMaster from "./useStockMaster";
 import useStockTxAdd from "./useStockTxAdd";
 import useStockTxs from "./useStockTxs";
-import useStockProfile from "./useStockProfile";
 
 function useStockDetail(
   fetchStockMasterNames: () => any,
@@ -31,7 +30,6 @@ function useStockDetail(
     fetchStockMaster
   } = useStockMaster();
   const { fetchStockTxs, stockTxsState } = useStockTxs();
-  const { stockProfileState, handleStockProfileChange } = useStockProfile();
   const { chartRange, setChartRange, getDatesFromRange } = useChartRange();
 
   const { range } = chartRange;
@@ -272,12 +270,9 @@ function useStockDetail(
   );
   const txEditState = useMemo(
     () => ({
-      isProfileLoading: stockProfileState.isLoading,
       handleAddTx,
-      handleStockProfileChange,
-      stockProfile: stockProfileState.stockProfile
     }),
-    [handleAddTx, handleStockProfileChange, stockProfileState]
+    [handleAddTx]
   );
 
   return {

@@ -1,8 +1,10 @@
 import { useCallback, useMemo } from "react";
 
 import { useStockSectors } from "../hooks";
+
 import usePortfolioSummary from "./usePortfolioSummary";
 import useStockDistribution from "./useStockDistribution";
+import useStockProfile from "./useStockProfile";
 import useStockMasterTableState from "./useStockMasterTableState";
 
 function useStockPortfolio() {
@@ -19,6 +21,7 @@ function useStockPortfolio() {
   const { handleListChange } = stockMasterTable;
 
   const stockSectors = useStockSectors(fakeStockMaster);
+  const stockProfileState = useStockProfile();
 
   // methods -------------------------------------------------------
   const refreshStockPortfolio = useCallback(
@@ -42,10 +45,11 @@ function useStockPortfolio() {
   const portfolioSummaryState = useMemo(
     () => ({
       ...portfolioSummary,
+      stockProfileState,
       sectors: stockSectors.sectors,
       isLoading: portfolioSummary.isLoading || stockSectors.isLoading
     }),
-    [portfolioSummary, stockSectors]
+    [portfolioSummary, stockSectors, stockProfileState]
   );
 
   const chartsState = useMemo(
