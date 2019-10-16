@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { MdSettings } from "react-icons/md";
 
-import StockProfileDialog from "./StockProfileDialog";
+/* import StockProfileDialog from "./StockProfileDialog"; */
 import StockTxAdd from "./StockTxAdd";
 
 import classNames from "./TxEdit.module.scss";
@@ -40,34 +40,34 @@ function TxEdit({
     },
     [handleStockProfileChange]
   );
-  const renderedDialog = useMemo(
-    () => {
-      if (isProfileLoading) return <></>;
-      return (
-        <StockProfileDialog
-          {...stockProfile}
-          isModalOpen={isSettingModal}
-          handleModalClose={handleModalClose}
-          handleStockProfileChange={handleStockProfileChangeI}
-        />
-      );
-    },
-    [
-      isProfileLoading,
-      stockProfile,
-      isSettingModal,
-      handleModalClose,
-      handleStockProfileChangeI
-    ]
-  );
+  /* const renderedDialog = useMemo( */
+  /*   () => { */
+  /*     if (isProfileLoading) return <></>; */
+  /*     return ( */
+  /*       <StockProfileDialog */
+  /*         {...stockProfile} */
+  /*         isModalOpen={isSettingModal} */
+  /*         handleModalClose={handleModalClose} */
+  /*         handleStockProfileChange={handleStockProfileChangeI} */
+  /*       /> */
+  /*     ); */
+  /*   }, */
+  /*   [ */
+  /*     isProfileLoading, */
+  /*     stockProfile, */
+  /*     isSettingModal, */
+  /*     handleModalClose, */
+  /*     handleStockProfileChangeI */
+  /*   ] */
+  /* ); */
 
+  /* {renderedDialog} */
   return (
     <>
-      {renderedDialog}
       <div className={classNames.row}>
-				<div className={classNames.addContainer}>
-        <StockTxAdd handleAddTx={handleAddTx} />
-			</div>
+        <div className={classNames.addContainer}>
+          <StockTxAdd handleAddTx={handleAddTx} />
+        </div>
         <div className={classNames.setting}>
           <MdSettings onClick={() => setIsSettingModal(true)} />
         </div>
