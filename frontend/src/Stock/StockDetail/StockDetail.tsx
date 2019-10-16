@@ -14,10 +14,6 @@ import TurnoverChart from "./TurnoverChart";
 import classNames from "./StockDetail.module.scss";
 
 type TRange = "week" | "month" | "year" | "5years";
-interface IStockProfile {
-  txStaticCost: number;
-  txProportionCost: number;
-}
 interface IStockTx {
   txType: "BUY" | "SELL";
   txAt: Date;
@@ -108,9 +104,6 @@ interface IStockDetailProps {
   };
   txEditState: {
     handleAddTx: (tx: IStockTxSubmit, f: any) => any;
-    handleStockProfileChange: (p: IStockProfile, f: any) => any;
-    isProfileLoading: boolean;
-    stockProfile: IStockProfile;
   };
 }
 
