@@ -5,12 +5,12 @@ import { useListState } from "../../Base/Fetches";
 
 interface IStockNewsItem {
   documentLink: string;
-  releaseDate: Moment;
+  releaseTime: Moment;
   headline: string;
 }
 interface IStockNewsItemFetch {
   document_link: string;
-  release_date: string;
+  release_time: string;
   headline: string;
 }
 
@@ -39,7 +39,7 @@ function useStockNews(stockCode: string) {
         isLoading: false,
         stockNews: payload.results.map(itm => ({
           documentLink: itm.document_link,
-          releaseDate: moment(itm.release_date),
+          releaseTime: moment(itm.release_time),
           headline: itm.headline
         }))
       });
