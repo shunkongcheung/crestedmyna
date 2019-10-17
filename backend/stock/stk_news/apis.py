@@ -1,27 +1,23 @@
-from base.apis import (
-    MyCreateAPIView,
-    MyListAPIView,
-    MyObjectAPIView,
-)
-
-# from .models import ModelName
-# from .serializers import ModelNameSerializer
-
-fields = []
+from datetime import datetime, timedelta
 
 
-class ModelNameCreateAPIView(MyCreateAPIView):
-    fields = fields
-    model = ModelName
-    # serializer_class = ModelNameSerializer
+from base.apis import MyListAPIView
+
+from .serializers import StockNewsSerializer
+from .utils import get_news_from_hkex
 
 
-class ModelNameListAPIView(MyListAPIView):
-    fields = []
-    model = ModelName
+class StockNewsListAPIView(MyListAPIView):
+    def get_serializer_class(self, *args, **kwargs):
+        return StockNewsSerializer
 
+    def filter_queryset(self, queryset):
+        return queryset
 
-class ModelNameObjectAPIView(MyObjectAPIView):
-    fields = fields
-    model = ModelName
-    # serializer_class = ModelNameSerializer
+    def get_queryset(self):
+        stock_code = self.kwargs['stock_code']
+
+        to_date = datetime.now()
+        from_date = to_date - timedelta(days=365)
+
+        return get_news_from_hkex(stock_code, from_date, to_date)
