@@ -29,6 +29,7 @@ function useStockContainer(history: History) {
 
   const stockDetailState = useStockDetail(
     fetchStockMasterNames,
+    history,
     refreshOtherTabs,
     stockMasterNamesState.stockMasterNames
   );

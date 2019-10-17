@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
+import { History } from "history";
 
 import { useStockSectors } from "../hooks";
 
@@ -11,12 +12,13 @@ import useStockTxs from "./useStockTxs";
 
 function useStockDetail(
   fetchStockMasterNames: () => any,
+  history: History,
   refreshOtherTabs: () => any,
   stockMasterNames: Array<{ id: number; name: string }>
 ) {
   const isInitialzed = useRef(false);
   const {
-    createStockMaster,
+    /* createStockMaster, */
     deleteStockMaster,
     stockMasterState,
     fetchStockMaster
@@ -52,55 +54,55 @@ function useStockDetail(
 
   // methods ------------------------------------------------
 
-  const handleStockMasterChange = useCallback(
-    async stockMasterId => {
-      const stockMaster = await fetchStockMaster(stockMasterId);
-      if (!stockMaster) return;
-      const { startDate, endDate } = getDatesFromRange(range);
-      return Promise.all([
-        fetchParticipantDetails(stockMaster.stockCode, startDate, endDate),
-        fetchStockTrends(stockMaster.stockCode, startDate, endDate),
-        fetchStockTxs(stockMaster.id, 1)
-      ]);
-    },
-    [
-      fetchParticipantDetails,
-      fetchStockMaster,
-      fetchStockTrends,
-      fetchStockTxs,
-      getDatesFromRange,
-      range
-    ]
-  );
-  const handleStockSearch = useCallback(
-    async stockCode => {
-      const nStockMaster = await createStockMaster(stockCode);
-      const { startDate, endDate } = getDatesFromRange(range);
-      if (!nStockMaster) return;
-      return Promise.all([
-        fetchStockMasterNames(),
-        fetchParticipantDetails(stockCode, startDate, endDate),
-        fetchStockTrends(stockCode, startDate, endDate),
-        fetchStockTxs(nStockMaster.id, 1)
-      ]);
-    },
-    [
-      createStockMaster,
-      fetchStockMasterNames,
-      fetchParticipantDetails,
-      fetchStockTrends,
-      fetchStockTxs,
-      getDatesFromRange,
-      range
-    ]
-  );
+  /*   const handleStockMasterChange = useCallback( */
+  /*     async stockMasterId => { */
+  /*       const stockMaster = await fetchStockMaster(stockMasterId); */
+  /*       if (!stockMaster) return; */
+  /*       const { startDate, endDate } = getDatesFromRange(range); */
+  /*       return Promise.all([ */
+  /*         fetchParticipantDetails(stockMaster.stockCode, startDate, endDate), */
+  /*         fetchStockTrends(stockMaster.stockCode, startDate, endDate), */
+  /*         fetchStockTxs(stockMaster.id, 1) */
+  /*       ]); */
+  /*     }, */
+  /*     [ */
+  /*       fetchParticipantDetails, */
+  /*       fetchStockMaster, */
+  /*       fetchStockTrends, */
+  /*       fetchStockTxs, */
+  /*       getDatesFromRange, */
+  /*       range */
+  /*     ] */
+  /*   ); */
+  /*   const handleStockSearch = useCallback( */
+  /*     async stockCode => { */
+  /*       const nStockMaster = await createStockMaster(stockCode); */
+  /*       const { startDate, endDate } = getDatesFromRange(range); */
+  /*       if (!nStockMaster) return; */
+  /*       return Promise.all([ */
+  /*         fetchStockMasterNames(), */
+  /*         fetchParticipantDetails(stockCode, startDate, endDate), */
+  /*         fetchStockTrends(stockCode, startDate, endDate), */
+  /*         fetchStockTxs(nStockMaster.id, 1) */
+  /*       ]); */
+  /*     }, */
+  /*     [ */
+  /*       createStockMaster, */
+  /*       fetchStockMasterNames, */
+  /*       fetchParticipantDetails, */
+  /*       fetchStockTrends, */
+  /*       fetchStockTxs, */
+  /*       getDatesFromRange, */
+  /*       range */
+  /*     ] */
+  /*   ); */
   const handleTxTableChange = useCallback(
     (page: number) => fetchStockTxs(stockMaster.id, page),
     [fetchStockTxs, stockMaster]
   );
 
   const initStockMaster = useCallback(
-    async stockMasterId => {
+    async (stockMasterId: number) => {
       const nStockMaster = await fetchStockMaster(stockMasterId);
       if (!nStockMaster) return;
       const { startDate, endDate } = getDatesFromRange("week");
@@ -124,25 +126,30 @@ function useStockDetail(
   const handleDeleteStockMaster = useCallback(
     async () => {
       const ok = await deleteStockMaster();
-      if (ok) {
-        const secondStockMasterId =
-          Array.isArray(stockMasterNames) && stockMasterNames.length > 1
-            ? (stockMasterNames.find(itm => itm.id !== stockMaster.id) as any)
-                .id
-            : -1;
-        fetchStockMasterNames();
-        refreshOtherTabs();
-        initStockMaster(secondStockMasterId);
-      }
+      if (!ok) return ok;
+      refreshOtherTabs();
+      history.push("/stock/portfolio");
       return ok;
+      /* if (ok) { */
+      /*   const secondStockMasterId = */
+      /*     Array.isArray(stockMasterNames) && stockMasterNames.length > 1 */
+      /*       ? (stockMasterNames.find(itm => itm.id !== stockMaster.id) as any) */
+      /*           .id */
+      /*       : -1; */
+      /*   fetchStockMasterNames(); */
+      /*   refreshOtherTabs(); */
+      /*   initStockMaster(secondStockMasterId); */
+      /* } */
+      /* return ok; */
     },
     [
       deleteStockMaster,
-      fetchStockMasterNames,
-      refreshOtherTabs,
-      initStockMaster,
-      stockMasterNames,
-      stockMaster
+      history,
+      /* fetchStockMasterNames, */
+      refreshOtherTabs
+      /* initStockMaster, */
+      /* stockMasterNames, */
+      /* stockMaster */
     ]
   );
 
@@ -165,22 +172,22 @@ function useStockDetail(
     () => ({ ...stockAlert, handleDelete: handleDeleteStockMaster }),
     [handleDeleteStockMaster, stockAlert]
   );
-  const stockNameState = useMemo(
-    () => ({
-      isLoading: stockMasterState.isLoading,
-      stockName: stockMaster.name,
-      stockMasterNames: stockMasterNames,
-      handleStockMasterChange,
-      handleStockSearch
-    }),
-    [
-      handleStockMasterChange,
-      handleStockSearch,
-      stockMaster,
-      stockMasterState.isLoading,
-      stockMasterNames
-    ]
-  );
+  /* const stockNameState = useMemo( */
+  /*   () => ({ */
+  /*     isLoading: stockMasterState.isLoading, */
+  /*     stockName: stockMaster.name, */
+  /*     stockMasterNames: stockMasterNames, */
+  /*     handleStockMasterChange, */
+  /*     handleStockSearch */
+  /*   }), */
+  /*   [ */
+  /*     handleStockMasterChange, */
+  /*     handleStockSearch, */
+  /*     stockMaster, */
+  /*     stockMasterState.isLoading, */
+  /*     stockMasterNames */
+  /*   ] */
+  /* ); */
   const stockInfoState = useMemo(
     () => ({ ...stockMaster, ...stockSectorState }),
     [stockMaster, stockSectorState]
@@ -195,7 +202,7 @@ function useStockDetail(
     stockCtrlState,
     stockInfoState,
     stockNewsState,
-    stockNameState,
+    /* stockNameState, */
     stockTxTableState,
     txEditState
   };
