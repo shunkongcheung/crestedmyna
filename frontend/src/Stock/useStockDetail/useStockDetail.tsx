@@ -44,7 +44,7 @@ function useStockDetail(
     },
     [fetchStockTxs, refreshOtherTabs]
   );
-  const { handleAddTx } = useStockTxAdd(
+  const txEditState = useStockTxAdd(
     stockMaster.id,
     onStockTxAdd,
     fetchStockMaster
@@ -162,10 +162,7 @@ function useStockDetail(
   // return --------------------------------------------------
 
   const stockCtrlState = useMemo(
-    () => ({
-      ...stockAlert,
-      handleDelete: handleDeleteStockMaster
-    }),
+    () => ({ ...stockAlert, handleDelete: handleDeleteStockMaster }),
     [handleDeleteStockMaster, stockAlert]
   );
   const stockNameState = useMemo(
@@ -185,24 +182,12 @@ function useStockDetail(
     ]
   );
   const stockInfoState = useMemo(
-    () => ({
-      ...stockMaster,
-      ...stockSectorState
-    }),
+    () => ({ ...stockMaster, ...stockSectorState }),
     [stockMaster, stockSectorState]
   );
   const stockTxTableState = useMemo(
-    () => ({
-      handleListChange: handleTxTableChange,
-      ...stockTxsState
-    }),
+    () => ({ handleListChange: handleTxTableChange, ...stockTxsState }),
     [handleTxTableChange, stockTxsState]
-  );
-  const txEditState = useMemo(
-    () => ({
-      handleAddTx
-    }),
-    [handleAddTx]
   );
 
   return {
