@@ -1,0 +1,20 @@
+@import "../../../variables";
+
+$height: 30vh;
+
+.itemsContainer {
+  height: $height;
+  overflow-y: auto;
+}
+.spinContainer {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  width: 100%;
+  height: $height;
+}
+.title {
+  color: $primaryColor;
+  font-weight: 700;
+  text-align: end;
+}

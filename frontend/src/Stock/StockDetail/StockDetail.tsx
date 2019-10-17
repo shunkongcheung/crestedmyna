@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+import { Moment } from "moment";
 
 import ChartSummary from "./ChartSummary";
 import CCASSChart from "./CCASSChart";
@@ -6,6 +7,7 @@ import PriceChart from "./PriceChart";
 import RangeSelector from "./RangeSelector";
 import StockCtrl from "./StockCtrl";
 import StockInfo from "./StockInfo";
+import StockNews from "./StockNews";
 import StockName from "./StockName";
 import StockTxAdd from "./StockTxAdd";
 import StockTxTable from "./StockTxTable";
@@ -14,6 +16,12 @@ import TurnoverChart from "./TurnoverChart";
 import classNames from "./StockDetail.module.scss";
 
 type TRange = "week" | "month" | "year" | "5years";
+
+interface IStockNewsItem {
+  documentLink: string;
+  headline: string;
+  releaseTime: Moment;
+}
 interface IStockTx {
   txType: "BUY" | "SELL";
   txAt: Date;
@@ -56,6 +64,7 @@ interface IStockDetailProps {
     dateLabel: string;
     participantPercentSum: number;
     price: number;
+    stockName: string;
     turnover: number;
   };
   priceChartState: {
@@ -89,6 +98,10 @@ interface IStockDetailProps {
     stockMasterNames: Array<{ name: string; id: number }>;
     stockName: string;
   };
+  stockNewsState: {
+    isLoading: boolean;
+    stockNews: Array<IStockNewsItem>;
+  };
   stockTxTableState: {
     handleListChange: (p: number) => any;
     isLoading: boolean;
@@ -115,6 +128,7 @@ function StockDetail({
   stockCtrlState,
   stockInfoState,
   stockNameState,
+  stockNewsState,
   stockTxTableState,
   turnoverChartState,
   txEditState
@@ -136,6 +150,8 @@ function StockDetail({
           <div className={classNames.infoContainer}>
             <StockInfo {...stockInfoState} />
             <StockCtrl {...stockCtrlState} />
+            <hr />
+            <StockNews {...stockNewsState} />
           </div>
         </div>
       </div>
