@@ -33,6 +33,7 @@ interface IOrderParams {
   isAscend: boolean;
 }
 interface IStockMaster {
+  id: number;
   name: string;
   sector: number;
   stockCode: string;
