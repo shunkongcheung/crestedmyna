@@ -15,10 +15,10 @@ function useStockPage(history: History) {
 
   const setPageOnHistoryChange = useCallback(location => {
     const { pathname } = location;
-    if (pathname.includes("portfolio")) setPage("portfolio");
+    if (pathname.includes("detail")) setPage("detail");
     else if (pathname.includes("txes")) setPage("txes");
     else if (pathname.includes("ccassTrend")) setPage("ccassTrend");
-    else setPage("detail");
+    else setPage("portfolio");
   }, []);
 
   useEffect(
