@@ -205,10 +205,7 @@ function useStockDetail(
   );
 
   const chartSummaryState = useMemo(
-    () => ({
-      ...chartSummary,
-      stockName: stockMaster.name
-    }),
+    () => ({ ...chartSummary, stockName: stockMaster.name }),
     [chartSummary, stockMaster.name]
   );
 
@@ -242,10 +239,7 @@ function useStockDetail(
   );
 
   const stockCtrlState = useMemo(
-    () => ({
-      ...stockAlert,
-      handleDelete: handleDeleteStockMaster
-    }),
+    () => ({ ...stockAlert, handleDelete: handleDeleteStockMaster }),
     [handleDeleteStockMaster, stockAlert]
   );
   const stockNameState = useMemo(
@@ -265,17 +259,11 @@ function useStockDetail(
     ]
   );
   const stockInfoState = useMemo(
-    () => ({
-      ...stockMaster,
-      ...stockSectorState
-    }),
+    () => ({ ...stockMaster, ...stockSectorState }),
     [stockMaster, stockSectorState]
   );
   const stockTxTableState = useMemo(
-    () => ({
-      handleListChange: handleTxTableChange,
-      ...stockTxsState
-    }),
+    () => ({ handleListChange: handleTxTableChange, ...stockTxsState }),
     [handleTxTableChange, stockTxsState]
   );
   const txEditState = useMemo(
