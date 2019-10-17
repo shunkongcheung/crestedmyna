@@ -8,7 +8,7 @@ import RangeSelector from "./RangeSelector";
 import StockCtrl from "./StockCtrl";
 import StockInfo from "./StockInfo";
 import StockNews from "./StockNews";
-import StockName from "./StockName";
+/* import StockName from "./StockName"; */
 import StockTxAdd from "./StockTxAdd";
 import StockTxTable from "./StockTxTable";
 import TurnoverChart from "./TurnoverChart";
@@ -83,6 +83,7 @@ interface IStockDetailProps {
     sector: number;
     sectors: Array<{ name: string; id: number }>;
     stockCode: string;
+    name: string;
     shareCount: number;
     marketPrice: number;
     marketValue: number;
@@ -90,13 +91,13 @@ interface IStockDetailProps {
     turnover: number;
     unrealizedValue: number;
   };
-  stockNameState: {
-    handleStockSearch: (search: string) => any;
-    handleStockMasterChange: (id: number) => any;
-    isLoading: boolean;
-    stockMasterNames: Array<{ name: string; id: number }>;
-    stockName: string;
-  };
+  /* stockNameState: { */
+  /*   handleStockSearch: (search: string) => any; */
+  /*   handleStockMasterChange: (id: number) => any; */
+  /*   isLoading: boolean; */
+  /*   stockMasterNames: Array<{ name: string; id: number }>; */
+  /*   stockName: string; */
+  /* }; */
   stockNewsState: {
     isLoading: boolean;
     stockNews: Array<IStockNewsItem>;
@@ -126,12 +127,13 @@ function StockDetail({
   priceChartState,
   stockCtrlState,
   stockInfoState,
-  stockNameState,
+  /* stockNameState, */
   stockNewsState,
   stockTxTableState,
   turnoverChartState,
   txEditState
 }: IStockDetailProps) {
+  const { name } = stockInfoState;
   return (
     <>
       <div className={classNames.row}>
@@ -143,9 +145,7 @@ function StockDetail({
           <RangeSelector {...chartRangeState} />
         </div>
         <div className={classNames.rightContainer}>
-          <div className={classNames.nameContainer}>
-            <StockName {...stockNameState} />
-          </div>
+          <div className={classNames.nameContainer}>{name}</div>
           <div className={classNames.infoContainer}>
             <StockInfo {...stockInfoState} />
             <StockCtrl {...stockCtrlState} />
