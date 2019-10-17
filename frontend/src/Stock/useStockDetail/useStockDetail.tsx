@@ -2,14 +2,10 @@ import { useCallback, useEffect, useMemo, useRef } from "react";
 
 import { useStockSectors } from "../hooks";
 
-import useChartRange from "./useChartRange";
-import useChartSummary from "./useChartSummary";
-import useCCASSParticipantDetails from "./useCCASSParticipantDetails";
-import useGetChartData from "./useGetChartData";
+import useChartsState from "./useChartsState";
 import useStockAlert from "./useStockAlert";
 import useStockMaster from "./useStockMaster";
 import useStockNews from "./useStockNews";
-import useStockTrends from "./useStockTrends";
 import useStockTxAdd from "./useStockTxAdd";
 import useStockTxs from "./useStockTxs";
 
@@ -19,11 +15,6 @@ function useStockDetail(
   stockMasterNames: Array<{ id: number; name: string }>
 ) {
   const isInitialzed = useRef(false);
-  const { fetchStockTrends, stockTrendsState } = useStockTrends();
-  const {
-    fetchParticipantDetails,
-    participantDetailsState
-  } = useCCASSParticipantDetails();
   const {
     createStockMaster,
     deleteStockMaster,
@@ -31,13 +22,20 @@ function useStockDetail(
     fetchStockMaster
   } = useStockMaster();
   const { fetchStockTxs, stockTxsState } = useStockTxs();
-  const { chartRange, setChartRange, getDatesFromRange } = useChartRange();
 
-  const { range } = chartRange;
   const { stockMaster } = stockMasterState;
   const stockSectorState = useStockSectors(stockMaster);
   const stockAlert = useStockAlert(stockMaster.stockCode);
   const stockNewsState = useStockNews(stockMaster.stockCode);
+
+  const {
+    fetchParticipantDetails,
+    fetchStockTrends,
+    getDatesFromRange,
+    range,
+    setChartRange,
+    ...chartsState
+  } = useChartsState(stockMaster.stockCode);
 
   const onStockTxAdd = useCallback(
     (sm: number, page: number) => {
@@ -51,45 +49,8 @@ function useStockDetail(
     onStockTxAdd,
     fetchStockMaster
   );
-  const { getChartData } = useGetChartData();
-  const chartData = useMemo(
-    () => {
-      return getChartData(
-        chartRange.startDate,
-        chartRange.endDate,
-        participantDetailsState.detailSums,
-        stockTrendsState.trends,
-        participantDetailsState.participantDetailsMap
-      );
-    },
-    [chartRange, getChartData, participantDetailsState, stockTrendsState]
-  );
-
-  const { handleChartPointHover, ...chartSummary } = useChartSummary(
-    chartData.labels,
-    chartData.detailSums,
-    chartData.prices,
-    chartData.turnovers
-  );
 
   // methods ------------------------------------------------
-  const handleRangeSelected = useCallback(
-    range => {
-      setChartRange(range);
-      const { startDate, endDate } = getDatesFromRange(range);
-      return Promise.all([
-        fetchParticipantDetails(stockMaster.stockCode, startDate, endDate),
-        fetchStockTrends(stockMaster.stockCode, startDate, endDate)
-      ]);
-    },
-    [
-      fetchParticipantDetails,
-      fetchStockTrends,
-      getDatesFromRange,
-      setChartRange,
-      stockMaster
-    ]
-  );
 
   const handleStockMasterChange = useCallback(
     async stockMasterId => {
@@ -199,47 +160,6 @@ function useStockDetail(
   );
 
   // return --------------------------------------------------
-  const chartRangeState = useMemo(
-    () => ({ ...chartRange, handleRangeSelected }),
-    [chartRange, handleRangeSelected]
-  );
-
-  const chartSummaryState = useMemo(
-    () => ({
-      ...chartSummary,
-      stockName: stockMaster.name
-    }),
-    [chartSummary, stockMaster.name]
-  );
-
-  const ccassChartState = useMemo(
-    () => ({
-      handleChartPointHover,
-      isLoading: participantDetailsState.isLoading,
-      labels: chartData.labels,
-      detailSums: chartData.detailSums,
-      participantDetailsMap: chartData.participantDetailsMap
-    }),
-    [chartData, handleChartPointHover, participantDetailsState]
-  );
-  const priceChartState = useMemo(
-    () => ({
-      handleChartPointHover,
-      isLoading: stockTrendsState.isLoading,
-      labels: chartData.labels,
-      prices: chartData.prices
-    }),
-    [chartData, handleChartPointHover, stockTrendsState]
-  );
-  const turnoverChartState = useMemo(
-    () => ({
-      handleChartPointHover,
-      isLoading: stockTrendsState.isLoading,
-      labels: chartData.labels,
-      turnovers: chartData.turnovers
-    }),
-    [chartData, handleChartPointHover, stockTrendsState]
-  );
 
   const stockCtrlState = useMemo(
     () => ({
@@ -286,16 +206,12 @@ function useStockDetail(
   );
 
   return {
-    ccassChartState,
-    chartRangeState,
-    chartSummaryState,
-    priceChartState,
+    ...chartsState,
     stockCtrlState,
     stockInfoState,
     stockNewsState,
     stockNameState,
     stockTxTableState,
-    turnoverChartState,
     txEditState
   };
 }
