@@ -9,6 +9,7 @@ import classNames from "./ChartSummary.module.scss";
 interface IChartSummaryProps {
   dateLabel: string;
   price: number;
+	stockName:string;
   turnover: number;
   participantPercentSum: number;
 }
@@ -16,6 +17,7 @@ interface IChartSummaryProps {
 function ChartSummary({
   dateLabel,
   price,
+	stockName,
   turnover,
   participantPercentSum
 }: IChartSummaryProps) {
@@ -61,7 +63,7 @@ function ChartSummary({
 
   return (
     <div className={classNames.container}>
-      <div className={classNames.header}>CHARTS</div>
+      <div className={classNames.header}>{stockName}</div>
       <div className={classNames.summaryContainer}>{renderedChildren}</div>
     </div>
   );
@@ -70,6 +72,7 @@ function ChartSummary({
 ChartSummary.propTypes = {
   dateLabel: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
+  stockName: PropTypes.string.isRequired,
   turnover: PropTypes.number.isRequired,
   participantPercentSum: PropTypes.number.isRequired
 };

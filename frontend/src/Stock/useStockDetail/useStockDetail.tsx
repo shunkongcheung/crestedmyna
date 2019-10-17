@@ -63,7 +63,7 @@ function useStockDetail(
     [chartRange, getChartData, participantDetailsState, stockTrendsState]
   );
 
-  const { handleChartPointHover, ...chartSummaryState } = useChartSummary(
+  const { handleChartPointHover, ...chartSummary } = useChartSummary(
     chartData.labels,
     chartData.detailSums,
     chartData.prices,
@@ -202,6 +202,14 @@ function useStockDetail(
     [chartRange, handleRangeSelected]
   );
 
+  const chartSummaryState = useMemo(
+    () => ({
+      ...chartSummary,
+      stockName: stockMaster.name
+    }),
+    [chartSummary, stockMaster.name]
+  );
+
   const ccassChartState = useMemo(
     () => ({
       handleChartPointHover,
@@ -270,7 +278,7 @@ function useStockDetail(
   );
   const txEditState = useMemo(
     () => ({
-      handleAddTx,
+      handleAddTx
     }),
     [handleAddTx]
   );
