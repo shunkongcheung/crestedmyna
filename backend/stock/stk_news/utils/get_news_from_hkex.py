@@ -17,7 +17,11 @@ def get_news_from_hkex(stock_code, from_date, to_date):
         w_debug(f'{stock_code} has no news data')
         return []
 
-    news = [get_content_from_trow(trow) for trow in trows]
+    unodered_news = [get_content_from_trow(trow) for trow in trows]
+    news = sorted(unodered_news,
+                  key=lambda itm: itm['release_time'],
+                  reverse=True
+                  )
     return news
 
 
