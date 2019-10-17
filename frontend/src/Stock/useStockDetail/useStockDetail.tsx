@@ -7,8 +7,9 @@ import useChartSummary from "./useChartSummary";
 import useCCASSParticipantDetails from "./useCCASSParticipantDetails";
 import useGetChartData from "./useGetChartData";
 import useStockAlert from "./useStockAlert";
-import useStockTrends from "./useStockTrends";
 import useStockMaster from "./useStockMaster";
+import useStockNews from "./useStockNews";
+import useStockTrends from "./useStockTrends";
 import useStockTxAdd from "./useStockTxAdd";
 import useStockTxs from "./useStockTxs";
 
@@ -36,6 +37,7 @@ function useStockDetail(
   const { stockMaster } = stockMasterState;
   const stockSectorState = useStockSectors(stockMaster);
   const stockAlert = useStockAlert(stockMaster.stockCode);
+  const stockNewsState = useStockNews(stockMaster.stockCode);
 
   const onStockTxAdd = useCallback(
     (sm: number, page: number) => {
@@ -290,6 +292,7 @@ function useStockDetail(
     priceChartState,
     stockCtrlState,
     stockInfoState,
+    stockNewsState,
     stockNameState,
     stockTxTableState,
     turnoverChartState,
