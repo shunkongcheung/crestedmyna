@@ -64,7 +64,6 @@ interface IStockDetailProps {
     dateLabel: string;
     participantPercentSum: number;
     price: number;
-    stockName: string;
     turnover: number;
   };
   priceChartState: {
