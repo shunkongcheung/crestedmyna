@@ -31,7 +31,6 @@ function useStockContainer(history: History) {
     fetchStockMasterNames,
     history,
     refreshOtherTabs,
-    stockMasterNamesState.stockMasterNames
   );
 
   const stockTxState = useMemo(

@@ -9,14 +9,14 @@ import useStockMaster from "./useStockMaster";
 import useStockNews from "./useStockNews";
 import useStockTxAdd from "./useStockTxAdd";
 import useStockTxs from "./useStockTxs";
+import useInitStockMaster from "./useInitStockMaster";
 
 function useStockDetail(
   fetchStockMasterNames: () => any,
   history: History,
-  refreshOtherTabs: () => any,
-  stockMasterNames: Array<{ id: number; name: string }>
+  refreshOtherTabs: () => any
+  /* stockMasterNames: Array<{ id: number; name: string }> */
 ) {
-  const isInitialzed = useRef(false);
   const {
     /* createStockMaster, */
     deleteStockMaster,
@@ -50,6 +50,16 @@ function useStockDetail(
     stockMaster.id,
     onStockTxAdd,
     fetchStockMaster
+  );
+
+  useInitStockMaster(
+    fetchStockMaster,
+    fetchParticipantDetails,
+    fetchStockTrends,
+    fetchStockTxs,
+    getDatesFromRange,
+    history,
+    setChartRange
   );
 
   // methods ------------------------------------------------
@@ -101,28 +111,6 @@ function useStockDetail(
     [fetchStockTxs, stockMaster]
   );
 
-  const initStockMaster = useCallback(
-    async (stockMasterId: number) => {
-      const nStockMaster = await fetchStockMaster(stockMasterId);
-      if (!nStockMaster) return;
-      const { startDate, endDate } = getDatesFromRange("week");
-      setChartRange("week");
-      return Promise.all([
-        fetchParticipantDetails(nStockMaster.stockCode, startDate, endDate),
-        fetchStockTrends(nStockMaster.stockCode, startDate, endDate),
-        fetchStockTxs(nStockMaster.id, 1)
-      ]);
-    },
-    [
-      fetchParticipantDetails,
-      fetchStockMaster,
-      fetchStockTrends,
-      fetchStockTxs,
-      getDatesFromRange,
-      setChartRange
-    ]
-  );
-
   const handleDeleteStockMaster = useCallback(
     async () => {
       const ok = await deleteStockMaster();
@@ -154,17 +142,17 @@ function useStockDetail(
   );
 
   // lice cycle ------------------------------------------------
-  useEffect(
-    () => {
-      if (!Array.isArray(stockMasterNames) || !stockMasterNames.length) return;
-      if (stockMaster.id > 0) return;
-      if (isInitialzed.current) return;
-      isInitialzed.current = true;
-      const firstStockMaster = stockMasterNames[0];
-      initStockMaster(firstStockMaster.id);
-    },
-    [stockMasterNames, stockMaster.id, initStockMaster]
-  );
+  /* useEffect( */
+  /*   () => { */
+  /*     if (!Array.isArray(stockMasterNames) || !stockMasterNames.length) return; */
+  /*     if (stockMaster.id > 0) return; */
+  /*     if (isInitialzed.current) return; */
+  /*     isInitialzed.current = true; */
+  /*     const firstStockMaster = stockMasterNames[0]; */
+  /*     initStockMaster(firstStockMaster.id); */
+  /*   }, */
+  /*   [stockMasterNames, stockMaster.id, initStockMaster] */
+  /* ); */
 
   // return --------------------------------------------------
 
