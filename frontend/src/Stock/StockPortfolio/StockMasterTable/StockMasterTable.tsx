@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useMemo } from "react";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { Icon, Table } from "antd";
 import PropTypes from "prop-types";
 
@@ -94,14 +94,16 @@ function StockMasterTable({
       const totalValue = realizedValue + unrealizedValue;
       const renderedTag = renderTag(totalValue);
 
-			const nameTo = `/stock/detail/${id}`
+      const nameTo = `/stock/detail/${id}`;
       const sectorMaster = sectors.find(itm => itm.id === Number(sector));
       const sectorName = sectorMaster ? sectorMaster.name : sector;
       return (
         <div className={classNames.nameAndCodeContainer}>
           <div className={classNames.nameTagContainer}>{renderedTag}</div>
           <div>
-            <Link to={nameTo} className={classNames.nameContainer}>{name}</Link>
+            <Link to={nameTo} className={classNames.nameContainer}>
+              {name}
+            </Link>
             <div className={classNames.stockSectorContainer}>{sectorName}</div>
           </div>
         </div>
@@ -239,6 +241,7 @@ function StockMasterTable({
         loading={isLoading}
         onChange={onChange}
         pagination={pagination}
+        size="small"
       />
     </div>
   );
