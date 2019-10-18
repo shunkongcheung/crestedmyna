@@ -119,6 +119,7 @@ function StockTxTable({
         loading={isLoading}
         onChange={onChange}
         pagination={pagination}
+				size="small"
       />
     </>
   );
