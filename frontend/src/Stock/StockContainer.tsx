@@ -28,7 +28,7 @@ function StockContainer({ history }: RouteComponentProps) {
         <TabPane tab="Portfolio" key="portfolio">
           <StockPortfolio {...stockPortfolioState} />
         </TabPane>
-        <TabPane tab="Stock summary" key="detail">
+        <TabPane tab="Stock summary" key="detail" disabled={page !== "detail"}>
           <StockDetail {...stockDetailState} />
         </TabPane>
         <TabPane tab="Transactions" key="txes">
