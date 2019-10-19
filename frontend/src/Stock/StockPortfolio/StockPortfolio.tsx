@@ -35,11 +35,13 @@ interface IDistributionItem {
 
 interface IChartsState {
   isLoading: boolean;
+  marketValue: number;
   selectedSectors: Array<number>;
   stockCountDistributionItems: Array<IDistributionItem>;
   stockMarketValueDistributionItems: Array<IDistributionItem>;
   stockRealizedValueDistributionItems: Array<IDistributionItem>;
   stockUnrealizedValueDistributionItems: Array<IDistributionItem>;
+  unrealizedValue: number;
 }
 interface IOrderParams {
   ordering: TOrderBy;
@@ -74,9 +76,10 @@ interface IStockProfile {
 interface IPortfolioSummary {
   isLoading: boolean;
   handleSectorsChange: (s: Array<number>) => any;
-  sectors: Array<{ name: string; id: number }>;
   marketValue: number;
   realizedValue: number;
+  sectors: Array<{ name: string; id: number }>;
+  totalValue: number;
   unrealizedValue: number;
 }
 interface IStockPortfolioProps {

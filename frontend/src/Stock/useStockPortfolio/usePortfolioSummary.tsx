@@ -7,6 +7,7 @@ interface IPortfolioSummary {
   marketValue: number;
   realizedValue: number;
   sectors: Array<number>;
+  totalValue: number;
   unrealizedValue: number;
 }
 interface IPortfolioSummaryRet {
@@ -24,6 +25,7 @@ function usePortfolioSummary() {
     marketValue: -1,
     realizedValue: -1,
     sectors: [],
+    totalValue: 0,
     unrealizedValue: -1
   });
   const { fetchEdit } = useEditState<
@@ -40,12 +42,18 @@ function usePortfolioSummary() {
       if (!ok)
         return setPortfolioSummary(oState => ({ ...oState, isLoading: false }));
 
+      const unrealizedValue = payload.unrealized_value;
+      const marketValue = payload.market_value;
+      const totalValue =
+        marketValue +
+        (unrealizedValue > 0 ? unrealizedValue : -unrealizedValue);
       setPortfolioSummary({
         isLoading: false,
-        marketValue: payload.market_value,
+        marketValue,
         realizedValue: payload.realized_value,
         sectors,
-        unrealizedValue: payload.unrealized_value
+        totalValue,
+        unrealizedValue
       });
     },
     [fetchEdit]

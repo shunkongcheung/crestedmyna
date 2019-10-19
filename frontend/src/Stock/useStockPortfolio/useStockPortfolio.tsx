@@ -34,9 +34,8 @@ function useStockPortfolio(history: History) {
     [handleListChange, handleSectorsChange, initDistribution]
   );
 
-	// state tha depends on refresh
+  // state tha depends on refresh
   const stockSearchState = useStockSearch(history, refreshStockPortfolio);
-
 
   // return -------------------------------------------------------
   const ctrlState = useMemo(() => ({ stockProfileState, stockSearchState }), [
@@ -61,8 +60,18 @@ function useStockPortfolio(history: History) {
   );
 
   const chartsState = useMemo(
-    () => ({ selectedSectors, ...stockDistribution }),
-    [selectedSectors, stockDistribution]
+    () => ({
+      selectedSectors,
+      ...stockDistribution,
+      marketValue: portfolioSummaryState.marketValue,
+      unrealizedValue: portfolioSummaryState.unrealizedValue
+    }),
+    [
+      selectedSectors,
+      stockDistribution,
+      portfolioSummaryState.marketValue,
+      portfolioSummaryState.unrealizedValue
+    ]
   );
 
   return {

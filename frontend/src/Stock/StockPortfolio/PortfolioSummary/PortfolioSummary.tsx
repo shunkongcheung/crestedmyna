@@ -9,9 +9,10 @@ import classNames from "./PortfolioSummary.module.scss";
 interface IPortfolioSummaryProps {
   isLoading: boolean;
   handleSectorsChange: (s: Array<number>) => any;
-  sectors: Array<{ name: string; id: number }>;
   marketValue: number;
   realizedValue: number;
+  sectors: Array<{ name: string; id: number }>;
+  totalValue: number;
   unrealizedValue: number;
 }
 
@@ -21,9 +22,9 @@ function PortfolioSummary({
   sectors,
   marketValue,
   realizedValue,
+  totalValue,
   unrealizedValue
 }: IPortfolioSummaryProps) {
-
   const { getPrettyNum } = useGetPrettyNum();
   const renderValueRow = useCallback(
     (title: string, value: number) => {
@@ -45,6 +46,10 @@ function PortfolioSummary({
   const renderedRealizedValue = useMemo(
     () => renderValueRow("REALIZED GAIN/LOSS", realizedValue),
     [renderValueRow, realizedValue]
+  );
+  const renderedTotalValue = useMemo(
+    () => renderValueRow("TOTAL ASSET", totalValue),
+    [renderValueRow, totalValue]
   );
   const renderedUnealizedValue = useMemo(
     () => renderValueRow("UNREALIZED GAIN/LOSS", unrealizedValue),
@@ -70,6 +75,7 @@ function PortfolioSummary({
       {renderedMarketValue}
       {renderedRealizedValue}
       {renderedUnealizedValue}
+      {renderedTotalValue}
       {renderedSectorRow}
     </>
   );

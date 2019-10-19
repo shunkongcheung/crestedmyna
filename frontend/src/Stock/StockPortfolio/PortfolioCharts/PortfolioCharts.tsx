@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useMemo } from "react";
-/* import { Carousel } from "antd"; */
+import { Carousel } from "antd";
 
+import AssetChart from "./AssetChart";
 import DistributionChart from "./DistributionChart";
 
 interface IDistributionItem {
@@ -10,20 +11,24 @@ interface IDistributionItem {
 }
 interface IPortfolioChartsProps {
   isLoading: boolean;
+	marketValue:number;
   selectedSectors: Array<number>;
   stockCountDistributionItems: Array<IDistributionItem>;
   stockMarketValueDistributionItems: Array<IDistributionItem>;
   stockRealizedValueDistributionItems: Array<IDistributionItem>;
   stockUnrealizedValueDistributionItems: Array<IDistributionItem>;
+	unrealizedValue:number;
 }
 
 function PortfolioCharts({
   isLoading,
+	marketValue,
   selectedSectors,
   stockCountDistributionItems,
   stockMarketValueDistributionItems,
   stockRealizedValueDistributionItems,
-  stockUnrealizedValueDistributionItems
+	stockUnrealizedValueDistributionItems,
+	unrealizedValue
 }: IPortfolioChartsProps) {
   const getFilteredItems = useCallback(
     (distributionItems: Array<IDistributionItem>) => {
@@ -51,45 +56,19 @@ function PortfolioCharts({
   /* ); */
 
   return (
-    <DistributionChart
-      distributionItems={marketValueDistributionItems}
-      isLoading={isLoading}
-      title="Assets allocation"
-    />
+    <Carousel>
+      <div>
+        <DistributionChart
+          distributionItems={marketValueDistributionItems}
+          isLoading={isLoading}
+          title="Assets allocation"
+        />
+      </div>
+      <div>
+        <AssetChart marketValue={marketValue} unrealizedValue={unrealizedValue} />
+      </div>
+    </Carousel>
   );
-
-  /* return ( */
-  /*   <Carousel> */
-  /*     <div> */
-  /*       <DistributionChart */
-  /*         distributionItems={marketValueDistributionItems} */
-  /*         isLoading={isLoading} */
-  /*         title="Assets allocation" */
-  /*       /> */
-  /*     </div> */
-  /*     <div> */
-  /*       <DistributionChart */
-  /*         distributionItems={stockCountDistributionItems} */
-  /*         isLoading={isLoading} */
-  /*         title="No. of stock per sector" */
-  /*       /> */
-  /*     </div> */
-  /*     <div> */
-  /*       <DistributionChart */
-  /*         distributionItems={realizedDistributionItemsFilterSectors} */
-  /*         isLoading={isLoading} */
-  /*         title="Realized gain/loss per sector" */
-  /*       /> */
-  /*     </div> */
-  /*     <div> */
-  /*       <DistributionChart */
-  /*         distributionItems={unrealizedDistributionItemsFilterSectors} */
-  /*         isLoading={isLoading} */
-  /*         title="Unrealized gain/loss per sector" */
-  /*       /> */
-  /*     </div> */
-  /*   </Carousel> */
-  /* ); */
 }
 
 export default memo(PortfolioCharts);
