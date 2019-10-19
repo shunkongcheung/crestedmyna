@@ -28,11 +28,14 @@ function Calendar({
 }: ICalendarProps) {
   const dateCellRender = useCallback(
     (value: Moment) => {
-      const cellDate = value.date();
+      const cellDate = value;
+      const endOfDay = moment(cellDate).endOf("day");
+      const startOfDay = moment(cellDate).startOf("day");
+
       const eventOnDate = events.filter(itm => {
         const mmStart = moment(itm.start);
         const mmEnd = moment(itm.end);
-        return mmStart.date() <= cellDate && mmEnd.date() >= cellDate;
+        return mmStart <= endOfDay && mmEnd >= startOfDay;
       });
       return (
         <ul className={classNames.events}>
