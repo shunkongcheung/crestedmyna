@@ -1,4 +1,5 @@
 import React, { memo, useCallback, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { Icon, Table } from "antd";
 import PropTypes from "prop-types";
 
@@ -18,6 +19,7 @@ interface IOrderParams {
   isAscend: boolean;
 }
 interface IStockMaster {
+  id: number;
   name: string;
   sector: number;
   stockCode: string;
@@ -88,17 +90,20 @@ function StockMasterTable({
   );
 
   const renderNameAndCode = useCallback(
-    ({ name, sector, realizedValue, unrealizedValue }) => {
+    ({ id, name, sector, realizedValue, unrealizedValue }) => {
       const totalValue = realizedValue + unrealizedValue;
       const renderedTag = renderTag(totalValue);
 
+      const nameTo = `/stock/detail/${id}`;
       const sectorMaster = sectors.find(itm => itm.id === Number(sector));
       const sectorName = sectorMaster ? sectorMaster.name : sector;
       return (
         <div className={classNames.nameAndCodeContainer}>
           <div className={classNames.nameTagContainer}>{renderedTag}</div>
           <div>
-            <div className={classNames.nameContainer}>{name}</div>
+            <Link to={nameTo} className={classNames.nameContainer}>
+              {name}
+            </Link>
             <div className={classNames.stockSectorContainer}>{sectorName}</div>
           </div>
         </div>
@@ -201,6 +206,7 @@ function StockMasterTable({
       stockMasters.map((itm, key) => ({
         ...itm,
         nameAndCode: {
+          id: itm.id,
           name: itm.name,
           sector: itm.sector,
           stockCode: itm.stockCode,
@@ -235,6 +241,7 @@ function StockMasterTable({
         loading={isLoading}
         onChange={onChange}
         pagination={pagination}
+        size="small"
       />
     </div>
   );

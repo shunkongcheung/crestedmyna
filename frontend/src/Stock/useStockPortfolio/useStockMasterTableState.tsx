@@ -15,6 +15,7 @@ interface IOrderParams {
 }
 
 interface IStockMaster {
+  id: number;
   name: string;
   sector: number;
   stockCode: string;
@@ -27,6 +28,7 @@ interface IStockMaster {
   unrealizedValue: number;
 }
 interface IStockMasterRet {
+  id: number;
   name: string;
   sector: number;
   stock_code: string;
@@ -105,6 +107,7 @@ function useStockMasterTableState(sectors: Array<number>) {
 
       if (!ok) return undefined;
       return {
+        id: payload.id,
         sector: payload.sector,
         stockCode: payload.stock_code,
         name: payload.name,
