@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Moment } from "moment";
+import moment, { Moment } from "moment";
 import { useListState } from "../Base/Fetches";
 
 interface IEvent {
@@ -22,7 +22,7 @@ function useJournalListViewState() {
 
   const handleRangeChange = useCallback(
     async (date__gte?: Moment, date__lte?: Moment) => {
-      const queryParams: { [x: string]: string } = {};
+      const queryParams: { [x: string]: any } = { page_size: 1000 };
       if (date__gte) queryParams.date__gte = date__gte.format("YYYY-MM-DD");
       if (date__lte) queryParams.date__lte = date__lte.format("YYYY-MM-DD");
       const ret = await fetchList("journal/jnl_master/list/", queryParams);
@@ -47,7 +47,9 @@ function useJournalListViewState() {
 
   useEffect(
     () => {
-      handleRangeChange();
+      const start = moment().startOf("month");
+      const end = moment().endOf("month");
+      handleRangeChange(start, end);
     },
     [handleRangeChange]
   );
