@@ -21,6 +21,10 @@ interface ICtrlState {
     isLoading: boolean;
     stockProfile: IStockProfile;
   };
+  stockSearchState: {
+    handleStockSearch: (s: string) => any;
+    isLoading: boolean;
+  };
 }
 
 interface IDistributionItem {

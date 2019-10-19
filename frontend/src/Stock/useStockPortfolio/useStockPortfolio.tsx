@@ -24,8 +24,6 @@ function useStockPortfolio(history: History) {
 
   const stockSectors = useStockSectors(fakeStockMaster);
   const stockProfileState = useStockProfile();
-  const stockSearchState = useStockSearch(history);
-
   // methods -------------------------------------------------------
   const refreshStockPortfolio = useCallback(
     () => {
@@ -35,6 +33,10 @@ function useStockPortfolio(history: History) {
     },
     [handleListChange, handleSectorsChange, initDistribution]
   );
+
+	// state tha depends on refresh
+  const stockSearchState = useStockSearch(history, refreshStockPortfolio);
+
 
   // return -------------------------------------------------------
   const ctrlState = useMemo(() => ({ stockProfileState, stockSearchState }), [
