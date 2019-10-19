@@ -1,13 +1,15 @@
 import { useCallback, useMemo } from "react";
+import { History } from "history";
 
 import { useStockSectors } from "../hooks";
 
 import usePortfolioSummary from "./usePortfolioSummary";
 import useStockDistribution from "./useStockDistribution";
 import useStockProfile from "./useStockProfile";
+import useStockSearch from "./useStockSearch";
 import useStockMasterTableState from "./useStockMasterTableState";
 
-function useStockPortfolio() {
+function useStockPortfolio(history: History) {
   const fakeStockMaster = useMemo(
     () => ({ id: -1, stockCode: "", sector: -1 }),
     []
@@ -22,6 +24,7 @@ function useStockPortfolio() {
 
   const stockSectors = useStockSectors(fakeStockMaster);
   const stockProfileState = useStockProfile();
+  const stockSearchState = useStockSearch(history);
 
   // methods -------------------------------------------------------
   const refreshStockPortfolio = useCallback(
@@ -34,12 +37,10 @@ function useStockPortfolio() {
   );
 
   // return -------------------------------------------------------
-  const ctrlState = useMemo(
-    () => ({
-      stockProfileState
-    }),
-    [stockProfileState]
-  );
+  const ctrlState = useMemo(() => ({ stockProfileState, stockSearchState }), [
+    stockProfileState,
+    stockSearchState
+  ]);
   const stockMasterTableState = useMemo(
     () => ({
       ...stockMasterTable,
