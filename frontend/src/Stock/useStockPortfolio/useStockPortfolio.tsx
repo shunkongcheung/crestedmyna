@@ -34,6 +34,12 @@ function useStockPortfolio() {
   );
 
   // return -------------------------------------------------------
+  const ctrlState = useMemo(
+    () => ({
+      stockProfileState
+    }),
+    [stockProfileState]
+  );
   const stockMasterTableState = useMemo(
     () => ({
       ...stockMasterTable,
@@ -45,11 +51,10 @@ function useStockPortfolio() {
   const portfolioSummaryState = useMemo(
     () => ({
       ...portfolioSummary,
-      stockProfileState,
       sectors: stockSectors.sectors,
       isLoading: portfolioSummary.isLoading || stockSectors.isLoading
     }),
-    [portfolioSummary, stockSectors, stockProfileState]
+    [portfolioSummary, stockSectors]
   );
 
   const chartsState = useMemo(
@@ -58,6 +63,7 @@ function useStockPortfolio() {
   );
 
   return {
+    ctrlState,
     chartsState,
     portfolioSummaryState,
     refreshStockPortfolio,

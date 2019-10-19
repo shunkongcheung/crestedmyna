@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 
+import PortfolioCtrl from "./PortfolioCtrl";
 import PortfolioCharts from "./PortfolioCharts";
 import PortfolioSummary from "./PortfolioSummary";
 import StockMasterTable from "./StockMasterTable";
@@ -13,6 +14,14 @@ type TOrderBy =
   | "stockCode"
   | "shareCount"
   | "unrealizedValue";
+
+interface ICtrlState {
+  stockProfileState: {
+    handleStockProfileChange: (s: IStockProfile, f: any) => any;
+    isLoading: boolean;
+    stockProfile: IStockProfile;
+  };
+}
 
 interface IDistributionItem {
   id: number;
@@ -61,11 +70,6 @@ interface IStockProfile {
 interface IPortfolioSummary {
   isLoading: boolean;
   handleSectorsChange: (s: Array<number>) => any;
-  stockProfileState: {
-    handleStockProfileChange: (s: IStockProfile, f:any) => any;
-    isLoading: boolean;
-    stockProfile: IStockProfile;
-  };
   sectors: Array<{ name: string; id: number }>;
   marketValue: number;
   realizedValue: number;
@@ -73,12 +77,14 @@ interface IPortfolioSummary {
 }
 interface IStockPortfolioProps {
   chartsState: IChartsState;
+  ctrlState: ICtrlState;
   portfolioSummaryState: IPortfolioSummary;
   stockMasterTableState: IStockMasterTableState;
 }
 
 function StockPortfolio({
   chartsState,
+  ctrlState,
   portfolioSummaryState,
   stockMasterTableState
 }: IStockPortfolioProps) {
@@ -87,6 +93,7 @@ function StockPortfolio({
       <div className={classNames.row}>
         <div className={classNames.summaryCol}>
           <PortfolioSummary {...portfolioSummaryState} />
+          <PortfolioCtrl {...ctrlState} />
         </div>
         <div className={classNames.chartsCol}>
           <PortfolioCharts {...chartsState} />
