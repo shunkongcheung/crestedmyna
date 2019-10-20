@@ -8,11 +8,10 @@ from stock.models import (
     CCASSParticipantMaster,
     CCASSParticipantDetail,
 )
+from ..utils import get_lxml_from_stock_code
 
 from datetime import datetime
 from lxml import html
-
-import requests
 
 
 @shared_task
@@ -141,28 +140,6 @@ def get_all_trows_from_lxml(lxml_html):
     table = lxml_html.find('.//table')
     tbody = table.find('.//tbody')
     return tbody.findall('.//tr')
-
-
-def get_lxml_from_stock_code(stock_code, date):
-    url = 'https://www.hkexnews.hk/sdw/search/searchsdw.aspx'
-    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
-    today = datetime.now().strftime('%Y%m%d')
-    data = {
-        '__EVENTTARGET': 'btnSearch',
-        'today': today,
-        'sortBy': 'shareholding',
-        'sortDirection': 'desc',
-        # 'txtStockCode': '00066',
-        # 'txtShareholdingDate': '2019/09/27',
-        'txtStockCode': stock_code,
-        'txtShareholdingDate': date,
-    }
-    res = requests.post(url, data)
-    status_code, payload = res.status_code, res.text
-    if not status_code == 200:
-        return None
-
-    return html.fromstring(payload)
 
 
 def w_debug(message):
