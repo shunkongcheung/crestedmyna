@@ -1,1 +1,2 @@
+from .get_ccass_and_price_trend import get_ccass_and_price_trend
 from .get_stock_trends import get_stock_trends
