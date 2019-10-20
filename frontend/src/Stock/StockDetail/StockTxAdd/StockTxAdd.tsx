@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useMemo } from "react";
 import { Button } from "antd";
 import { withFormik, FormikProps } from "formik";
 import PropTypes from "prop-types";
@@ -9,7 +9,7 @@ import { InputSelect, InputText, InputDateTime } from "../../../Base/Form";
 import classNames from "./StockTxAdd.module.scss";
 
 interface IStockTx {
-  txType: "BUY" | "SELL";
+  txType: "BUY" | "SELL" | "DIVIDEND";
   shareCount: number;
   price: number;
   txAt: Date;
@@ -20,15 +20,28 @@ interface IStockTxAddProps {
 
 function StockTxAdd(formikProps: IStockTxAddProps & FormikProps<IStockTx>) {
   const { handleSubmit } = formikProps;
-  return (
-    <div className={classNames.container}>
-      <div className={classNames.addCol} style={{ marginLeft: 0 }}>
+  const renderedTxType = useMemo(
+    () => {
+      const choices = [
+        { name: "BUY", id: "BUY" },
+        { name: "SELL", id: "SELL" },
+        { name: "DIVIDEND", id: "DIVIDEND" }
+      ];
+      return (
         <InputSelect
           {...formikProps}
-          choices={[{ name: "BUY", id: "BUY" }, { name: "SELL", id: "SELL" }]}
+          choices={choices}
           label="Transaction type"
           name="txType"
         />
+      );
+    },
+    [formikProps]
+  );
+  return (
+    <div className={classNames.container}>
+      <div className={classNames.addCol} style={{ marginLeft: 0 }}>
+        {renderedTxType}
       </div>
       <div className={classNames.addCol}>
         <InputText {...formikProps} label="Share" name="shareCount" />
@@ -57,7 +70,7 @@ StockTxAdd.propTypes = {
 export default withFormik<IStockTxAddProps, IStockTx>({
   validationSchema: Yup.object().shape({
     txType: Yup.string()
-      .oneOf(["BUY", "SELL"])
+      .oneOf(["BUY", "SELL", "DIVIDEND"])
       .required(),
     txAt: Yup.date().required(),
     price: Yup.number()

@@ -3,15 +3,17 @@ import moment from "moment";
 
 import { useEditState } from "../../Base/Fetches";
 
+type TTxType = "BUY" | "SELL" | "DIVIDEND";
+
 interface IStockTx {
-  txType: "BUY" | "SELL";
+  txType: TTxType;
   txAt: Date;
   shareCount: number;
   price: number;
 }
 interface IStockTxRet {
   stock_master: number;
-  tx_type: "BUY" | "SELL";
+  tx_type: TTxType;
   tx_at: string;
   share_count: number;
   price: number;

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import { useGetPrettyNum } from "../../hooks";
 
-type TTxType = "BUY" | "SELL";
+type TTxType = "BUY" | "SELL" | "DIVIDEND";
 interface IStockProfile {
   txStaticCost: number;
   txProportionCost: number;
@@ -48,6 +48,7 @@ function StockTxTable({
   const renderTxType = useCallback((txType: TTxType) => {
     let color = "geekblue";
     if (txType === "SELL") color = "volcano";
+    if (txType === "DIVIDEND") color = "green";
     return (
       <Tag color={color} key={txType}>
         {txType}
@@ -119,7 +120,7 @@ function StockTxTable({
         loading={isLoading}
         onChange={onChange}
         pagination={pagination}
-				size="small"
+        size="small"
       />
     </>
   );

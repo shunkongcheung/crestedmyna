@@ -3,7 +3,7 @@ import { useFetchStockTxs } from "../hooks";
 
 interface IStockTx {
   txAt: Date;
-  txType: "BUY" | "SELL";
+  txType: "BUY" | "SELL" | "DIVIDEND";
   shareCount: number;
   price: number;
   grossValue: number;

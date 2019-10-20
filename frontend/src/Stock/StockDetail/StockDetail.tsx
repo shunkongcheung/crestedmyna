@@ -16,6 +16,7 @@ import TurnoverChart from "./TurnoverChart";
 import classNames from "./StockDetail.module.scss";
 
 type TRange = "week" | "month" | "year" | "5years";
+type TTxType = "BUY" | "SELL" | "DIVIDEND";
 
 interface IStockNewsItem {
   documentLink: string;
@@ -23,7 +24,7 @@ interface IStockNewsItem {
   releaseTime: Moment;
 }
 interface IStockTx {
-  txType: "BUY" | "SELL";
+  txType: TTxType;
   txAt: Date;
   shareCount: number;
   price: number;
@@ -33,7 +34,7 @@ interface IStockTx {
 }
 
 interface IStockTxSubmit {
-  txType: "BUY" | "SELL";
+  txType: TTxType;
   txAt: Date;
   shareCount: number;
   price: number;
