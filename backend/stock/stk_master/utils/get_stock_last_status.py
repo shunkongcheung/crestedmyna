@@ -23,7 +23,8 @@ def get_stock_last_status(stock_code, date=None):
     data = quandl.get(stock, start_date=start_date, end_date=end_date)
 
     if date:
-        d_index = data.index.get_loc(date)
+        date_str = date.strftime('%Y-%m-%d')
+        d_index = data.index.get_loc(date_str)
         record_dict = data.iloc[d_index]
     else:
         target_record = data.tail(1)
