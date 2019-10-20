@@ -7,9 +7,8 @@ from django.db import models
 class StockTx(MyBaseModel):
     TX_BUY = ('BUY', 'Buy')
     TX_SELL = ('SELL', 'Sell')
-    # TX_DIVIDEND = ('DIVIDEND', 'Dividend')
-    TX_TYPES = [TX_BUY, TX_SELL,  # TX_DIVIDEND,
-                ]
+    TX_DIVIDEND = ('DIVIDEND', 'Dividend')
+    TX_TYPES = [TX_BUY, TX_SELL, TX_DIVIDEND, ]
 
     stock_master = models.ForeignKey('stock.StockMaster',
                                      on_delete=models.CASCADE,
