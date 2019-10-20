@@ -16,7 +16,7 @@ def get_lxml_from_stock_code(stock_code, date):
         # 'txtStockCode': '00066',
         # 'txtShareholdingDate': '2019/09/27',
         'txtStockCode': stock_code,
-        'txtShareholdingDate': date,
+        'txtShareholdingDate': tx_shareholding_date,
     }
     res = requests.post(url, data)
     status_code, payload = res.status_code, res.text
