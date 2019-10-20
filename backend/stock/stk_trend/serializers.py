@@ -29,3 +29,16 @@ class StockTrendSerializer(Serializer):
         prices = get_stock_trends(start_date, end_date, stock_code)
         data['prices'] = prices
         return data
+
+
+class StockCCASSAndPriceTrendSerializer(Serializer):
+    stock_code = CharField()
+    stock_name = CharField()
+
+    diff_percent = FloatField()
+    first_percent = FloatField()
+    second_percent = FloatField()
+
+    diff_price = FloatField()
+    first_price = FloatField()
+    second_price = FloatField()
