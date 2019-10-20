@@ -11,14 +11,12 @@ from stock.models import (
 from ..utils import get_lxml_from_stock_code
 
 from datetime import datetime
-from lxml import html
 
 
 @shared_task
 def create_shareholding_disclosure_records(stock_code, date_string):
     date = datetime.strptime(date_string, "%Y-%m-%dT%H:%M:%SZ")
-    date_string = date.strftime('%Y/%m/%d')
-    lxml_html = get_lxml_from_stock_code(stock_code, date_string)
+    lxml_html = get_lxml_from_stock_code(stock_code, date)
 
     try:
         trows = get_all_trows_from_lxml(lxml_html)
