@@ -15,6 +15,16 @@ def get_stock_master_sold_net_value(stock_master, tx_after, tx_before):
         .aggregate(Sum('net_value'))['net_value__sum'] or 0
 
 
+def get_stock_master_dividend_net_value(stock_master, tx_after, tx_before):
+    kwargs = get_stock_tx_basic_filter(StockTx.TX_DIVIDEND[0],
+                                       tx_after,
+                                       tx_before
+                                       )
+
+    return stock_master.stock_txs.filter(**kwargs)\
+        .aggregate(Sum('net_value'))['net_value__sum'] or 0
+
+
 def get_stock_master_realized_buy_net_value(stock_master,
                                             sell_share_count,
                                             tx_after,
@@ -59,4 +69,8 @@ def get_stock_master_realized_value(stock_master,
                                                             tx_after,
                                                             tx_before
                                                             )
-    return sell_net_value - buy_net_value
+    dividend_net_value = get_stock_master_dividend_net_value(stock_master,
+                                                             tx_after,
+                                                             tx_before
+                                                             )
+    return dividend_net_value + sell_net_value - buy_net_value
