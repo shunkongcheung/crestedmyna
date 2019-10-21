@@ -48,13 +48,14 @@ def get_stock_start_date(stock_code):
 
 
 def get_stock_codes():
+    admin_user = get_admin_user()
     return StockMaster.objects\
         .filter(enable=True)\
+        .exclude(created_by=admin_user)\
         .distinct('stock_code')\
         .values_list('stock_code', flat=True)
 
 
 def w_debug(message):
-    admin_user = get_admin_user()
     name = 'periodic_create_shareholding_disclosure_records'
-    return write_syslog(name, message, admin_user)
+    return write_syslog(name, message)
