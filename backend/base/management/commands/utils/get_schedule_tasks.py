@@ -22,4 +22,9 @@ def get_schedule_tasks():
             'task': 'stock.stk_master.tasks.update_stock_masters_market_price_and_value.update_stock_masters_market_price_and_value',
             'crontab': '1 0 * * *',
         },
+        {
+            'name': 'stk_trend-periodic_create_or_update_ccass_and_price_summary_details',
+            'task': 'stock.stk_trend.tasks.periodic_create_or_update_ccass_and_price_summary_details.periodic_create_or_update_ccass_and_price_summary_details',
+            'crontab': '1 6 * * *',
+        },
     ]
