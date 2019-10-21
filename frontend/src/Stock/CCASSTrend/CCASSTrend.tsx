@@ -10,9 +10,12 @@ import classNames from "./CCASSTrend.module.scss";
 
 interface ICCASSTrendItem {
   stockName: string;
-  diffPercent: string;
-  firstPercent: string;
-  secondPercent: string;
+  diffPercent: number;
+  firstPercent: number;
+  secondPercent: number;
+  diffPrice: number;
+  firstPrice: number;
+  secondPrice: number;
 }
 interface IParam {
   targetDate?: Moment;
@@ -53,6 +56,9 @@ function CCASSTrend({
     (targetDate: Moment) => handleListChange(1, { targetDate }),
     [handleListChange]
   );
+  const renderPrice = useCallback(val => `$${getPrettyNum(val)}`, [
+    getPrettyNum
+  ]);
   const renderPercent = useCallback(val => `${getPrettyNum(val)}%`, [
     getPrettyNum
   ]);
@@ -84,9 +90,30 @@ function CCASSTrend({
         render: renderPercent,
         sorter: true,
         key: "secondPercent"
+      },
+      {
+        title: "share difference",
+        dataIndex: "diffPrice",
+        render: renderPrice,
+        sorter: true,
+        key: "diffPrice"
+      },
+      {
+        title: "Previous share",
+        dataIndex: "firstPrice",
+        render: renderPrice,
+        sorter: true,
+        key: "firstPrice"
+      },
+      {
+        title: "Target share",
+        dataIndex: "secondPrice",
+        render: renderPrice,
+        sorter: true,
+        key: "secondPrice"
       }
     ],
-    [renderPercent]
+    [renderPrice, renderPercent]
   );
   const keyedData = useMemo(
     () => ccassTrends.map((itm, key) => ({ ...itm, key })),

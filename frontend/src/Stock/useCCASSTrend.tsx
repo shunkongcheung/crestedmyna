@@ -5,9 +5,12 @@ import { useListState } from "../Base/Fetches";
 
 interface ICCASSTrendItem {
   stockName: string;
-  diffPercent: string;
-  firstPercent: string;
-  secondPercent: string;
+  diffPercent: number;
+  firstPercent: number;
+  secondPercent: number;
+  diffPrice: number;
+  firstPrice: number;
+  secondPrice: number;
 }
 
 interface ICCASSTrendState {
@@ -20,9 +23,12 @@ interface ICCASSTrendState {
 
 interface ICCASSTrendItemFetch {
   stock_name: string;
-  diff_percent: string;
-  first_percent: string;
-  second_percent: string;
+  diff_percent: number;
+  first_percent: number;
+  second_percent: number;
+  diff_price: number;
+  first_price: number;
+  second_price: number;
 }
 
 interface IOrderParams {
@@ -69,7 +75,7 @@ function useCCASSTrend() {
       setCcassTrend(oState => ({ ...oState, isLoading: true }));
       const dateStr = moment(targetDate).format("YYYYMMDD");
       const { ok, payload } = await fetchList(
-        `stock/stk_ccass/${dateStr}/`,
+        `stock/stk_trend/${dateStr}/`,
         queryParams
       );
       if (!ok)
@@ -80,7 +86,10 @@ function useCCASSTrend() {
         stockName: itm.stock_name,
         diffPercent: itm.diff_percent,
         firstPercent: itm.first_percent,
-        secondPercent: itm.second_percent
+        secondPercent: itm.second_percent,
+        diffPrice: itm.diff_price,
+        firstPrice: itm.first_price,
+        secondPrice: itm.second_price
       }));
       setCcassTrend({
         ccassTrends,
