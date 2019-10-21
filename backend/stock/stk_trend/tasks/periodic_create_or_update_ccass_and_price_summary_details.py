@@ -11,6 +11,7 @@ from stock.models import (
 from ..utils import get_stock_ccass_and_price
 
 
+@shared_task
 def periodic_create_or_update_ccass_and_price_summary_details():
     w_log('begin')
     stock_codes = get_stock_codes()
