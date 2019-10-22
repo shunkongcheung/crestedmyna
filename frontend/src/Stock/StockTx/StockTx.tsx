@@ -3,7 +3,7 @@ import { Table, Tag } from "antd";
 
 import classNames from "./StockTx.module.scss";
 
-type TTxType = "BUY" | "SELL";
+type TTxType = "BUY" | "SELL" | "DIVIDEND";
 
 interface IFilter {
   txType?: Array<TTxType>;
@@ -56,9 +56,8 @@ function SockTx({
   );
   const renderTxType = useCallback((txType: TTxType) => {
     let color = "geekblue";
-    if (txType === "SELL") {
-      color = "volcano";
-    }
+    if (txType === "SELL") color = "volcano";
+    if (txType === "DIVIDEND") color = "green";
     return (
       <Tag color={color} key={txType}>
         {txType}

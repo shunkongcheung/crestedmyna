@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useFetchStockTxs } from "./hooks";
 
-type TTxType = "BUY" | "SELL";
+type TTxType = "BUY" | "SELL" | "DIVIDEND";
 
 interface IFilter {
   txType?: Array<TTxType>;

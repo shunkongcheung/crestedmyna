@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useDetailState, useListState } from "../../Base/Fetches";
 
-type TTxType = "BUY" | "SELL";
+type TTxType = "BUY" | "SELL" | "DIVIDEND";
 interface IFilter {
   txType?: Array<TTxType>;
   stockMaster?: Array<number>;
