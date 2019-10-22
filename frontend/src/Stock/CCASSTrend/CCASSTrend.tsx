@@ -45,7 +45,7 @@ function CCASSTrend({
       let { order, field } = extra;
       if (order) {
         const orderParams = { ordering: field, isAscend: order === "ascend" };
-        handleListChange(1, { orderParams, targetDate });
+        handleListChange(current || 1, { orderParams, targetDate });
       } else {
         handleListChange(current || 1, { targetDate });
       }
