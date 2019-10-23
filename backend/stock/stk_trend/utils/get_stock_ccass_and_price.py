@@ -3,9 +3,9 @@ from stock.stk_ccass.utils import get_lxml_from_stock_code
 
 
 def get_stock_ccass_and_price(stock_code, date):
-    nominal_price, _ = get_stock_last_status(stock_code, date)
+    nominal_price, turnover = get_stock_last_status(stock_code, date)
     participant_pecent = get_stock_participant_percent(stock_code, date)
-    return participant_pecent, nominal_price
+    return participant_pecent, nominal_price, turnover
 
 
 def get_stock_participant_percent(stock_code, date):
