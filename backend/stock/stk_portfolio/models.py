@@ -7,3 +7,6 @@ from django.db import models
 class StockProfile(MyBaseModel):
     tx_static_cost = models.FloatField(default=0.0)
     tx_proportion_cost = models.FloatField(default=0.0)
+
+    dividend_static_cost = models.FloatField(default=0.0)
+    dividend_proportion_cost = models.FloatField(default=0.0)

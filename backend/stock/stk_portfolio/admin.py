@@ -6,7 +6,12 @@ from .models import StockProfile
 
 # Register your models here.
 class StockProfileAdmin(MyBaseAdmin):
-    list_display = ['tx_static_cost', 'tx_proportion_cost', ]
+    list_display = [
+        'tx_static_cost',
+        'tx_proportion_cost',
+        'dividend_static_cost',
+        'dividend_proportion_cost',
+    ]
     list_filter = []
     search_fields = []
 
