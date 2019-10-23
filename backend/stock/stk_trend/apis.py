@@ -22,9 +22,9 @@ class StockCCASSAndPriceTrendListAPIView(MyListAPIView):
     ordering_fields = ['diff_percent',
                        'first_percent',
                        'second_percent',
-                       'diff_price',
-                       'first_price',
-                       'second_price',
+                       'diff_turnover',
+                       'first_turnover',
+                       'second_turnover',
                        ]
 
     def get_stock_master_name(self, stock_code):

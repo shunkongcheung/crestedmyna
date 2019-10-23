@@ -39,6 +39,6 @@ class StockCCASSAndPriceTrendSerializer(Serializer):
     first_percent = FloatField()
     second_percent = FloatField()
 
-    diff_price = FloatField()
-    first_price = FloatField()
-    second_price = FloatField()
+    diff_turnover = FloatField()
+    first_turnover = FloatField()
+    second_turnover = FloatField()
