@@ -23,7 +23,10 @@ class StockTxSerializer(MyBaseSerializer):
 
         # calculation
         gross_value = get_stock_tx_gross_value(share_count, price)
-        trade_cost = get_stock_tx_trade_cost(gross_value, stock_profile)
+        trade_cost = get_stock_tx_trade_cost(gross_value,
+                                             stock_profile,
+                                             tx_type
+                                             )
         net_value = get_stock_tx_net_value(gross_value, trade_cost, tx_type)
         name = f'{stock_code} {share_count} {price}'
 
