@@ -57,27 +57,28 @@ function CCASSTrend({
     (targetDate: Moment) => handleListChange(1, { targetDate }),
     [handleListChange]
   );
+
+  const renderTxtValue = useCallback((txtValue, val, isTag) => {
+    if (!isTag) return txtValue;
+    let color = "geekblue";
+    if (val < 0) color = "red";
+    if (val > 0) color = "green";
+    return <Tag color={color}>{txtValue}</Tag>;
+  }, []);
+
   const renderTurnover = useCallback(
     (val, isTag = false) => {
       const txtValue = `${getPrettyNum(val / 1000)}M`;
-      if (!isTag) return txtValue;
-      let color = "geekblue";
-      if (val < 0) color = "red";
-      if (val > 0) color = "green";
-      return <Tag color={color}>{txtValue}</Tag>;
+      return renderTxtValue(txtValue, val, isTag);
     },
-    [getPrettyNum]
+    [getPrettyNum, renderTxtValue]
   );
   const renderPercent = useCallback(
     (val, isTag = false) => {
       const txtValue = `${getPrettyNum(val)}%`;
-      if (!isTag) return `${txtValue}M`;
-      let color = "geekblue";
-      if (val < 0) color = "red";
-      if (val > 0) color = "green";
-      return <Tag color={color}>{txtValue}</Tag>;
+      return renderTxtValue(txtValue, val, isTag);
     },
-    [getPrettyNum]
+    [getPrettyNum, renderTxtValue]
   );
 
   const columns = useMemo(
