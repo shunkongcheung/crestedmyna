@@ -5,6 +5,8 @@ import { useDetailState, useEditState } from "../../Base/Fetches";
 interface IStockProfile {
   txStaticCost: number;
   txProportionCost: number;
+  dividendStaticCost: number;
+  dividendProportionCost: number;
 }
 interface IStockProfileState {
   stockProfile: IStockProfile;
@@ -14,6 +16,8 @@ interface IStockProfileState {
 interface IStockProfileRet {
   tx_static_cost: number;
   tx_proportion_cost: number;
+  dividend_static_cost: number;
+  dividend_proportion_cost: number;
 }
 
 function useStockProfile() {
@@ -21,7 +25,12 @@ function useStockProfile() {
     IStockProfileState
   >({
     isLoading: true,
-    stockProfile: { txStaticCost: 0, txProportionCost: 0 }
+    stockProfile: {
+      txStaticCost: 0,
+      txProportionCost: 0,
+      dividendStaticCost: 0,
+      dividendProportionCost: 0
+    }
   });
   const { fetchDetail } = useDetailState<IStockProfileRet>();
   const { fetchEdit } = useEditState<IStockProfileRet>();
@@ -30,7 +39,9 @@ function useStockProfile() {
   const getStockProfileFromPayload = useCallback(
     payload => ({
       txStaticCost: payload.tx_static_cost,
-      txProportionCost: payload.tx_proportion_cost
+      txProportionCost: payload.tx_proportion_cost,
+      dividendStaticCost: payload.dividend_static_cost,
+      dividendProportionCost: payload.dividend_proportion_cost
     }),
     []
   );
@@ -57,7 +68,9 @@ function useStockProfile() {
         "stock/stk_portfolio/profile/",
         {
           tx_static_cost: data.txStaticCost,
-          tx_proportion_cost: data.txProportionCost
+          tx_proportion_cost: data.txProportionCost,
+          dividend_static_cost: data.dividendStaticCost,
+          dividend_proportion_cost: data.dividendProportionCost
         },
         { method: "PUT", formApis }
       );

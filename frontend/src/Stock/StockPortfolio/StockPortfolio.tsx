@@ -72,6 +72,8 @@ interface IStockMasterTableState {
 interface IStockProfile {
   txStaticCost: number;
   txProportionCost: number;
+  dividendStaticCost: number;
+  dividendProportionCost: number;
 }
 interface IPortfolioSummary {
   isLoading: boolean;

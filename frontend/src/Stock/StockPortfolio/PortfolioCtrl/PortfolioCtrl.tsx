@@ -22,6 +22,8 @@ interface IPortfolioCtrlProps {
 interface IStockProfile {
   txStaticCost: number;
   txProportionCost: number;
+  dividendStaticCost: number;
+  dividendProportionCost: number;
 }
 
 function PortfolioCtrl({
@@ -95,7 +97,9 @@ PortfolioCtrl.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     stockProfile: PropTypes.shape({
       txStaticCost: PropTypes.number.isRequired,
-      txProportionCost: PropTypes.number.isRequired
+      txProportionCost: PropTypes.number.isRequired,
+      dividendStaticCost: PropTypes.number.isRequired,
+      dividendProportionCost: PropTypes.number.isRequired
     }).isRequired
   })
 };

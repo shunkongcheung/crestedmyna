@@ -1,5 +1,5 @@
-import React, { memo, useMemo } from "react";
-import { Modal } from "antd";
+import React, { memo, useCallback, useMemo } from "react";
+import { Divider, Modal } from "antd";
 import { withFormik, FormikProps } from "formik";
 import * as Yup from "yup";
 
@@ -10,6 +10,8 @@ import PropTypes from "prop-types";
 interface IStockProfile {
   txStaticCost: number;
   txProportionCost: number;
+  dividendStaticCost: number;
+  dividendProportionCost: number;
 }
 
 interface IStockProfileDialogProps {
@@ -24,13 +26,25 @@ function StockProfileDialog({
   ...formikProps
 }: IStockProfileDialogProps & FormikProps<IStockProfile>) {
   const { handleSubmit, values } = formikProps;
-  const { txStaticCost, txProportionCost } = values;
+  const {
+    dividendStaticCost,
+    dividendProportionCost,
+    txStaticCost,
+    txProportionCost
+  } = values;
 
-  const renderedContent = useMemo(
-    () =>
-      `Your cost will be calculated as: ${txStaticCost ||
-        0} + ${txProportionCost} * Gross value`,
-    [txStaticCost, txProportionCost]
+  const renderContent = useCallback((staticCost, proportionCost, type) => {
+    return `Your ${type} transaction cost will be calculated as: ${staticCost ||
+      0} + ${proportionCost} * Gross value`;
+  }, []);
+
+  const renderedTxContent = useMemo(
+    () => renderContent(txStaticCost, txProportionCost, "trade"),
+    [renderContent, txStaticCost, txProportionCost]
+  );
+  const renderedDividendContent = useMemo(
+    () => renderContent(dividendStaticCost, dividendProportionCost, "dividend"),
+    [renderContent, dividendStaticCost, dividendProportionCost]
   );
 
   return (
@@ -40,12 +54,24 @@ function StockProfileDialog({
       visible={isModalOpen}
       title="STOCK PROFILE"
     >
-      {renderedContent}
+      {renderedTxContent}
       <InputText {...formikProps} label="Static cost" name="txStaticCost" />
       <InputText
         {...formikProps}
         label="Proportional cost"
         name="txProportionCost"
+      />
+      <Divider />
+      {renderedDividendContent}
+      <InputText
+        {...formikProps}
+        label="Dividend static cost"
+        name="dividendStaticCost"
+      />
+      <InputText
+        {...formikProps}
+        label="Dividend proportional cost"
+        name="dividendProportionCost"
       />
     </Modal>
   );
@@ -69,7 +95,9 @@ export default withFormik<IStockProfileDialogProps, IStockProfile>({
   ) => {
     const submitValues = {
       txStaticCost: values.txStaticCost,
-      txProportionCost: values.txProportionCost
+      txProportionCost: values.txProportionCost,
+      dividendStaticCost: values.dividendStaticCost,
+      dividendProportionCost: values.dividendProportionCost
     };
     await handleStockProfileChange(submitValues, formikProps);
     formikProps.setSubmitting(false);
