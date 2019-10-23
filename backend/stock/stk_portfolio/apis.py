@@ -28,7 +28,12 @@ class StockPortfolioSummaryAPIView(MyCreateAPIView):
 
 
 class StockProfileObjectAPIView(MyObjectAPIView):
-    fields = ['tx_static_cost', 'tx_proportion_cost']
+    fields = [
+        'tx_static_cost',
+        'tx_proportion_cost',
+        'dividend_static_cost',
+        'dividend_proportion_cost',
+    ]
     http_method = ['get', 'put', ]
     model = StockProfile
 
