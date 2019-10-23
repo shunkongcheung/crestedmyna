@@ -13,9 +13,9 @@ interface ICCASSTrendItem {
   diffPercent: number;
   firstPercent: number;
   secondPercent: number;
-  diffPrice: number;
-  firstPrice: number;
-  secondPrice: number;
+  diffTurnover: number;
+  firstTurnover: number;
+  secondTurnover: number;
 }
 interface IParam {
   targetDate?: Moment;
@@ -56,7 +56,7 @@ function CCASSTrend({
     (targetDate: Moment) => handleListChange(1, { targetDate }),
     [handleListChange]
   );
-  const renderPrice = useCallback(val => `$${getPrettyNum(val)}`, [
+  const renderTurnover = useCallback(val => `${getPrettyNum(val / 1000)}`, [
     getPrettyNum
   ]);
   const renderPercent = useCallback(val => `${getPrettyNum(val)}%`, [
@@ -93,27 +93,27 @@ function CCASSTrend({
       },
       {
         title: "share difference",
-        dataIndex: "diffPrice",
-        render: renderPrice,
+        dataIndex: "diffTurnover",
+        render: renderTurnover,
         sorter: true,
-        key: "diffPrice"
+        key: "diffTurnover"
       },
       {
         title: "Previous share",
-        dataIndex: "firstPrice",
-        render: renderPrice,
+        dataIndex: "firstTurnover",
+        render: renderTurnover,
         sorter: true,
-        key: "firstPrice"
+        key: "firstTurnover"
       },
       {
         title: "Target share",
-        dataIndex: "secondPrice",
-        render: renderPrice,
+        dataIndex: "secondTurnover",
+        render: renderTurnover,
         sorter: true,
-        key: "secondPrice"
+        key: "secondTurnover"
       }
     ],
-    [renderPrice, renderPercent]
+    [renderTurnover, renderPercent]
   );
   const keyedData = useMemo(
     () => ccassTrends.map((itm, key) => ({ ...itm, key })),

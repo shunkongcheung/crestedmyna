@@ -8,9 +8,9 @@ interface ICCASSTrendItem {
   diffPercent: number;
   firstPercent: number;
   secondPercent: number;
-  diffPrice: number;
-  firstPrice: number;
-  secondPrice: number;
+  diffTurnover: number;
+  firstTurnover: number;
+  secondTurnover: number;
 }
 
 interface ICCASSTrendState {
@@ -26,9 +26,9 @@ interface ICCASSTrendItemFetch {
   diff_percent: number;
   first_percent: number;
   second_percent: number;
-  diff_price: number;
-  first_price: number;
-  second_price: number;
+  diff_turnover: number;
+  first_turnover: number;
+  second_turnover: number;
 }
 
 interface IOrderParams {
@@ -87,9 +87,9 @@ function useCCASSTrend() {
         diffPercent: itm.diff_percent,
         firstPercent: itm.first_percent,
         secondPercent: itm.second_percent,
-        diffPrice: itm.diff_price,
-        firstPrice: itm.first_price,
-        secondPrice: itm.second_price
+        diffTurnover: itm.diff_turnover,
+        firstTurnover: itm.first_turnover,
+        secondTurnover: itm.second_turnover
       }));
       setCcassTrend({
         ccassTrends,
