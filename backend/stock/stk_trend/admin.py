@@ -8,8 +8,9 @@ from .models import StockCCASSAndPriceSummaryDetail
 class StockCCASSAndPriceSummaryDetailAdmin(MyBaseAdmin):
     list_display = ['detail_date',
                     'nominal_price',
+                    'participant_percent',
                     'stock_code',
-                    'participant_percent'
+                    'turnover',
                     ]
     list_filter = ['detail_date', ]
 
