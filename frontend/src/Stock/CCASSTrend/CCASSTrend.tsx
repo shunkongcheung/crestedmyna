@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useMemo } from "react";
+import { Table, Tag } from "antd";
 import { Moment } from "moment";
-import { Table } from "antd";
 import PropTypes from "prop-types";
 
 import { useGetPrettyNum } from "../hooks";
@@ -34,6 +34,7 @@ interface ICCASSTrendProps {
 function CCASSTrend({
   ccassTrends,
   handleListChange,
+  isLoading,
   page,
   targetDate,
   total
@@ -56,12 +57,28 @@ function CCASSTrend({
     (targetDate: Moment) => handleListChange(1, { targetDate }),
     [handleListChange]
   );
-  const renderTurnover = useCallback(val => `${getPrettyNum(val / 1000)}`, [
-    getPrettyNum
-  ]);
-  const renderPercent = useCallback(val => `${getPrettyNum(val)}%`, [
-    getPrettyNum
-  ]);
+  const renderTurnover = useCallback(
+    (val, isTag = false) => {
+      const txtValue = `${getPrettyNum(val / 1000)}M`;
+      if (!isTag) return txtValue;
+      let color = "geekblue";
+      if (val < 0) color = "red";
+      if (val > 0) color = "green";
+      return <Tag color={color}>{txtValue}</Tag>;
+    },
+    [getPrettyNum]
+  );
+  const renderPercent = useCallback(
+    (val, isTag = false) => {
+      const txtValue = `${getPrettyNum(val)}%`;
+      if (!isTag) return `${txtValue}M`;
+      let color = "geekblue";
+      if (val < 0) color = "red";
+      if (val > 0) color = "green";
+      return <Tag color={color}>{txtValue}</Tag>;
+    },
+    [getPrettyNum]
+  );
 
   const columns = useMemo(
     () => [
@@ -73,42 +90,42 @@ function CCASSTrend({
       {
         title: "% Difference",
         dataIndex: "diffPercent",
-        render: renderPercent,
+        render: (val: number) => renderPercent(val, true),
         sorter: true,
         key: "diffPercent"
       },
       {
         title: "Previous %",
         dataIndex: "firstPercent",
-        render: renderPercent,
+        render: (val: number) => renderPercent(val),
         sorter: true,
         key: "firstPercent"
       },
       {
         title: "Target %",
         dataIndex: "secondPercent",
-        render: renderPercent,
+        render: (val: number) => renderPercent(val),
         sorter: true,
         key: "secondPercent"
       },
       {
         title: "share difference",
         dataIndex: "diffTurnover",
-        render: renderTurnover,
+        render: (val: number) => renderTurnover(val, true),
         sorter: true,
         key: "diffTurnover"
       },
       {
         title: "Previous share",
         dataIndex: "firstTurnover",
-        render: renderTurnover,
+        render: (val: number) => renderTurnover(val),
         sorter: true,
         key: "firstTurnover"
       },
       {
         title: "Target share",
         dataIndex: "secondTurnover",
-        render: renderTurnover,
+        render: (val: number) => renderTurnover(val),
         sorter: true,
         key: "secondTurnover"
       }
@@ -130,6 +147,7 @@ function CCASSTrend({
         <Table
           columns={columns}
           dataSource={keyedData}
+          loading={isLoading}
           onChange={onChange}
           pagination={pagination}
         />
