@@ -1,12 +1,11 @@
 import { useCallback, useMemo } from "react";
 import { History } from "history";
 
-import { useStockSectors } from "../hooks";
+import { useStockSectors, useStockSearch } from "../hooks";
 
 import usePortfolioSummary from "./usePortfolioSummary";
 import useStockDistribution from "./useStockDistribution";
 import useStockProfile from "./useStockProfile";
-import useStockSearch from "./useStockSearch";
 import useStockMasterTableState from "./useStockMasterTableState";
 
 function useStockPortfolio(history: History) {
