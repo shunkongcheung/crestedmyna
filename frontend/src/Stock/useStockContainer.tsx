@@ -9,7 +9,7 @@ import useStockPage from "./useStockPage";
 import useStockPortfolio from "./useStockPortfolio";
 
 function useStockContainer(history: History) {
-  const { handleTabChange, page } = useStockPage(history);
+  const { handleTabChange: handleTabChangeI, page } = useStockPage(history);
   const ccassTrendState = useCCASSTrend();
   const {
     fetchStockMasterNames,
@@ -37,6 +37,43 @@ function useStockContainer(history: History) {
     stockMasterNames
   );
 
+  const stockDetailId = useMemo(
+    () => {
+      if (!stockDetailState || !stockDetailState.stockInfoState) return;
+      return stockDetailState.stockInfoState.id || -1;
+    },
+    [stockDetailState]
+  );
+
+  const isDetailClickable = useMemo(
+    () => {
+      if (stockDetailId !== -1) return true;
+      if (Array.isArray(stockMasterNames) && stockMasterNames.length)
+        return true;
+      return false;
+    },
+    [stockDetailId, stockMasterNames]
+  );
+
+  const handleStockDetailTabClick = useCallback(
+    () => {
+      if (stockDetailId !== -1) history.push(`/stock/detail/${stockDetailId}`);
+      if (!isDetailClickable) return;
+      const firstStockId = stockMasterNames[0].id;
+      history.push(`/stock/detail/${firstStockId}`);
+    },
+    [history,isDetailClickable, stockDetailId]
+  );
+
+  const handleTabChange = useCallback(
+    (pageName: string) => {
+      return pageName === "detail"
+        ? handleStockDetailTabClick()
+        : handleTabChangeI(pageName);
+    },
+    [handleStockDetailTabClick, handleTabChangeI]
+  );
+
   const stockTxState = useMemo(
     () => ({ ...stockMasterNamesState, ...stockTxStateI }),
     [stockTxStateI, stockMasterNamesState]
@@ -44,6 +81,8 @@ function useStockContainer(history: History) {
 
   return {
     handleTabChange,
+    handleStockDetailTabClick,
+isDetailClickable,
     page,
     ccassTrendState,
     stockDetailState,

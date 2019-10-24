@@ -17,18 +17,20 @@ function StockContainer({ history }: RouteComponentProps) {
   const {
     ccassTrendState,
     handleTabChange,
+    isDetailClickable,
     page,
     stockDetailState,
     stockPortfolioState,
     stockTxState
   } = useStockContainer(history);
+
   return (
     <Layout>
       <Tabs activeKey={page} onChange={handleTabChange}>
         <TabPane tab="Portfolio" key="portfolio">
           <StockPortfolio {...stockPortfolioState} />
         </TabPane>
-        <TabPane tab="Stock summary" key="detail" disabled={page !== "detail"}>
+        <TabPane tab="Stock summary" key="detail" disabled={!isDetailClickable}>
           <StockDetail {...stockDetailState} />
         </TabPane>
         <TabPane tab="Transactions" key="txes">
