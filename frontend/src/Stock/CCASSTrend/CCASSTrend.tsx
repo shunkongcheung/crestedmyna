@@ -68,7 +68,10 @@ function CCASSTrend({
 
   const renderTurnover = useCallback(
     (val, isTag = false) => {
-      const txtValue = `${getPrettyNum(val / 1000)}M`;
+      const isGreaterThanThousand = val > 1000;
+      const prettyNum = getPrettyNum(isGreaterThanThousand ? val / 1000 : val);
+      const unit = isGreaterThanThousand ? "M" : "k";
+      const txtValue = `${prettyNum}${unit}`;
       return renderTxtValue(txtValue, val, isTag);
     },
     [getPrettyNum, renderTxtValue]
