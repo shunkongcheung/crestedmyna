@@ -16,7 +16,10 @@ function useStockContainer(history: History) {
     ...stockMasterNamesState
   } = useStockMasterNames();
   const stockTxStateI = useStockTx();
-  const { refreshStockPortfolio, ...stockPortfolioState } = useStockPortfolio(history);
+  const { refreshStockPortfolio, ...stockPortfolioState } = useStockPortfolio(
+    history
+  );
+  const { stockMasterNames } = stockMasterNamesState;
 
   const { handleListChange } = stockTxStateI;
   const refreshOtherTabs = useCallback(
@@ -31,6 +34,7 @@ function useStockContainer(history: History) {
     fetchStockMasterNames,
     history,
     refreshOtherTabs,
+    stockMasterNames
   );
 
   const stockTxState = useMemo(

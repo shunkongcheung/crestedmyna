@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { History } from "history";
 
-import { useStockSectors } from "../hooks";
+import { useStockSectors, useStockSearch } from "../hooks";
 
 import useChartsState from "./useChartsState";
 import useStockAlert from "./useStockAlert";
@@ -14,7 +14,8 @@ import useInitStockMaster from "./useInitStockMaster";
 function useStockDetail(
   fetchStockMasterNames: () => any,
   history: History,
-  refreshOtherTabs: () => any
+  refreshOtherTabs: () => any,
+  stockMasterNames: Array<{ name: string; id: number }>
 ) {
   const {
     deleteStockMaster,
@@ -27,6 +28,10 @@ function useStockDetail(
   const stockSectorState = useStockSectors(stockMaster);
   const stockAlert = useStockAlert(stockMaster.stockCode);
   const stockNewsState = useStockNews(stockMaster.stockCode);
+  const { isLoading: isSearchLoading, handleStockSearch } = useStockSearch(
+    history,
+    refreshOtherTabs
+  );
 
   const {
     fetchParticipantDetails,
@@ -77,6 +82,11 @@ function useStockDetail(
     [deleteStockMaster, history, refreshOtherTabs]
   );
 
+  const handleStockMasterChange = useCallback(
+    (id: number) => history.push(`/stock/detail/${id}`),
+    [history]
+  );
+
   // return --------------------------------------------------
 
   const stockCtrlState = useMemo(
@@ -91,11 +101,28 @@ function useStockDetail(
     () => ({ handleListChange: handleTxTableChange, ...stockTxsState }),
     [handleTxTableChange, stockTxsState]
   );
+  const stockNameState = useMemo(
+    () => ({
+      handleStockSearch,
+      handleStockMasterChange,
+      isLoading: isSearchLoading,
+      stockMasterNames: stockMasterNames,
+      stockName: stockMaster.name
+    }),
+    [
+      handleStockMasterChange,
+      handleStockSearch,
+      isSearchLoading,
+      stockMaster.name,
+      stockMasterNames
+    ]
+  );
 
   return {
     ...chartsState,
     stockCtrlState,
     stockInfoState,
+    stockNameState,
     stockNewsState,
     stockTxTableState,
     txEditState
