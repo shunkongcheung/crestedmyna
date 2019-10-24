@@ -20,7 +20,6 @@ function TargetDate({
 }: ITargetDateProps & FormikProps<IFormikVal>) {
   const { targetDate } = formikProps.values;
   const oldTargetDate = useRef(targetDate);
-  console.log("here...", targetDate);
 
   useEffect(
     () => {
