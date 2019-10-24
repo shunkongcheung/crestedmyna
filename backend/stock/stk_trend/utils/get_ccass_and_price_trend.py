@@ -6,6 +6,7 @@ from ..models import StockCCASSAndPriceSummaryDetail
 def get_ccass_and_price_trend(date):
     second_date = date.date()
     first_date = get_last_day_with_records(second_date)
+    print(second_date, first_date)
 
     full_queryset = StockCCASSAndPriceSummaryDetail.objects\
         .filter(enable=True)\
@@ -40,7 +41,7 @@ def get_annotation(detail_date, field):
 def get_last_day_with_records(cur_date):
     dates = StockCCASSAndPriceSummaryDetail.objects\
         .filter(enable=True)\
-        .order_by('-detail_date')\
+        .order_by('detail_date')\
         .distinct('detail_date')\
         .values_list('detail_date', flat=True)
 
