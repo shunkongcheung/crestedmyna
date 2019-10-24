@@ -1,14 +1,14 @@
 from base.admin import MyBaseAdmin
 from django.contrib import admin
 
-# from .models import ModelName
+from .models import AccessLog
 
 
-# # Register your models here.
-# class ModelNameAdmin(MyBaseAdmin):
-#     list_display = ['catagory', 'is_public', 'lookup_value', ]
-#     list_filter = []
-#     search_fields = []
+# Register your models here.
+class AccessLogAdmin(MyBaseAdmin):
+    list_display = ['error', 'status_code', 'payload', ]
+    list_filter = ['status_code', ]
+    search_fields = []
 
 
-# admin.site.register(ModelName, ModelNameAdmin)
+admin.site.register(AccessLog, AccessLogAdmin)

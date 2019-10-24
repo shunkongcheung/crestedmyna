@@ -10,6 +10,13 @@ class MyBaseAPIView(GenericAPIView):
     permissions_classes = [IsAuthenticated, ]
     serializer_class = MyBaseSerializer
 
+    def get_user(self, request):
+        if not hasattr(request, 'user'):
+            return get_admin_user()
+        if request.user.is_anonymous:
+            return get_admin_user()
+        return request.user
+
     def get_serializer_class(self, *args, **kwargs):
         prepend_fields = ['id', ]
         propend_fields = ['created_by', 'created_at', 'modified_at', ]
