@@ -104,7 +104,14 @@ function useCCASSTrend() {
 
   useEffect(
     () => {
-      handleListChange(1);
+      const params = {
+        targetDate: moment().add(-1, "days"),
+        orderParams: {
+          ordering: "diffPercent",
+          isAscend: false
+        }
+      };
+      handleListChange(1, params);
     },
     [handleListChange]
   );
