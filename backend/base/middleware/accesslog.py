@@ -40,5 +40,5 @@ class AccessLogMiddleware(MiddlewareMixin):
             self.create_access_log(name, payload, request, response, False)
             return response
         except Exception as ex:
-            self.create_access_log(payload, request, ex, True)
+            self.create_access_log(name, payload, request, ex, True)
             raise ex
