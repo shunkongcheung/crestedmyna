@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useMemo } from "react";
-import { Tag, Table } from "antd";
+import { Icon, Popconfirm, Tag, Table } from "antd";
 import PropTypes from "prop-types";
 
 import { useGetPrettyNum } from "../../hooks";
@@ -10,6 +10,7 @@ interface IStockProfile {
   txProportionCost: number;
 }
 interface IStockTx {
+  id: number;
   txType: TTxType;
   txAt: Date;
   shareCount: number;
@@ -20,6 +21,7 @@ interface IStockTx {
 }
 
 interface IStockTxTableProps {
+  handleDeleteTx: (i: number) => any;
   handleListChange: (p: number) => any;
   isLoading: boolean;
   stockTxs: Array<IStockTx>;
@@ -28,6 +30,7 @@ interface IStockTxTableProps {
 }
 
 function StockTxTable({
+  handleDeleteTx,
   handleListChange,
   isLoading,
   page,
@@ -39,6 +42,21 @@ function StockTxTable({
   const onChange = useCallback(({ current }) => handleListChange(current), [
     handleListChange
   ]);
+  const renderCtrl = useCallback(
+    txId => {
+      return (
+        <Popconfirm
+          title="Are you sure delete this transaction?"
+          onConfirm={() => handleDeleteTx(txId)}
+          okText="Delete"
+          cancelText="Cancel"
+        >
+          <Icon type="delete" />
+        </Popconfirm>
+      );
+    },
+    [handleDeleteTx]
+  );
   const renderValue = useCallback(val => `$${getPrettyNum(val)}`, [
     getPrettyNum
   ]);
@@ -107,9 +125,14 @@ function StockTxTable({
         dataIndex: "txAt",
         key: "txAt",
         render: renderTxAt
+      },
+      {
+        dataIndex: "id",
+        key: "id",
+        render: renderCtrl
       }
     ],
-    [renderTxAt, renderTxType, renderShare, renderValue]
+    [renderCtrl, renderTxAt, renderTxType, renderShare, renderValue]
   );
   const pagination = useMemo(() => ({ current: page, total }), [page, total]);
   return (

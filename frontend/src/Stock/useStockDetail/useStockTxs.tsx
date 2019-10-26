@@ -1,7 +1,10 @@
 import { useCallback, useState } from "react";
+
+import { useDeleteState } from "../../Base/Fetches";
 import { useFetchStockTxs } from "../hooks";
 
 interface IStockTx {
+  id: number;
   txAt: Date;
   txType: "BUY" | "SELL" | "DIVIDEND";
   shareCount: number;
@@ -25,6 +28,7 @@ function useStockTxs() {
     stockTxs: []
   });
   const { fetchStockTxs: fetchStockTxsI } = useFetchStockTxs();
+  const { fetchDelete } = useDeleteState();
 
   // methods ----------------------------------------------------
   const fetchStockTxs = useCallback(
@@ -37,9 +41,13 @@ function useStockTxs() {
     },
     [fetchStockTxsI]
   );
+  const deleteStockTx = useCallback(
+    async (id: number) => fetchDelete(`stock/stk_tx/${id}/`),
+    [fetchDelete]
+  );
 
   // return ------------------------------------------------------
-  return { fetchStockTxs, stockTxsState };
+  return { deleteStockTx, fetchStockTxs, stockTxsState };
 }
 
 export default useStockTxs;

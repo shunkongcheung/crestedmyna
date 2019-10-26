@@ -7,6 +7,7 @@ interface IFilter {
   stockMaster?: Array<number>;
 }
 interface ITx {
+  id: number;
   grossValue: number;
   netValue: number;
   price: number;
@@ -17,6 +18,7 @@ interface ITx {
   txType: TTxType;
 }
 interface ITxRet {
+  id: number;
   gross_value: number;
   net_value: number;
   price: number;
@@ -63,6 +65,7 @@ function useFetchStockTxs() {
       const { ok, payload } = await fetchDetail(`stock/stk_tx/${stockTxId}/`);
       if (!ok) return undefined;
       return {
+        id: payload.id,
         grossValue: payload.gross_value,
         netValue: payload.net_value,
         price: payload.price,

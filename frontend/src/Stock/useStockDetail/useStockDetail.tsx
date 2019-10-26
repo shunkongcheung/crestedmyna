@@ -22,7 +22,7 @@ function useStockDetail(
     stockMasterState,
     fetchStockMaster
   } = useStockMaster();
-  const { fetchStockTxs, stockTxsState } = useStockTxs();
+  const { deleteStockTx, fetchStockTxs, stockTxsState } = useStockTxs();
 
   const { stockMaster } = stockMasterState;
   const stockSectorState = useStockSectors(stockMaster);
@@ -42,7 +42,7 @@ function useStockDetail(
     ...chartsState
   } = useChartsState(stockMaster.stockCode);
 
-  const onStockTxAdd = useCallback(
+  const onStockTxChange = useCallback(
     (sm: number, page: number) => {
       fetchStockTxs(sm, page);
       refreshOtherTabs();
@@ -51,7 +51,7 @@ function useStockDetail(
   );
   const txEditState = useStockTxAdd(
     stockMaster.id,
-    onStockTxAdd,
+    onStockTxChange,
     fetchStockMaster
   );
 
@@ -69,6 +69,14 @@ function useStockDetail(
   const handleTxTableChange = useCallback(
     (page: number) => fetchStockTxs(stockMaster.id, page),
     [fetchStockTxs, stockMaster]
+  );
+  const handleDeleteTx = useCallback(
+    async (id: number) => {
+      const { ok } = await deleteStockTx(id);
+      if (!ok) return;
+      onStockTxChange(stockMaster.id, 1);
+    },
+    [deleteStockTx, onStockTxChange, stockMaster.id]
   );
 
   const handleDeleteStockMaster = useCallback(
@@ -98,8 +106,12 @@ function useStockDetail(
     [stockMaster, stockSectorState]
   );
   const stockTxTableState = useMemo(
-    () => ({ handleListChange: handleTxTableChange, ...stockTxsState }),
-    [handleTxTableChange, stockTxsState]
+    () => ({
+      handleDeleteTx,
+      handleListChange: handleTxTableChange,
+      ...stockTxsState
+    }),
+    [handleDeleteTx, handleTxTableChange, stockTxsState]
   );
   const stockNameState = useMemo(
     () => ({

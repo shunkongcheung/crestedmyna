@@ -24,6 +24,7 @@ interface IStockNewsItem {
   releaseTime: Moment;
 }
 interface IStockTx {
+	id:number;
   txType: TTxType;
   txAt: Date;
   shareCount: number;
@@ -105,6 +106,7 @@ interface IStockDetailProps {
   };
   stockTxTableState: {
     handleListChange: (p: number) => any;
+    handleDeleteTx: (id: number) => any;
     isLoading: boolean;
     stockTxs: Array<IStockTx>;
     page: number;
