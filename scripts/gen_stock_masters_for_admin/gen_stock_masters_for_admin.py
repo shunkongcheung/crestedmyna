@@ -3,6 +3,8 @@ import pandas as pd
 import requests
 import re
 
+# https://www.quandl.com/api/v3/databases/HKEX/metadata?api_key=<API KEY>
+
 
 def get_stock_code_from_name(stock_name):
     match = re.search(r'\((.*?)\)', stock_name)
@@ -16,7 +18,10 @@ def get_stock_codes():
 
 
 def request_to_backend(stock_code):
-    headers = {'Content-Type': 'application/json', 'Authorization': 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjAyMzk1NTM1LCJlbWFpbCI6InNodW5rb25nLmNoZXVuZ0BnbWFpbC5jb20iLCJvcmlnX2lhdCI6MTU3MDg1OTUzNSwiZmlyc3RfbmFtZSI6IiIsImxhc3RfbmFtZSI6IiJ9.Wg5Lyid9uyvG7TcHYJGnk7q1Mv00FfaPnWFBVi8LbHs'}
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjAyMzk1NTM1LCJlbWFpbCI6InNodW5rb25nLmNoZXVuZ0BnbWFpbC5jb20iLCJvcmlnX2lhdCI6MTU3MDg1OTUzNSwiZmlyc3RfbmFtZSI6IiIsImxhc3RfbmFtZSI6IiJ9.Wg5Lyid9uyvG7TcHYJGnk7q1Mv00FfaPnWFBVi8LbHs'
+    }
     url = 'https://www.crestedmyna.com/api/stock/stk_master/create/'
     data = {'stock_code': stock_code}
     response = requests.post(url=url, headers=headers, data=json.dumps(data))
