@@ -8,10 +8,14 @@ class AccessLogMiddleware(MiddlewareMixin):
     def create_access_log(self, name, payload, request, response, is_error):
         user = self.get_user(request)
 
-        status_code = response.status_code
+        try:
+            status_code = response.status_code
+        except:
+            status_code = 500
+
         if is_error:
             error = str(response)
-        elif status_code < 200 or status_code >= 300:
+        elif status_code < 200 or status_code >= 400:
             error = response.data
         else:
             error = None
