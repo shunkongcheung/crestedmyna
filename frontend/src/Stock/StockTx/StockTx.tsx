@@ -115,7 +115,8 @@ function SockTx({
         key: "txType",
         filters: [
           { text: "BUY", value: "BUY" },
-          { text: "SELL", value: "SELL" }
+          { text: "SELL", value: "SELL" },
+          { text: "DIVIDEND", value: "DIVIDEND" }
         ],
         render: renderTxType
       },
