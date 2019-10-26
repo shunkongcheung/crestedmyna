@@ -18,6 +18,11 @@ def get_schedule_tasks():
             'crontab': '1 1 * * *',
         },
         {
+            'name': 'stk_master-periodic_update_or_create_admin_stock_master',
+            'task': 'stock.stk_master.tasks.periodic_update_or_create_admin_stock_master.periodic_update_or_create_admin_stock_master',
+            'crontab': '0 8 * * *',
+        },
+        {
             'name': 'stk_master-update_stock_price',
             'task': 'stock.stk_master.tasks.update_stock_masters_market_price_and_value.update_stock_masters_market_price_and_value',
             'crontab': '1 0 * * *',
