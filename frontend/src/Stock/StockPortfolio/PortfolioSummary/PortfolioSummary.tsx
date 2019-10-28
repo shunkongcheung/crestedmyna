@@ -28,7 +28,7 @@ function PortfolioSummary({
   const { getPrettyNum } = useGetPrettyNum();
   const renderValueRow = useCallback(
     (title: string, value: number) => {
-      const valuePretty = `$${getPrettyNum(value)}`;
+      const valuePretty = getPrettyNum(value, { withDollarSign: true });
       return (
         <div className={classNames.row}>
           <div className={classNames.title}>{title}</div>

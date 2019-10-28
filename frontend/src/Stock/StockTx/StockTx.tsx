@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useMemo } from "react";
 import { Table, Tag } from "antd";
 
+import { useGetPrettyNum } from "../hooks";
 import classNames from "./StockTx.module.scss";
 
 type TTxType = "BUY" | "SELL" | "DIVIDEND";
@@ -40,6 +41,7 @@ function SockTx({
   stockTxs,
   total
 }: ISockTxProps) {
+  const { getPrettyNum } = useGetPrettyNum();
   const onChange = useCallback(
     ({ current }, { txType, stockMaster }) =>
       handleListChange(current || 1, { txType, stockMaster } as any),
@@ -68,6 +70,15 @@ function SockTx({
     (txAt: Date) => <span>{txAt.toLocaleDateString()}</span>,
     []
   );
+  const renderPrice = useCallback(
+    (val: number) =>
+      getPrettyNum(val, { withDollarSign: true, toFixedDigit: 3 }),
+    [getPrettyNum]
+  );
+  const renderValue = useCallback(
+    (val: number) => getPrettyNum(val, { withDollarSign: true }),
+    [getPrettyNum]
+  );
   const keyedData = useMemo(
     () => stockTxs.map((itm, key) => ({ ...itm, key })),
     [stockTxs]
@@ -87,6 +98,7 @@ function SockTx({
       {
         title: "Net value",
         dataIndex: "netValue",
+        render: renderValue,
         key: "netValue"
       },
       {
@@ -97,16 +109,19 @@ function SockTx({
       {
         title: "Price",
         dataIndex: "price",
+        render: renderPrice,
         key: "price"
       },
       {
         title: "Gross value",
         dataIndex: "grossValue",
+        render: renderValue,
         key: "grossValue"
       },
       {
         title: "Trade cost",
         dataIndex: "tradeCost",
+        render: renderValue,
         key: "tradeCost"
       },
       {
@@ -127,7 +142,14 @@ function SockTx({
         render: renderTxAt
       }
     ],
-    [renderStockMaster, renderTxAt, renderTxType, stockMasterNames]
+    [
+      renderStockMaster,
+      renderPrice,
+      renderValue,
+      renderTxAt,
+      renderTxType,
+      stockMasterNames
+    ]
   );
   const pagination = useMemo(() => ({ current: page, total }), [page, total]);
   return (

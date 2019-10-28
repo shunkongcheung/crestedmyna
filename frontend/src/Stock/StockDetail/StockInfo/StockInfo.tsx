@@ -39,7 +39,10 @@ function StockInfo({
         <div className={classNames.importantTitle}>LATEST PRICE</div>
         <div className={classNames.importantContent}>
           <Tag color="geekblue" style={{ margin: 0 }}>
-            ${marketPrice}
+            {getPrettyNum(marketPrice, {
+              toFixedDigit: 3,
+              withDollarSign: true
+            })}
           </Tag>
         </div>
       </div>
@@ -47,7 +50,10 @@ function StockInfo({
         <div className={classNames.importantTitle}>TURNOVER</div>
         <div className={classNames.importantContent}>
           <Tag color="geekblue" style={{ margin: 0 }}>
-            {`${getPrettyNum(turnover / 1000, false)} M`}
+            {`${getPrettyNum(turnover / 1000, {
+              toFixedDigit: -1,
+              withDollarSign: true
+            })}M`}
           </Tag>
         </div>
       </div>
@@ -61,7 +67,9 @@ function StockInfo({
       </div>
       <div className={classNames.row}>
         <div className={classNames.title}>MARKET VALUE</div>
-        <div className={classNames.content}>${getPrettyNum(marketValue)}</div>
+        <div className={classNames.content}>
+          {getPrettyNum(marketValue, { withDollarSign: true })}
+        </div>
       </div>
       <div className={classNames.row}>
         <div className={classNames.title}>SECTOR</div>
@@ -75,12 +83,14 @@ function StockInfo({
       </div>
       <div className={classNames.row}>
         <div className={classNames.title}>REALISED GAIN/LOSS</div>
-        <div className={classNames.content}>${getPrettyNum(realizedValue)}</div>
+        <div className={classNames.content}>
+          {getPrettyNum(realizedValue, { withDollarSign: true })}
+        </div>
       </div>
       <div className={classNames.row}>
         <div className={classNames.title}>UNREALISED GAIN/LOSS</div>
         <div className={classNames.content}>
-          ${getPrettyNum(unrealizedValue)}
+          {getPrettyNum(unrealizedValue, { withDollarSign: true })}
         </div>
       </div>
     </>

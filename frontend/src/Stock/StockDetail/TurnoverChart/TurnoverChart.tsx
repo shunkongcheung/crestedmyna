@@ -19,7 +19,7 @@ function TurnoverChart({
 }: ITurnoverChartProps) {
   const { getPrettyNum } = useGetPrettyNum();
   const yAxesUserCallback = useCallback(
-    val => `${getPrettyNum(val / 1000, false)}M`,
+    val => `${getPrettyNum(val / 1000, {toFixedDigit:-1})}M`,
     [getPrettyNum]
   );
   const datasets = useMemo(

@@ -57,12 +57,18 @@ function StockTxTable({
     },
     [handleDeleteTx]
   );
-  const renderValue = useCallback(val => `$${getPrettyNum(val)}`, [
-    getPrettyNum
-  ]);
-  const renderShare = useCallback(val => getPrettyNum(val, false), [
-    getPrettyNum
-  ]);
+  const renderPrice = useCallback(
+    val => getPrettyNum(val, { withDollarSign: true, toFixedDigit: 3 }),
+    [getPrettyNum]
+  );
+  const renderValue = useCallback(
+    val => getPrettyNum(val, { withDollarSign: true }),
+    [getPrettyNum]
+  );
+  const renderShare = useCallback(
+    val => getPrettyNum(val, { toFixedDigit: -1 }),
+    [getPrettyNum]
+  );
   const renderTxType = useCallback((txType: TTxType) => {
     let color = "geekblue";
     if (txType === "SELL") color = "volcano";
@@ -93,7 +99,7 @@ function StockTxTable({
       {
         title: "Price",
         dataIndex: "price",
-        render: renderValue,
+        render: renderPrice,
         key: "price"
       },
       {

@@ -62,7 +62,10 @@ function StockMasterTable({
     [handleListChange]
   );
 
-  const renderValue = useCallback(x => `$${getPrettyNum(x)}`, [getPrettyNum]);
+  const renderValue = useCallback(
+    x => `${getPrettyNum(x, { withDollarSign: true })}`,
+    [getPrettyNum]
+  );
 
   const renderTag = useCallback((value: number) => {
     const color = value >= 0 ? "green" : "#e94e80";
@@ -117,9 +120,10 @@ function StockMasterTable({
       if (unrealizedValue === 0) return "-";
       if (unrealizedCost === 0) return "-";
       const prettyUnrealizedPercent = getPrettyNum(
-        (unrealizedValue / unrealizedCost) * 100
+        (unrealizedValue / unrealizedCost) * 100,
+        { withPercentSign: true }
       );
-      return `${prettyUnrealizedPercent}%`;
+      return prettyUnrealizedPercent;
     },
     [getPrettyNum]
   );
@@ -166,7 +170,7 @@ function StockMasterTable({
       {
         dataIndex: "shareCount",
         key: "shareCount",
-        render: (val: number) => getPrettyNum(val, false),
+        render: (val: number) => getPrettyNum(val, { toFixedDigit: -1 }),
         sorter: true,
         title: "Share"
       },

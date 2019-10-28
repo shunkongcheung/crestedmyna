@@ -32,8 +32,8 @@ function DistributionChart({
       const { index } = tooltipItem;
       const label = data.labels[index];
       const value = data.datasets[0].data[index];
-      const prettyValue = getPrettyNum(value);
-      return `${label}: $${prettyValue}`;
+      const prettyValue = getPrettyNum(value, { withDollarSign: true });
+      return `${label}: ${prettyValue}`;
     },
     [getPrettyNum]
   );

@@ -43,16 +43,20 @@ function ChartSummary({
 
   const renderedChildren = useMemo(
     () => {
+      const prettyPrice = getPrettyNum(price, {
+        withDollarSign: true,
+        toFixedDigit: 3
+      });
+      const prettyTurnover = `${getPrettyNum(turnover / 1000)}M`;
+      const prettyCcass = `${getPrettyNum(participantPercentSum, {
+        withPercentSign: true
+      })}M`;
       return (
         <>
           {renderRow(dateLabel, { marginLeft: 0 }, "DATE")}
-          {renderRow(`$${getPrettyNum(price)}`, {}, "PRICE")}
-          {renderRow(`$${getPrettyNum(turnover / 1000)}M`, {}, "TURNOVER")}
-          {renderRow(
-            `${getPrettyNum(participantPercentSum)}%`,
-            { marginRight: 0 },
-            "CCASS %"
-          )}
+          {renderRow(prettyPrice, {}, "PRICE")}
+          {renderRow(prettyTurnover, {}, "TURNOVER")}
+          {renderRow(prettyCcass, { marginRight: 0 }, "CCASS %")}
         </>
       );
     },

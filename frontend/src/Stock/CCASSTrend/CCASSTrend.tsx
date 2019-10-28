@@ -78,7 +78,7 @@ function CCASSTrend({
   );
   const renderPercent = useCallback(
     (val, isTag = false) => {
-      const txtValue = `${getPrettyNum(val)}%`;
+      const txtValue = getPrettyNum(val, { withPercentSign: true });
       return renderTxtValue(txtValue, val, isTag);
     },
     [getPrettyNum, renderTxtValue]
