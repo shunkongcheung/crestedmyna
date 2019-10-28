@@ -135,7 +135,9 @@ function StockMasterTable({
         unrealizedCost,
         unrealizedValue
       );
-      const prettyUnrealizedValue = getPrettyNum(unrealizedValue);
+      const prettyUnrealizedValue = getPrettyNum(unrealizedValue, {
+        withDollarSign: true
+      });
       return (
         <div className={classNames.unrealizedValueAndPercent}>
           {renderedTag}
