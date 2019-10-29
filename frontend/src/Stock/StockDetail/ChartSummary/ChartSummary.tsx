@@ -48,9 +48,9 @@ function ChartSummary({
         toFixedDigit: 3
       });
       const prettyTurnover = `${getPrettyNum(turnover / 1000)}M`;
-      const prettyCcass = `${getPrettyNum(participantPercentSum, {
+      const prettyCcass = getPrettyNum(participantPercentSum, {
         withPercentSign: true
-      })}M`;
+      });
       return (
         <>
           {renderRow(dateLabel, { marginLeft: 0 }, "DATE")}
