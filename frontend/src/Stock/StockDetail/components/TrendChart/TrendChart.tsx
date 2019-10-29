@@ -2,6 +2,7 @@ import React, { createElement, memo, useCallback, useMemo } from "react";
 import * as Charts from "react-chartjs-2";
 import { Spin } from "antd";
 import { Chart, ChartDataSets } from "chart.js";
+import moment from "moment";
 import PropTypes from "prop-types";
 
 import classNames from "./TrendChart.module.scss";
@@ -46,6 +47,23 @@ function TrendChart({
     },
     [handleChartPointHover]
   );
+  const tooltipTitleCallback = useCallback(
+    ([tooltipItem]: any) => {
+      const { index } = tooltipItem;
+      return labels[index];
+    },
+    [labels]
+  );
+
+  const xAxesUserCallback = useCallback((value, index, values) => {
+    const rangeLength = values.length;
+    if (rangeLength <= 20) return value;
+
+    const curDate = moment(value);
+
+    if (!curDate.isValid()) return value;
+    return curDate.format("YYYY-MM");
+  }, []);
 
   const renderedChart = useMemo(
     () => {
@@ -59,13 +77,19 @@ function TrendChart({
         legend: { position: "bottom", display: false },
         title: { position: "left", display: true, text: title },
         tooltips: {
-          callbacks: { footer: handleTooltipFooterCallback },
+          callbacks: {
+            footer: handleTooltipFooterCallback,
+            title: tooltipTitleCallback
+          },
           intersect: false
         },
         scales: {
           xAxes: [
             {
-              ticks: { display: displayLabels },
+              ticks: {
+                display: displayLabels,
+                callback: xAxesUserCallback
+              },
               gridLines: { offsetGridLines: true }
             }
           ],
@@ -93,6 +117,8 @@ function TrendChart({
       isTall,
       labels,
       title,
+      tooltipTitleCallback,
+      xAxesUserCallback,
       yAxesIsPercentRange,
       yAxesUserCallback
     ]
