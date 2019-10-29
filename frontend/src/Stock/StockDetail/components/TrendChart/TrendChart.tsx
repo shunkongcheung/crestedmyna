@@ -15,6 +15,7 @@ interface ITrendChartProps {
   isTall?: boolean;
   labels: Array<string>;
   title: string;
+  yAxesIsPercentRange?: boolean;
   yAxesUserCallback?: (item: any) => any;
 }
 
@@ -27,6 +28,7 @@ function TrendChart({
   isTall = false,
   labels,
   title,
+  yAxesIsPercentRange,
   yAxesUserCallback = val => val
 }: ITrendChartProps) {
   const renderedLoading = useMemo(
@@ -47,6 +49,12 @@ function TrendChart({
 
   const renderedChart = useMemo(
     () => {
+      const yAxesTicksExtra = {
+        beginAtZero: true,
+        steps: 10,
+        stepValue: 5,
+        max: 100
+      };
       const options: Chart.ChartOptions = {
         legend: { position: "bottom", display: false },
         title: { position: "left", display: true, text: title },
@@ -64,7 +72,10 @@ function TrendChart({
           yAxes: [
             {
               afterFit: scaleInstance => (scaleInstance.width = 50),
-              ticks: { callback: yAxesUserCallback }
+              ticks: {
+                callback: yAxesUserCallback,
+                ...(yAxesIsPercentRange ? yAxesTicksExtra : {})
+              }
             }
           ]
         }
@@ -82,6 +93,7 @@ function TrendChart({
       isTall,
       labels,
       title,
+      yAxesIsPercentRange,
       yAxesUserCallback
     ]
   );
@@ -102,6 +114,7 @@ TrendChart.propTypes = {
   isTall: PropTypes.bool,
   labels: PropTypes.arrayOf(PropTypes.string).isRequired,
   title: PropTypes.string.isRequired,
+  yAxesIsPercentRange: PropTypes.bool,
   yAxesUserCallback: PropTypes.func
 };
 export default memo(TrendChart);

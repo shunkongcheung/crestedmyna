@@ -69,6 +69,7 @@ function CCASSChart({
       isLoading={isLoading}
       labels={labels}
       title="Participation distribution"
+      yAxesIsPercentRange
     />
   );
 }
