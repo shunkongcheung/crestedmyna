@@ -57,9 +57,8 @@ def get_stock_start_date(stock_code):
         .first()
 
     if not most_recent_participant_detail:
-        # two_years_ago = date.today() - timedelta(days=365*2)
-        two_years_ago = date.today() - timedelta(days=2)
-        return two_years_ago
+        start_date = date.today() - timedelta(days=5)
+        return start_date
 
     last_date = most_recent_participant_detail.detail_date
     return last_date + timedelta(days=1)
