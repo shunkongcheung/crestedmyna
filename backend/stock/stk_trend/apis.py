@@ -19,13 +19,15 @@ class StockTrendAPIView(MyCreateAPIView):
 
 class StockCCASSAndPriceTrendListAPIView(MyListAPIView):
     serializer_class = StockCCASSAndPriceTrendSerializer
-    ordering_fields = ['diff_percent',
-                       'first_percent',
-                       'second_percent',
-                       'diff_turnover',
-                       'first_turnover',
-                       'second_turnover',
-                       ]
+    ordering_fields = [
+        'diff_percent',
+        'diff_turnover',
+        'first_percent',
+        'first_turnover',
+        'second_percent',
+        'second_turnover',
+        'stock_code',
+    ]
 
     def get_stock_master_name(self, stock_code):
         stock_master = StockMaster.objects\
