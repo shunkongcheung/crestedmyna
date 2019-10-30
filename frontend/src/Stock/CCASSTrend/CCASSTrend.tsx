@@ -44,6 +44,7 @@ function CCASSTrend({
   const onChange = useCallback(
     ({ current }, _, extra) => {
       let { order, field } = extra;
+      if (field === "stockName") field = "stockCode";
       if (order) {
         const orderParams = { ordering: field, isAscend: order === "ascend" };
         handleListChange(current || 1, { orderParams, targetDate });
@@ -89,6 +90,7 @@ function CCASSTrend({
       {
         dataIndex: "stockName",
         key: "stockName",
+        sorter: true,
         title: "Name"
       },
       {
