@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 
 import useChartRange from "./useChartRange";
 import useChartSummary from "./useChartSummary";

@@ -62,7 +62,7 @@ function useStockContainer(history: History) {
       const firstStockId = stockMasterNames[0].id;
       history.push(`/stock/detail/${firstStockId}`);
     },
-    [history,isDetailClickable, stockDetailId]
+    [history, isDetailClickable, stockDetailId, stockMasterNames]
   );
 
   const handleTabChange = useCallback(
@@ -82,7 +82,7 @@ function useStockContainer(history: History) {
   return {
     handleTabChange,
     handleStockDetailTabClick,
-isDetailClickable,
+    isDetailClickable,
     page,
     ccassTrendState,
     stockDetailState,

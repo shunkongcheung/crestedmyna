@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useMemo } from "react";
 import { History } from "history";
 
 import { useStockSectors, useStockSearch } from "../hooks";

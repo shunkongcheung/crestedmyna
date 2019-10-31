@@ -138,7 +138,14 @@ function StockTxTable({
         render: renderCtrl
       }
     ],
-    [renderCtrl, renderTxAt, renderTxType, renderShare, renderValue]
+    [
+      renderCtrl,
+      renderPrice,
+      renderShare,
+      renderTxAt,
+      renderTxType,
+      renderValue
+    ]
   );
   const pagination = useMemo(() => ({ current: page, total }), [page, total]);
   return (

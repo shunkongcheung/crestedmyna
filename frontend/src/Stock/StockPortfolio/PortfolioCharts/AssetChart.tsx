@@ -18,12 +18,10 @@ function AssetChart({ marketValue, unrealizedValue }: IAssetChartProps) {
       const { index } = tooltipItem;
       const label = data.labels[index];
       const value = data.datasets[0].data[index];
-      const prettyValue = getPrettyNum(value);
-
-      const sign = index === 1 && unrealizedValue < 0 ? "-" : "";
-      return `${label}: ${sign}$${prettyValue}`;
+      const prettyValue = getPrettyNum(value, { withDollarSign: true });
+      return `${label}: ${prettyValue}`;
     },
-    [getPrettyNum, unrealizedValue]
+    [getPrettyNum]
   );
 
   const data = useMemo<ChartData>(
