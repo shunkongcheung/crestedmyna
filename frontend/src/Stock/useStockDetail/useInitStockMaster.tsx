@@ -17,7 +17,6 @@ function useInitStockMaster(
   const setStockMasterIdOnHistory = useCallback(() => {
     const { pathname } = window.location;
     const matching = pathname.match(/detail\/(\w+)/);
-    console.log(matching);
     if (!matching) return;
     const stockMasterId = Number(matching[1]);
     setStockMasterId(stockMasterId);
