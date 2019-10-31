@@ -32,8 +32,16 @@ function DistributionChart({
       const { index } = tooltipItem;
       const label = data.labels[index];
       const value = data.datasets[0].data[index];
+      const total =
+        data.datasets[0].data.reduce(
+          (itm: number, acc: number) => itm + acc,
+          0
+        ) || 1;
       const prettyValue = getPrettyNum(value, { withDollarSign: true });
-      return `${label}: ${prettyValue}`;
+      const prettyPercent = getPrettyNum((value / total) * 100, {
+        withPercentSign: true
+      });
+      return `${label}: ${prettyValue} (${prettyPercent})`;
     },
     [getPrettyNum]
   );
