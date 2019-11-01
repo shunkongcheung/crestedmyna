@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 from django.utils import timezone
 from .credentials import (
-    SECRET_KEY,
+    ALLOWED_HOSTS,
     DEBUG,
     DATABASE_NAME,
     DATABASE_USER,
@@ -21,6 +21,7 @@ from .credentials import (
     EMAIL_HOST_USER,
     EMAIL_HOST_PASSWORD,
     IS_DEVELOPMENT,
+    SECRET_KEY,
 )
 
 import os
@@ -134,6 +135,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': DATABASE_NAME,
         'USER': DATABASE_USER,
+        'HOST': 'localhost',
         'PORT': DATABASE_PORT,
         'PASSWORD': DATABASE_PASSWORD,
     }
