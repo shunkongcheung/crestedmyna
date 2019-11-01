@@ -11,17 +11,16 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 from django.utils import timezone
-from .settings_loc import (
+from .credentials import (
     SECRET_KEY,
     DEBUG,
-    ALLOWED_HOSTS,
-    DATABASES,
-    IS_DEVELOPMENT,
-)
-
-from .credentials import (
+    DATABASE_NAME,
+    DATABASE_USER,
+    DATABASE_PASSWORD,
+    DATABASE_PORT,
     EMAIL_HOST_USER,
     EMAIL_HOST_PASSWORD,
+    IS_DEVELOPMENT,
 )
 
 import os
@@ -126,6 +125,19 @@ TIME_ZONE = 'Asia/Hong_Kong'
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Database
+# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': DATABASE_NAME,
+        'USER': DATABASE_USER,
+        'PORT': DATABASE_PORT,
+        'PASSWORD': DATABASE_PASSWORD,
+    }
+}
 
 # extra settings ------------------------------------------------------
 SHELL_PLUS = "ipython"
