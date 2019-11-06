@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.utils.timezone import make_aware
 
-from general.gnl_lookup.utils import get_lookup_value
+from backend.credentials import WEATHER_KEY
 
 import requests
 
@@ -56,7 +56,7 @@ def get_data_from_payload(payload):
 def get_weather_payload(params):
     url = 'https://api.openweathermap.org/data/2.5/weather'
 
-    weather_api_key = get_lookup_value('WEATHER_API_KEY')
+    weather_api_key = WEATHER_KEY
     params['appid'] = weather_api_key
 
     response = requests.get(url, params=params)
