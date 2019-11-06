@@ -143,6 +143,7 @@ function CCASSTrend({
     [ccassTrends]
   );
   const pagination = useMemo(() => ({ current: page, total }), [page, total]);
+
   return (
     <>
       <TargetDate
