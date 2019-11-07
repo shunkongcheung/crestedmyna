@@ -8,11 +8,8 @@ from ..serializers import StockMasterSerializer
 from ..utils import get_hkex_stock_codes
 
 
-# from stock.stk_master.tasks import periodic_update_or_create_admin_stock_master
-# periodic_update_or_create_admin_stock_master()
-
 @shared_task
-def periodic_update_or_create_admin_stock_master():
+def periodic_update_or_create_admin_stock_masters():
     w_log('begin')
     stock_codes = get_hkex_stock_codes()
     code_count = len(stock_codes)
@@ -38,5 +35,5 @@ def get_serializer_class():
 
 
 def w_log(message):
-    name = 'periodic_update_or_create_admin_stock_master'
+    name = 'periodic_update_or_create_admin_stock_masters'
     write_syslog(name, message)
