@@ -1,2 +1,5 @@
 from .stock_ccass_and_price_trend_serializer import StockCCASSAndPriceTrendSerializer
+from .stock_create_or_update_ccass_and_price_summary_detail import (
+    StockCreateOrUpdateCCASSAndPriceSummaryDetailSerializer,
+)
 from .stock_trend_serializer import StockTrendSerializer

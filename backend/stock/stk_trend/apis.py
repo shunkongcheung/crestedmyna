@@ -1,10 +1,12 @@
 from datetime import datetime
+from rest_framework.permissions import IsAdminUser
 
 from base.apis import MyListAPIView, MyCreateAPIView
 from stock.models import StockMaster
 
 from .serializers import (
     StockCCASSAndPriceTrendSerializer,
+    StockCreateOrUpdateCCASSAndPriceSummaryDetailSerializer,
     StockTrendSerializer,
 )
 from .utils import get_ccass_and_price_trend
@@ -12,6 +14,14 @@ from .utils import get_ccass_and_price_trend
 
 class StockTrendAPIView(MyCreateAPIView):
     serializer_class = StockTrendSerializer
+
+    def perform_create(self, validated_data):
+        pass
+
+
+class StockCreateOrUpdateCCASSAndPriceSummaryDetailAPIView(MyCreateAPIView):
+    permission_classes = [IsAdminUser, ]
+    serializer_class = StockCreateOrUpdateCCASSAndPriceSummaryDetailSerializer
 
     def perform_create(self, validated_data):
         pass
