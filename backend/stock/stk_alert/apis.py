@@ -1,8 +1,8 @@
 from django.utils import timezone
+from rest_framework.permissions import IsAdminUser
 
 from base.apis import (
     MyCreateAPIView,
-    MyListAPIView,
     MyObjectAPIView,
 )
 
@@ -10,6 +10,7 @@ from stock.models import (
     StockMaster,
     StockAlertMaster,
 )
+from .serializers import StockAlertSendAlertEmailsSerializer
 
 read_only_fields = [
     'name',
@@ -22,6 +23,14 @@ fields = ['stock_code',
           'ccass_percent_value',
           'ccass_percent_condition',
           ]
+
+
+class StockAlertSendAlertEmailsAPIView(MyCreateAPIView):
+    permission_classes = [IsAdminUser, ]
+    serializer_class = StockAlertSendAlertEmailsSerializer
+
+    def perform_create(self, serializer):
+        pass
 
 
 class StockAlertMasterObjectAPIView(MyObjectAPIView):
