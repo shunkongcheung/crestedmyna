@@ -2,17 +2,26 @@ from rest_framework_jwt.settings import api_settings
 
 from .get_admin_user import get_admin_user
 
+import asyncio
 import requests
 
 
 def fetch_app_action(url, data):
+    asyncio.run(internal_fetch(url, data))
+
+
+async def internal_fetch(url, data):
     jwt_token = get_admin_jwt()
     headers = {
         'Authorization': f'JWT {jwt_token}',
         'Content-Type': 'application/json',
     }
+
     requests.post(
-        url=f'http://localhost:7000/api/{url}/', data=data, headers=headers)
+        url=f'http://localhost:7000/api/{url}/',
+        json=data,
+        headers=headers
+    )
 
 
 def get_admin_jwt():
