@@ -1,9 +1,11 @@
-from general.gnl_lookup.utils import get_lookup_value
 import quandl
+
+from backend.credentials import STOCK_KEY
+from general.gnl_lookup.utils import get_lookup_value
 
 
 def get_stock_api_key():
-    return get_lookup_value('STOCK_API_KEY')
+    return STOCK_KEY
 
 
 def get_quandl():

@@ -5,7 +5,7 @@ from rest_framework.serializers import (
     Serializer,
 )
 
-from .utils import get_stock_trends
+from ..utils import get_stock_trends
 
 
 class StockTrendItemSerializer(Serializer):
@@ -31,14 +31,3 @@ class StockTrendSerializer(Serializer):
         return data
 
 
-class StockCCASSAndPriceTrendSerializer(Serializer):
-    stock_code = CharField()
-    stock_name = CharField()
-
-    diff_percent = FloatField()
-    first_percent = FloatField()
-    second_percent = FloatField()
-
-    diff_turnover = FloatField()
-    first_turnover = FloatField()
-    second_turnover = FloatField()

@@ -4,11 +4,10 @@ from django.contrib.auth.models import User
 from django.http.response import HttpResponse
 from rest_framework.exceptions import NotAuthenticated
 from rest_framework_jwt.settings import api_settings
-from wsgiref.util import FileWrapper
 
 from .serializers import MediaMasterSerializer
 from .models import MediaMaster
-from .utils import get_media_file_full_path
+from .utils import get_media_file
 
 import os
 
@@ -36,13 +35,9 @@ class MediaMasterResolveAPIView(MyObjectAPIView):
         object = self.get_object()
         file_name, file_type = object.file_name, object.file_type
 
-        media_path = get_media_file_full_path(object.file_name)
-        file_wrapper = FileWrapper(open(media_path, 'rb'))
+        media_file = get_media_file(object.file_name)
         content_type = f'applicaiton/{file_type}'
-
-        response = HttpResponse(file_wrapper, content_type=content_type)
-        response['X-Sendfile'] = media_path
-        response['Content-Length'] = os.stat(media_path).st_size
+        response = HttpResponse(media_file, content_type=content_type)
         return response
 
     def get_request_user(self):

@@ -14,10 +14,11 @@ from django.utils import timezone
 from .credentials import (
     ALLOWED_HOSTS,
     DEBUG,
+    DATABASE_HOST,
     DATABASE_NAME,
-    DATABASE_USER,
     DATABASE_PASSWORD,
     DATABASE_PORT,
+    DATABASE_USER,
     EMAIL_HOST_USER,
     EMAIL_HOST_PASSWORD,
     IS_DEVELOPMENT,
@@ -135,7 +136,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': DATABASE_NAME,
         'USER': DATABASE_USER,
-        'HOST': 'localhost',
+        'HOST': DATABASE_HOST,
         'PORT': DATABASE_PORT,
         'PASSWORD': DATABASE_PASSWORD,
     }

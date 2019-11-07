@@ -10,19 +10,23 @@ from stock.models import (
     StockMaster,
     StockSectorMaster,
 )
-from .serializers import StockMasterSerializer
+from .serializers import (
+    StockMasterSerializer,
+    StockUpdateStockMasterMarketPriceAndValueSerializer,
+)
 
 
 fields = ['sector', 'stock_code', ]
-read_only_fields = ['market_price',
-                    'market_value',
-                    'name',
-                    'realized_value',
-                    'share_count',
-                    'turnover',
-                    'unrealized_cost',
-                    'unrealized_value',
-                    ]
+read_only_fields = [
+    'market_price',
+    'market_value',
+    'name',
+    'realized_value',
+    'share_count',
+    'turnover',
+    'unrealized_cost',
+    'unrealized_value',
+]
 
 
 class StockMasterCreateAPIView(MyCreateAPIView):
@@ -64,3 +68,11 @@ class StockMasterObjectAPIView(MyObjectAPIView):
     read_only_fields = read_only_fields
     model = StockMaster
     serializer_class = StockMasterSerializer
+
+
+class StockUpdateStockMasterMarketPriceAndValueAPIView(MyCreateAPIView):
+    permission_classes = [IsAdminUser, ]
+    serializer_class = StockUpdateStockMasterMarketPriceAndValueSerializer
+
+    def perform_create(self, serializer):
+        pass
