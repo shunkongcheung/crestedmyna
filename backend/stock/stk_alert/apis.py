@@ -17,12 +17,13 @@ read_only_fields = [
     'market_price_trigger_at',
     'ccass_percent_trigger_at',
 ]
-fields = ['stock_code',
-          'market_price_value',
-          'market_price_condition',
-          'ccass_percent_value',
-          'ccass_percent_condition',
-          ]
+fields = [
+    'stock_code',
+    'market_price_value',
+    'market_price_condition',
+    'ccass_percent_value',
+    'ccass_percent_condition',
+]
 
 
 class StockAlertSendAlertEmailsAPIView(MyCreateAPIView):

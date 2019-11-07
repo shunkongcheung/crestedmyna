@@ -3,16 +3,19 @@ from celery import shared_task
 from datetime import date, timedelta
 
 
-from base.utils import get_admin_user
+from base.utils import (
+    fetch_app_action,
+    get_admin_user,
+)
 from general.gnl_syslog.utils import write_syslog
 from stock.models import (
     CCASSParticipantDetail,
     StockMaster,
 )
 
-from .create_shareholding_disclosure_records import (
-    create_shareholding_disclosure_records,
-)
+# from .create_shareholding_disclosure_records import (
+#     create_shareholding_disclosure_records,
+# )
 
 
 @shared_task
@@ -25,8 +28,14 @@ def periodic_create_shareholding_disclosure_records():
         request_date, today = get_stock_start_date(stock_code), date.today()
         while request_date < today:
             request_date_str = request_date.strftime("%Y-%m-%dT%H:%M:%SZ")
-            create_shareholding_disclosure_records\
-                .apply_async((stock_code, request_date_str,))
+            url = 'stock/stk_ccass/create_shareholding_disclosure_records'
+            data = {
+                'stock_code': stock_code,
+                'date': request_date_str
+            }
+            fetch_app_action(url, data)
+            # create_shareholding_disclosure_records\
+            #     .apply_async((stock_code, request_date_str,))
             request_date += timedelta(days=1)
 
     # trigger for past?
