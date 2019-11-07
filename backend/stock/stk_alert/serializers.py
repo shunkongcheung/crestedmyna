@@ -16,3 +16,4 @@ class StockAlertSendAlertEmailsSerializer(Serializer):
         stock_code, market_price, ccass_percent = \
             data['stock_code'], data['market_price'], data['ccass_percent']
         send_alert_emails(stock_code, market_price, ccass_percent)
+        return data
