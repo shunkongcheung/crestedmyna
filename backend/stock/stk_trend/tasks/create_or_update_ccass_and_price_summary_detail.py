@@ -8,7 +8,7 @@ from stock.models import (
 from ..utils import get_stock_ccass_and_price
 
 
-def create_or_update_summary_detail(stock_code, request_date):
+def create_or_update_ccass_and_price_summary_detail(stock_code, request_date):
     admin_user = get_admin_user()
     participant_percent, nominal_price, turnover = get_stock_ccass_and_price(
         stock_code,
