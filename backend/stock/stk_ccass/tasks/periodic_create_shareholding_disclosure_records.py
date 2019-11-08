@@ -14,7 +14,9 @@ from stock.models import (
     StockMaster,
 )
 
-from . import create_shareholding_disclosure_records
+from .create_shareholding_disclosure_records import (
+    create_shareholding_disclosure_records
+)
 
 
 @shared_task
