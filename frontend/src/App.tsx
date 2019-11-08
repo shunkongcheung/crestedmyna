@@ -11,7 +11,7 @@ import "./App.scss";
 import classNames from "./App.module.scss";
 
 // routes -----------------------------------------------
-const AuthContainer = lazy(() => import("./Base/Auth/AuthContainer"));
+const AuthContainer = lazy(() => import("./Base/AuthContainer"));
 const GameContainer = lazy(() => import("./Game/GameContainer"));
 const HomeContainer = lazy(() => import("./Home/HomeContainer"));
 const JournalContainer = lazy(() => import("./Journal/JournalContainer"));
