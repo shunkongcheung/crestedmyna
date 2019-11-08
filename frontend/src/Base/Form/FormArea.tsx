@@ -1,8 +1,8 @@
 import React, { memo, ReactNode } from "react";
+import { Button } from "antd";
 import PropTypes from "prop-types";
 
 import { CenterArea } from "../Utils";
-import SubmitButton from "./SubmitButton";
 
 import classes from "./FormArea.module.scss";
 
@@ -30,12 +30,13 @@ function FormArea({
           <h1 className={classes.banner}>{banner}</h1>
           {children}
           <div className={classes.submitBtnDiv}>
-            <SubmitButton
-              handleClick={handleSubmit}
-              label={submitText}
-              isSubmitting={isSubmitting}
-              varient="primary"
-            />
+            <Button
+              onClick={handleSubmit}
+              loading={isSubmitting}
+              type="primary"
+            >
+              {submitText}
+            </Button>
           </div>
         </div>
       </form>
