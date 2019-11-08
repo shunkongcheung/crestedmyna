@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { History } from "history";
 
 import { useStockSectors, useStockSearch } from "../hooks";
@@ -63,6 +63,21 @@ function useStockDetail(
     getDatesFromRange,
     history,
     setChartRange
+  );
+
+  // refresh on every minute -------------------------------
+  useEffect(
+    () => {
+      const unsubscribe = setInterval(() => {
+        fetchStockMaster(stockMaster.id);
+        refreshOtherTabs();
+      }, 1000 * 60);
+
+      return () => {
+        clearInterval(unsubscribe);
+      };
+    },
+    [fetchStockMaster, stockMaster.id, refreshOtherTabs]
   );
 
   // methods ------------------------------------------------

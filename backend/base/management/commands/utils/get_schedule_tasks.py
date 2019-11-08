@@ -20,7 +20,7 @@ def get_schedule_tasks():
         {
             'name': 'stk_master-periodic_update_or_create_admin_stock_master',
             'task': 'stock.stk_master.tasks.periodic_update_or_create_admin_stock_master.periodic_update_or_create_admin_stock_master',
-            'crontab': '0 8 * * *',
+            'crontab': '* 9-17 * * 1-5',
         },
         {
             'name': 'stk_master-update_stock_price',
