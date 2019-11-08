@@ -9,7 +9,9 @@ from stock.models import (
     StockCCASSAndPriceSummaryDetail
 )
 
-from . import create_or_update_ccass_and_price_summary_detail
+from .create_or_update_ccass_and_price_summary_detail import (
+    create_or_update_ccass_and_price_summary_detail
+)
 
 
 @shared_task

@@ -3,7 +3,7 @@ from celery import shared_task
 
 from general.gnl_syslog.utils import write_syslog
 from stock.models import CCASSParticipantDetail, StockMaster
-from . import send_alert_emails
+from .send_alert_emails import send_alert_emails
 
 
 @shared_task

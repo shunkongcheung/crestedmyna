@@ -5,7 +5,9 @@ from base.utils import get_admin_user
 from stock.models import StockMaster
 from general.gnl_syslog.utils import write_syslog
 
-from . import update_stock_master_market_price_and_value
+from .update_stock_master_market_price_and_value import (
+    update_stock_master_market_price_and_value
+)
 
 
 @shared_task
