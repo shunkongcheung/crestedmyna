@@ -7,18 +7,21 @@ from stock.models import (
 )
 from ..utils import get_stock_ccass_and_price
 
+
 @shared_task
 def create_or_update_ccass_and_price_summary_detail(stock_code, request_date):
     admin_user = get_admin_user()
-    participant_percent, nominal_price, turnover = get_stock_ccass_and_price(
-        stock_code,
-        request_date
-    )
+    participant_percent, participant_share, nominal_price, turnover = \
+        get_stock_ccass_and_price(
+            stock_code,
+            request_date
+        )
     defaults = {
         'name': stock_code,
         'created_by': admin_user,
         'nominal_price': nominal_price,
         'participant_percent': participant_percent,
+        'participant_share': participant_share,
         'turnover': turnover,
     }
     StockCCASSAndPriceSummaryDetail.objects.update_or_create(
