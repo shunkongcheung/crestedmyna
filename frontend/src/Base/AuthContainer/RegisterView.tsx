@@ -3,8 +3,7 @@ import { RouteComponentProps } from "react-router-dom";
 import { Formik } from "formik";
 
 import Layout from "../Layout";
-import { FormArea } from "../Form";
-import InputText from "../Form/InputText2";
+import { FormArea, InputText } from "../Form";
 
 import useRegisterViewState from "./useRegisterViewState";
 

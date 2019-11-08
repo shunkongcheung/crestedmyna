@@ -1,17 +1,16 @@
 import React, { ReactNode, memo, useMemo } from "react";
-import { FormikProps } from "formik";
-import PropTypes from "prop-types";
 import { Input, Tooltip } from "antd";
+import { useField } from "formik";
 
-import useFormInputsState from "./useFormInputsState";
+import PropTypes from "prop-types";
 
 interface IInputTextProps {
   addonAfter?: ReactNode;
   addonBefore?: ReactNode;
   label: string;
   isMask?: boolean;
-  type?: "number";
   name: string;
+  type?: "number";
 }
 
 function InputText({
@@ -19,15 +18,21 @@ function InputText({
   addonBefore,
   label,
   isMask,
-  name,
   type,
   ...formikProps
-}: IInputTextProps & FormikProps<any>) {
-  const { inputError, inputValue, style } = useFormInputsState(
-    name,
-    formikProps
+}: IInputTextProps) {
+  const [field, meta] = useField(formikProps);
+
+  const style = useMemo(
+    () => {
+      if (!meta.error || !meta.touched) return undefined;
+      return {
+        border: "1px solid red",
+        borderRadius: 5
+      };
+    },
+    [meta.error, meta.touched]
   );
-  const { handleBlur, handleChange } = formikProps;
 
   const finalType = useMemo(
     () => {
@@ -38,16 +43,13 @@ function InputText({
   );
 
   return (
-    <Tooltip title={inputError}>
+    <Tooltip title={meta.error}>
       <Input
         addonAfter={addonAfter}
         addonBefore={addonBefore}
-        name={name}
         placeholder={label}
-        onBlur={handleBlur}
-        onChange={handleChange}
+        {...field}
         style={{ ...style, width: "100%" }}
-        value={inputValue || ""}
         type={finalType}
       />
     </Tooltip>
