@@ -27,7 +27,7 @@
     "date-fns": "^2.0.0-beta.5",
     "draft-js": "^0.11.0",
     "draftjs-to-html": "^0.8.4",
-    "formik": "^1.5.8",
+    "formik": "^2.0.3",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "moment": "^2.24.0",
