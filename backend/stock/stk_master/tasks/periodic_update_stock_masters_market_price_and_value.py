@@ -1,12 +1,11 @@
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 
-from base.utils import (
-    get_admin_user,
-    fetch_app_action,
-)
+from base.utils import get_admin_user
 from stock.models import StockMaster
 from general.gnl_syslog.utils import write_syslog
+
+from . import update_stock_master_market_price_and_value
 
 
 @shared_task
@@ -17,9 +16,10 @@ def periodic_update_stock_masters_market_price_and_value():
     w_log(f'unique stock code count {stock_codes_len}')
 
     for idx, stock_code in enumerate(stock_codes):
-        url = 'stock/stk_master/update_stock_master_market_price_and_value'
-        data = {'stock_code': stock_code}
-        fetch_app_action(url, data)
+        # url = 'stock/stk_master/update_stock_master_market_price_and_value'
+        # data = {'stock_code': stock_code}
+        # fetch_app_action(url, data)
+        update_stock_master_market_price_and_value.apply_async((stock_code,))
 
     w_log('finished')
 
