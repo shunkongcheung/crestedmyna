@@ -25,7 +25,7 @@ def get_schedule_tasks():
         {
             'name': 'stk_master-update_stock_price',
             'task': 'stock.stk_master.tasks.update_stock_masters_market_price_and_value.update_stock_masters_market_price_and_value',
-            'crontab': '1 0 * * *',
+            'crontab': '* 9-17 * * 1-5',
         },
         {
             'name': 'stk_trend-periodic_create_or_update_ccass_and_price_summary_details',
