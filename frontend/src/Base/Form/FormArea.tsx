@@ -1,5 +1,6 @@
 import React, { memo, ReactNode } from "react";
 import { Button } from "antd";
+import { Form } from "formik";
 import PropTypes from "prop-types";
 
 import { CenterArea } from "../Utils";
@@ -25,21 +26,22 @@ function FormArea({
 }: IFormAreaProps) {
   return (
     <CenterArea withPadding={withPadding}>
-      <form className={classes.container} onSubmit={handleSubmit}>
+      <Form className={classes.container} onSubmit={handleSubmit}>
         <div className={classes.content}>
           <h1 className={classes.banner}>{banner}</h1>
           {children}
           <div className={classes.submitBtnDiv}>
             <Button
-              onClick={handleSubmit}
+              htmlType="submit"
               loading={isSubmitting}
+              onClick={handleSubmit}
               type="primary"
             >
               {submitText}
             </Button>
           </div>
         </div>
-      </form>
+      </Form>
     </CenterArea>
   );
 }
