@@ -24,7 +24,7 @@ rsync -av $fe_dir/build/static/* $be_dir/base/static/.
 # collect static
 mkdir $be_dir/static && rm -r $be_dir/static
 source $venv_dir/bin/activate
-python $be_dir/manage.py collectstatic
+python $be_dir/manage.py collectstatic --noinput
 deactivate
 
 # copy as a version keeping
