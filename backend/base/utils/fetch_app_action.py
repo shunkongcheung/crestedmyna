@@ -1,5 +1,6 @@
 from rest_framework_jwt.settings import api_settings
 
+from general.gnl_lookup.utils import get_lookup_value
 from .get_admin_user import get_admin_user
 
 import asyncio
@@ -20,8 +21,9 @@ async def internal_fetch(url, data):
         'Content-Type': 'application/json',
     }
 
+    host_name = get_lookup_value('HOST_NAME')
     requests.post(
-        url=f'http://localhost:7000/api/{url}/',
+        url=f'{host_name}/api/{url}/',
         json=data,
         headers=headers
     )
