@@ -14,18 +14,24 @@ def get_ccass_and_price_trend(date):
         .annotate(
             first_percent=get_annotation(first_date, 'participant_percent'),
             second_percent=get_annotation(second_date, 'participant_percent'),
+            first_share=get_annotation(first_date, 'participant_share'),
+            second_share=get_annotation(second_date, 'participant_share'),
             first_turnover=get_annotation(first_date, 'turnover'),
             second_turnover=get_annotation(second_date, 'turnover'),
         )\
-        .values('first_percent',
-                'second_percent',
-                'first_turnover',
-                'second_turnover',
-                'stock_code'
-                )
+        .values(
+            'first_percent',
+            'second_percent',
+            'first_share',
+            'second_share',
+            'first_turnover',
+            'second_turnover',
+            'stock_code'
+        )
     diff_queryset = full_queryset\
         .annotate(
             diff_percent=F('second_percent')-F('first_percent'),
+            diff_share=F('second_share')-F('first_share'),
             diff_turnover=F('second_turnover')-F('first_turnover'),
         )\
         .filter(diff_percent__isnull=False)\

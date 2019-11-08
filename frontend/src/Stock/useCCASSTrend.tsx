@@ -8,6 +8,9 @@ interface ICCASSTrendItem {
   diffPercent: number;
   firstPercent: number;
   secondPercent: number;
+  diffShare: number;
+  firstShare: number;
+  secondShare: number;
   diffTurnover: number;
   firstTurnover: number;
   secondTurnover: number;
@@ -26,6 +29,9 @@ interface ICCASSTrendItemFetch {
   diff_percent: number;
   first_percent: number;
   second_percent: number;
+  diff_share: number;
+  first_share: number;
+  second_share: number;
   diff_turnover: number;
   first_turnover: number;
   second_turnover: number;
@@ -87,6 +93,9 @@ function useCCASSTrend() {
         diffPercent: itm.diff_percent,
         firstPercent: itm.first_percent,
         secondPercent: itm.second_percent,
+        diffShare: itm.diff_share,
+        firstShare: itm.first_share,
+        secondShare: itm.second_share,
         diffTurnover: itm.diff_turnover,
         firstTurnover: itm.first_turnover,
         secondTurnover: itm.second_turnover

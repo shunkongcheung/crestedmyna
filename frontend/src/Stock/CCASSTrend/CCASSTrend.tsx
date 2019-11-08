@@ -13,6 +13,9 @@ interface ICCASSTrendItem {
   diffPercent: number;
   firstPercent: number;
   secondPercent: number;
+  diffShare: number;
+  firstShare: number;
+  secondShare: number;
   diffTurnover: number;
   firstTurnover: number;
   secondTurnover: number;
@@ -67,7 +70,7 @@ function CCASSTrend({
     return <Tag color={color}>{txtValue}</Tag>;
   }, []);
 
-  const renderTurnover = useCallback(
+  const renderShare = useCallback(
     (val, isTag = false) => {
       const isGreaterThanThousand = val > 1000;
       const prettyNum = getPrettyNum(isGreaterThanThousand ? val / 1000 : val);
@@ -116,27 +119,27 @@ function CCASSTrend({
       },
       {
         title: "share difference",
-        dataIndex: "diffTurnover",
-        render: (val: number) => renderTurnover(val, true),
+        dataIndex: "diffShare",
+        render: (val: number) => renderShare(val, true),
         sorter: true,
-        key: "diffTurnover"
+        key: "diffShare"
       },
       {
         title: "Previous share",
-        dataIndex: "firstTurnover",
-        render: (val: number) => renderTurnover(val),
+        dataIndex: "firstShare",
+        render: (val: number) => renderShare(val),
         sorter: true,
-        key: "firstTurnover"
+        key: "firstShare"
       },
       {
         title: "Target share",
-        dataIndex: "secondTurnover",
-        render: (val: number) => renderTurnover(val),
+        dataIndex: "secondShare",
+        render: (val: number) => renderShare(val),
         sorter: true,
-        key: "secondTurnover"
+        key: "secondShare"
       }
     ],
-    [renderTurnover, renderPercent]
+    [renderShare, renderPercent]
   );
   const keyedData = useMemo(
     () => ccassTrends.map((itm, key) => ({ ...itm, key })),
