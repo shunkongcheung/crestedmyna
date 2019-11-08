@@ -25,13 +25,13 @@ function InputText({
 
   const style = useMemo(
     () => {
-      if (!meta.error) return undefined;
+      if (!meta.error || !meta.touched) return undefined;
       return {
         border: "1px solid red",
         borderRadius: 5
       };
     },
-    [meta.error]
+    [meta.error, meta.touched]
   );
 
   const finalType = useMemo(
