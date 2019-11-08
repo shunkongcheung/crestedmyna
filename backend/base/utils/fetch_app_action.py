@@ -11,7 +11,8 @@ def fetch_app_action(url, data):
     try:
         asyncio.run(internal_fetch(url, data))
     except:
-        asyncio.run_until_complete(internal_fetch(url, data))
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(internal_fetch(url, data))
 
 
 async def internal_fetch(url, data):
