@@ -2,12 +2,14 @@ from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 from datetime import date, timedelta
 
-from base.utils import fetch_app_action
+# from base.utils import fetch_app_action
 from general.gnl_syslog.utils import write_syslog
 from stock.models import (
     StockMaster,
     StockCCASSAndPriceSummaryDetail
 )
+
+from . import create_or_update_ccass_and_price_summary_detail
 
 
 @shared_task
@@ -21,13 +23,13 @@ def periodic_create_or_update_ccass_and_price_summary_details():
     for idx, stock_code in enumerate(stock_codes):
         request_date, today = get_stock_start_date(stock_code), date.today()
         while request_date < today:
-            # create_or_update_summary_detail(stock_code, request_date)
-            data = {
-                'stock_code': stock_code,
-                'date': request_date.strftime('%Y-%m-%d')
-            }
-            fetch_app_action(url, data)
-            # create_or_update_summary_detail(stock_code, request_date)
+            # data = {
+            #     'stock_code': stock_code,
+            #     'date': request_date.strftime('%Y-%m-%d')
+            # }
+            # fetch_app_action(url, data)
+            create_or_update_ccass_and_price_summary_detail\
+                .apply_async((stock_code, request_date,))
             request_date += timedelta(days=1)
 
         w_log(f'finished {idx}/{stock_code_count}: {stock_code}')
