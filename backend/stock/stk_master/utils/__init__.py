@@ -1,4 +1,4 @@
 from .get_hkex_stock_codes import get_hkex_stock_codes
+from .get_realtime_stock_price import get_realtime_stock_price
 from .get_stock_info import get_stock_info
-from .get_stock_price import get_stock_price
 from .get_stock_last_status import get_stock_last_status
