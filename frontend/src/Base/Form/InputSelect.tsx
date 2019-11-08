@@ -29,7 +29,7 @@ function InputSelect({
   name,
   onSearch,
   ...formikProps
-}: IInputSelectProps & FormikProps<{ [x: string]: any }>) {
+}: IInputSelectProps & FormikProps<any>) {
   const { setFieldTouched, setFieldValue } = formikProps;
   const { inputValue, inputError, style } = useFormInputsState(
     name,

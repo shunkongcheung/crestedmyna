@@ -40,7 +40,7 @@ interface IJournalEditProps {
   handleAddMedia: (name: string, media_file: File, formApis: any) => any;
   handleDeleteMedia: (
     id: number,
-    formApis: FormikProps<IJournalMasterVal>
+    formApis: FormikProps<any>
   ) => any;
   journalMaster?: IJournalMaster;
   handleSubmit: (j: IJournalMaster, f: FormikProps<IJournalMasterVal>) => any;

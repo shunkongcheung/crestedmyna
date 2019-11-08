@@ -19,7 +19,7 @@ function InputDateTime({
   mode = "datetime",
   name,
   ...formikProps
-}: IInputDateTimeProps & FormikProps<{ [x: string]: any }>) {
+}: IInputDateTimeProps & FormikProps<any>) {
   const { inputError, inputValue, style } = useFormInputsState(
     name,
     formikProps

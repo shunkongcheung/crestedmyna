@@ -22,7 +22,7 @@ function InputText({
   name,
   type,
   ...formikProps
-}: IInputTextProps & FormikProps<{ [x: string]: any }>) {
+}: IInputTextProps & FormikProps<any>) {
   const { inputError, inputValue, style } = useFormInputsState(
     name,
     formikProps

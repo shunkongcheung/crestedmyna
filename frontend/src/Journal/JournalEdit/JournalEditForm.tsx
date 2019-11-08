@@ -35,12 +35,8 @@ interface IJournalMasterVal {
 interface IFormikVal extends IJournalMasterVal, IMediaVal {}
 
 interface IJournalEditFormProps {
-  handleAddMedia: (
-    name: string,
-    file: File,
-    f: FormikProps<IJournalMasterVal>
-  ) => any;
-  handleDeleteMedia: (id: number, f: FormikProps<IJournalMasterVal>) => any;
+  handleAddMedia: (name: string, file: File, f: FormikProps<any>) => any;
+  handleDeleteMedia: (id: number, f: FormikProps<any>) => any;
 }
 
 interface IFormikProps extends IJournalEditFormProps {
@@ -109,7 +105,7 @@ function JournalEditForm({
         <InputText {...formikProps} label="Location" name="location" />
       </div>
       <MediaField
-        {...formikProps}
+        {...formikProps as any}
         handleAddMedia={handleAddMediaI}
         handleDeleteMedia={handleDeleteMediaI}
         medias={medias}
