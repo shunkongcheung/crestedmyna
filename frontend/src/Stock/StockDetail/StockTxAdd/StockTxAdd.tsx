@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import { Button } from "antd";
 import { Formik } from "formik";
 import PropTypes from "prop-types";
@@ -21,19 +21,14 @@ interface IStockTxAddProps {
 function StockTxAdd({ handleAddTx }: IStockTxAddProps) {
   const { handleSubmit, validationSchmea } = useStockTxAdd(handleAddTx);
 
-  const renderTxType = useCallback(formikProps => {
+  const renderedTxType = useMemo(() => {
     const choices = [
       { name: "BUY", id: "BUY" },
       { name: "SELL", id: "SELL" },
       { name: "DIVIDEND", id: "DIVIDEND" }
     ];
     return (
-      <InputSelect
-        {...formikProps}
-        choices={choices}
-        label="Transaction type"
-        name="txType"
-      />
+      <InputSelect choices={choices} label="Transaction type" name="txType" />
     );
   }, []);
 
@@ -56,7 +51,7 @@ function StockTxAdd({ handleAddTx }: IStockTxAddProps) {
       {formikProps => (
         <div className={classNames.container}>
           <div className={classNames.addCol} style={{ marginLeft: 0 }}>
-            {renderTxType(formikProps)}
+            {renderedTxType}
           </div>
           <div className={classNames.addCol}>
             <InputText label="Share" name="shareCount" />

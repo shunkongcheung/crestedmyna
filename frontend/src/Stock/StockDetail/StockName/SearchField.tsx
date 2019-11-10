@@ -2,7 +2,7 @@ import React, { memo, useEffect, useRef } from "react";
 import { withFormik, FormikProps } from "formik";
 import PropTypes from "prop-types";
 
-import { InputSelect } from "../../../Base/Form";
+import  {InputSelect}  from "../../../Base/Form";
 
 interface ISearchFieldProps {
   stockMasters: Array<{ name: string; id: number }>;
@@ -41,7 +41,6 @@ function SearchField({
         choices={stockMasters}
         name="searchName"
         onSearch={handleStockSearch as any}
-        {...formikProps}
       />
     </div>
   );

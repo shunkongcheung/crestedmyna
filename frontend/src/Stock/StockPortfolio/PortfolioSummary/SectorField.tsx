@@ -33,14 +33,7 @@ function SectorField({
     [handleSectorsChange, sectorsVal]
   );
 
-  return (
-    <InputSelect
-      choices={sectors}
-      multiple
-      name="sectorsVal"
-      {...formikProps}
-    />
-  );
+  return <InputSelect choices={sectors} multiple name="sectorsVal" />;
 }
 
 SectorField.propTypes = {

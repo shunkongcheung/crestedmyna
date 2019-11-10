@@ -37,7 +37,6 @@ function EditAlertModal({
     (label: string, name: string) => (
       <div className={classNames.addonContainer}>
         <InputSelect
-          {...formikApis}
           choices={[
             { name: "When above", id: "COND_ABOVE" },
             { name: "When below", id: "COND_BELOW" }
@@ -47,7 +46,7 @@ function EditAlertModal({
         />
       </div>
     ),
-    [formikApis]
+    []
   );
   const renderText = useCallback(
     (
@@ -58,7 +57,6 @@ function EditAlertModal({
     ) => (
       <div className={classNames.inputTextContainer}>
         <InputText
-          {...formikApis}
           addonAfter={renderedAfter}
           addonBefore={renderedSelect}
           label={label}
@@ -67,7 +65,7 @@ function EditAlertModal({
         />
       </div>
     ),
-    [formikApis]
+    []
   );
 
   const renderedPrice = useMemo(
