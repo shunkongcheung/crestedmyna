@@ -3,7 +3,7 @@ import { Spin } from "antd";
 import { withFormik, FormikProps } from "formik";
 import PropTypes from "prop-types";
 
-import { InputSelect } from "../../../Base/Form";
+import InputSelect from "../../../Base/Form/InputSelect2";
 
 interface IFormikVal {
   sector: number;
@@ -37,14 +37,7 @@ function StockSector({
   );
   if (!(sector > 0)) return <Spin />;
 
-  return (
-    <InputSelect
-      allowClear={false}
-      name="sector"
-      choices={sectors}
-      {...formikProps}
-    />
-  );
+  return <InputSelect allowClear={false} name="sector" choices={sectors} />;
 }
 
 StockSector.propTypes = {
