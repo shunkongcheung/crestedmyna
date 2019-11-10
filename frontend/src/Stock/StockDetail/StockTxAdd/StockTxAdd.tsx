@@ -3,7 +3,8 @@ import { Button } from "antd";
 import { Formik } from "formik";
 import PropTypes from "prop-types";
 
-import { InputDateTime, InputSelect, InputText } from "../../../Base/Form";
+import { InputDateTime, InputText } from "../../../Base/Form";
+import InputSelect from "../../../Base/Form/InputSelect2";
 
 import useStockTxAdd from "./useStockTxAdd";
 import classNames from "./StockTxAdd.module.scss";
@@ -21,19 +22,14 @@ interface IStockTxAddProps {
 function StockTxAdd({ handleAddTx }: IStockTxAddProps) {
   const { handleSubmit, validationSchmea } = useStockTxAdd(handleAddTx);
 
-  const renderTxType = useCallback(formikProps => {
+  const renderedTxType = useMemo(() => {
     const choices = [
       { name: "BUY", id: "BUY" },
       { name: "SELL", id: "SELL" },
       { name: "DIVIDEND", id: "DIVIDEND" }
     ];
     return (
-      <InputSelect
-        {...formikProps}
-        choices={choices}
-        label="Transaction type"
-        name="txType"
-      />
+      <InputSelect choices={choices} label="Transaction type" name="txType" />
     );
   }, []);
 
@@ -56,7 +52,7 @@ function StockTxAdd({ handleAddTx }: IStockTxAddProps) {
       {formikProps => (
         <div className={classNames.container}>
           <div className={classNames.addCol} style={{ marginLeft: 0 }}>
-            {renderTxType(formikProps)}
+            {renderedTxType}
           </div>
           <div className={classNames.addCol}>
             <InputText label="Share" name="shareCount" />
