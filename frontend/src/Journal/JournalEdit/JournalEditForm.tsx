@@ -4,7 +4,8 @@ import { Moment } from "moment";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 
-import { FormArea, InputDateTime, InputText } from "../../Base/Form";
+import { FormArea, InputText } from "../../Base/Form";
+import InputDateTime from "../../Base/Form/InputDateTime2";
 import DescField from "./DescField";
 import MediaField from "./MediaField";
 
@@ -87,7 +88,6 @@ function JournalEditForm({
       </div>
       <div className={classNames.inputContainer}>
         <InputDateTime
-          {...formikProps}
           disabledDate={disabledStartAt}
           label="Start at"
           name="startAt"
@@ -95,7 +95,6 @@ function JournalEditForm({
       </div>
       <div className={classNames.inputContainer}>
         <InputDateTime
-          {...formikProps}
           disabledDate={disabledEndAt}
           label="End at"
           name="endAt"
@@ -128,12 +127,8 @@ export default memo(
   withFormik<IFormikProps, IFormikVal>({
     validationSchema: Yup.object().shape({
       name: Yup.string().required(),
-      startAt: Yup.date().required(),
-      endAt: Yup.date()
-        .required()
-        .when("startAt", (st: Date, schema: any) => {
-          return schema.min(st);
-        }),
+      startAt: Yup.mixed().required(),
+      endAt: Yup.mixed().required(),
       location: Yup.string().required(),
       description: Yup.string().required()
     }),
