@@ -3,7 +3,7 @@ import { withFormik, FormikProps } from "formik";
 import { Moment } from "moment";
 import PropTypes from "prop-types";
 
-import { InputDateTime } from "../../Base/Form";
+import InputDateTime from "../../Base/Form/InputDateTime2";
 
 interface IFormikVal {
   targetDate: Moment;
@@ -30,14 +30,7 @@ function TargetDate({
     [targetDate, handleTargetDateChange]
   );
 
-  return (
-    <InputDateTime
-      {...formikProps}
-      label="Target date"
-      mode="date"
-      name="targetDate"
-    />
-  );
+  return <InputDateTime label="Target date" mode="date" name="targetDate" />;
 }
 
 TargetDate.propTypes = {
