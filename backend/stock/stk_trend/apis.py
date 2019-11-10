@@ -32,9 +32,12 @@ class StockCCASSAndPriceTrendListAPIView(MyListAPIView):
     ordering_fields = [
         'diff_percent',
         'diff_turnover',
+        'diff_share',
         'first_percent',
+        'first_share',
         'first_turnover',
         'second_percent',
+        'second_share',
         'second_turnover',
         'stock_code',
     ]

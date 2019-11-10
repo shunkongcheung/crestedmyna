@@ -4,7 +4,7 @@ import { Moment } from "moment";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 
-import { FormArea, InputDateTime, InputText } from "../../Base/Form";
+import { FormArea, InputText,InputDateTime  } from "../../Base/Form";
 import DescField from "./DescField";
 import MediaField from "./MediaField";
 
@@ -35,12 +35,8 @@ interface IJournalMasterVal {
 interface IFormikVal extends IJournalMasterVal, IMediaVal {}
 
 interface IJournalEditFormProps {
-  handleAddMedia: (
-    name: string,
-    file: File,
-    f: FormikProps<IJournalMasterVal>
-  ) => any;
-  handleDeleteMedia: (id: number, f: FormikProps<IJournalMasterVal>) => any;
+  handleAddMedia: (name: string, file: File, f: FormikProps<any>) => any;
+  handleDeleteMedia: (id: number, f: FormikProps<any>) => any;
 }
 
 interface IFormikProps extends IJournalEditFormProps {
@@ -91,7 +87,6 @@ function JournalEditForm({
       </div>
       <div className={classNames.inputContainer}>
         <InputDateTime
-          {...formikProps}
           disabledDate={disabledStartAt}
           label="Start at"
           name="startAt"
@@ -99,7 +94,6 @@ function JournalEditForm({
       </div>
       <div className={classNames.inputContainer}>
         <InputDateTime
-          {...formikProps}
           disabledDate={disabledEndAt}
           label="End at"
           name="endAt"
@@ -109,7 +103,7 @@ function JournalEditForm({
         <InputText {...formikProps} label="Location" name="location" />
       </div>
       <MediaField
-        {...formikProps}
+        {...formikProps as any}
         handleAddMedia={handleAddMediaI}
         handleDeleteMedia={handleDeleteMediaI}
         medias={medias}
@@ -132,12 +126,8 @@ export default memo(
   withFormik<IFormikProps, IFormikVal>({
     validationSchema: Yup.object().shape({
       name: Yup.string().required(),
-      startAt: Yup.date().required(),
-      endAt: Yup.date()
-        .required()
-        .when("startAt", (st: Date, schema: any) => {
-          return schema.min(st);
-        }),
+      startAt: Yup.mixed().required(),
+      endAt: Yup.mixed().required(),
       location: Yup.string().required(),
       description: Yup.string().required()
     }),

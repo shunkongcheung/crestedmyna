@@ -1,9 +1,7 @@
 import React, { memo, useCallback, useMemo, useRef } from "react";
 import { Select, Tooltip } from "antd";
-import { FormikProps } from "formik";
+import { useField } from "formik";
 import PropTypes from "prop-types";
-
-import useFormInputsState from "./useFormInputsState";
 
 const { Option } = Select;
 
@@ -26,35 +24,36 @@ function InputSelect({
   choices,
   label,
   multiple = false,
-  name,
   onSearch,
   ...formikProps
-}: IInputSelectProps & FormikProps<{ [x: string]: any }>) {
-  const { setFieldTouched, setFieldValue } = formikProps;
-  const { inputValue, inputError, style } = useFormInputsState(
-    name,
-    formikProps
-  );
+}: IInputSelectProps) {
+  const [field, meta] = useField(formikProps);
+  const { onChange, onBlur, value } = field;
+  const { touched, error } = meta;
+  const { name } = formikProps;
+
   const searchValue = useRef<string>("");
 
   const handleSelectChange = useCallback(
-    (newValue: any) => {
-      setFieldValue(name, newValue);
+    (value: any) => {
+      onChange({ target: { name, value } });
       searchValue.current = "";
     },
-    [name, setFieldValue]
+    [name, onChange]
   );
+
   const handleSelectBlur = useCallback(
     () => {
-      setFieldTouched(name, true, true);
+      onBlur({ target: { name } });
       if (searchValue.current && onSearch) {
         const tempValue = searchValue.current;
         searchValue.current = "";
         onSearch(tempValue);
       }
     },
-    [name, onSearch, setFieldTouched]
+    [name, onBlur, onSearch]
   );
+
   const handleSearch = useCallback(
     (value: any) => {
       if (!onSearch) return;
@@ -87,9 +86,19 @@ function InputSelect({
     },
     [multiple]
   );
+  const style = useMemo(
+    () => {
+      if (!error || !touched) return undefined;
+      return {
+        border: "1px solid red",
+        borderRadius: 5
+      };
+    },
+    [error, touched]
+  );
 
   return (
-    <Tooltip title={inputError}>
+    <Tooltip title={error}>
       <Select
         allowClear={allowClear}
         filterOption={filterOption}
@@ -101,7 +110,7 @@ function InputSelect({
         placeholder={label}
         showSearch
         style={{ ...style, width: "100%" }}
-        value={inputValue}
+        value={value}
       >
         {renderedChoices}
       </Select>

@@ -30,14 +30,7 @@ function TargetDate({
     [targetDate, handleTargetDateChange]
   );
 
-  return (
-    <InputDateTime
-      {...formikProps}
-      label="Target date"
-      mode="date"
-      name="targetDate"
-    />
-  );
+  return <InputDateTime label="Target date" mode="date" name="targetDate" />;
 }
 
 TargetDate.propTypes = {

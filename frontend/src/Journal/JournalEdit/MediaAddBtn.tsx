@@ -38,21 +38,21 @@ function MediaAddBtn({
       const { media } = values;
       if (!media || !media.name || !media.file) {
         setFieldTouched("media.name" as any, true, false);
-        setFieldError("media.name", "Required");
+        setFieldError("media.name" as "media", "Required");
         return;
       }
       await handleAddMedia(values.media.name, values.media.file);
       setFieldValue("media", {});
       setIsDialogOpen(false);
-      setFieldError("media.name", "");
-      setFieldError("media.file", "");
+      setFieldError("media.name" as "media", "");
+      setFieldError("media.file" as "media", "");
     },
     [handleAddMedia, setFieldError, setFieldTouched, setFieldValue, values]
   );
   const handleDialogClose = useCallback(
     () => {
-      setFieldError("media.name", "");
-      setFieldError("media.file", "");
+      setFieldError("media.name" as "media", "");
+      setFieldError("media.file" as "media", "");
       setIsDialogOpen(false);
     },
     [setFieldError]
@@ -61,9 +61,9 @@ function MediaAddBtn({
     ([file]) => {
       const fileName = file.name.split(".")[0];
       if (!values.media || !values.media.name) {
-        setFieldValue("media.name", fileName);
+        setFieldValue("media.name" as "media", fileName);
       }
-      setFieldValue("media.file", file);
+      setFieldValue("media.file" as "media", file);
     },
     [setFieldValue, values]
   );

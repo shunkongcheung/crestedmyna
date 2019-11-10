@@ -1,10 +1,8 @@
 import React, { memo, useCallback, useMemo } from "react";
 import { DatePicker, Tooltip } from "antd";
-import { FormikProps } from "formik";
+import { useField } from "formik";
 import moment, { Moment } from "moment";
 import PropTypes from "prop-types";
-
-import useFormInputsState from "./useFormInputsState";
 
 interface IInputDateTimeProps {
   disabledDate?: (t: Moment | undefined) => boolean;
@@ -17,30 +15,32 @@ function InputDateTime({
   disabledDate,
   label,
   mode = "datetime",
-  name,
   ...formikProps
-}: IInputDateTimeProps & FormikProps<{ [x: string]: any }>) {
-  const { inputError, inputValue, style } = useFormInputsState(
-    name,
-    formikProps
-  );
-  const { setFieldTouched, setFieldValue } = formikProps;
+}: IInputDateTimeProps) {
+  const { name } = formikProps;
+  const [field, meta] = useField(formikProps);
+  const { onChange, onBlur, value } = field;
+  const { error, touched } = meta;
 
   const handleChange = useCallback(
-    value => {
-      setFieldValue(name, value && value.isValid() ? value : undefined);
-      setFieldTouched(name, true, true);
-    },
-    [name, setFieldValue, setFieldTouched]
+    value => onChange({ target: { name, value } }),
+    [name, onChange]
   );
-  const handleBlur = useCallback(
-    open => {
-      console.log("hey open changed...", name, open);
-      setFieldTouched(name, true, true);
-    },
-    [name, setFieldTouched]
-  );
+  const handleOpenChange = useCallback(() => onBlur({ target: { name } }), [
+    name,
+    onBlur
+  ]);
 
+  const style = useMemo(
+    () => {
+      if (!error || !touched) return undefined;
+      return {
+        border: "1px solid red",
+        borderRadius: 5
+      };
+    },
+    [error, touched]
+  );
   const format = useMemo(
     () => {
       switch (mode) {
@@ -56,16 +56,17 @@ function InputDateTime({
   );
 
   return (
-    <Tooltip title={inputError}>
+    <Tooltip title={error}>
       <DatePicker
         disabledDate={disabledDate}
         format={format}
         placeholder={label}
+        name={name}
         onChange={handleChange}
-        onOpenChange={handleBlur}
+        onOpenChange={handleOpenChange}
         showTime={mode === "datetime"}
         style={{ ...style, width: "100%" }}
-        value={inputValue ? moment(inputValue) : undefined}
+        value={value ? moment(value) : undefined}
       />
     </Tooltip>
   );
