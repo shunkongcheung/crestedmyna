@@ -4,8 +4,6 @@ import { useField } from "formik";
 import moment, { Moment } from "moment";
 import PropTypes from "prop-types";
 
-import useFormInputsState from "./useFormInputsState";
-
 interface IInputDateTimeProps {
   disabledDate?: (t: Moment | undefined) => boolean;
   label: string;
@@ -28,8 +26,10 @@ function InputDateTime({
     value => onChange({ target: { name, value } }),
     [name, onChange]
   );
-	const handleOpenChange = useCallback(() => onBlur({ target: { name } }), 
-																			 [name, onBlur]);
+  const handleOpenChange = useCallback(() => onBlur({ target: { name } }), [
+    name,
+    onBlur
+  ]);
 
   const style = useMemo(
     () => {

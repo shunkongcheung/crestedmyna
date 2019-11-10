@@ -4,8 +4,7 @@ import { Moment } from "moment";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 
-import { FormArea, InputText } from "../../Base/Form";
-import InputDateTime from "../../Base/Form/InputDateTime2";
+import { FormArea, InputText,InputDateTime  } from "../../Base/Form";
 import DescField from "./DescField";
 import MediaField from "./MediaField";
 

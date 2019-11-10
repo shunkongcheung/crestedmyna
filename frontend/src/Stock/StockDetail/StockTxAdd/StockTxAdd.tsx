@@ -3,8 +3,7 @@ import { Button } from "antd";
 import { Formik } from "formik";
 import PropTypes from "prop-types";
 
-import { InputSelect, InputText } from "../../../Base/Form";
-import InputDateTime from "../../../Base/Form/InputDateTime2";
+import { InputDateTime, InputSelect, InputText } from "../../../Base/Form";
 
 import useStockTxAdd from "./useStockTxAdd";
 import classNames from "./StockTxAdd.module.scss";

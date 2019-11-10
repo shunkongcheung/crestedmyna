@@ -3,7 +3,7 @@ import { withFormik, FormikProps } from "formik";
 import { Moment } from "moment";
 import PropTypes from "prop-types";
 
-import InputDateTime from "../../Base/Form/InputDateTime2";
+import { InputDateTime } from "../../Base/Form";
 
 interface IFormikVal {
   targetDate: Moment;
