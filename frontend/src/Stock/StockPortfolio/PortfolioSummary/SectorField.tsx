@@ -2,7 +2,7 @@ import React, { memo, useEffect, useRef } from "react";
 import { withFormik, FormikProps } from "formik";
 import PropTypes from "prop-types";
 
-import { InputSelect } from "../../../Base/Form";
+import InputSelect from "../../../Base/Form/InputSelect2";
 
 interface IFormVal {
   sectorsVal: Array<number>;
@@ -33,14 +33,7 @@ function SectorField({
     [handleSectorsChange, sectorsVal]
   );
 
-  return (
-    <InputSelect
-      choices={sectors}
-      multiple
-      name="sectorsVal"
-      {...formikProps}
-    />
-  );
+  return <InputSelect choices={sectors} multiple name="sectorsVal" />;
 }
 
 SectorField.propTypes = {
