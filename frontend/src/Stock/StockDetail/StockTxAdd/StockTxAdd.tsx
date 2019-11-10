@@ -1,10 +1,9 @@
-import React, { memo, useCallback, useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import { Button } from "antd";
 import { Formik } from "formik";
 import PropTypes from "prop-types";
 
-import { InputDateTime, InputText } from "../../../Base/Form";
-import InputSelect from "../../../Base/Form/InputSelect2";
+import { InputDateTime, InputSelect, InputText } from "../../../Base/Form";
 
 import useStockTxAdd from "./useStockTxAdd";
 import classNames from "./StockTxAdd.module.scss";

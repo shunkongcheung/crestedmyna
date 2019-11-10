@@ -4,8 +4,7 @@ import { withFormik, FormikProps } from "formik";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 
-import { InputText } from "../../../Base/Form";
-import InputSelect from "../../../Base/Form/InputSelect2";
+import { InputSelect, InputText } from "../../../Base/Form";
 
 import classNames from "./EditAlertModal.module.scss";
 
