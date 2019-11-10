@@ -73,7 +73,7 @@ function StockTxAdd({ handleAddTx }: IStockTxAddProps) {
               type="primary"
               shape="circle"
               icon="plus"
-              onClick={handleSubmit as any}
+              onClick={formikProps.handleSubmit as any}
             />
           </div>
         </div>
