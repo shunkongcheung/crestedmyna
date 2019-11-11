@@ -20,6 +20,34 @@ def get_url_from_text(text):
     return f'https://di.hkex.com.hk/di/{text}'
 
 
+def get_shareholder_data_from_trow(trow):
+    data = {}
+    try:
+        data['form_serial_url'] = get_url_from_text(trow[0][0].attrib['href'])
+        data['form_serial_number'] = trow[0][0].text
+    except:
+        pass
+    try:
+        data['shareholder_name'] = trow[1].text
+    except:
+        pass
+    try:
+        data['share_count'] = get_number_from_string(trow[2].text)
+    except:
+        pass
+    try:
+        data['share_percent'] = get_number_from_string(trow[3].text)
+    except:
+        pass
+    try:
+        data['notice_date'] = datetime\
+            .strptime(trow[4][0].text, '%d/%m/%Y')\
+            .date()
+    except:
+        pass
+    return data
+
+
 def get_shareholder_data_from_html(shareholder_html):
     lxml_html = html.fromstring(shareholder_html)
     table = lxml_html.find('.//table[@class="txt"]')
@@ -27,16 +55,9 @@ def get_shareholder_data_from_html(shareholder_html):
 
     shareholder_data = []
     for trow in trows[1:]:
-        data = {}
-        data['form_serial_url'] = get_url_from_text(trow[0][0].attrib['href'])
-        data['form_serial_number'] = trow[0][0].text
-        data['shareholder_name'] = trow[1].text
-        data['share_count'] = get_number_from_string(trow[2].text)
-        data['share_percent'] = get_number_from_string(trow[3].text)
-        data['notice_date'] = datetime\
-            .strptime(trow[4][0].text, '%d/%m/%Y')\
-            .date()
-        shareholder_data.append(data)
+        data = get_shareholder_data_from_trow(trow)
+        if data:
+            shareholder_data.append(data)
     return shareholder_data
 
 
