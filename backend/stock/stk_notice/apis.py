@@ -5,10 +5,26 @@ from base.apis import (
 )
 
 from .serializers import (
+    StockNoticeItemSerializer,
     StockNoticeShareHolderSerializer,
 )
 
-from .utils import get_substantial_shareholders
+from .utils import (
+    get_notice_list,
+    get_substantial_shareholders,
+)
+
+
+class StockNoticeListAPIView(MyListAPIView):
+    def filter_queryset(self, queryset):
+        return queryset
+
+    def get_queryset(self):
+        stock_code = self.kwargs['stock_code']
+        return get_notice_list(stock_code)
+
+    def get_serializer_class(self, *args, **kwargs):
+        return StockNoticeItemSerializer
 
 
 class StockNoticeShareholderListAPIView(MyListAPIView):
@@ -21,9 +37,3 @@ class StockNoticeShareholderListAPIView(MyListAPIView):
 
     def get_serializer_class(self, *args, **kwargs):
         return StockNoticeShareHolderSerializer
-
-
-# class StockNoticeObjectAPIView(MyObjectAPIView):
-#     fields = fields
-#     model = StockNotice
-#     serializer_class = StockNoticeSerializer

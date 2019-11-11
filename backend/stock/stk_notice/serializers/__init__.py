@@ -1,1 +1,2 @@
+from .stock_notice_item_serializer import StockNoticeItemSerializer
 from .stock_notice_shareholder_serializer import StockNoticeShareHolderSerializer
