@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 
 from stock.utils.get_quandl import get_quandl
-from .get_realtime_stock_price import get_realtime_stock_price
 
 import json
 
@@ -32,9 +31,6 @@ def get_stock_last_status(stock_code, date=None):
         target_record = data.tail(1)
         record_dict = json.loads(target_record.to_json(orient='records'))[0]
 
-    nominal_price = get_realtime_stock_price(stock_code)
-    if not nominal_price:
-        nominal_price = record_dict['Nominal Price']
-
+    nominal_price = record_dict['Nominal Price']
     turnover = record_dict['Share Volume (000)']
     return nominal_price, turnover
