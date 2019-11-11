@@ -24,27 +24,35 @@ def get_shareholder_data_from_trow(trow):
     data = {}
     try:
         data['form_serial_url'] = get_url_from_text(trow[0][0].attrib['href'])
+    except:
+        data['form_serial_url'] = ''
+    try:
         data['form_serial_number'] = trow[0][0].text
     except:
-        pass
+        data['form_serial_number'] = ''
+
     try:
         data['shareholder_name'] = trow[1].text
     except:
-        pass
+        data['shareholder_name'] = ''
+
     try:
         data['share_count'] = get_number_from_string(trow[2].text)
     except:
-        pass
+        data['share_count'] = -1
+
     try:
         data['share_percent'] = get_number_from_string(trow[3].text)
     except:
-        pass
+        data['share_percent'] = -1
+
     try:
         data['notice_date'] = datetime\
             .strptime(trow[4][0].text, '%d/%m/%Y')\
             .date()
     except:
-        pass
+        data['notice_date'] = datetime.now().date()
+
     return data
 
 
