@@ -16,7 +16,7 @@ from django.conf.urls import url
 #         ModelNameListAPIView.as_view(),
 #         name='app_name_val-api-list'
 #         ),
-#     url(r'^(P<pk>[0-9]+)/$',
+#     url(r'^(?P<pk>[0-9]+)/$',
 #         ModelNameObjectAPIView.as_view(),
 #         name='app_name_val-api-object'
 #         ),
