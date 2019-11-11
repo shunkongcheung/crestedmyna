@@ -28,7 +28,8 @@ def get_shareholder_data_from_html(shareholder_html):
     shareholder_data = []
     for trow in trows[1:]:
         data = {}
-        data['href'] = get_url_from_text(trow[0][0].attrib['href'])
+        data['form_serial_url'] = get_url_from_text(trow[0][0].attrib['href'])
+        data['form_serial_number'] = trow[0][0].text
         data['shareholder_name'] = trow[1].text
         data['share_count'] = get_number_from_string(trow[2].text)
         data['share_percent'] = get_number_from_string(trow[3].text)
