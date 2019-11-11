@@ -4,24 +4,26 @@ from base.apis import (
     MyObjectAPIView,
 )
 
-# from .models import ModelName
-# from .serializers import ModelNameSerializer
+from .serializers import (
+    StockNoticeShareHolderSerializer,
+)
 
-fields = []
-
-
-class ModelNameCreateAPIView(MyCreateAPIView):
-    fields = fields
-    model = ModelName
-    # serializer_class = ModelNameSerializer
+from .utils import get_substantial_shareholders
 
 
-class ModelNameListAPIView(MyListAPIView):
-    fields = []
-    model = ModelName
+class StockNoticeShareholderListAPIView(MyListAPIView):
+    def filter_queryset(self, queryset):
+        return queryset
+
+    def get_queryset(self):
+        stock_code = self.kwargs['stock_code']
+        return get_substantial_shareholders(stock_code)
+
+    def get_serializer_class(self, *args, **kwargs):
+        return StockNoticeShareHolderSerializer
 
 
-class ModelNameObjectAPIView(MyObjectAPIView):
-    fields = fields
-    model = ModelName
-    # serializer_class = ModelNameSerializer
+# class StockNoticeObjectAPIView(MyObjectAPIView):
+#     fields = fields
+#     model = StockNotice
+#     serializer_class = StockNoticeSerializer
