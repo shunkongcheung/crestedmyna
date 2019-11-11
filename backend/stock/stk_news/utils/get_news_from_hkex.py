@@ -2,7 +2,7 @@ from dateutil import parser
 from lxml import etree, html
 
 from general.gnl_syslog.utils import write_syslog
-from stock.utils import get_stock_code_hkex_id
+from .get_stock_code_hkex_id import get_stock_code_hkex_id
 
 import requests
 
