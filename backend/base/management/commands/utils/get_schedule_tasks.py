@@ -23,6 +23,11 @@ def get_schedule_tasks():
             'crontab': '* 1 * * 1-5',
         },
         {
+            'name': 'stk_master-periodic_update_stock_masters_market_realtime_price_and_value',
+            'task': 'stock.stk_master.tasks.periodic_update_stock_masters_market_realtime_price_and_value.periodic_update_stock_masters_market_realtime_price_and_value',
+            'crontab': '* 9-17 * * 1-5',
+        },
+        {
             'name': 'stk_master-periodic_update_stock_masters_market_price_and_value',
             'task': 'stock.stk_master.tasks.periodic_update_stock_masters_market_price_and_value.periodic_update_stock_masters_market_price_and_value',
             'crontab': '20 1 * * 1-5',
