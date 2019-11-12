@@ -4,6 +4,7 @@ from .stk_alert import urls as stk_alert
 from .stk_ccass import urls as stk_ccass
 from .stk_master import urls as stk_master
 from .stk_news import urls as stk_news
+from .stk_notice import urls as stk_notice
 from .stk_trend import urls as stk_trend
 from .stk_portfolio import urls as stk_profile
 from .stk_sector import urls as stk_sector
@@ -16,6 +17,8 @@ urlpatterns = [
     url(r'^stk_ccass/', include(stk_ccass)),
     url(r'^stk_master/', include(stk_master)),
     url(r'^stk_news/', include(stk_news)),
+    url(r'^stk_notice/', include(stk_notice)),
+
     url(r'^stk_trend/', include(stk_trend)),
     url(r'^stk_portfolio/', include(stk_profile)),
     url(r'^stk_sector/', include(stk_sector)),
