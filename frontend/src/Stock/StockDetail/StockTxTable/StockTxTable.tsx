@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 
 import { useGetPrettyNum } from "../../hooks";
 
+import classNames from "./StockTxTable.module.scss";
+
 type TTxType = "BUY" | "SELL" | "DIVIDEND";
 interface IStockProfile {
   txStaticCost: number;
@@ -149,7 +151,7 @@ function StockTxTable({
   );
   const pagination = useMemo(() => ({ current: page, total }), [page, total]);
   return (
-    <>
+    <div className={classNames.container}>
       <Table
         columns={columns}
         dataSource={keyedData}
@@ -158,7 +160,7 @@ function StockTxTable({
         pagination={pagination}
         size="small"
       />
-    </>
+    </div>
   );
 }
 StockTxTable.propTypes = {
