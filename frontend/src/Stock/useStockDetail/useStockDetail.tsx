@@ -7,6 +7,7 @@ import useChartsState from "./useChartsState";
 import useStockAlert from "./useStockAlert";
 import useStockMaster from "./useStockMaster";
 import useStockNews from "./useStockNews";
+import useStockNotice from "./useStockNotice";
 import useStockTxAdd from "./useStockTxAdd";
 import useStockTxs from "./useStockTxs";
 import useInitStockMaster from "./useInitStockMaster";
@@ -27,11 +28,12 @@ function useStockDetail(
   const { stockMaster } = stockMasterState;
   const stockSectorState = useStockSectors(stockMaster);
   const stockAlert = useStockAlert(stockMaster.stockCode);
-  const stockNewsState = useStockNews(stockMaster.stockCode);
+  const stockNews = useStockNews(stockMaster.stockCode);
   const { isLoading: isSearchLoading, handleStockSearch } = useStockSearch(
     history,
     refreshOtherTabs
   );
+  const stockNotice = useStockNotice(stockMaster.stockCode);
 
   const {
     fetchParticipantDetails,
@@ -143,6 +145,15 @@ function useStockDetail(
       stockMaster.name,
       stockMasterNames
     ]
+  );
+  const stockNewsState = useMemo(
+    () => ({
+      isLoading: stockNews.isLoading || stockNotice.isLoading,
+      stockNews: stockNews.stockNews,
+      notices: stockNotice.notices,
+      substantialShareholders: stockNotice.substantialShareholders
+    }),
+    [stockNews, stockNotice]
   );
 
   return {
