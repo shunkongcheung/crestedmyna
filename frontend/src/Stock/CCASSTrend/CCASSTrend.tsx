@@ -145,7 +145,10 @@ function CCASSTrend({
     () => ccassTrends.map((itm, key) => ({ ...itm, key })),
     [ccassTrends]
   );
-  const pagination = useMemo(() => ({ current: page, total }), [page, total]);
+  const pagination = useMemo(() => ({ current: page, pageSize: 25, total }), [
+    page,
+    total
+  ]);
 
   return (
     <>
