@@ -1,9 +1,10 @@
 import React, { memo, useCallback, useMemo } from "react";
-import { Card } from "antd";
+import { Card, Icon, Tooltip } from "antd";
 import { Moment } from "moment";
 import PropTypes from "prop-types";
 
 import classNames from "./NoticeItem.module.scss";
+import getDisclosureDesc from "./getDisclosureDesc";
 
 import { useGetPrettyNum } from "../../hooks";
 
@@ -52,6 +53,25 @@ function StockNoticeItem({
     [formSerialNumber, formSerialUrl]
   );
 
+  const renderedReason = useMemo(
+    () => {
+      return (
+        <>
+          <span className={classNames.reasonForDisclosureValue}>
+            {reasonForDisclosure}
+          </span>
+          <Tooltip
+            title={getDisclosureDesc(reasonForDisclosure)}
+            placement="topLeft"
+          >
+            <Icon type="info-circle" />
+          </Tooltip>
+        </>
+      );
+    },
+    [reasonForDisclosure]
+  );
+
   const prettyShareCount = useMemo(
     () => (shareCount > 0 ? getPrettyNum(shareCount, { toFixedDigit: 0 }) : ""),
     [getPrettyNum, shareCount]
@@ -80,7 +100,7 @@ function StockNoticeItem({
     <Card className={classNames.card}>
       {renderColumn("SERIAL NO.", renderedTitle)}
       {renderColumn("SHAREHOLDER NAME", shareholderName)}
-      {renderColumn("REASON FOR DISCLOSURE", reasonForDisclosure)}
+      {renderColumn("REASON FOR DISCLOSURE", renderedReason)}
       {renderColumn("SHARE NO.", prettyShareCount)}
       {renderColumn("AVERAGE PRICE PER SHARE", prettyAveragePrice)}
       {renderColumn("NO. OF SHARES INTERESTED", prettyInterestedShare)}
