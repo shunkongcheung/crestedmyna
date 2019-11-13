@@ -1,5 +1,7 @@
-from datetime import date, datetime, timedelta
+from datetime import datetime
 from lxml import html
+
+from .get_notice_url import get_notice_url
 
 import requests
 
@@ -95,14 +97,6 @@ def get_notice_data_from_html(notice_html):
 
 
 def get_notice_html(stock_code):
-    end_date, start_date = date.today(), date.today() - timedelta(days=365)
-
-    start_date = start_date.strftime('%d/%m/%Y')
-    end_date = end_date.strftime('%d/%m/%Y')
-    url = 'https://di.hkex.com.hk/di/NSAllFormList.aspx?' +\
-        f'sa2=an&sid={stock_code}&sd={start_date}&ed={end_date}&cid=0' +\
-        f'&sa1=cl&scsd={start_date}&sced={end_date}&sc={stock_code}' +\
-        '&src=MAIN&lang=EN&'
-
+    url = get_notice_url(stock_code, url_idx=5)
     res = requests.get(url=url)
     return res.text
