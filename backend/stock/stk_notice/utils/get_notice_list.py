@@ -100,7 +100,7 @@ def get_notice_html(stock_code):
     start_date = start_date.strftime('%d/%m/%Y')
     end_date = end_date.strftime('%d/%m/%Y')
     url = 'https://di.hkex.com.hk/di/NSAllFormList.aspx?' +\
-        f'sa2=an&sid=1&sd={start_date}&ed={end_date}&cid=0' +\
+        f'sa2=an&sid={stock_code}&sd={start_date}&ed={end_date}&cid=0' +\
         f'&sa1=cl&scsd={start_date}&sced={end_date}&sc={stock_code}' +\
         '&src=MAIN&lang=EN&'
 
