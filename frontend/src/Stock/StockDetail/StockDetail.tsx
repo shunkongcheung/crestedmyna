@@ -24,7 +24,7 @@ interface IStockNewsItem {
   releaseTime: Moment;
 }
 interface IStockTx {
-	id:number;
+  id: number;
   txType: TTxType;
   txAt: Date;
   shareCount: number;
@@ -32,6 +32,19 @@ interface IStockTx {
   grossValue: number;
   tradeCost: number;
   netValue: number;
+}
+interface IStockNotice {
+  formSerialUrl: string;
+  formSerialNumber: string;
+  shareholderName: string;
+  reasonForDisclosure: string;
+  shareCount: number;
+  averagePrice: number;
+  interestedShare: number;
+  sharePercent: number;
+  noticeDate: Moment;
+  isAssociated: boolean;
+  isDebentures: boolean;
 }
 
 interface IStockTxSubmit {
@@ -48,6 +61,14 @@ interface IStockAlert {
   ccassPercentValue: number;
   ccassPercentCondition: TCondition;
   lastTriggerAt?: Date;
+}
+interface ISubstantialStockShareholder {
+  formSerialUrl: string;
+  formSerialNumber: string;
+  shareholderName: string;
+  shareCount: number;
+  sharePercent: number;
+  noticeDate: Moment;
 }
 
 interface IStockDetailProps {
@@ -103,6 +124,8 @@ interface IStockDetailProps {
   stockNewsState: {
     isLoading: boolean;
     stockNews: Array<IStockNewsItem>;
+    notices: Array<IStockNotice>;
+    substantialShareholders: Array<ISubstantialStockShareholder>;
   };
   stockTxTableState: {
     handleListChange: (p: number) => any;

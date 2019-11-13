@@ -51,8 +51,7 @@ function StockInfo({
         <div className={classNames.importantContent}>
           <Tag color="geekblue" style={{ margin: 0 }}>
             {`${getPrettyNum(turnover / 1000, {
-              toFixedDigit: -1,
-              withDollarSign: true
+              toFixedDigit: -1
             })}M`}
           </Tag>
         </div>
