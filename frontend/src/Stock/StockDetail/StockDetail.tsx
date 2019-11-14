@@ -1,11 +1,16 @@
-import React, { memo } from "react";
+import React, { memo, useCallback, useMemo, useState } from "react";
+import { animated, useTransition } from "react-spring";
+import { Divider } from "antd";
 import { Moment } from "moment";
 
 import ChartSummary from "./ChartSummary";
 import CCASSChart from "./CCASSChart";
+import NoticeTable from "./NoticeTable";
 import PriceChart from "./PriceChart";
 import RangeSelector from "./RangeSelector";
 import StockCtrl from "./StockCtrl";
+import StockTableDropdown from "./StockTableDropdown";
+import ShareholderTable from "./ShareholderTable";
 import StockInfo from "./StockInfo";
 import StockNews from "./StockNews";
 import StockName from "./StockName";
@@ -15,6 +20,7 @@ import TurnoverChart from "./TurnoverChart";
 
 import classNames from "./StockDetail.module.scss";
 
+type TContentType = "shareHolders" | "notices" | "tx";
 type TRange = "week" | "month" | "year" | "5years";
 type TTxType = "BUY" | "SELL" | "DIVIDEND";
 
@@ -159,6 +165,58 @@ function StockDetail({
   turnoverChartState,
   txEditState
 }: IStockDetailProps) {
+  const [contentType, setContentType] = useState<TContentType>("shareHolders");
+  const transitions = useTransition(contentType, item => item, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 }
+  });
+
+  const renderedShareholderTable = useMemo(
+    () => (
+      <ShareholderTable
+        isLoading={stockNewsState.isLoading}
+        substantialShareholders={stockNewsState.substantialShareholders}
+      />
+    ),
+    [stockNewsState.isLoading, stockNewsState.substantialShareholders]
+  );
+  const renderedNoticeTable = useMemo(
+    () => (
+      <NoticeTable
+        isLoading={stockNewsState.isLoading}
+        notices={stockNewsState.notices}
+      />
+    ),
+    [stockNewsState.isLoading, stockNewsState.notices]
+  );
+
+  const renderedTx = useMemo(
+    () => (
+      <>
+        <StockTxAdd handleAddTx={txEditState.handleAddTx} />
+        <StockTxTable {...stockTxTableState} />
+      </>
+    ),
+    [stockTxTableState, txEditState.handleAddTx]
+  );
+
+  const renderContent = useCallback(
+    contentType => {
+      switch (contentType) {
+        case "shareHolders":
+          return renderedShareholderTable;
+        case "notices":
+          return renderedNoticeTable;
+        case "tx":
+          return renderedTx;
+        default:
+          return "UNDEFINED";
+      }
+    },
+    [renderedNoticeTable, renderedShareholderTable, renderedTx]
+  );
+
   return (
     <>
       <div className={classNames.row}>
@@ -179,8 +237,18 @@ function StockDetail({
           </div>
         </div>
       </div>
-      <StockTxAdd handleAddTx={txEditState.handleAddTx} />
-      <StockTxTable {...stockTxTableState} />
+      <Divider />
+      <StockTableDropdown
+        contentType={contentType}
+        setContentType={setContentType}
+      />
+      <div className={classNames.contentContainer}>
+        {transitions.map(({ item, props }) => (
+          <animated.div style={props} key={item} className={classNames.content}>
+            {renderContent(item)}
+          </animated.div>
+        ))}
+      </div>
     </>
   );
 }

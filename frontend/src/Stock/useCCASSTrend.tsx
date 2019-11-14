@@ -82,7 +82,8 @@ function useCCASSTrend() {
       const dateStr = moment(targetDate).format("YYYYMMDD");
       const { ok, payload } = await fetchList(`stock/stk_trend/${dateStr}/`, {
         ...queryParams,
-        page
+				page,
+				page_size:25
       });
       if (!ok)
         return setCcassTrend(oState => ({ ...oState, isLoading: false }));

@@ -69,10 +69,10 @@ function useStockNotice(stockCode: string) {
     async () => {
       setStockNoticeState(oState => ({ ...oState, isLoading: true }));
       const [noticesRes, substantialRes] = await Promise.all([
-        fetchNotices(`stock/stk_notice/${stockCode}/`, { pageSize: 100 }),
+        fetchNotices(`stock/stk_notice/${stockCode}/`, { page_size: 100 }),
         fetchSubstantialShareholders(
           `stock/stk_notice/shareholder/${stockCode}/`,
-          { pageSize: 100 }
+          { page_size: 100 }
         )
       ]);
       const ok = noticesRes.ok && substantialRes.ok;
