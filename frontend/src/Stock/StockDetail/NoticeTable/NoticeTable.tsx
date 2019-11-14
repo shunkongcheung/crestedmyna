@@ -29,6 +29,27 @@ interface INoticeTableProps {
 function NoticeTable({ isLoading, notices }: INoticeTableProps) {
   const { getPrettyNum } = useGetPrettyNum();
 
+  const renderAveragePrice = useCallback(
+    averagePrice => {
+      if (averagePrice < 0) return "";
+      return getPrettyNum(averagePrice, { withDollarSign: true });
+    },
+    [getPrettyNum]
+  );
+  const renderInterestedShare = useCallback(
+    interestedShare => {
+      if (interestedShare < 0) return "";
+      return getPrettyNum(interestedShare, { toFixedDigit: 0 });
+    },
+    [getPrettyNum]
+  );
+  const renderIsAssociated = useCallback(isAssociated => {
+    return isAssociated ? "Yes" : "No";
+  }, []);
+  const renderIsDebentures = useCallback(isDebentures => {
+    return isDebentures ? "Yes" : "No";
+  }, []);
+
   const renderedReason = useCallback(reasonForDisclosure => {
     return (
       <>
@@ -75,42 +96,70 @@ function NoticeTable({ isLoading, notices }: INoticeTableProps) {
   const columns = useMemo(
     () => [
       {
-        title: "SERIAL NO.",
+        title: "Serial no.",
         dataIndex: "serialNum",
         render: renderSerialNum,
         key: "serialNum"
       },
       {
-        title: "SHAREHOLDER NAME",
+        title: "Shareholder name",
         dataIndex: "shareholderName",
         key: "shareholderName"
       },
       {
-        title: "REASON FOR DISCLOSURE",
+        title: "Reason for disclosure",
         dataIndex: "reasonForDisclosure",
         render: renderedReason,
         key: "reasonForDisclosure"
       },
       {
-        title: "SHARE NO.",
+        title: "Share no.",
         dataIndex: "shareCount",
         render: renderShareCount,
         key: "shareCount"
       },
       {
-        title: "% OF ISSUED VOTING SHARES",
+        title: "Average price",
+        dataIndex: "averagePrice",
+        render: renderAveragePrice,
+        key: "averagePrice"
+      },
+      {
+        title: "No. of shares interested",
+        dataIndex: "interestedShare",
+        render: renderInterestedShare,
+        key: "estedShare"
+      },
+      {
+        title: "% of issued voting shares",
         dataIndex: "sharePercent",
         render: renderSharePercent,
         key: "sharePercent"
       },
       {
-        title: "DATE",
+        title: "Is share associated corporation",
+        dataIndex: "isAssociated",
+        render: renderIsAssociated,
+        key: "isAssociated"
+      },
+      {
+        title: "Interests in debentures",
+        dataIndex: "isDebentures",
+        render: renderIsDebentures,
+        key: "isDebentures"
+      },
+      {
+        title: "Date",
         dataIndex: "noticeDate",
         render: renderNoticeDate,
         key: "noticeDate"
       }
     ],
     [
+      renderAveragePrice,
+      renderInterestedShare,
+      renderIsAssociated,
+      renderIsDebentures,
       renderNoticeDate,
       renderSerialNum,
       renderShareCount,
