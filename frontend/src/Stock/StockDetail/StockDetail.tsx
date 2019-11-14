@@ -12,7 +12,7 @@ import StockCtrl from "./StockCtrl";
 import StockTableDropdown from "./StockTableDropdown";
 import ShareholderTable from "./ShareholderTable";
 import StockInfo from "./StockInfo";
-import StockNews from "./StockNews";
+import StockNewsTable from "./StockNewsTable";
 import StockName from "./StockName";
 import StockTxAdd from "./StockTxAdd";
 import StockTxTable from "./StockTxTable";
@@ -20,7 +20,7 @@ import TurnoverChart from "./TurnoverChart";
 
 import classNames from "./StockDetail.module.scss";
 
-type TContentType = "shareHolders" | "notices" | "tx";
+type TContentType = "shareHolders" | "notices" | "news";
 type TRange = "week" | "month" | "year" | "5years";
 type TTxType = "BUY" | "SELL" | "DIVIDEND";
 
@@ -190,15 +190,9 @@ function StockDetail({
     ),
     [stockNewsState.isLoading, stockNewsState.notices]
   );
-
-  const renderedTx = useMemo(
-    () => (
-      <>
-        <StockTxAdd handleAddTx={txEditState.handleAddTx} />
-        <StockTxTable {...stockTxTableState} />
-      </>
-    ),
-    [stockTxTableState, txEditState.handleAddTx]
+  const renderedNewsTable = useMemo(
+    () => <StockNewsTable {...stockNewsState} />,
+    [stockNewsState]
   );
 
   const renderContent = useCallback(
@@ -208,13 +202,13 @@ function StockDetail({
           return renderedShareholderTable;
         case "notices":
           return renderedNoticeTable;
-        case "tx":
-          return renderedTx;
+        case "news":
+          return renderedNewsTable;
         default:
           return "UNDEFINED";
       }
     },
-    [renderedNoticeTable, renderedShareholderTable, renderedTx]
+    [renderedNewsTable, renderedNoticeTable, renderedShareholderTable]
   );
 
   return (
@@ -233,7 +227,6 @@ function StockDetail({
             <StockInfo {...stockInfoState} />
             <StockCtrl {...stockCtrlState} />
             <hr />
-            <StockNews {...stockNewsState} />
           </div>
         </div>
       </div>
@@ -249,6 +242,9 @@ function StockDetail({
           </animated.div>
         ))}
       </div>
+      <Divider />
+      <StockTxAdd handleAddTx={txEditState.handleAddTx} />
+      <StockTxTable {...stockTxTableState} />
     </>
   );
 }

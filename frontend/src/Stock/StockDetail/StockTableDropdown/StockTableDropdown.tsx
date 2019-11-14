@@ -10,7 +10,7 @@ interface IStockTableDropdownProps {
   contentType: TContentType;
   setContentType: (c: TContentType) => any;
 }
-type TContentType = "shareHolders" | "notices" | "tx" ;
+type TContentType = "shareHolders" | "notices" | "news" ;
 
 function StockTableDropdown({
   contentType,
@@ -29,8 +29,8 @@ function StockTableDropdown({
           <Menu.Item key="notices">
             <div>DISCLOSURE OF INTEREST</div>
           </Menu.Item>
-          <Menu.Item key="tx">
-            <div>TRANSACTIONS</div>
+          <Menu.Item key="news">
+            <div>NEWS</div>
           </Menu.Item>
         </Menu>
       );
@@ -45,8 +45,8 @@ function StockTableDropdown({
           return "NOTICES";
         case "shareHolders":
           return "SUBSTANTIAL SHAREHOLDERS";
-        case "tx":
-          return "TRANSACTIONS";
+        case "news":
+          return "NEWS";
         default:
           return "UNDEFINED";
       }
