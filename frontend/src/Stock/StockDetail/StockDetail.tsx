@@ -3,6 +3,7 @@ import { Moment } from "moment";
 
 import ChartSummary from "./ChartSummary";
 import CCASSChart from "./CCASSChart";
+import NoticeTable from "./NoticeTable";
 import PriceChart from "./PriceChart";
 import RangeSelector from "./RangeSelector";
 import StockCtrl from "./StockCtrl";
@@ -184,6 +185,10 @@ function StockDetail({
         <ShareholderTable
           isLoading={stockNewsState.isLoading}
           substantialShareholders={stockNewsState.substantialShareholders}
+        />
+        <NoticeTable
+          isLoading={stockNewsState.isLoading}
+          notices={stockNewsState.notices}
         />
       </div>
       <StockTxAdd handleAddTx={txEditState.handleAddTx} />
