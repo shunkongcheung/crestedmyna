@@ -6,6 +6,7 @@ import CCASSChart from "./CCASSChart";
 import PriceChart from "./PriceChart";
 import RangeSelector from "./RangeSelector";
 import StockCtrl from "./StockCtrl";
+import ShareholderTable from "./ShareholderTable";
 import StockInfo from "./StockInfo";
 import StockNews from "./StockNews";
 import StockName from "./StockName";
@@ -178,6 +179,12 @@ function StockDetail({
             <StockNews {...stockNewsState} />
           </div>
         </div>
+      </div>
+      <div>
+        <ShareholderTable
+          isLoading={stockNewsState.isLoading}
+          substantialShareholders={stockNewsState.substantialShareholders}
+        />
       </div>
       <StockTxAdd handleAddTx={txEditState.handleAddTx} />
       <StockTxTable {...stockTxTableState} />
