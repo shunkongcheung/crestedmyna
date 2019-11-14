@@ -42,7 +42,7 @@ function StockTableDropdown({
     () => {
       switch (contentType) {
         case "notices":
-          return "NOTICES";
+          return "DISCLOSURE OF INTEREST";
         case "shareHolders":
           return "SUBSTANTIAL SHAREHOLDERS";
         case "news":
