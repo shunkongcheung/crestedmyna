@@ -86,6 +86,12 @@ function NoticeTable({ isLoading, notices }: INoticeTableProps) {
         key: "shareholderName"
       },
       {
+        title: "REASON FOR DISCLOSURE",
+        dataIndex: "reasonForDisclosure",
+        render: renderedReason,
+        key: "reasonForDisclosure"
+      },
+      {
         title: "SHARE NO.",
         dataIndex: "shareCount",
         render: renderShareCount,
@@ -104,7 +110,13 @@ function NoticeTable({ isLoading, notices }: INoticeTableProps) {
         key: "noticeDate"
       }
     ],
-    [renderNoticeDate, renderSerialNum, renderShareCount, renderSharePercent]
+    [
+      renderNoticeDate,
+      renderSerialNum,
+      renderShareCount,
+      renderSharePercent,
+      renderedReason
+    ]
   );
 
   const keyedData = useMemo(
