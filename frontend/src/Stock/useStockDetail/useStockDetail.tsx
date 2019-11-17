@@ -70,14 +70,14 @@ function useStockDetail(
   // refresh on every minute -------------------------------
   useEffect(
     () => {
-      const unsubscribe = setInterval(() => {
-        fetchStockMaster(stockMaster.id);
-        refreshOtherTabs();
-      }, 1000 * 60);
+      // const unsubscribe = setInterval(() => {
+      //   fetchStockMaster(stockMaster.id);
+      //   refreshOtherTabs();
+      // }, 1000 * 60);
 
-      return () => {
-        clearInterval(unsubscribe);
-      };
+      // return () => {
+      //   clearInterval(unsubscribe);
+      // };
     },
     [fetchStockMaster, stockMaster.id, refreshOtherTabs]
   );
