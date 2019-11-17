@@ -144,7 +144,7 @@ function useStockMasterTableState(sectors: Array<number>) {
 
   useEffect(
     () => {
-      handleListChange(1);
+      handleListChange(1, { ordering: "marketValue", isAscend: false });
     },
     [handleListChange]
   );

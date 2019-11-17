@@ -26,7 +26,7 @@ function useStockPortfolio(history: History) {
   // methods -------------------------------------------------------
   const refreshStockPortfolio = useCallback(
     () => {
-      handleListChange(1);
+      handleListChange(1, { ordering: "marketValue", isAscend: false });
       handleSectorsChange([]);
       initDistribution();
     },
