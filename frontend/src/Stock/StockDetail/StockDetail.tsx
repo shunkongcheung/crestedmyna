@@ -196,7 +196,8 @@ function StockDetail({
   );
 
   const renderContent = useCallback(
-    contentType => {
+    renderContentType => {
+      if (renderContentType !== contentType) return <></>;
       switch (contentType) {
         case "shareHolders":
           return renderedShareholderTable;
@@ -208,7 +209,12 @@ function StockDetail({
           return "UNDEFINED";
       }
     },
-    [renderedNewsTable, renderedNoticeTable, renderedShareholderTable]
+    [
+      contentType,
+      renderedNewsTable,
+      renderedNoticeTable,
+      renderedShareholderTable
+    ]
   );
 
   return (
@@ -243,6 +249,7 @@ function StockDetail({
         ))}
       </div>
       <Divider />
+      <h1 className={classNames.txTitle}>TRANSACTION</h1>
       <StockTxAdd handleAddTx={txEditState.handleAddTx} />
       <StockTxTable {...stockTxTableState} />
     </>
