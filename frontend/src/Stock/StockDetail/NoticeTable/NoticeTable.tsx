@@ -29,7 +29,7 @@ interface INoticeTableProps {
 function NoticeTable({ isLoading, notices }: INoticeTableProps) {
   const { getPrettyNum } = useGetPrettyNum();
 
-  const renderedReason = useCallback(reasonForDisclosure => {
+  const renderReason = useCallback(reasonForDisclosure => {
     return (
       <>
         <span className={classNames.reasonForDisclosureValue}>
@@ -88,7 +88,7 @@ function NoticeTable({ isLoading, notices }: INoticeTableProps) {
       {
         title: "REASON FOR DISCLOSURE",
         dataIndex: "reasonForDisclosure",
-        render: renderedReason,
+        render: renderReason,
         key: "reasonForDisclosure"
       },
       {
@@ -112,10 +112,10 @@ function NoticeTable({ isLoading, notices }: INoticeTableProps) {
     ],
     [
       renderNoticeDate,
+      renderReason,
       renderSerialNum,
       renderShareCount,
-      renderSharePercent,
-      renderedReason
+      renderSharePercent
     ]
   );
 
