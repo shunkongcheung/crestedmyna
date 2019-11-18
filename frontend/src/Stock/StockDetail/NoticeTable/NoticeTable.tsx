@@ -50,7 +50,7 @@ function NoticeTable({ isLoading, notices }: INoticeTableProps) {
     return isDebentures ? "Yes" : "No";
   }, []);
 
-  const renderedReason = useCallback(reasonForDisclosure => {
+  const renderReason = useCallback(reasonForDisclosure => {
     return (
       <>
         <span className={classNames.reasonForDisclosureValue}>
