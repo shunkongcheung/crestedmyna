@@ -8,9 +8,9 @@ function useInitStockMaster(
   fetchParticipantDetails: (c: string, s: string, e: string) => Promise<any>,
   fetchStockTrends: (c: string, s: string, e: string) => Promise<any>,
   fetchStockTxs: (stockMasterId: number, page: 1) => Promise<any>,
-  getDatesFromRange: (r: "week") => { startDate: string; endDate: string },
+  getDatesFromRange: (r: "year") => { startDate: string; endDate: string },
   history: History,
-  setChartRange: (r: "week") => any
+  setChartRange: (r: "year") => any
 ) {
   const [stockMasterId, setStockMasterId] = useState<number>(-1);
 
@@ -26,8 +26,8 @@ function useInitStockMaster(
     async (stockMasterId: number) => {
       const nStockMaster = await fetchStockMaster(stockMasterId);
       if (!nStockMaster) return;
-      const { startDate, endDate } = getDatesFromRange("week");
-      setChartRange("week");
+      const { startDate, endDate } = getDatesFromRange("year");
+      setChartRange("year");
       return Promise.all([
         fetchParticipantDetails(nStockMaster.stockCode, startDate, endDate),
         fetchStockTrends(nStockMaster.stockCode, startDate, endDate),

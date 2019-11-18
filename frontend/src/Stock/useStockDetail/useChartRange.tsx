@@ -9,7 +9,7 @@ interface IChartRange {
 }
 function useChartRange() {
   const [chartRange, setChartRangeI] = useState<IChartRange>({
-    range: "week",
+    range: "month",
     startDate: new Date(),
     endDate: new Date()
   });

@@ -109,7 +109,7 @@ function NoticeTable({ isLoading, notices }: INoticeTableProps) {
       {
         title: "Reason for disclosure",
         dataIndex: "reasonForDisclosure",
-        render: renderedReason,
+        render: renderReason,
         key: "reasonForDisclosure"
       },
       {
@@ -161,10 +161,10 @@ function NoticeTable({ isLoading, notices }: INoticeTableProps) {
       renderIsAssociated,
       renderIsDebentures,
       renderNoticeDate,
+      renderReason,
       renderSerialNum,
       renderShareCount,
-      renderSharePercent,
-      renderedReason
+      renderSharePercent
     ]
   );
 
