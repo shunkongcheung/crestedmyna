@@ -3,10 +3,10 @@
 from django.db import migrations
 
 
-def create_stock_profile(*args):
+def create_stock_profile(apps, schema_editor):
     print('create_stock_profile: begin')
     from django.contrib.auth.models import User
-    from stock.models import StockProfile
+    StockProfile = apps.get_model("stock", "StockProfile")
 
     users = User.objects.all()
     user_count = users.count()
