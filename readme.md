@@ -40,7 +40,7 @@ sudo -u postgres psql
 
 postgres=# CREATE database casualapp_db;
 CREATE DATABASE
-postgres=# CREATE user casualapp_dbuser with password '!@#2AsuA1App';
+postgres=# CREATE user casualapp_dbuser with password 'password';
 CREATE ROLE
 postgres=# ALTER role casualapp_dbuser set client_encoding to 'utf8';
 ALTER ROLE
