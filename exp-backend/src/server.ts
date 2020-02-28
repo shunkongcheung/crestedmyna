@@ -1,49 +1,14 @@
-import express, { NextFunction } from "express";
-import bodyParser from "body-parser";
 import serverless from "serverless-http";
-import cors from "cors";
-import dotenv from "dotenv";
+import getExpressApp from "shunkongcheung-express-starter/src/getExpressApp";
 
-import initDb from "./initDb";
 import router from "./routes";
-import { bodyFormatter, errorHandler, logger } from "./middlewares";
 
-// configuration initializiation
-dotenv.config();
+import { User } from "./entities";
 
-// database initializiation
-async function dbMiddleware(_: any, __: any, next: NextFunction) {
-  try {
-    await initDb();
-  } catch (err) {
-    next(err.message);
-  }
-  next();
-}
-
-// express app initializiation
-const app = express();
-
-app.use(dbMiddleware);
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(
-  cors({
-    origin: "*",
-    methods: "GET,HEAD,PUT,POST,DELETE,OPTIONS",
-    preflightContinue: true
-  })
-);
-
-app.use(bodyFormatter);
-
-// create routes
-app.use("/", router); // path must route to lambda
-app.use("/.netlify/functions/server", router); // path must route to lambda
-
-app.use(logger);
-app.use(errorHandler); // error handling. after all route
+const app = getExpressApp({
+  router,
+  userModel: User
+});
 
 // finish and export
 export const handler = serverless(app);
