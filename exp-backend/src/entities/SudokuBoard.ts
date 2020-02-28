@@ -24,7 +24,7 @@ class SudokuBoard extends Base {
   usedSecond: number;
 
   @Column()
-  difficulity: "easy" | "medium" | "difficulty";
+  difficulty: "easy" | "medium" | "difficult";
 }
 
 export default SudokuBoard;
