@@ -1,35 +1,6 @@
-import {
-  BaseEntity,
-  CreateDateColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from "typeorm";
-
+import { getBaseEntity } from "shunkongcheung-express-starter/src/entities";
 import User from "./User";
 
-abstract class Base extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @CreateDateColumn({
-    type: "timestamp",
-    default: () => "LOCALTIMESTAMP"
-  })
-  createdAt: string;
-
-  @UpdateDateColumn({
-    type: "timestamp",
-    default: () => "LOCALTIMESTAMP"
-  })
-  updatedAt: string;
-
-  @ManyToOne(
-    () => User,
-    () => [],
-    { eager: true }
-  )
-  createdBy: User;
-}
+const Base = getBaseEntity(User);
 
 export default Base;
