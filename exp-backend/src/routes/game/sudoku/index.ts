@@ -27,6 +27,18 @@ const updateValidator = [
   body("usedSecond").isNumeric()
 ];
 
+async function filterEntities(
+  model: typeof SudokuBoard,
+  paginateParams: object
+) {
+  const entities = await model.find(paginateParams);
+  return entities.map((entity: SudokuBoard) => {
+    const retData = { ...entity };
+    delete retData.solutionBoard;
+    return retData;
+  });
+}
+
 async function getEntity(model: typeof SudokuBoard, req: Request) {
   const entity = await model.findOne({ id: Number(req.params.id) });
   if (!entity) return entity;
@@ -84,8 +96,9 @@ async function transformUpdateData(data: UpdateData, entity: SudokuBoard) {
 }
 
 const controller = getController({
-  allowedMethods: ["retrieve", "create", "update"],
+  allowedMethods: ["list", "retrieve", "create", "update"],
   getEntity,
+  filterEntities,
   model: SudokuBoard,
   validations: { create: createValidator, update: updateValidator },
   transformCreateData,
