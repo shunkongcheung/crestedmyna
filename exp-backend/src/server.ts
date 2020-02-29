@@ -1,9 +1,9 @@
 import { getExpressApp } from "shunkongcheung-express-starter";
 
 import router from "./routes";
-import { User } from "./entities";
+import { File, User } from "./entities";
 
-const expressApp = getExpressApp({ router, userModel: User });
+const expressApp = getExpressApp({ router, userModel: User, fileModel: File });
 const { app, serverlessHandler } = expressApp;
 
 // finish and export
