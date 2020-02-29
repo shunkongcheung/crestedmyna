@@ -1,9 +1,9 @@
 import { body } from "express-validator";
-
-import getController from "../../getController";
-import { SudokuBoard } from "../../../entities";
-import getRandomBoard from "./getRandomBoard";
 import { Request } from "express";
+import { getController } from "shunkongcheung-express-starter";
+
+import getRandomBoard from "./getRandomBoard";
+import { SudokuBoard, User } from "../../../entities";
 
 type Board = Array<Array<string>>;
 
@@ -100,6 +100,7 @@ const controller = getController({
   getEntity,
   filterEntities,
   model: SudokuBoard,
+  userModel: User,
   validations: { create: createValidator, update: updateValidator },
   transformCreateData,
   transformUpdateData
