@@ -1,12 +1,5 @@
-import serverless from "serverless-http";
-import { getExpressApp } from "shunkongcheung-express-starter";
-
-import router from "./routes";
-
-import { User } from "./entities";
-
-const app = getExpressApp({ router, userModel: User });
+import { app, serverlessHandler } from "./base";
 
 // finish and export
-export const handler = serverless(app);
+export const handler = serverlessHandler;
 export default app;
