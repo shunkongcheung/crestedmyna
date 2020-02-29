@@ -1,5 +1,5 @@
 import { Entity } from "typeorm";
-import { getFileEntity } from "shunkongcheung-express-starter";
+import { getFileEntity } from "express-typescript-s3-starter";
 import User from "./User";
 
 const BaseFile = getFileEntity(User);
