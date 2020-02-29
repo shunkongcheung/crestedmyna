@@ -1,16 +1,8 @@
-import { Column, Entity, BaseEntity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity } from "typeorm";
+import { BaseUser } from "shunkongcheung-express-starter";
 
 @Entity()
-class User extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
-  username: string;
-
-  @Column()
-  password: string;
-
+class User extends BaseUser {
   @Column({ default: "" })
   firstName: string;
 
