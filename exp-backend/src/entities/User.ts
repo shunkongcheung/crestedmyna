@@ -1,5 +1,5 @@
 import { Column, Entity } from "typeorm";
-import { BaseUser } from "shunkongcheung-express-starter/src/entities";
+import { BaseUser } from "shunkongcheung-express-starter";
 
 @Entity()
 class User extends BaseUser {

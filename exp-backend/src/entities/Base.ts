@@ -1,4 +1,4 @@
-import { getBaseEntity } from "shunkongcheung-express-starter/src/entities";
+import { getBaseEntity } from "shunkongcheung-express-starter";
 import User from "./User";
 
 const Base = getBaseEntity(User);
