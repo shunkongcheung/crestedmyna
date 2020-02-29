@@ -29,7 +29,7 @@
     "pg": "^7.18.2",
     "reflect-metadata": "^0.1.13",
     "serverless-http": "^2.3.2",
-    "shunkongcheung-express-starter": "^1.0.4",
+    "shunkongcheung-express-starter": "^1.0.5",
     "typeorm": "^0.2.24"
   },
   "devDependencies": {
