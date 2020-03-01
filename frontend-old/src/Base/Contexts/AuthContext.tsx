@@ -22,7 +22,6 @@ const AuthContext = createContext<IAuthContext>({
     firstName: "",
     lastName: ""
   },
-isLogined: false,
-  
+  isLogined: false
 });
 export default AuthContext;
