@@ -3,6 +3,7 @@ import { useCallback, useMemo, useState } from "react";
 import useCreateBoard from "./useCreateBoard";
 import useSudokuUtils from "./useSudokuUtils";
 import useUsedSecond from "./useUsedSecond";
+import useSubmit from "./useSubmit";
 import useGetInitialBoard from "./useGetInitialBoard";
 
 type Difficulty = "easy" | "medium" | "difficult";
@@ -34,12 +35,14 @@ function useSudoku() {
   useUsedSecond(curState.gameStage, setCurState);
 
   const { handleLvlSelect } = useCreateBoard(setCurState);
+  const { handleSubmit: handleSubmitI } = useSubmit(setCurState);
 
   const setGameStage = useCallback(
     gameStage => setCurState(oVal => ({ ...oVal, gameStage })),
     []
   );
-  const handleSubmit = useCallback(() => {}, []);
+
+  const handleSubmit = useCallback(() => handleSubmitI(curState), [curState, handleSubmitI]);
 
   const handleSudokuBoardChange = useCallback(
     func =>
