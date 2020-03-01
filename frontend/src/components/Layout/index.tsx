@@ -37,6 +37,7 @@ const MyHeader = styled.div`
   align-items: center;
   display: flex;
   width: 100%;
+  height: 100%;
 `;
 
 const MyIcon = styled(MenuUnfoldOutlined)`
@@ -62,6 +63,11 @@ const Title = styled.div`
   color: ${({ theme }) => theme.colors.primary};
   font-weight: 700;
   font-size: 24px;
+
+  display: none;
+  @media (min-width: ${({ theme }) => theme.size.small}) {
+    display: block;
+  }
 `;
 
 function Layout({ children }: LayoutProps) {
@@ -116,12 +122,7 @@ function Layout({ children }: LayoutProps) {
 
   return (
     <MyLayout>
-      <Drawer
-        placement="left"
-        push
-        visible={!collapsed}
-        onClose={toggleCollapse}
-      >
+      <Drawer placement="left" visible={!collapsed} onClose={toggleCollapse}>
         <MyMenu mode="inline" defaultSelectedKeys={[selectedKey]}>
           <Menu.Item key="/" onClick={() => history.push("/")}>
             <HomeOutlined />
