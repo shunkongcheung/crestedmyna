@@ -22,6 +22,12 @@ const createValidator = [
   body("difficulty").isIn(["easy", "medium", "difficult"])
 ];
 
+const listValidator = [
+  body("completed")
+    .isBoolean()
+    .optional()
+];
+
 const updateValidator = [
   body("currentBoard").isString(),
   body("usedSecond").isNumeric()
@@ -29,8 +35,17 @@ const updateValidator = [
 
 async function filterEntities(
   model: typeof SudokuBoard,
-  paginateParams: object
+  paginateParams: { where?: Array<object> },
+  req: Request
 ) {
+  const completed = req.query.completed === "true";
+  const isCompletedExist = !!req.query.completed;
+
+  if (isCompletedExist) {
+    if (paginateParams.where)
+      paginateParams.where[0] = { completed, ...paginateParams.where[0] };
+    else paginateParams.where = [{ completed }];
+  }
   const entities = await model.find(paginateParams);
   return entities.map((entity: SudokuBoard) => {
     const retData = { ...entity };
@@ -100,7 +115,11 @@ const controller = getController({
   getEntity,
   filterEntities,
   model: SudokuBoard,
-  validations: { create: createValidator, update: updateValidator },
+  validations: {
+    list: listValidator,
+    create: createValidator,
+    update: updateValidator
+  },
   transformCreateData,
   transformUpdateData
 });

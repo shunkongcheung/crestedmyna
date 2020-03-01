@@ -25,6 +25,9 @@ class SudokuBoard extends Base {
 
   @Column()
   difficulty: "easy" | "medium" | "difficult";
+
+  @Column({ default: false })
+  completed: boolean;
 }
 
 export default SudokuBoard;
