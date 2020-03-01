@@ -33,7 +33,14 @@ const MyContent = styled(Content)`
   padding: 0 50px;
 `;
 
-const MyHeader = styled.div`
+const MyHeader = styled(Header)`
+  &&& {
+    background: #fff;
+  }
+  box-shadow: 1px 1px 3px #ccc;
+`;
+
+const MyHeaderRow = styled.div`
   align-items: center;
   display: flex;
   width: 100%;
@@ -41,7 +48,7 @@ const MyHeader = styled.div`
 `;
 
 const MyIcon = styled(MenuUnfoldOutlined)`
-  color: white;
+  color: ${({ theme }) => theme.colors.quaternary};
   font-weight: 700;
   font-size: 25px;
   margin-right: 8px;
@@ -88,7 +95,7 @@ function Layout({ children }: LayoutProps) {
 
   const renderedTitle = useMemo(
     () => (
-      <MyHeader>
+      <MyHeaderRow>
         {isLogined && <MyIcon onClick={toggleCollapse} />}
         <Title>Crested Myna</Title>
         {isLogined && (
@@ -96,7 +103,7 @@ function Layout({ children }: LayoutProps) {
             Logout
           </LogoutBtn>
         )}
-      </MyHeader>
+      </MyHeaderRow>
     ),
     [handleTokenChange, isLogined, toggleCollapse]
   );
@@ -134,7 +141,7 @@ function Layout({ children }: LayoutProps) {
           </Menu.Item>
         </MyMenu>
       </Drawer>
-      <Header>{renderedTitle}</Header>
+      <MyHeader>{renderedTitle}</MyHeader>
       <MyContent>{renderedContent}</MyContent>
     </MyLayout>
   );
