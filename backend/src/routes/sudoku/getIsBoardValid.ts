@@ -13,6 +13,7 @@ function getIsAreaUnique(
     for (let rowIdx = startRow; rowIdx < startRow + 3; rowIdx++) {
       const curItem = board[rowIdx][columnIdx];
       if (curItem == EMPTY_ITEM && ignoreEmpty) continue;
+      if (curItem == EMPTY_ITEM) return false;
       if (areaValues.includes(curItem)) return false;
       areaValues.push(curItem);
     }
@@ -25,6 +26,7 @@ function getIsRowUnique(board: Board, rowIdx: number, ignoreEmpty: boolean) {
   for (let columnIdx = 0; columnIdx < 9; columnIdx++) {
     const curItem = board[rowIdx][columnIdx];
     if (curItem == EMPTY_ITEM && ignoreEmpty) continue;
+    if (curItem == EMPTY_ITEM) return false;
     if (areaValues.includes(curItem)) return false;
     areaValues.push(curItem);
   }
@@ -40,6 +42,7 @@ function getIsColumnUnique(
   for (let rowIdx = 0; rowIdx < 9; rowIdx++) {
     const curItem = board[rowIdx][columnIdx];
     if (curItem == EMPTY_ITEM && ignoreEmpty) continue;
+    if (curItem == EMPTY_ITEM) return false;
     if (areaValues.includes(curItem)) return false;
     areaValues.push(curItem);
   }
