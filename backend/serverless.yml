@@ -1,4 +1,4 @@
-service: express-starter-another
+service: casualapp-api
 provider:
   name: aws
   runtime: nodejs12.x
