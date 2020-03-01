@@ -1,2 +1,0 @@
-from .auth_login_serializer import AuthLoginSerializer
-from .auth_register_serializer import AuthRegisterSerializer

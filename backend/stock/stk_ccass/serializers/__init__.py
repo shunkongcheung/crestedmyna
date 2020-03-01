@@ -1,2 +1,0 @@
-from .ccass_create_shareholding_disclosure_records_serializer import CCASSCreateStockHoldingDisclosureRecordsSerializer
-from .ccass_participant_detail_serializer import CCASSParticipantDetailSerializer

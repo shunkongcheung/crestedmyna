@@ -1,65 +1,76 @@
-import React, { lazy, Suspense, useMemo } from "react";
+import React, { Suspense, lazy } from "react";
+import { Spin, notification } from "antd";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import ScaleLoader from "react-spinners/ScaleLoader";
+import { AuthContextProvider } from "react-accessories";
+import styled, { ThemeProvider } from "styled-components";
 
-import Layout from "./Base/Layout/Layout";
-import { FourOFour } from "./Base/Utils";
-import GlobalContexts from "./Base/Contexts/GlobalContexts";
+const Game = lazy(() => import("./Game"));
+const Home = lazy(() => import("./Home"));
 
-import "antd/dist/antd.css";
-import "./App.scss";
-import classNames from "./App.module.scss";
+const Fallback = styled.div.attrs({
+  children: <Spin />
+})`
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
-// routes -----------------------------------------------
-const AuthContainer = lazy(() => import("./Base/AuthContainer"));
-const GameContainer = lazy(() => import("./Game/GameContainer"));
-const HomeContainer = lazy(() => import("./Home/HomeContainer"));
-const JournalContainer = lazy(() => import("./Journal/JournalContainer"));
-const StockContainer = lazy(() => import("./Stock/StockContainer"));
-
-// routes -----------------------------------------------
+function FourOFour() {
+  return <div>404</div>;
+}
 
 function RouteTable() {
   return (
     <Switch>
-      <Route path="/journal" component={JournalContainer} />
-      <Route path="/game" component={GameContainer} />
-      <Route path="/stock" component={StockContainer} />
-      <Route path="/uam" component={AuthContainer} />
-      <Route path="/" exact component={HomeContainer} />
-      <Route path="/" component={FourOFour} />
+      <Route path="/game">
+        <Game />
+      </Route>
+      <Route path="/" exact>
+        <Home />
+      </Route>
+      <Route path="/">
+        <FourOFour />
+      </Route>
     </Switch>
   );
 }
 
-const App: React.FC = () => {
-  const renderedFallback = useMemo(() => {
-    return (
-      <Layout>
-        <div
-          style={{
-            height: "100vh",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-        >
-          <ScaleLoader color="#e94e80" loading />
-        </div>
-      </Layout>
-    );
-  }, []);
+const notify = (
+  msg: string,
+  lvl: "success" | "error" | "info" | "none" | "warn"
+) => {
+  if (lvl !== "none")
+    notification[lvl]({
+      message: "Something went wrong",
+      description: msg
+    });
+};
+const theme = {
+  colors: {
+    primary: "#e94e80",
+    secondary: "#e94e50",
+    tertiary: "#373a47",
+    quaternary: "#44485c"
+  },
+  size: {
+    medium: "759px",
+    small: "479px"
+  }
+};
+
+function App() {
   return (
-    <div className={classNames.app}>
-      <Router>
-        <GlobalContexts>
-          <Suspense fallback={renderedFallback}>
+    <Router>
+      <ThemeProvider theme={theme}>
+        <AuthContextProvider defaultUser={{ username: "" }} notify={notify}>
+          <Suspense fallback={<Fallback />}>
             <RouteTable />
           </Suspense>
-        </GlobalContexts>
-      </Router>
-    </div>
+        </AuthContextProvider>
+      </ThemeProvider>
+    </Router>
   );
-};
+}
 
 export default App;
