@@ -60,10 +60,15 @@ const theme = {
 };
 
 function App() {
+  console.log(process.env);
   return (
     <Router>
       <ThemeProvider theme={theme}>
-        <AuthContextProvider defaultUser={{ username: "" }} notify={notify}>
+        <AuthContextProvider
+          defaultUser={{ username: "" }}
+          defaultApiDomain={process.env.REACT_APP_API_DOMAIN}
+          notify={notify}
+        >
           <Suspense fallback={<Fallback />}>
             <RouteTable />
           </Suspense>
