@@ -34,10 +34,10 @@ function Board({
   startBoard
 }: IBoardProps) {
   const handleCellChange = useCallback(
-    (rowIdx, colIdx, value) => {
+    (rowIdx: number, colIdx: number, value?: string) => {
       handleSudokuBoardChange(oBoard => {
         const nBoard = JSON.parse(JSON.stringify(oBoard));
-        nBoard[rowIdx][colIdx] = value;
+        nBoard[rowIdx][colIdx] = value || "_";
         return nBoard;
       });
     },
