@@ -135,7 +135,7 @@ function Layout({ children }: LayoutProps) {
             <HomeOutlined />
             <span>Home</span>
           </Menu.Item>
-          <Menu.Item key="/game" onClick={() => history.push("/game")}>
+          <Menu.Item key="/sudoku" onClick={() => history.push("/sudoku")}>
             <AppstoreAddOutlined />
             <span>Game</span>
           </Menu.Item>
