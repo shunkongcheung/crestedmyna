@@ -7,6 +7,7 @@ type GameStage = "playing" | "paused";
 interface BoardItem {
   id: number;
   currentBoard: string;
+  usedSecond: number;
 }
 
 interface CurState {
@@ -16,7 +17,7 @@ interface CurState {
 }
 
 interface SubmitRet {
-  isValid: boolean;
+  completed: boolean;
 }
 
 type SetCurState<T extends CurState> = (s: (o: T) => T) => any;
@@ -32,11 +33,14 @@ function useSubmit<T extends CurState>(setCurState: SetCurState<T>) {
           message: "Invalid",
           description: "Board is not completed"
         });
-      const ret = await fetchEdit("/sudoku/validate", { data });
+      const ret = await fetchEdit(`/sudoku/${data.id}`, {
+        data,
+        method: "PUT"
+      });
       if (!ret) return;
 
-      const { isValid } = ret;
-      if (!isValid)
+      const { completed } = ret;
+      if (!completed)
         return notification.error({
           message: "Invalid",
           description: "Board is invalid"
