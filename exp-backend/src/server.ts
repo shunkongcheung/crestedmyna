@@ -1,4 +1,4 @@
-import { getExpressApp } from "shunkongcheung-express-starter";
+import { getExpressApp } from "express-typescript-s3-starter";
 
 import router from "./routes";
 import { File, User } from "./entities";
