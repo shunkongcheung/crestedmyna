@@ -2,8 +2,8 @@ import { body } from "express-validator";
 import { Request } from "express";
 
 import getRandomBoard from "./getRandomBoard";
-import { SudokuBoard } from "../../../entities";
-import getController from "../../../getController";
+import { SudokuBoard } from "../../entities";
+import getController from "../../getController";
 
 type Board = Array<Array<string>>;
 
