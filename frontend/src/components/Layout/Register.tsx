@@ -6,6 +6,7 @@ import styled from "styled-components";
 import * as yup from "yup";
 
 import InputText from "../InputText";
+import FormSubmitBtn from "../FormSubmitBtn";
 
 interface RegisterProps {
   handleTokenChange: (token: string) => any;
@@ -82,9 +83,7 @@ function Register({ handleTokenChange, handleLogin }: RegisterProps) {
           <div style={{ marginBottom: "1rem" }}>
             <InputText label="Password (again)" name="passwordAgain" isMask />
           </div>
-          <Button type="primary" htmlType="submit">
-            Register
-          </Button>
+          <FormSubmitBtn>Register</FormSubmitBtn>
           <Button type="link" onClick={handleLogin}>
             Go back to login
           </Button>
