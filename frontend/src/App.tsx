@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { AuthContextProvider } from "react-accessories";
 import styled, { ThemeProvider } from "styled-components";
 
-const Game = lazy(() => import("./Game"));
+const Sudoku = lazy(() => import("./Sudoku"));
 const Home = lazy(() => import("./Home"));
 
 const Fallback = styled.div.attrs({
@@ -23,8 +23,8 @@ function FourOFour() {
 function RouteTable() {
   return (
     <Switch>
-      <Route path="/game">
-        <Game />
+      <Route path="/sudoku">
+        <Sudoku />
       </Route>
       <Route path="/" exact>
         <Home />
