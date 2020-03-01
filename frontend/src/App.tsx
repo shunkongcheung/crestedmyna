@@ -5,6 +5,7 @@ import { AuthContextProvider } from "react-accessories";
 import styled, { ThemeProvider } from "styled-components";
 
 const Game = lazy(() => import("./Game"));
+const Home = lazy(() => import("./Home"));
 
 const Fallback = styled.div.attrs({
   children: <Spin />
@@ -24,6 +25,9 @@ function RouteTable() {
     <Switch>
       <Route path="/game">
         <Game />
+      </Route>
+      <Route path="/" exact>
+        <Home />
       </Route>
       <Route path="/">
         <FourOFour />
@@ -51,7 +55,7 @@ const theme = {
   },
   size: {
     medium: "759px",
-    small: "47px"
+    small: "479px"
   }
 };
 
