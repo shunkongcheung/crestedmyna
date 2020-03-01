@@ -1,2 +1,0 @@
-from .get_notice_list import get_notice_list
-from .get_substantial_shareholders import get_substantial_shareholders

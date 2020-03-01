@@ -1,9 +1,10 @@
-db.sqlite3
+# deployment and builds
+.serverless
+dist
 
-backend/settings_prod.py
-backend/credentials.py
-base/static/m
-base/templates
-static
-celerybeat.pid
-**/*.pyc
+# environment filed
+.env
+.env.local
+
+# blackhole for javascript
+node_modules

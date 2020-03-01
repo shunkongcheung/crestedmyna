@@ -1,1 +1,0 @@
-from .gen_chess_results import gen_chess_results
