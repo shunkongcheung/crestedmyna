@@ -60,7 +60,6 @@ const theme = {
 };
 
 function App() {
-  console.log(process.env);
   return (
     <Router>
       <ThemeProvider theme={theme}>
