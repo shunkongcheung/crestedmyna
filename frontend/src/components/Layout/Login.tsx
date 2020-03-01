@@ -1,11 +1,12 @@
 import React, { memo, useCallback } from "react";
+import { useFetchEdit } from "react-accessories";
 import { Button } from "antd";
 import { Formik } from "formik";
 import styled from "styled-components";
 import * as yup from "yup";
 
 import InputText from "../InputText";
-import { useFetchEdit } from "react-accessories";
+import FormSubmitBtn from "../FormSubmitBtn";
 
 const Form = styled.form`
   margin-top: 24px;
@@ -49,9 +50,7 @@ function Login(props: LoginProps) {
           <div style={{ marginBottom: "1rem" }}>
             <InputText label="Password" name="password" isMask />
           </div>
-          <Button type="primary" htmlType="submit">
-            Login
-          </Button>
+          <FormSubmitBtn>Login</FormSubmitBtn>
           <Button type="link" onClick={handleRegister}>
             Don't have an account?
           </Button>
