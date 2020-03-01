@@ -106,18 +106,19 @@ async function transformCreateData({ difficulty }: CreateData) {
 }
 
 async function transformUpdateData(data: UpdateData, entity: SudokuBoard) {
-  const retData = { ...entity, ...data };
-  delete retData.solutionBoard;
-  return [data, retData];
-}
-
-async function validateBoard(data: UpdateData) {
   const boardChars = data.currentBoard.split("");
   const board: Board = Array.from({ length: 9 }).map((_, idx) =>
     boardChars.slice(idx * 9, (idx + 1) * 9)
   );
+
   const isValid = getIsBoardValid(board);
-  return [null, { isValid }];
+
+  (data as SudokuBoard).completed = isValid;
+
+  const retData = { ...entity, ...data };
+  delete retData.solutionBoard;
+
+  return [data, retData];
 }
 
 const controller = getController({
@@ -133,14 +134,5 @@ const controller = getController({
   transformCreateData,
   transformUpdateData
 });
-
-const validateController = getController({
-  allowedMethods: ["create"],
-  model: SudokuBoard,
-  transformCreateData: validateBoard,
-  validations: { create: updateValidator }
-});
-
-controller.use("/validate", validateController);
 
 export default controller;
