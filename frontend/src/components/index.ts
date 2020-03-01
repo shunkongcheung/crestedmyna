@@ -1,3 +1,4 @@
+import Center from "./Center";
 import Layout from "./Layout";
 
-export { Layout };
+export { Center, Layout };
