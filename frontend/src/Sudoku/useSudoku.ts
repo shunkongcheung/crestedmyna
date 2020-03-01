@@ -20,7 +20,7 @@ interface CurState {
 }
 
 function useSudoku() {
-  const { getBoardFromHash } = useSudokuUtils();
+  const { getBoardFromHash, getHashFromBoard } = useSudokuUtils();
   const [curState, setCurState] = useState<CurState>({
     id: -1,
     currentBoard: "",
@@ -31,6 +31,8 @@ function useSudoku() {
     loading: true
   });
   useGetInitialBoard(setCurState);
+  useUsedSecond(curState.gameStage, setCurState);
+
   const { handleLvlSelect } = useCreateBoard(setCurState);
 
   const setGameStage = useCallback(
@@ -38,8 +40,15 @@ function useSudoku() {
     []
   );
   const handleSubmit = useCallback(() => {}, []);
-  const handleSudokuBoardChange = useCallback(() => {}, []);
-  useUsedSecond(curState.gameStage, setCurState);
+
+  const handleSudokuBoardChange = useCallback(
+    func =>
+      setCurState(o => ({
+        ...o,
+        currentBoard: getHashFromBoard(func(getBoardFromHash(o.currentBoard)))
+      })),
+    [getBoardFromHash, getHashFromBoard]
+  );
 
   const startBoard = useMemo(() => getBoardFromHash(curState.startBoard), [
     curState.startBoard,
