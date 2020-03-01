@@ -24,7 +24,7 @@ function useGetInitialBoard<T extends GameState>(setCurState: SetCurState<T>) {
   const prevLoading = useRef(loading);
 
   useEffect(() => {
-    fetchList("/game/sudoku", { queryParams: { completed: false } });
+    fetchList("/sudoku", { queryParams: { completed: false } });
   }, [fetchList]);
 
   const initialBoard = useMemo(() => {

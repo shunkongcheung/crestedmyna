@@ -23,7 +23,7 @@ function useCreateBoard(setCurState: SetCurState) {
   const fetchEdit = useFetchEdit<BoardItem>();
   const handleLvlSelect = useCallback(
     async (difficulty: Difficulty) => {
-      const data = await fetchEdit("/game/sudoku", { data: { difficulty } });
+      const data = await fetchEdit("/sudoku", { data: { difficulty } });
       if (!data) return;
       setCurState({ ...data, gameStage: "playing", loading: false });
     },
