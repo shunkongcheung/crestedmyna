@@ -1,36 +1,44 @@
 import React, { memo } from "react";
-
-import styled from "styled-components";
+import { Spin } from "antd";
 
 import GameHeader from "./GameHeader";
 import SudokuBoard from "./Board";
-import useSudokuUtils from "./useSudokuUtils";
+import useSudoku from "./useSudoku";
 
-const Container = styled.div``;
+import { Center } from "../../components";
 
-interface SudokuProps {}
+function Sudoku() {
+  const {
+    gameStage,
+    startBoard,
+    currentBoard,
+    setGameStage,
+    handleSubmit,
+    handleSudokuBoardChange,
+    loading,
+    usedSecond
+  } = useSudoku();
 
-function Sudoku({}: SudokuProps) {
-  const data = {
-    startBoard:
-      "___5____99_37_428_82613_7_5__185__9449____85___594712_247_93518__9_8_476__847___2",
-    currentBoard:
-      "___5____99_37_428_82613_7_5__185__9449____85___594712_247_93518__9_8_476__847___2"
-  };
-  const { getBoardFromHash } = useSudokuUtils();
+  if (loading)
+    return (
+      <Center>
+        <Spin />
+      </Center>
+    );
 
+  if (gameStage === "paused") return <div>choose</div>;
   return (
     <>
       <GameHeader
-        difficulty="easy"
-        usedSecond={1}
-        setGameStage={() => {}}
-        handleSubmit={() => {}}
+        difficulty={"easy"}
+        usedSecond={usedSecond}
+        setGameStage={setGameStage}
+        handleSubmit={handleSubmit}
       />
       <SudokuBoard
-        handleSudokuBoardChange={() => {}}
-        startBoard={getBoardFromHash(data.startBoard)}
-        currentBoard={getBoardFromHash(data.currentBoard)}
+        handleSudokuBoardChange={handleSudokuBoardChange}
+        startBoard={startBoard}
+        currentBoard={currentBoard}
       />
     </>
   );
