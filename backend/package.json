@@ -18,7 +18,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "express-typescript-s3-starter": "^1.0.14",
+    "express-typescript-s3-starter": "^1.0.16",
     "jsonwebtoken": "^8.5.1",
     "pg": "^7.18.2",
     "reflect-metadata": "^0.1.13",
