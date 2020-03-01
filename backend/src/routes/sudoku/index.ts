@@ -1,6 +1,7 @@
 import { body } from "express-validator";
 import { Request } from "express";
 
+import getIsBoardValid from "./getIsBoardValid";
 import getRandomBoard from "./getRandomBoard";
 import { SudokuBoard } from "../../entities";
 import getController from "../../getController";
@@ -73,7 +74,7 @@ function getRemoveCount(difficulty: Difficulty) {
 function removeSpotsInBoard(board: Board, difficulty: Difficulty) {
   const removeCount = getRemoveCount(difficulty);
   let count = 0;
-  while (count < removeCount) {
+  while (count < removeCount && count < 1) {
     const rowIdx = Math.floor(Math.random() * 9);
     const colIdx = Math.floor(Math.random() * 9);
     if (board[rowIdx][colIdx] === "_") continue;
@@ -110,6 +111,15 @@ async function transformUpdateData(data: UpdateData, entity: SudokuBoard) {
   return [data, retData];
 }
 
+async function validateBoard(data: UpdateData) {
+  const boardChars = data.currentBoard.split("");
+  const board: Board = Array.from({ length: 9 }).map((_, idx) =>
+    boardChars.slice(idx * 9, (idx + 1) * 9)
+  );
+  const isValid = getIsBoardValid(board);
+  return [null, { isValid }];
+}
+
 const controller = getController({
   allowedMethods: ["list", "retrieve", "create", "update"],
   getEntity,
@@ -123,5 +133,14 @@ const controller = getController({
   transformCreateData,
   transformUpdateData
 });
+
+const validateController = getController({
+  allowedMethods: ["create"],
+  model: SudokuBoard,
+  transformCreateData: validateBoard,
+  validations: { create: updateValidator }
+});
+
+controller.use("/validate", validateController);
 
 export default controller;
