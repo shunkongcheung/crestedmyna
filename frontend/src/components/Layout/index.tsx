@@ -31,6 +31,8 @@ type PageState = "children" | "login" | "register";
 
 const MyContent = styled(Content)`
   padding: 0 50px;
+  overflow: auto;
+  padding-bottom: 40px;
 `;
 
 const MyHeader = styled(Header)`

@@ -41,9 +41,15 @@ function Register({ handleTokenChange, handleLogin }: RegisterProps) {
 
   const handleSubmit = useCallback(
     async data => {
-      const reg = await fetchEdit("/auth/register", { data });
+      const reg = await fetchEdit("/auth/register", {
+        data,
+        isAuthenticated: false
+      });
       if (!reg) return;
-      const login = await fetchEdit("/auth/login", { data });
+      const login = await fetchEdit("/auth/login", {
+        data,
+        isAuthenticated: false
+      });
       if (!login) return;
       const { token } = login;
       handleTokenChange(token);
