@@ -43,23 +43,12 @@ const News = () => <>news</>;
 
 function Home() {
   // const { newsState, weatherState } = useHomeContainer();
-  const weatherState = {
-    dataTime: new Date(),
-    descDetail: "deatil",
-    descMain: "main",
-    humidity: 80,
-    iconUrl: "https://i.picsum.photos/50/50",
-    location: "hong kong",
-    temp: 18,
-    tempMax: 22,
-    tempMin: 15
-  };
   return (
     <Layout>
       <Container>
         <Row>
           <Column lgWidth={40}>
-            <Weather {...weatherState} />
+            <Weather />
           </Column>
           <Column lgWidth={60}>
             <News />

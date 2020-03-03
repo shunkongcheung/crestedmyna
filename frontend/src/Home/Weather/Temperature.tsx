@@ -34,16 +34,16 @@ const Value = styled.span`
   color: ${({ theme }) => theme.colors.primary};
 `;
 
-interface TimeAndTempProps {
+interface TemperatureProps {
   descMain: string;
   iconUrl: string;
   temperature: number;
 }
 
-function TimeAndTemp({ iconUrl, descMain, temperature }: TimeAndTempProps) {
+function Temperature({ iconUrl, descMain, temperature }: TemperatureProps) {
   return (
     <Container>
-      <Value>{temperature}</Value>
+      <Value>{temperature.toFixed(1)}</Value>
       <Unit>&deg;C</Unit>
       <IconContainer>
         <IconImg alt="" src={iconUrl} />
@@ -53,4 +53,4 @@ function TimeAndTemp({ iconUrl, descMain, temperature }: TimeAndTempProps) {
   );
 }
 
-export default memo(TimeAndTemp);
+export default memo(Temperature);

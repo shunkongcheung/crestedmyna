@@ -2,19 +2,8 @@ import React, { memo } from "react";
 import styled from "styled-components";
 
 import Detail from "./Detail";
-import TimeAndTemp from "./TimeAndTemp";
-
-interface IHmeWeatherProps {
-  dataTime: Date;
-  descDetail: string;
-  descMain: string;
-  humidity: number;
-  iconUrl: string;
-  location: string;
-  temp: number;
-  tempMax: number;
-  tempMin: number;
-}
+import Temperature from "./Temperature";
+import useWeather from "./useWeather";
 
 const styleContentBase = `
   position: absolute;
@@ -51,30 +40,25 @@ const SkyImg = styled.div`
   background-image: linear-gradient(#9ac9f8, #3f7fbf);
 `;
 
-function HmeWeather({
-  dataTime,
-  descDetail,
-  descMain,
-  humidity,
-  iconUrl,
-  location,
-  temp,
-  tempMax,
-  tempMin
-}: IHmeWeatherProps) {
+function HmeWeather() {
+  const weather = useWeather();
   return (
     <Container>
       <SkyImg />
       <Content>
-        <TimeAndTemp descMain={descMain} iconUrl={iconUrl} temperature={temp} />
-        <DescDetail>{descDetail}</DescDetail>
+        <Temperature
+          descMain={weather.descMain}
+          iconUrl={weather.iconUrl}
+          temperature={weather.temp}
+        />
+        <DescDetail>{weather.descDetail}</DescDetail>
         <DetailContainer>
           <Detail
-            dataTime={dataTime}
-            location={location}
-            humidity={humidity}
-            tempMax={tempMax}
-            tempMin={tempMin}
+            dataTime={weather.dataTime}
+            location={weather.location}
+            humidity={weather.humidity}
+            tempMax={weather.tempMax}
+            tempMin={weather.tempMin}
           />
         </DetailContainer>
       </Content>
