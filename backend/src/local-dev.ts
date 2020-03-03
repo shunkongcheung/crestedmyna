@@ -1,5 +1,7 @@
 import app from "./server";
 
-app.listen(8000, () => {
-  console.log("running at localhost:8000");
+const PORT = 8081;
+
+app.listen(PORT, () => {
+  console.log(`running at localhost:${PORT}`);
 });
