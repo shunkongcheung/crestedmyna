@@ -28,7 +28,10 @@ function Login(props: LoginProps) {
 
   const handleSubmit = useCallback(
     async (data: object) => {
-      const res = await fetchEdit("/auth/login", { data });
+      const res = await fetchEdit("/auth/login", {
+        data,
+        isAuthenticated: false
+      });
       if (!res) return;
       const { token } = res;
       handleTokenChange(token);
