@@ -57,14 +57,14 @@ function Detail({
       <DetailRow>
         <DetailTitle>MAX TEMP.</DetailTitle>
         <DetailValue>
-          {tempMax}
+          {tempMax.toFixed(1)}
           &deg;C
         </DetailValue>
       </DetailRow>
       <DetailRow>
         <DetailTitle>MIN TEMP.</DetailTitle>
         <DetailValue>
-          {tempMin}
+          {tempMin.toFixed(1)}
           &deg;C
         </DetailValue>
       </DetailRow>
