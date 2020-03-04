@@ -17,3 +17,9 @@ functions:
           path: /{proxy+}
           method: ANY
           cors: true
+  genComicMasters:
+    handler: dist/handlers/genComicMasters.handler
+    events:
+      - schedule:
+        rate: cron(* * * * *)
+        enabled: true
