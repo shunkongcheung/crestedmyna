@@ -74,7 +74,7 @@ function getRemoveCount(difficulty: Difficulty) {
 function removeSpotsInBoard(board: Board, difficulty: Difficulty) {
   const removeCount = getRemoveCount(difficulty);
   let count = 0;
-  while (count < removeCount && count < 1) {
+  while (count < removeCount) {
     const rowIdx = Math.floor(Math.random() * 9);
     const colIdx = Math.floor(Math.random() * 9);
     if (board[rowIdx][colIdx] === "_") continue;
