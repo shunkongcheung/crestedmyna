@@ -7,6 +7,7 @@
     "dev": "concurrently \" tsc -w \" \"nodemon ./dist/local-dev.js\"",
     "prebuild": "rm -rf dist",
     "build": "tsc",
+    "db:create": "npm run build && typeorm migration:create -n",
     "db:gen": "npm run build && typeorm migration:generate -n",
     "db:run": "npm run build && typeorm migration:run",
     "db:revert": "npm run build && typeorm migration:revert"
