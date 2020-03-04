@@ -20,6 +20,9 @@ class ComicMaster extends Base {
 
   @Column()
   author: string;
+
+  @Column({default: 1})
+  page: number;
 }
 
 export default ComicMaster;
