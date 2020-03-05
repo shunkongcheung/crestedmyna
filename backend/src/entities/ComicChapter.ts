@@ -10,8 +10,10 @@ class ComicChapter extends Base {
   @Column()
   chapterUrl: string;
 
-  @Column()
-  @ManyToOne(() => ComicChapter)
+  @ManyToOne(
+    () => ComicMaster,
+    comicMaster => comicMaster.comicChapters
+  )
   comicMaster: ComicChapter;
 }
 
