@@ -1,5 +1,6 @@
-import { Entity, Column } from "typeorm";
+import { Entity, Column, OneToMany } from "typeorm";
 import Base from "./Base";
+import ComicChapter from "./ComicChapter";
 
 @Entity()
 class ComicMaster extends Base {
@@ -21,8 +22,14 @@ class ComicMaster extends Base {
   @Column()
   author: string;
 
-  @Column({default: 1})
+  @Column({ default: 1 })
   page: number;
+
+  @OneToMany(
+    () => ComicChapter,
+    comicChapter => comicChapter.comicMaster
+  )
+  comicChapters: ComicChapter;
 }
 
 export default ComicMaster;
