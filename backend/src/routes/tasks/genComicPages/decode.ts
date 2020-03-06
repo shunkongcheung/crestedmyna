@@ -1,8 +1,8 @@
 // copy from site source code
-function decode(p, a, c, k, e, d) {
-  e = function(c) {
+function fromSrc(p: any, a: any, c: any, k: any, e: any, d: any) {
+  e = function(c: any) {
     return (
-      (c < a ? "" : e(parseInt(c / a))) +
+      (c < a ? "" : e(parseInt((c / a) as any))) +
       ((c = c % a) > 35 ? String.fromCharCode(c + 29) : c.toString(36))
     );
   };
@@ -11,7 +11,7 @@ function decode(p, a, c, k, e, d) {
       d[e(c)] = k[c] || e(c);
     }
     k = [
-      function(e) {
+      function(e: any) {
         return d[e];
       }
     ];
@@ -26,6 +26,13 @@ function decode(p, a, c, k, e, d) {
     }
   }
   return p;
+}
+
+function decode(a, b, c, d, e, f) {
+  const k = a.replace(/(?:\\(.))/g, "$1");
+  const data = fromSrc(k, b, c, d, e, f);
+  const decoded = JSON.parse(`[${data.split("[")[1].split("]")[0]}]`);
+  return decoded.map((itm: string) => itm.replace(/'/g, ""));
 }
 
 export default decode;
