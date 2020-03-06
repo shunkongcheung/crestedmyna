@@ -1,7 +1,6 @@
 import Crawler from "crawler";
 import cheerio from "cheerio";
 import { body } from "express-validator";
-import nodeFetch from "node-fetch";
 import { getConnection } from "typeorm";
 
 import isAdminMiddleware from "./isAdminMiddleware";
@@ -13,39 +12,33 @@ interface ComicChapterItem {
   chapterUrl: string;
 }
 
-interface ComicChapterDataItem extends ComicChapterItem {
-  comicMaster: ComicMaster;
-}
-
 const validations = [body("comicMaster").isNumeric(), isAdminMiddleware];
 
 async function bulkCreateOrUpdate(
   comicMaster: ComicMaster,
   data: Array<ComicChapterItem>
 ) {
+  const datas = [];
   for (const dataItem of data) {
     const dataToStore = {
       title: dataItem.title || "",
       chapterUrl: dataItem.chapterUrl || "",
       comicMaster
     };
-    try {
-      await createOrUpdate(dataToStore);
-    } catch (ex) {
-      console.log("error...", ex);
-    }
-  }
-  console.log("so this is done.");
-}
 
-function createOrUpdate(dataItem: ComicChapterDataItem) {
-  return getConnection()
+    datas.push(dataToStore);
+  }
+  await getConnection()
     .createQueryBuilder()
     .insert()
     .into(ComicChapter)
-    .values(dataItem)
+    .values(datas)
     .onConflict(`("chapterUrl") DO NOTHING`)
     .execute();
+
+  console.log(
+    `Finish inserting ${data.length} chapter(s) for comic master ${comicMaster.name}(${comicMaster.id}).`
+  );
 }
 
 async function fetchCrawler(url: string): Promise<any> {
@@ -67,8 +60,8 @@ function getDataFromHtml(htmlFile: string): Array<ComicChapterItem> {
   const data: Array<ComicChapterItem> = [];
   $(".cartoon_online_border ul li a").each((_: any, itm) => {
     data.push({
-      title: itm.attribs["href"],
-      chapterUrl: itm.attribs["title"]
+      chapterUrl: itm.attribs["href"],
+      title: itm.attribs["title"]
     });
   });
   return data;
