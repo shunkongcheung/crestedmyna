@@ -8,6 +8,9 @@ class ComicPage extends Base {
   @Column({ default: 1 })
   page: number;
 
+  @Column()
+  s3Key: string;
+
   @ManyToOne(
     () => ComicChapter,
     (comicChapter: ComicChapter) => comicChapter.comicMaster
