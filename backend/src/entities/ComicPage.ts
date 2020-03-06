@@ -19,6 +19,9 @@ class ComicPage extends Base {
 
   @ManyToOne(() => ComicMaster)
   comicMaster: ComicMaster;
+
+  @Column({ unique: true })
+  comicChapterAndPage: string;
 }
 
 export default ComicPage;
