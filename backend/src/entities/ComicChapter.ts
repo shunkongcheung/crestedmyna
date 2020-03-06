@@ -7,7 +7,7 @@ class ComicChapter extends Base {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ unique: true })
   chapterUrl: string;
 
   @ManyToOne(
