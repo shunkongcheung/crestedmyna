@@ -16,7 +16,7 @@ class ComicChapter extends Base {
     () => ComicMaster,
     comicMaster => comicMaster.comicChapters
   )
-  comicMaster: ComicChapter;
+  comicMaster: ComicMaster;
 
   @OneToMany(
     () => ComicPage,
