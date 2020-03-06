@@ -50,6 +50,7 @@ async function genComicMasters(page: number) {
     .insert()
     .into(ComicMaster)
     .values(values)
+    .onConflict(`("comicUrl") DO NOTHING`)
     .execute();
 
   return { page, createdCount: values.length };
