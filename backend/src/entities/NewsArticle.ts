@@ -25,11 +25,8 @@ class NewsArticle extends Base {
   @Column()
   urlToImage: string;
 
-  @Column()
+  @Column({ type: "timestamp" })
   publishedAt: string;
-
-  @Column()
-  content: string;
 }
 
 export default NewsArticle;
