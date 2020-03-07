@@ -22,8 +22,12 @@ const Row = styled.div`
 const Column = styled.div`
   display: flex;
   padding: 0 8px;
-  width: 50%;
-  max-width: 400px;
+  width: 100%;
+
+  @media (min-width: ${({ theme }) => theme.size.medium}) {
+    max-width: 400px;
+    width: 50%;
+  }
 `;
 
 const Title = styled.h1`
