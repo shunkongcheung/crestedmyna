@@ -1,6 +1,8 @@
-import { Column, Entity, ManyToOne } from "typeorm";
+import { Column, Entity, OneToMany, ManyToOne } from "typeorm";
+
 import Base from "./Base";
 import ComicMaster from "./ComicMaster";
+import ComicPage from "./ComicPage";
 
 @Entity()
 class ComicChapter extends Base {
@@ -14,7 +16,13 @@ class ComicChapter extends Base {
     () => ComicMaster,
     comicMaster => comicMaster.comicChapters
   )
-  comicMaster: ComicChapter;
+  comicMaster: ComicMaster;
+
+  @OneToMany(
+    () => ComicPage,
+    comicPage => comicPage.comicChapter
+  )
+  comicPages: ComicChapter;
 }
 
 export default ComicChapter;

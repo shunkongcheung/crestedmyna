@@ -84,7 +84,7 @@ async function genComicChapters(comicMasterId: number) {
 
   bulkCreateOrUpdate(comicMaster, data);
 
-  return { status: data };
+  return data;
 }
 
 const controller = getController({
