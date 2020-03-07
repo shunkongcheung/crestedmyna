@@ -35,7 +35,7 @@ async function fetchComicMasters(
 
 async function genComicMasters(page: number) {
   const comicMasters = await fetchComicMasters(page);
-  const values = comicMasters.map((itm: ComicMasterRetItem) => ({
+  const results = comicMasters.map((itm: ComicMasterRetItem) => ({
     name: itm.name || "",
     shortName: itm.short_name || "",
     comicUrl: itm.comic_url || "",
@@ -45,15 +45,15 @@ async function genComicMasters(page: number) {
     author: itm.author || "",
     page
   }));
-  await getConnection()
+  getConnection()
     .createQueryBuilder()
     .insert()
     .into(ComicMaster)
-    .values(values)
+    .values(results)
     .onConflict(`("comicUrl") DO NOTHING`)
     .execute();
 
-  return { page, createdCount: values.length };
+  return results;
 }
 
 const controller = getController({
