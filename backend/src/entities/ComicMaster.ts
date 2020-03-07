@@ -10,7 +10,7 @@ class ComicMaster extends Base {
   @Column()
   shortName: string;
 
-  @Column()
+  @Column({ unique: true })
   comicUrl: string;
 
   @Column()
