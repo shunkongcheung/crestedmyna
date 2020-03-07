@@ -16,12 +16,7 @@ interface ComicMasterRetItem {
   author: string;
 }
 
-const validations = [
-  body("page")
-    .isNumeric()
-    .optional(),
-  isAdminMiddleware
-];
+const validations = [body("page").isNumeric(), isAdminMiddleware];
 
 async function fetchComicMasters(
   page: number
@@ -38,23 +33,9 @@ async function fetchComicMasters(
   return data.result;
 }
 
-async function genComicMasters(page?: number) {
-  if (page) {
-    const entityOnPage = await ComicMaster.findOne({ page });
-    if (!!entityOnPage) {
-      throw Error(`Page ${page} was already fetched. Exit without working`);
-    }
-  } else {
-    const lastEntity = await ComicMaster.find({
-      take: 1,
-      order: { page: "DESC" }
-    });
-    page = lastEntity.length ? lastEntity[0].page + 1 : 1;
-    console.log(`No page was specified. Going to fetch from page ${page}.`);
-  }
-
+async function genComicMasters(page: number) {
   const comicMasters = await fetchComicMasters(page);
-  const values = comicMasters.map((itm: ComicMasterRetItem) => ({
+  const results = comicMasters.map((itm: ComicMasterRetItem) => ({
     name: itm.name || "",
     shortName: itm.short_name || "",
     comicUrl: itm.comic_url || "",
@@ -64,21 +45,22 @@ async function genComicMasters(page?: number) {
     author: itm.author || "",
     page
   }));
-  await getConnection()
+  getConnection()
     .createQueryBuilder()
     .insert()
     .into(ComicMaster)
-    .values(values)
+    .values(results)
+    .onConflict(`("comicUrl") DO NOTHING`)
     .execute();
 
-  return { page, createdCount: values.length };
+  return results;
 }
 
 const controller = getController({
   model: ComicMaster,
   allowedMethods: ["create"],
   validations: { create: validations } as any,
-  transformCreateData: async (data: { page?: number }) => {
+  transformCreateData: async (data: { page: number }) => {
     const ret = await genComicMasters(data.page);
     return [null, ret];
   }
