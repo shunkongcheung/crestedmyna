@@ -21,5 +21,5 @@ functions:
     handler: dist/handlers/periodicGenNewsArticles.handler
     events:
     - schedule:
-        rate: cron(0 8 * * *)
+        rate: cron(0 5 ? * * *)
         enabled: true
