@@ -28,9 +28,9 @@ async function fetchNewsFromApi() {
     `http://newsapi.org/v2/top-headlines?country=hk&apiKey=${process.env.NEWS_API_KEY}`
   );
   const { articles } = await res.json();
-  return articles.map(article => ({
-    sourceId: article.id || "",
-    sourceName: article.name || "",
+  return articles.map((article: ArticleFromApi) => ({
+    sourceId: article.source.id || "",
+    sourceName: article.source.name || "",
     author: article.author || "",
     title: article.title || "",
     description: article.description || "",
