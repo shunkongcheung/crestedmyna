@@ -24,6 +24,7 @@ import Register from "./Register";
 const { Header, Content } = AntLayout;
 
 interface LayoutProps {
+  authenticated?: boolean;
   children: ReactNode;
 }
 
@@ -79,7 +80,7 @@ const Title = styled.div`
   }
 `;
 
-function Layout({ children }: LayoutProps) {
+function Layout({ authenticated = true, children }: LayoutProps) {
   const history = useHistory();
   const { isLogined, handleTokenChange } = useAuthContext();
 
@@ -111,7 +112,7 @@ function Layout({ children }: LayoutProps) {
   );
 
   const renderedContent = useMemo(() => {
-    if (pageState === "children") return children;
+    if (!authenticated || pageState === "children") return children;
     if (pageState === "login")
       return (
         <Login
@@ -127,7 +128,7 @@ function Layout({ children }: LayoutProps) {
           handleTokenChange={handleTokenChange}
         />
       );
-  }, [children, handleTokenChange, pageState]);
+  }, [authenticated, children, handleTokenChange, pageState]);
 
   return (
     <MyLayout>
