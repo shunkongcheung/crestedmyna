@@ -47,7 +47,6 @@ function useWeather() {
       navigator.geolocation.getCurrentPosition(
         (position: { coords: Coord }) => {
           const { coords } = position;
-          console.log(coords);
           return resolve(coords);
         },
         () =>
