@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
+import News from "./News";
 import Route from "./Route";
 import Weather from "./Weather";
 import { Layout } from "../components";
@@ -39,18 +40,15 @@ const Row = styled.div`
   }
 `;
 
-const News = () => <>news</>;
-
 function Home() {
-  // const { newsState, weatherState } = useHomeContainer();
   return (
     <Layout>
       <Container>
         <Row>
-          <Column lgWidth={40}>
+          <Column lgWidth={50}>
             <Weather />
           </Column>
-          <Column lgWidth={60}>
+          <Column lgWidth={50}>
             <News />
           </Column>
         </Row>
