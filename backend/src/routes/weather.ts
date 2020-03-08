@@ -103,6 +103,7 @@ async function transformCreateData() {
 
 const controller = getController({
   allowedMethods: ["create"],
+  authenticated: false,
   transformCreateData,
   model: User, // it always requires a model, give it to him for no usage
   validations: { create: validations }
