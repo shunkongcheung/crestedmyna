@@ -62,7 +62,10 @@ function useWeather() {
     const coords = await getLocationCoords();
 
     if (!coords) return;
-    const res = await fetchEdit("/weather", { data: coords });
+    const res = await fetchEdit("/weather", {
+      data: coords,
+      isAuthenticated: false
+    });
     if (!res) return;
     setWeather({ ...res, dataTime: new Date(res.dataTime), loading: false });
   }, [fetchEdit, getLocationCoords]);
