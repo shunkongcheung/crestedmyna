@@ -42,7 +42,7 @@ const Row = styled.div`
 
 function Home() {
   return (
-    <Layout>
+    <Layout authenticated={false}>
       <Container>
         <Row>
           <Column lgWidth={50}>
