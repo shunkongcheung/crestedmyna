@@ -1,9 +1,10 @@
-import { body } from "express-validator";
+import { query } from "express-validator";
 import fetch from "node-fetch";
 import queryString from "query-string";
 
 import getController from "../getController";
 import { User } from "../entities";
+import { Request } from "express";
 
 interface QueryParams {
   q?: string;
@@ -30,10 +31,10 @@ interface WeatherResPayload {
 }
 
 const validations = [
-  body("longitude")
+  query("longitude")
     .isNumeric()
     .optional(),
-  body("latitude")
+  query("latitude")
     .isNumeric()
     .optional()
 ];
@@ -42,10 +43,11 @@ function getCelciusFromKelvin(kelvin: number) {
   return kelvin - 273;
 }
 
-function getCurWeather(latitude?: number, longitude?: number) {
+function getCurWeather(model: any, req: Request) {
   // latitude = 22.4271604, longitude = 114.2110166
+  const { latitude, longitude } = req.params;
   if (!latitude || !longitude) return getCurWeatherInHongHong();
-  return getCurWeatherByCoord(latitude, longitude);
+  return getCurWeatherByCoord(Number(latitude), Number(longitude));
 }
 
 async function getCurWeatherByCoord(latitude: number, longitude: number) {
@@ -97,16 +99,13 @@ async function getWeatherPayload(params: QueryParams) {
   return payload;
 }
 
-async function transformCreateData() {
-  return [null, await getCurWeather()];
-}
-
 const controller = getController({
-  allowedMethods: ["create"],
+  allowedMethods: ["retrieve"],
   authenticated: false,
-  transformCreateData,
+  getEntity: getCurWeather as any,
   model: User, // it always requires a model, give it to him for no usage
-  validations: { create: validations }
+  retrieveUrl: "/",
+  validations: { retrieve: validations }
 });
 
 export default controller;
