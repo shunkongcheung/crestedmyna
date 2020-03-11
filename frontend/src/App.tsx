@@ -40,6 +40,17 @@ const parseResult = (data: { result: any }) => {
   const { result } = data;
   return { result };
 };
+
+const parseListResult = (listResult: any, queryParams: any) => {
+  const { result } = listResult;
+  const { data, count } = result;
+  return {
+    result: data,
+    maxPage: count / 10,
+    currentPage: queryParams.page || 1
+  };
+};
+
 const notify = (
   msg: string,
   lvl: "success" | "error" | "info" | "none" | "warn"
@@ -72,7 +83,7 @@ function App() {
           defaultApiDomain={process.env.REACT_APP_API_DOMAIN}
           defaultParseDetailResult={parseResult}
           defaultParseEditResult={parseResult}
-          defaultParseListResult={parseResult}
+          defaultParseListResult={parseListResult}
           notify={notify}
         >
           <Suspense fallback={<Fallback />}>
