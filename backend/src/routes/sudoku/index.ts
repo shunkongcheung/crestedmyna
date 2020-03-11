@@ -47,12 +47,13 @@ async function filterEntities(
       paginateParams.where[0] = { completed, ...paginateParams.where[0] };
     else paginateParams.where = [{ completed }];
   }
-  const entities = await model.find(paginateParams);
-  return entities.map((entity: SudokuBoard) => {
+  const [entities, count] = await model.findAndCount(paginateParams);
+  const retEntities = entities.map((entity: SudokuBoard) => {
     const retData = { ...entity };
     delete retData.solutionBoard;
     return retData;
   });
+  return [retEntities, count] as [Array<any>, number];
 }
 
 async function getEntity(model: typeof SudokuBoard, req: Request) {
