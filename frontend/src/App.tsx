@@ -36,6 +36,10 @@ function RouteTable() {
   );
 }
 
+const parseResult = (data: { result: any }) => {
+  const { result } = data;
+  return { result };
+};
 const notify = (
   msg: string,
   lvl: "success" | "error" | "info" | "none" | "warn"
@@ -66,6 +70,9 @@ function App() {
         <AuthContextProvider
           defaultUser={{ username: "" }}
           defaultApiDomain={process.env.REACT_APP_API_DOMAIN}
+          defaultParseDetailResult={parseResult}
+          defaultParseEditResult={parseResult}
+          defaultParseListResult={parseResult}
           notify={notify}
         >
           <Suspense fallback={<Fallback />}>
