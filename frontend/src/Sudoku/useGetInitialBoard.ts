@@ -20,7 +20,7 @@ interface GameState extends BoardItem {
 type SetCurState<T extends GameState> = (s: (o: T) => T) => any;
 
 function useGetInitialBoard<T extends GameState>(setCurState: SetCurState<T>) {
-  const { loading, fetchList, results } = useFetchList<BoardItem>();
+  const { loading, fetchList, result } = useFetchList<BoardItem>();
   const prevLoading = useRef(loading);
 
   useEffect(() => {
@@ -28,9 +28,9 @@ function useGetInitialBoard<T extends GameState>(setCurState: SetCurState<T>) {
   }, [fetchList]);
 
   const initialBoard = useMemo(() => {
-    if (results.length) return results[0];
+    if (result.length) return result[0];
     return null;
-  }, [results]);
+  }, [result]);
 
   useEffect(() => {
     if (loading) prevLoading.current = true;

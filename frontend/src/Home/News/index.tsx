@@ -32,13 +32,13 @@ const HeadlineContainer = styled.div`
 `;
 
 function News() {
-  const { fetchList, results } = useFetchList<HeadlineRet>();
+  const { fetchList, result } = useFetchList<HeadlineRet>();
   useEffect(() => {
     fetchList("/news", { isAuthenticated: false });
   }, [fetchList]);
   const headlines = useMemo(
     () =>
-      results.map(itm => ({
+      result.map(itm => ({
         author: itm.author,
         description: itm.description,
         title: itm.title,
@@ -46,7 +46,7 @@ function News() {
         publishdAt: new Date(itm.publishedAt),
         thumbnail: itm.urlToImage
       })),
-    [results]
+    [result]
   );
 
   const renderedHeadlines = useMemo(
