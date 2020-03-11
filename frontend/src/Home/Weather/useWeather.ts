@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import { useFetchEdit } from "react-accessories";
+import { useCallback, useEffect, useMemo } from "react";
+import { useFetchDetail } from "react-accessories";
 
 interface Coord {
   longitude: number;
@@ -21,14 +21,13 @@ interface WeatherResponse extends WeatherBase {
   dataTime: string;
 }
 
-interface WeatherState extends WeatherBase {
+interface Weather extends WeatherBase {
   dataTime: Date;
-  loading: boolean;
 }
 
 function useWeather() {
-  const [weather, setWeather] = useState<WeatherState>({
-    dataTime: new Date(),
+  const { result, fetchDetail } = useFetchDetail<WeatherResponse>({
+    dataTime: "",
     descMain: "",
     descDetail: "",
     humidity: 0,
@@ -36,10 +35,8 @@ function useWeather() {
     location: "",
     temp: 0,
     tempMax: 0,
-    tempMin: 0,
-    loading: true
+    tempMin: 0
   });
-  const fetchEdit = useFetchEdit<WeatherResponse>();
 
   const getLocationCoords = useCallback(async () => {
     if (!navigator.geolocation) return;
@@ -59,19 +56,21 @@ function useWeather() {
   }, []);
   const initWeatherState = useCallback(async () => {
     const coords = await getLocationCoords();
-
-    if (!coords) return;
-    const res = await fetchEdit("/weather", {
-      data: coords,
-      isAuthenticated: false
-    });
-    if (!res) return;
-    setWeather({ ...res, dataTime: new Date(res.dataTime), loading: false });
-  }, [fetchEdit, getLocationCoords]);
+    fetchDetail("/weather", { queryParams: coords, isAuthenticated: false });
+  }, [fetchDetail, getLocationCoords]);
 
   useEffect(() => {
     initWeatherState();
   }, [initWeatherState]);
+
+  const weather = useMemo<Weather>(
+    () => ({
+      ...result,
+      dataTime: new Date(result.dataTime)
+    }),
+    [result]
+  );
+
   return weather;
 }
 
